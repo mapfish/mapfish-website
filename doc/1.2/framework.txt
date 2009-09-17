@@ -1,0 +1,31 @@
+Framework
+*********
+
+Creating an application
+-----------------------
+
+[command to create application, explain structure of application]
+
+Installing the JavaScript environment
+-------------------------------------
+
+[command to install the js toolkit in the application, explain what's installed, give links to API docs]
+
+Creating MapFish Web Services
+-----------------------------
+
+The framework provides a command for automatically generating web services respecting the MapFish Protocol. The MapFish
+Protocol provides RESTful HTTP interfaces, see the `Protocol page <protocol.html>`_ for details.
+
+[describe usage of mf-layer command]
+
+Customizing Web Services
+------------------------
+
+[Explain how programmers can customize web services, explain how to use mapfish.lib.filter, give links to Pylons and SQLAlchemy tutorials]
+
+References
+
+[here mapfish Python module references]
+
+

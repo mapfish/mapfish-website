@@ -1,0 +1,5 @@
+Quickstart
+**********
+
+A 20-minute quickstart to get a sense on what MapFish is and what MapFish
+provides.

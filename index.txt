@@ -1,0 +1,25 @@
+.. mapfish documentation master file, created by sphinx-quickstart on Wed Feb 18 15:59:57 2009.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+MapFish
+*******
+
+MapFish is a flexible and complete framework for building rich web-mapping
+applications. Applications created with the framework are... [to complete]
+
+MapFish is based on the `Pylons <http://pylonshq.com>`_ Python framework, and
+on the `OpenLayers <http://www.openlayers.org>`_ and `GeoExt
+<http://www.geoext.org>`_ JavaScript toolkits.
+
+`Quickstart <doc/1.2/quickstart.html>`_ |
+`Installation <doc/1.2/installation.html>`_ |
+`Documentation <doc/1.2/index.html>`_ |
+`Demos <http://demo.mapfish.org/mapfishsample/1.2>`_
+
+.. toctree::
+   :hidden:
+
+   doc/1.2/quickstart
+   doc/1.2/installation
+   doc/1.2/index

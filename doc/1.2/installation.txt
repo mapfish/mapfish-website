@@ -1,0 +1,6 @@
+Installation
+************
+
+MapFish is installed with its so-called ``go`` script.
+
+...
