@@ -6,11 +6,19 @@ MapFish
 *******
 
 MapFish is a flexible and complete framework for building rich web-mapping
-applications. Applications created with the framework are... [to complete]
+applications.
+
+The framework provides tools for creating well-structured applications and
+RESTful web services. It also provides a complete JavaScript toolbox, with
+specific components for building web-mapping interfaces and interacting with
+geospatial web services.
 
 MapFish is based on the `Pylons <http://pylonshq.com>`_ Python framework, and
-on the `OpenLayers <http://www.openlayers.org>`_ and `GeoExt
-<http://www.geoext.org>`_ JavaScript toolkits.
+on the `Ext <http://extjs.com>`_, `OpenLayers <http://www.openlayers.org>`_ ,
+`GeoExt <http://www.geoext.org>`_ JavaScript toolkits.
+
+MapFish is open source, and distributed under the `GPLv3
+<http://www.gnu.org/licenses/gpl-3.0.html>`_ license.
 
 `Quickstart <doc/1.2/quickstart.html>`_ |
 `Installation <doc/1.2/installation.html>`_ |
