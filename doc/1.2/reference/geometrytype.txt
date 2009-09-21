@@ -1,0 +1,5 @@
+geometrytype
+============
+
+.. automodule:: mapfish.sqlalchemygeom
+   :members:
