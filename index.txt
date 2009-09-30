@@ -31,6 +31,19 @@ MapFish web services.
 MapFish is open source, and distributed under the `GPLv3
 <http://www.gnu.org/licenses/gpl-3.0.html>`_ license.
 
+**Interoperability**
+
+The MapFish framework is built around an open HTTP-based protocol. This
+protocol allows various interoperable implementations.
+
+In addition to the reference implementation provided by the Python framework,
+two other implementations are currently available:
+
+* a Ruby/Rails plugin
+* a PHP/Symfony plugin
+
+See the documentation for more information.
+
 `Quickstart <doc/1.2/quickstart.html>`_ |
 `Installation <doc/1.2/installation.html>`_ |
 `Documentation <doc/1.2/index.html>`_ |
