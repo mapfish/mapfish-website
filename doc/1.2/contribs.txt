@@ -1,2 +1,16 @@
 Contributions
 *************
+
+Symfony plugin
+--------------
+
+A PHP implementation of the MapFish Protocol is available as a plugin to the
+`Symfony framework <http://www.symfony-project.org/>`_. The plugin offers tools
+for generating MapFish web services, it relies on the `Doctrine ORM
+<http://www.doctrine-project.org/>`_.
+
+The `plugin <http://www.symfony-project.org/plugins/sfMapFishPlugin>`_ is
+hosted by the Symfony project.
+
+Rails plugin
+------------
