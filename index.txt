@@ -6,38 +6,27 @@ MapFish
 *******
 
 MapFish is a flexible and complete framework for building rich web-mapping
-applications.
-
-MapFish aims to provide tools for creating well-structured applications and
-web services, freeing developers from repeated tasks and making them
-productive.
+applications. It emphasizes high productivity, and high-quality development. 
 
 MapFish is based on the `Pylons <http://pylonshq.com>`_ Python web framework.
-MapFish provides what Pylons provides, plus specific, geospatial-oriented
-commands and programming interfaces of its own. Applications created with
-MapFish are structured in the same way as applications created with Pylons;
-in particular, they follow the Model View Controller (MVC) design pattern.
+MapFish provides what Pylons provides, plus specific commands and programming
+interfaces.
 
-Not only does the MapFish framework organize the server side code of the
-application, it also organizes the client side code, installing a complete
-JavaScript toolbox in the application, setting up the JavaScript testing
-environment, and tools for compressing the JavaScript code.
-
-The JavaScript toolbox is composed of the `Ext <http://extjs.com>`_,
-`OpenLayers <http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_
-JavaScript toolkits, and specific MapFish components for interacting with
-MapFish web services.
+MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the `Ext <http://extjs.com>`_, `OpenLayers
+<http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
+toolkits, and specific components for interacting with MapFish web services.
 
 MapFish is open source, and distributed under the `GPLv3
 <http://www.gnu.org/licenses/gpl-3.0.html>`_ license.
 
 **Interoperability**
 
-The MapFish framework is built around an open HTTP-based protocol. This
-protocol allows various interoperable implementations.
-
-In addition to the reference implementation provided by the Python framework,
-two other implementations are currently available:
+The MapFish framework is built around an open HTTP-based protocol, allowing
+various interoperable implementations. In addition to the reference
+implementation provided by the Python framework, two other implementations are
+currently available:
 
 * a Ruby/Rails plugin
 * a PHP/Symfony plugin

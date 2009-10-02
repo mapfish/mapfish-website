@@ -1,0 +1,5 @@
+Print
+*****
+
+The documentation for the PDF Print Module is `available
+<http://trac.mapfish.org/trac/mapfish/wiki/PrintModuleDoc>`_ in the wiki.

@@ -1,41 +1,34 @@
 Framework
 *********
 
-Introduction
-------------
+What it provides
+----------------
 
 MapFish is a flexible and complete framework for building rich web-mapping
-applications.
-
-MapFish aims to provide tools for creating well-structured applications and
-web services, freeing developers from repeated tasks and making them
-productive.
+applications. It emphasizes high productivity, and high-quality development. 
 
 MapFish is based on the `Pylons <http://pylonshq.com>`_ Python web framework.
-MapFish provides what Pylons provides, plus specific, geospatial-oriented
-commands and programming interfaces of its own. Applications created with
-MapFish are structured in the same way as applications created with Pylons;
-in particular, they follow the Model View Controller (MVC) design pattern.
+MapFish provides what Pylons provides, plus specific commands and programming
+interfaces.
 
-Not only does the MapFish framework organize the server side code of the
-application, it also organizes the client side code, installing a complete
-JavaScript toolbox in the application, setting up the JavaScript testing
-environment, and tools for compressing the JavaScript code.
+MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the `Ext <http://extjs.com>`_, `OpenLayers
+<http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
+toolkits, and specific components for interacting with MapFish web services.
 
-The JavaScript toolbox is composed of the `Ext <http://extjs.com>`_,
-`OpenLayers <http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_
-JavaScript toolkits, and specific MapFish components for interacting with
-MapFish web services.
+Forewords
+---------
 
-In the following sections is assumed that the MapFish framework is installed in
-a virtual Python environment and that this virtual environment is activated.
-See the `installation page <installation.html>`_ to know how to install MapFish
-and activate the virtual environment.
+In the following sections we assume that the MapFish framework is installed in
+a virtual Python environment named ``venv`` and that this virtual environment
+is activated.  See the `installation page <installation.html>`_ to know how to
+install MapFish and activate the virtual environment.
 
-.. hint::
-    Recommended reading: `The Definitive Guide To Pylons
-    <http://pylonsbook.com/en/1.0/index.html>`_.
-    
+This documentation provides links to chapters of the `The Definitive Guide To
+Pylons <http://pylonsbook.com/en/1.0/index.html>`_ book. Reading this book is
+highly recommended to anyone considering doing serious development with
+MapFish.
 
 Creating a MapFish application
 ------------------------------
@@ -59,7 +52,7 @@ non-interactive way you will use::
     command. When using ``paster create -t mapfish`` we tell ``paster`` to use
     ``mapfish`` as opposed to ``pylons`` as the application template. In practise
     the MapFish framework applies the ``pylons`` template before applying the
-    ``mapfish`` template. This is why any MapFish application also a Pylons
+    ``mapfish`` template. This is why any MapFish application is also a Pylons
     application.
 
 The main directories and files in the ``HelloWorld`` directory are:
@@ -123,8 +116,7 @@ By default MapFish (and Pylons) applications are served on port 5000. You can
 change by editing the ``development.ini`` configuration file.
 
 If you visit http://localhost:5000 in your web browser you should see the
-`Welcome to Pylons` page (yes, it would be much better if the ``mapfish``
-template included a a `Welcome to MapFish` page).
+`Welcome to Pylons` page.
 
 To stop the Paste server, use Ctrl+C on Unix and Ctrl+D on Windows.
 
