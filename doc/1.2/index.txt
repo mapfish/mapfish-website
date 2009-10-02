@@ -10,5 +10,5 @@ Documentation
    protocol
    ../../print
    ../../contribs
-   ../../tutorials
+   ../../tutorials/index
    api
