@@ -1,0 +1,201 @@
+.. _mapfish_api:
+
+MapFish API
+***********
+
+The API allows the integration of page inside HTML and the usage of permalink for a MapFish application
+
+Install MapFish
+---------------
+
+Install first the MapFish Framework and create a MapFish application as
+described in the quickstart. 
+
+You can now add the API in your project (in MyMapFish directory)::
+
+  cd mymapfish/public/
+  svn checkout http://www.mapfish.org/svn/mapfish/contribs/mapfish-api/trunk/MapFishApi/
+
+Use MapFish API
+---------------
+
+The directory MapFishApi/js contains generic API function, like createMap which is used to create an OpenLayers Map.
+
+Create a project API
+^^^^^^^^^^^^^^^^^^^^
+
+In order to use this API, it is needed to create a project api which will herite from the MapFish.API and will specialize or ovveride some functions.
+
+Let's create a file :download:`mymapfishApi.js <_static/mymapfishApi.js>` in the a directory mymapfishApi/js/
+
+.. code-block:: javascript
+
+  Ext.namespace("mymapfish");
+
+  mymapfish.API = OpenLayers.Class(MapFish.API, {
+
+    getLayers: function() {
+        return [
+            new OpenLayers.Layer.OSM("OSM")
+        ];
+    },
+
+    getMapOptions: function() {
+        return {
+            projection: new OpenLayers.Projection("EPSG:900913"),
+            displayProjection: new OpenLayers.Projection("EPSG:4326"),
+            units: "m",
+            numZoomLevels: 18,
+            maxResolution: 156543.0339,
+            maxExtent: new OpenLayers.Bounds(-20037508, -20037508,
+                    20037508, 20037508.34),
+            allOverlays: false
+        };
+    }
+
+  });
+
+In this case, the getLayers function defines the layers and getMapOptions define some map options used to create a map by the MapFish.API.
+
+
+Use a project API
+^^^^^^^^^^^^^^^^^
+
+It is now possible to create an application with the project API (mymapfishApi.js). Let's create a file :download:`layout.js <_static/layout.js>` in app/js/
+
+.. code-block:: javascript
+
+  Ext.namespace("mymapfish");
+
+  mymapfish.layout = (function() {
+    /*
+     * Private
+     */
+    var getMapPanel = function() {
+        return Ext.apply(api.createMapPanel(), {
+            margins: '0 0 0 0',
+            id: 'mappanel'
+        });
+    };
+
+    /*
+     * Public
+     */
+    return {
+        /**
+         * APIMethod: init
+         * Initialize the page layout.
+         */
+        init: function() {
+            api = new mymapfish.API({isMainApp: true});
+            new Ext.Viewport({
+                layout: "border",
+                id: 'mainpanel',
+                items: [
+                    Ext.apply(getMapPanel(), {region: 'center'})
+                ]
+            });
+            api.map.zoomToMaxExtent();
+        }
+    };
+
+  })();
+
+In order to use it, it is needed to initialize this api. Create a :download:`init.js <_static/init.js>` file in app/js/
+
+.. code-block:: javascript
+
+  Ext.namespace("mymapfish");
+
+  Ext.onReady(mymapfish.layout.init);
+
+You ar now ready to test this code by creating an :download:`index_api.html <_static/index_api.html>` (in public directory) file
+
+.. code-block:: html
+
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+        <meta name="content-language" content="en" />
+        <title>Application</title>
+
+        <link rel="stylesheet" type="text/css" href="mfbase/ext/resources/css/ext-all.css"/>
+        <link rel="stylesheet" type="text/css" href="mfbase/ext/resources/css/xtheme-gray.css"/>
+        <link rel="stylesheet" type="text/css" href="mfbase/mapfish/mapfish.css"/>
+
+        <script type="text/javascript" src="mfbase/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="MapFishApi/js/firefoxfix.js"></script>
+
+        <!-- debug mode (begin) -->
+        <script type="text/javascript" src="mfbase/ext/ext-all-debug.js"></script>
+        <script type="text/javascript" src="mfbase/openlayers/lib/OpenLayers.js"></script>
+        <script type="text/javascript" src="mfbase/geoext/lib/GeoExt.js"></script>
+        <script type="text/javascript" src="mfbase/mapfish/MapFish.js"></script>
+        <script type="text/javascript" src="MapFishApi/js/mapfish_api.js"></script>
+        <script type="text/javascript" src="mymapfishApi/js/mymapfishApi.js"></script>
+        <script type="text/javascript" src="app/js/layout.js"></script>
+        <script type="text/javascript" src="app/js/init.js"></script>
+        <!-- debug mode (end) -->
+
+    </head>
+
+    <body>
+    </body>
+  </html>
+
+The new scripts have been added.
+
+You can test it at::
+
+  http://localhost:5000/index_api.html
+
+Integrate a project API inside a HTML page
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The :download:`test_api.html <_static/test_api.html>` (in public directory) uses the project api to present a map.
+
+
+.. code-block:: html
+
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+        <meta name="content-language" content="en" />
+        <title>Application</title>
+
+        <link rel="stylesheet" type="text/css" href="mfbase/ext/resources/css/ext-all.css"/>
+        <link rel="stylesheet" type="text/css" href="mfbase/ext/resources/css/xtheme-gray.css"/>
+        <link rel="stylesheet" type="text/css" href="mfbase/mapfish/mapfish.css"/>
+
+        <script type="text/javascript" src="mfbase/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="MapFishApi/js/firefoxfix.js"></script>
+
+        <!-- debug mode (begin) -->
+        <script type="text/javascript" src="mfbase/ext/ext-all-debug.js"></script>
+        <script type="text/javascript" src="mfbase/openlayers/lib/OpenLayers.js"></script>
+        <script type="text/javascript" src="mfbase/geoext/lib/GeoExt.js"></script>
+        <script type="text/javascript" src="mfbase/mapfish/MapFish.js"></script>
+        <script type="text/javascript" src="MapFishApi/js/mapfish_api.js"></script>
+        <script type="text/javascript" src="mymapfishApi/js/mymapfishApi.js"></script>
+        <!-- debug mode (end) -->
+
+        <script type="text/javascript">
+            Ext.onReady(function() {
+                geo1 = new mymapfish.API();
+                geo1.createMap({
+                    div: 'mymap1'
+                });
+            });
+        </script>
+
+
+    </head>
+
+    <body>
+    <div id="mymap1" style="width:800px;height:600px;border:1px solid black;"></div>
+    </body>
+  </html>
+
+You can test it at::
+
+  http://localhost:5000/test_api.html

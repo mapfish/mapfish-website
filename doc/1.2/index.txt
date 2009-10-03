@@ -19,13 +19,14 @@ Main docs
    framework
    protocol
    api
-   ../print
-   ../implementations/index
 
-Others
-------
+Other docs
+----------
 
 .. toctree::
    :maxdepth: 1
 
+   ../print
+   ../implementations/index
+   ../contribs/index
    ../tutorials/index
