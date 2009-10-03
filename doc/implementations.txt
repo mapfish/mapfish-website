@@ -1,13 +1,21 @@
 Implementations
 ***************
 
+The MapFish framework is built around an open HTTP-based protocol, allowing
+various interoperable implementations. In addition to the reference
+implementation provided by the Python framework, two other implementations are
+currently available:
+
+* a Ruby/Rails plugin
+* a PHP/Symfony plugin
+
 Symfony plugin
 --------------
 
 A PHP implementation of the MapFish Protocol is available as a plugin to the
 `Symfony framework <http://www.symfony-project.org/>`_. The plugin offers tools
-for generating MapFish web services, it relies on the `Doctrine ORM
-<http://www.doctrine-project.org/>`_.
+for generating MapFish applications and web services, it relies on the
+`Doctrine ORM <http://www.doctrine-project.org/>`_.
 
 The `plugin <http://www.symfony-project.org/plugins/sfMapFishPlugin>`_ is
 hosted by the Symfony project.
@@ -15,7 +23,14 @@ hosted by the Symfony project.
 Rails plugin
 ------------
 
+A Ruby implementation of the MapFish Protocol is available as a plugin to
+the `Ruby on Rails framework <http://rubyonrails.org/>`_. The plugin offers
+tools for generating MapFish applications and web services.
+
+This plugin is available in the ``implementations`` directory of the MapFish
+SVN.
+
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
     rails
