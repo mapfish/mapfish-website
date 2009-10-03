@@ -1,5 +1,113 @@
 Quickstart
 **********
 
-A 20-minute quickstart to get a sense on what MapFish is and what MapFish
+A 20-minute quickstart to get a good sense of what MapFish is and what MapFish
 provides.
+
+With this quickstart you'll understand how to create a MapFish application, a
+basic user interface based on the JavaScript libraries provided by MapFish, and
+MapFish web services.
+
+Installation
+------------
+
+Follow the instructions of the `installation page <installation.html>`_ and
+come back here once done. Make sure the virtual Python environment is activated
+before you proceed with the next section.
+
+Creating the application
+------------------------
+
+Here you're going to use the framework to create your first MapFish
+application.
+
+Generating the base
+~~~~~~~~~~~~~~~~~~~
+
+Use::
+
+    (env) $ paster create -t mapfish MapFishApp
+
+``MapFishApp`` is the name of the MapFish application you're creating, you can
+pick any name of your choice. We'll assume that you choose ``MapFishApp`` in
+the rest of this quickstart.
+
+When asked what template engine to use answer ``mako``, which is the default.
+When asked if SQLAlchemy 0.5 configuration is to be included, answer ``True``,
+as your MapFish application will include web services relying on database
+tables.
+
+You should now have a folder named ``MapFishApp``. This folder contains your
+application files.
+
+Now check that your MapFish application works. For this go into the
+``MapFishApp`` folder and start the application::
+
+    (env) $ cd MapFishApp
+    (env) $ paster serve development.ini
+
+This command starts your application in the Paster web server, which is a
+pure-Python web server commonly used during development.
+
+Open http://localhost:5000 in your web browser, you should get the default
+page:
+
+.. image:: ../../_static/pylons.png
+    :height: 300pt
+    :width: 500pt
+
+Installing the JavaScript toolbox
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You are now going to install the MapFish JavaScript toolbox in your
+application. This toolbox includes:
+
+* the Ext, OpenLayers, GeoExt and MapFish Client JavaScript libraries,
+* a sample JavaScript application based on those libraries,
+* a build profile for minifying the JavaScript code of this sample
+  application,
+* a JavaScript testing framework, with a test example
+
+Enter ``Ctrl+C`` to stop the Paster server and proceed with these
+commands::
+
+    (env) $ cd ..
+    (env) $ paster create -t mapfish_client MapFishApp
+
+When asked whether to overwrite ``index.html`` answer ``y``. This will
+overwrite the ``index.html`` page you saw in the last section by the one
+provided by the ``mapfish_client`` template. When asked whether to overwrite
+``favicon.png`` also answer ``y``.
+
+Start the application again::
+
+    (env) $ cd MapFishAppC:\MapFish>cd MapFishApp
+    (env) $ paster serve --reload development.ini
+
+.. note::
+    Note the use of the ``--reload`` switch. This switch makes the Paste server
+    monitor all Python modules used by the ``MapFishApp`` application and
+    reload itself automatically if any of them is modified or if new modules
+    are created. This is especially useful during development.
+
+Open or reload http://localhost:5000 in your web browser, you should now get
+the default user interface:
+
+.. image:: ../../_static/osm.png
+    :height: 300pt
+    :width: 500pt
+
+This default user interface is composed of: a map, a toolbar above the map with
+tools acting on the map, and a layer tree for controlling the visibility of
+layers. The map itself is composed of two `OpenStreetMap
+<http://openstreetmap.org>`_ layers.
+
+The default user interface is provided to the application developer as an
+example. The application developer is free to build on it, or delete it to
+write his own if he wants.
+
+Creating a web service
+----------------------
+
+Creating search functionality
+-----------------------------
