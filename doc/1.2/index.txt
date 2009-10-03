@@ -8,7 +8,7 @@ Documentation
    quickstart
    framework
    protocol
-   ../../print
-   ../../contribs
-   ../../tutorials/index
+   ../print
+   ../contribs
+   ../tutorials/index
    api
