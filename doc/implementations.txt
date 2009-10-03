@@ -1,5 +1,5 @@
-Contributions
-*************
+Implementations
+***************
 
 Symfony plugin
 --------------
@@ -14,3 +14,8 @@ hosted by the Symfony project.
 
 Rails plugin
 ------------
+
+.. toctree::
+    :maxdepth: 2
+
+    rails
