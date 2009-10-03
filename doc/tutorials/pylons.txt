@@ -1,2 +1,422 @@
-Pylons
-******
+.. _pylons:
+
+Pylons tutorial
+===============
+
+This tutorial provides a quick tour of the Pylons framework
+http://pylonshq.com. It is based on the SimpleSite tutorial included in Chapter
+8 of the Pylons Book http://pylonsbook.com.
+
+Prior to following this tutorial, it is recommented to follow the :ref:`sqlalchemy` tutorial.
+
+In this tutorial you will create a Pylons-based, wiki-like web site.
+SQLAlchemy will be used to store the individual pages in the site in such a way
+that users can add, edit, or remove them.
+
+Installing
+----------
+
+It will come to no surprise that creating a Pylons project implies having
+Pylons installed.
+
+If you haven't followed the :ref:`sqlalchemy` tutorial, you need to go to
+this tutorial's :ref:`sqlalchemy-installing` section and create a virtual
+Python environment as indicated there. You can also install SQLAlchemy 0.5.2
+as you will need it for your Pylons project.
+
+Getting Started
+---------------
+
+Once you have a virtual Python environment created and activated, you
+can create your Pylons project with::
+
+    $ paster create --template=pylons SimpleSite
+
+You will use SQLAlchemy and Mako in this tutorial so answer `True` to the
+SQLAlchemy question.
+
+You can now start the server with::
+
+    $ cd SimpleSite
+    $ paster serve --reload development.ini
+
+If you visit ``http://locahost:5000``, you will see the standard Pylons
+introduction page served from the application's ``public/index.html`` file.
+
+Go ahead and remove that default page::
+
+    $ cd simplesite
+    $ rm public/index.html
+
+If you refresh the page, the Pylons built-in error document support will kick
+in and display a 404 Not Found page.
+
+Controller
+----------
+
+You are now going to create a controller capable of serving the application
+pages. Each page is going to have its ID, which the controller will obtain
+from the URL path. Here are example URLs that the controller will handle::
+
+    /page/view/1
+    /page/view/2
+
+Let's now create this controller::
+
+    $ paster controller page
+    Creating /home/eric/SimpleSite/simplesite/controllers/page.py
+    Creating /home/eric/SimpleSite/simplesite/tests/functional/test_page.py
+
+This creates two files, one for the tests you will add for this controller
+and the other for the controller itself.
+
+Open the ``controllers/page.py`` in your text editor. You will note that the
+page controller is represented by the ``PageController`` class, this class
+has one method, namely ``index()``. A controller's method is called an
+*action*.
+
+Visit the URL ``http://localhost:5000/page/index``. You should see the the
+message ``Hello World``.
+
+Replace the ``index()`` action with a ``view()`` action that looks like
+that::
+
+    def view(self, id=None):
+        return "Viewing " + str(id)
+
+Now visit the following URLs::
+
+    http://localhost/page/view
+    http://localhost/page/view/1
+    http://localhost/page/view/2
+
+Note how the URLs are matched to the controller, action and id. The first
+element in the URL path, ``page``, corresponds to the controller; the second
+element, ``view``, corresponds to the controller action; and the third
+element corresponds to the action's id argument. This behavior is determined
+by Pylons' default Routes setup in the ``config/routing.py`` file::
+
+    map.connect('/{controller}/{action}')
+    map.connect('/{controller}/{action}/{id}')
+
+View
+----
+
+You are going to use the Mako templating engine http://www.makotemplates.org.
+Mako allows you write HTML and embed Python code in your HTML when you need
+to do so. Mako also offers simple constructs for substituting variables or
+repeating certain sections of HTML.
+
+Here is a simple Mako template::
+
+    <html>
+    <head>
+      <title>Greetings</title>
+    </head>
+    <body>
+      <h1>Greetings</h1>
+      <p>Hello ${name}!</p>
+    </body>
+    </html>
+ 
+In this example the value of ``name`` will replace the ``${name}`` text when
+the template is rendered.
+
+In a Pylons project, the templates are located in the ``templates`` directory.
+
+Because you are going to need a few templates that will all look similar, you
+are going to take advantage of Mako's inheritance chain features, where base
+templates will be inherited from specific templates.
+
+You'll structure these templates as follows:
+
+* ``templates/base``: includes the base templates.
+* ``templates/derived``: includes the derived templates.
+* ``templates/component``: includes components that are used in multiple templates.
+
+Let's start with the base template. Save the following template as ``templates/base/index.html``::
+
+    ## -*- coding: utf-8 -*-
+
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+    <html>
+    <head>
+        <title>${self.title()}</title>
+        ${self.head()}
+    </head>
+    <body>
+        ${self.header()}
+        ${self.tabs()}
+        ${self.menu()}
+        ${self.heading()}
+        ${self.breadcrumbs()}
+        ${next.body()}
+        ${self.footer()}
+    </body>
+    </html>
+
+    <%def name="title()">SimpleSite</%def>
+    <%def name="head()"></%def>
+    <%def name="header()"><a name="top"></a></%def>
+    <%def name="tabs()"></%def>
+    <%def name="menu()"></%def>
+    <%def name="heading()"><h1>${c.heading or 'No Title'}</h1></%def>
+    <%def name="breadcrumbs()"></%def>
+    <%def name="footer()"><p><a href="#top">Top ^</a></p></%def>
+
+This template defines eight defs. A def can be seen as a function. Each of
+the calls to ``${self.somedef()}`` will execute the def using either the
+definition in this base template or the definition in the template that
+inherits from it. The ``${next.body()}`` call will be replaced with the body
+of the template that directly inherits that one.
+
+Now that the base template is in place, create a new template in the
+``templates/derived/page`` directory called ``view.html``. Add this content
+to the file::
+
+    <%inherit file="/base/index.html"/>
+
+    ${c.content}
+
+The last thing to do here is update the ``view()`` action so that it renders
+the ``view.html`` template::
+
+    def view(self, id):
+        c.heading = "Sample Page"
+        c.content = "This is page %s" % id
+        return render("/derived/page/view.html")
+
+The object referenced to by ``c`` is the *context* object. It is available
+in both the controllers and templates.
+
+Visit ``http://localhost:5000/page/view/1`` to see the result.
+
+Model
+-----
+
+Now that you have the project's controller and view set up, you are going to
+set up the model. SQLAlchemy and its Object-Relational API will be used for
+that model.
+
+Configuring the Engine
+^^^^^^^^^^^^^^^^^^^^^^
+
+If you followed to SQLAlchemy tutorial, you would remember that an SQLAlchemy
+*engine* must be created. Open your project's ``config/environment.py`` file.
+You'll see that Pylons uses the ``engine_from_config()`` function to create
+an engine from configuration options in your project's configuration file
+(``development.ini``).
+
+The main configuration option is ``sqlalchemy.url``. You are going to use an
+SQLite database for this tutorial, so edit your project's ``development.ini``
+file and use the following configuration option::
+
+    sqlalchemy.url = sqllite:///%(here)s/databasefile.sqlite
+
+``%(here)s`` represents the directory containing the ``development.ini``
+file.
+
+Creating the Model
+^^^^^^^^^^^^^^^^^^
+
+It is now time to configure the model. To do that, copy the classes, tables,
+and mappers from the :ref:`sqlalchemy-object-relational` section of the
+SQLAlchemy tutorial into your project's ``model/__init__.py`` file.
+
+You will note that the ``MetaData`` object Pylons uses is defined in
+``model/meta.py``, so it is accessed as ``meta.metadata``, whereas it was
+accessed as ``metadata`` in the ``model.py`` file.
+
+Also, consider replacing the ``transactional=True`` option by
+``autocommit=False`` when calling the ``sessionmaker()`` function in the
+``init_model()`` function, ``transactional`` is a SQLAlchemy 0.4 option, new
+deprecated in SQLAlchemy 0.5.
+
+Creating the Database Tables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The users of your application can simply run ``paster setup-app
+development.ini`` to have the database tables created for them
+automatically. The ``paster setup-app development.ini`` relies on the
+``setup_app()`` function of the ``websetup`` module.
+
+Open the ``websetup.py`` file, take a look at the ``setup_app()`` function
+to understand what it does (it should be straightforward if you followed the
+SQLAlchemy tutorial), and customize it so that it also adds a home page to
+the database::
+
+    log.info("Adding homepage...")
+    page = model.Page()
+    page.title=u'Home Page'
+    page.content = u'Welcome to the SimpleSite home page.'
+    meta.Session.add(page)
+    meta.Session.commit()
+    log.info("Successfully set up.")
+
+You will also need to add this import at the top::
+
+    from simplesite import model
+
+You are now ready to run the ``paster setup-app`` command::
+
+    $ paster setup-app development.ini
+
+You should see quite a lot of debug output.
+
+Putting It Together
+-------------------
+
+Now that the model is set, you can go back to the ``view()`` action so that
+it fetches the page from the database::
+
+    def view(self, id=None):
+        if id is None:
+            abort(404)
+        page_q = meta.Session.query(model.Page)
+        c.page = page_q.get(int(id))
+        if c.page is None:
+            abort(404)
+        return render('/derived/page/view.html')
+
+For the new ``view()`` implementation to work you need the following imports
+at the top::
+
+    import simplesite.model as model
+    import simplesite.model.meta as meta
+
+Finally, you'll need to update the ``templates/derived/page/view.html``
+template to use the page object::
+
+    <%inherit file="/base/index.html"/>
+
+    <%def name="title()">${c.page.title}</%def>
+    <%def name="heading()"><h1>${c.page.heading or c.page.title}</h1></%def>
+
+    ${c.page.content}
+
+Visit the ``http://localhost:5000/page/view/1`` page again, and you should
+see the data loaded from the database.
+
+Support Creating Pages
+----------------------
+
+In this section, you're going to add the following actions to the page
+controller:
+
+* ``new(self)``: displays a form to create a new page
+* ``create(self)``: saves the information submitted from ``new()`` and redirect to ``view()``
+
+new()
+^^^^^
+
+Add the ``new()`` action to the page controller::
+
+    def new(self):
+        return render('/derived/page/new.html')
+
+And create the ``templates/derived/page/new.html`` file with the following
+content::
+
+    <%inherit file="/base/index.html" />
+
+    <%def name="heading()">
+        <h1 class="main">Create a New Page</h1>
+    </%def>
+
+    ${h.form_start(h.url_for(controller='page', action='create'), method="post")}
+        ${h.field(
+            "Heading",
+            h.text(name='heading'),
+            required=False,
+        )}
+        ${h.field(
+            "Title",
+            h.text(name='title'),
+            required=True,
+            field_desc = "Used as the heading too if you didn't specify one above"
+        )}
+        ${h.field(
+            "Content",
+            h.textarea(name='content', rows=7, cols=40),
+            required=True,
+            field_desc = 'The text that will make up the body of the page'
+        )}
+        ${h.field(field=h.submit(value="Create Page", name='submit'))}
+    ${h.form_end()}
+
+For the above template to work, you'll first need to install the FormBuild
+package::
+
+    $ easy_install "FormBuild>=2.0,<2.99"
+
+and add some imports at the top of the ``lib/helpers.py`` file::
+
+    from formbuild.helpers import field
+    from formbuild import start_with_layout as form_start, end_with_layout as form_end
+    from webhelpers.html.tags import *
+    from routes import url_for
+
+(You are also recommended to update your project's ``setup.py`` file and add
+``"FormBuild>=2.0,<2.99"`` to the ``install_requires`` array.)
+
+Once done, you can visit ``http://localhost:5000/page/new`` and admire a
+nice-looking HTML form.
+
+create()
+^^^^^^^^
+
+You can now implement the ``create()`` action, it will perform the following
+tasks:
+
+* add the data to the database
+* redirected the user to the newly created page
+
+Here is how the ``create()`` action looks like::
+
+    def create(self):
+        # Add the new page to the database
+        page = model.Page()
+        for k in request.params:
+            setattr(page, k, request.params[k])
+        meta.Session.add(page)
+        meta.Session.commit()
+        # Issue an HTTP redirect
+        response.status_int = 302
+        response.headers['location'] = h.url_for(controller='page',
+            action='view', id=page.id)
+        return "Moved temporarily"
+
+You should now be able to create new pages through the HTML form provided at
+``http://localhost:5000/page/new``.
+
+Task
+----
+
+To complete the picture, add the following actions:
+
+* ``edit(self, id)``: displays a form for editing the page id
+* ``save(self, id)``: saves the page id and redirects to ``view()``
+* ``list(self)``: lists all pages
+* ``delete(self, id)``: deletes a page
+
+As a second task, you can update the ``derived/page/view.html`` template so
+that it includes "new", "list", "edit", and "delete" links.
+
+Conclusion
+----------
+
+You have created a very simple web page editor. The created application still
+misses quite a lot of things. One of the most important missing things is a
+form validator. Form validation is commonly using the FormEncode package.
+FormEncode has two parts:
+
+* a set of *validators* used together to create *schemas*, which convert
+  form data back and forth between Python objects and their corresponding form
+  values,
+
+* a tool called HTML Fill that takes an HTML form and parses it for form
+  fields, filling in values and error messages as it goes from Python objects.
+
+You are encouraged to look at the Pylons Book http://pylonsbook.com from James
+Gardner to learn about all this. Thanks to him for this excellent book.

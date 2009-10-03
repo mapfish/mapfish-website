@@ -1,2 +1,469 @@
-SQLAlchemy
-**********
+.. _sqlalchemy:
+
+SQLAlchemy tutorial
+===================
+
+This tutorial provides a quick tour of SQLAlchemy. It is based on Chapter 7
+of the Pylons Book http://pylonsbook.com/.
+
+.. _sqlalchemy-installing:
+
+Installing
+----------
+
+Before installing SQLAlchemy you are going to create a virtual Python environment.
+
+Download the **virtualenv** package first::
+
+    $ wget http://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.3.2.tar.gz
+    $ tar xvzf virtualenv-1.3.2.tar.gz
+
+Then, create and activate the virtual Python environment with::
+
+    $ python virtualenv-1.3.2/virtualenv.py --no-site-packages env
+    $ source env/bin/activate
+
+Now that the virtual Python environment is set up, install SQLAlchemy with::
+
+    $ easy_install "SQLAlchemy==0.5.2"
+
+Engine API
+----------
+
+The lowest-level API you are going to use is the Engine API. This API allows
+you to create connections to the database, send SQL statements and retrieve
+results. Let's test an example with SQLite. Create a file named
+**engine_test.py** with the following content::
+
+    from sqlalchemy.engine import create_engine
+    engine = create_engine('sqlite:///:memory:', echo=True)
+    connection = engine.connect()
+    connection.execute(
+        """
+        CREATE TABLE users (
+            username VARCHAR PRIMARY KEY,
+            password VARCHAR NOT NULL
+        );
+        """
+    )
+    connection.execute(
+        """
+        INSERT INTO users (username, password) VALUES (?, ?);
+        """,
+        "foo", "bar"
+    )
+    result = connection.execute("SELECT username FROM users")
+    for row in result:
+        print "username:", row['username']
+    connection.close()
+
+A SQLAlchemy engine is created by calling the ``create_engine`` function,
+passing it a Data Source Name (DSN). Note that ``echo=True`` is also passed
+here, this tells the ``engine`` object to log all the SQL it executed to
+``sys.stdout``.
+
+``connection`` is a SQLAlchemy ``Connection`` object. ``result`` is a
+SQLAlchemy ``ResultProxy`` object that allows you to iterate over the results
+of the statement you executed.
+
+A SQLAlchemy engine works with a pool of connection. When your application
+calls ``engine.connect()`` to obtain a connection, SQLAlchemy can return one of
+the connections from the pool rather than creating a new one.
+
+Metadata and Type APIs
+----------------------
+
+Together the metadata and type systems describe the database schema
+in an RDBMS-independent manner.
+
+Create a new file called **metadata_test.py** with the following content::
+
+    from sqlalchemy import schema, types
+
+    metadata = schema.MetaData()
+
+    page_table = schema.Table('page', metadata,
+        schema.Column('id', types.Integer, primary_key=True),
+        schema.Column('name', types.Unicode(255), default=u''),
+        schema.Column('title', types.Unicode(255), default=u'Untitled Page'),
+        schema.Column('content', types.Text(), default=u''),
+    )
+    for t in metadata.sorted_tables:
+        print "Table name: ", t.name
+        print "t is page_table: ", t is page_table
+
+    for column in page_table.columns:
+        print "Column Table name: ", column.type
+
+    from sqlalchemy.engine import create_engine
+
+    engine = create_engine('sqlite:///:memory:', echo=True)
+    metadata.bind = engine
+
+    metadata.create_all(checkfirst=True)
+
+The ``metadata`` object holds all the information about the tables,
+columns, types, foreigh keys, indexes, and sequences that make up the database
+structure.
+
+The ``metadata`` object can be used to create the tables in the database.  For
+this bind the ``metadata`` to an engine, and call its ``create_all`` method.
+
+SQL Expression API
+------------------
+
+The SQL Expression API allows you to build SQL queries using Python objects and
+operators.
+
+
+Inserting
+^^^^^^^^^
+
+Let's create a new file called **sqlexpression_test.py** and add the following
+to it::
+
+    from metadata_test import engine, page_table
+
+    print "\nInserting\n"
+
+    connection = engine.connect()
+    ins = page_table.insert(
+        values=dict(name=u'test', title=u'Test Page', content=u'Some content!')
+    )
+    print ins
+    result = connection.execute(ins)
+    print result
+
+    connection.close()
+
+The ``ins`` object automatically generates the correct SQL to insert the values
+specified. It is to be noted that SQLAlchemy handles any type conversion of the
+values specified to ``insert()`` using its type system, thus removing any
+chance of *SQL injection attacks*.
+
+This simple example shows how to insert and select data through the SQL
+Expression API.
+
+Selecting
+^^^^^^^^^
+
+Edit **sqlexpression_test.py** and add the following before the
+``connection.close()`` statement::
+
+    print "\nSelecting\n"
+
+    from sqlalchemy.sql import select
+
+    s = select([page_table])
+    result = connection.execute(s)
+    for row in result:
+        print row
+
+The above code should be self-explained.
+
+To add WHERE clauses, you will pass a SQLAlchemy expression as the second
+argument to the ``select`` call. To examplify this, edit
+**sqlexpression_test.py** and replace the above code with::
+
+    print "\nSelecting\n"
+
+    from sqlalchemy.sql import select
+    from sqlalchemy.sql import and_, or_, not_
+
+    s = select([page_table], and_(page_table.c.id<=10, page_table.c.name.like(u't%')))
+    s = s.order_by(page_table.c.title.desc(), page_table.c.id)
+    result = connection.execute(s)
+    print result.fetchall()
+
+Examine the output to understand the SQLAlchemy expression used here.
+
+Updating
+^^^^^^^^
+
+Update statements look like this::
+
+    print "\nUpdating Results\n"
+
+    from sqlalchemy import update
+
+    u = update(page_table, page_table.c.title==u'New Title')
+    connection.execute(u, title=u"Updated Title")
+
+You can add the above to **sqlexpression_test.py**.
+
+Deleting
+^^^^^^^^
+
+Delete statements look like this::
+
+    print "\nDeleting Row\n"
+
+    from sqlalchemy import delete
+
+    d = delete(page_table, page_table.c.id==1)
+    connection.execute(d)
+
+Again, you can add the above code block to the **sqlexpression_test.py** file.
+
+.. _sqlalchemy-object-relational:
+
+Object-Relational API
+---------------------
+
+The highest-level API SQLAlchemy provides is the Object-Relational API, which
+is the one you will spend the majority of your time in your Pylons
+applications. The API allows to work directly with Python objects without
+needing to think too much about the SQL that would normally be required to work
+with them.
+
+Before delving into the Object-Relational API itself, let's describe the
+database schema you are going to rely on in this section. Create a **model.py**
+file with this content::
+
+    from sqlalchemy import orm
+    import datetime
+    from sqlalchemy import schema, types
+
+    metadata = schema.MetaData()
+
+    def now():
+        return datetime.datetime.now()
+
+    page_table = schema.Table('page', metadata,
+        schema.Column('id', types.Integer,
+            schema.Sequence('page_seq_id', optional=True), primary_key=True),
+        schema.Column('content', types.Text(), nullable=False),
+        schema.Column('posted', types.DateTime(), default=now),
+        schema.Column('title', types.Unicode(255), default=u'Untitled Page'),
+        schema.Column('heading', types.Unicode(255)),
+    )
+    comment_table = schema.Table('comment', metadata,
+        schema.Column('id', types.Integer,
+            schema.Sequence('comment_seq_id', optional=True), primary_key=True),
+        schema.Column('pageid', types.Integer,
+            schema.ForeignKey('page.id'), nullable=False),
+        schema.Column('content', types.Text(), default=u''),
+        schema.Column('name', types.Unicode(255)),
+        schema.Column('email', types.Unicode(255), nullable=False),
+        schema.Column('created', types.TIMESTAMP(), default=now()),
+    )
+    pagetag_table = schema.Table('pagetag', metadata,
+        schema.Column('id', types.Integer,
+            schema.Sequence('pagetag_seq_id', optional=True), primary_key=True),
+        schema.Column('pageid', types.Integer, schema.ForeignKey('page.id')),
+        schema.Column('tagid', types.Integer, schema.ForeignKey('tag.id')),
+    )
+    tag_table = schema.Table('tag', metadata,
+        schema.Column('id', types.Integer,
+            schema.Sequence('tag_seq_id', optional=True), primary_key=True),
+        schema.Column('name', types.Unicode(20), nullable=False, unique=True),
+    )
+
+There are new things to note in this description:
+
+- the use of ``primary_key`` to tell SQLAlchemy about the primary keys 
+- the use of ``ForeignKey`` to tell SQLAlchemy about how tables are relared
+- the use of ``Sequence``
+- the use of ``unique=True`` to enforce UNIQUE constraints
+
+Mapping
+^^^^^^^
+
+Now that you have defined the table structures, you need to define classes and
+mappers to work with the Object-Relational API. Add the following to the
+**model.py** file::
+
+    class Page(object):
+        pass
+
+    class Comment(object):
+        pass
+
+    class Tag(object):
+        pass
+
+    orm.mapper(Page, page_table, properties={
+        'comments':orm.relation(Comment, backref='page'),
+        'tags':orm.relation(Tag, secondary=pagetag_table)
+    })
+    orm.mapper(Comment, comment_table)
+    orm.mapper(Tag, tag_table)
+
+With the above, the ``Page`` class is mapped to the ``page_table`` object.
+Likewise, the Comment and Tag classes are mapped to the ``comment_table`` and
+``tag_table`` objects, respectively.
+
+
+The first mapper statement also tell SQLAlchemy that a ``Page`` object should
+have extra properties called ``comments`` and ``tags``, which should return all
+the ``Comment`` and ``Tag`` objects related to that page. The mapper for
+``Comment`` doesn't need the ``page`` property specified because the mapper for
+``Page`` has already specified it via ``backref``. The mapper for ``Tag``
+doesn't need to have the relation to ``Page`` specified because SQLAlchemy can
+already work it out via the ``secondary`` argument.
+
+SQLAlchemy's Object-Relational API includes lots of features. Look at the
+SQLAlchemy documentation to know about them.
+
+Create the Session
+^^^^^^^^^^^^^^^^^^
+
+SQLAlchemy manages the mapped objects in a so-called *session*.
+
+Create a file called **object_test.py** and add the following content::
+
+    import model
+    from sqlalchemy import orm
+    from sqlalchemy import create_engine
+
+    # Create an engine and create all the tables we need
+    engine = create_engine('sqlite:///:memory:', echo=True)
+    model.metadata.bind = engine
+    model.metadata.create_all()
+
+    # Set up the session
+    sm = orm.sessionmaker(bind=engine, autoflush=True, autocommit=False,
+        expire_on_commit=True)
+    session = orm.scoped_session(sm)
+
+The ``sessionmaker`` function returns an object for building the particular
+session you want. To understand the options passed to ``sessionmaker`` you need
+to know some terminology:
+
+- *flushing* is the process of updating the database with the objects you have
+  been working with,
+- *committing* is the process of sending a COMMIT statement to the database to
+  make those flushes permanent.
+
+Let's now look at the arguments being passed to ``sessionmaker``:
+
+- ``bind=engine``: this binds the session to the engine, the session will
+  automatically create the connections it needs.
+- ``autoflush=True``: if you commit your changes to the database before they
+  have been flushed, this option tells SQLAlchemy to flush them before the
+  commit is gone.
+- ``autocommit=False``: this tells SQLAlchemy to wrap all changes between
+  commits in a transaction. If ``autocommit=True`` is specified, SQLAlchemy
+  automatically commits any changes after each flush; this is undesired in most
+  cases.
+- ``expire_on_commit=True``: this means that all instances attached to the
+  session will be fully expired after each commit so that all attribute/object
+  access subsequent to a completed transaction will load from the most recent
+  database state.
+
+The ``scoped_session()`` object ensures that a different session is used for
+each thread so that every request can have its own access to the database.
+
+Use the Session
+^^^^^^^^^^^^^^^
+
+In this section you are going to insert, delete, update and query database
+objects using the session created in the previous section.
+
+Insert
+""""""
+
+Start a Python prompt in the same directory where you've been writing
+**model.py** and **object_test.py**.
+
+Import the ``session`` object from the ``object_test`` module::
+
+    >>> from object_test import session
+
+Now import the ``model`` module and create a new page::
+
+    >>> import model
+
+    >>> test_page = model.Page()
+    >>> test_page.title = u'Test Page'
+    >>> test_page.content = u'Test content'
+    >>> test_page.title
+    u'Test Page'
+
+Add the object to the session::
+
+    >>> session.add(test_page)
+    >>> print test_page.id
+    None
+
+At this point the ``test_page`` object is known to SQLAlchemy, but not to the
+database. To send it to the database, a flush operation can be forced::
+
+    >>> session.flush()
+    >>> print test_page.id
+    1
+
+Now let's commit the changes::
+
+    >>> session.commit()
+
+SQLAlchemy sends the ``COMMIT`` statement that permanently commits the flushed
+changes and ends the transaction.
+
+Delete
+""""""
+
+To delete the ``test_page`` object from the database you would use::
+
+    >>> session.delete(test_page)
+    >>> session.flush()
+
+At this point you can either commit the transaction or do a rollback. Let's do
+a rollback this time::
+
+    >>> session.rollback()
+
+SQLAlchemy sends a ``ROLLBACK`` statement to the database.
+
+Query
+"""""
+
+Queries are performed with query objects that are created from the session. The
+simplest way to create and use a query object is like this::
+
+    >>> page_q = session.query(model.Page)
+    >>> for page in page_q:
+    ...     print page.title
+    Test Page
+
+Try the following statements and observe the SQL queries sent to the database
+by SQLAlchemy::
+
+    >>> page_q.all()
+
+    >>> page = page_q.first()
+    >>> page.title
+
+    >>> page_q[2:5]
+
+    >>> page_q.get(1)
+
+Working with Objects
+""""""""""""""""""""
+
+Now let's think about how you could add a comment to a page. One approach would
+be to insert a new row in the ``comment`` table using the SQL Expression API,
+ensuring that the ``pageid`` field contained the value ``1`` so that the
+comment was associated with the correct page via a foreign key. The
+Object-Relational API provides a much better approach::
+
+    >>> comment1 = model.Comment()
+    >>> comment1.name= u'James'
+    >>> comment1.email = u'james@example.com'
+    >>> comment1.content = u'This page needs a bit more detail ;-)'
+    >>> comment2 = model.Comment()
+    >>> comment2.name = u'Mike'
+    >>> comment2.email = u'mike@example.com'
+    >>> page.comments.append(comment1)
+    >>> page.comments.append(comment2)
+    >>> session.commit()
+
+The interesting thing to note is that rather than having manually set each
+comment's ``.pageid`` attribute, you simply appended the comments to
+the page's ``.comments`` attribute. Note also that there was no need
+to explicitely add the comments to the session, SQLAlchemy was
+smart enough to realize that they have been appended to an object
+that was already in the session.
+
+There's a lot more to learn about SQLAlchemy. Please refer to
+the official SQLAlchemy documentation.
