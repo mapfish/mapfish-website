@@ -9,6 +9,6 @@ Documentation
    framework
    protocol
    ../print
-   ../contribs
+   ../implementations
    ../tutorials/index
    api
