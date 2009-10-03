@@ -6,3 +6,8 @@ Miscellaneous, Non-official Tutorials
 
    sqlalchemy
    pylons
+
+.. toctree::
+   :maxdepth: 1
+
+   extjs

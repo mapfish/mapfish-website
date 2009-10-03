@@ -1,0 +1,594 @@
+.. _extjs:
+
+ExtJS tutorial
+==============
+
+This tutorial provides a tour of ExtJS. Here, you will learn the basis of this
+javascript framework and how to deal with core concepts as well as with
+UI components.
+
+.. _get_prepared_extjs:
+
+Get Prepared with ExtJS
+-----------------------
+
+Before you can start playing with ExtJS you must now how to install it.
+This part is based on `Introduction to Ext 2.0 <http://extjs.com/learn/Tutorial:Introduction_to_Ext_2.0>`_
+
+Download ExtJS
+^^^^^^^^^^^^^^
+
+If you haven't done so already, you'll first want to download the most current
+Ext release which can always be found here: http://extjs.com/products/extjs/download.php.
+
+  .. note::
+
+    You can unzip these files in a web published webserver folder.
+
+Empty HTML
+^^^^^^^^^^
+
+Let's just create an fairly basic html page. We will build it up in stages and discuss it as we go along.
+
+.. code-block:: html
+
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+            <title id='title'>HTML Page setup Tutorial</title>
+
+        </head>
+        <body>
+        </body>
+    </html>
+    
+Head Section
+^^^^^^^^^^^^
+
+Ok let's set up a rough template for the css and javascript resources that will be used.
+
+.. code-block:: html
+
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+            <title id='title'>HTML Page setup Tutorial</title>
+
+            <!-- ** CSS ** -->
+            <!-- base library -->
+            <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+
+            <!-- overrides to base library -->
+
+
+            <!-- ** Javascript ** -->
+            <!-- base library -->
+            <script type="text/javascript" src="../../adapter/ext/ext-base.js"></script>
+            <script type="text/javascript" src="../../ext-all-debug.js"></script>
+
+            <!-- page specific -->
+
+            <script type="text/javascript">
+            Ext.BLANK_IMAGE_URL = '../../resources/images/default/s.gif';
+
+            Ext.onReady(function(){
+
+                alert("Congratulations!  You have Ext configured correctly!");
+
+            }); //end onReady
+            </script>
+
+        </head>
+        <body>
+        </body>
+    </html>
+
+We've basically just set up placeholders for our various resources.
+What we've done now is:
+
+    * include ``ext-all.css``. The file for css styles.
+    * include ``ext-base.js``. The base file for ExtJs.
+    * include ``ext-all-debug.js``. The kitchen sink for all ExtJs splendor.
+    * specified a link to a local ``s.gif`` file so the Ext library isn't looking back at http://www.extjs.com
+    * threw in a ``alert`` statement into an onReady block. This is just a test to see if we have our page set up correctly.
+
+You can put this code in an html file (``index.html`` for example) and you can test it in your favorite browser. Firefox with firebug is prefered.
+
+  .. note::
+
+    Firebug is a Firefox extension, that need to be installed, which provides debugging capabilities.
+
+Element: The Heart of Ext
+-------------------------
+
+Now that you know how to install / load ExtJS, let's clean our code.
+Move the javascript code (blank image, and onReady block), in a specific file called ``ExtStart.js``. Add the newly
+required link to the javascript file in your html header section (order matters!).
+
+Finally, add the following code in your body section
+
+.. code-block:: html
+
+        <div id="myDiv">This is a test div.</div>
+    	<input type="button" id="myButton" value="My Button" />
+
+If you've already written javascript, here's what you're used to do
+
+.. code-block:: javascript
+
+    var myDiv = document.getElementById('myDiv');
+
+This is not really convenient and everything you do with this has to be cross-browser. It's really painful and unproductive.
+ExtJS is really helpful on this point. With the **Ext.Element object**, it offers a very convenient way to access to Elements
+and perform actions on them in an easier way.
+
+If you've already added ``div#myDiv`` element in your html code, you can change some code in ``ExtStart.js`` so it looks like
+the following
+
+.. code-block:: javascript
+
+    Ext.onReady(function() {
+        var myDiv = Ext.get('myDiv');
+    });
+
+With this you now can manipulate your elements and perform the most common actions you'd perform on DOM nodes.
+Go ahead and try adding some of these to ``ExtStart.js`` after the the previous line we got the ``myDiv`` Element
+
+.. code-block:: javascript
+
+    myDiv.highlight();      // The element's background will highlight to yellow then fade back
+    myDiv.addClass('red');  // Add a custom CSS class (defined in ExtStart.css)
+    myDiv.center();         // Center the element in the viewport
+    myDiv.setOpacity(.25);  // Make the element partially-transparent
+
+Need more options ?  See the `Element API documentation <http://extjs.com/deploy/dev/docs/?class=Ext.Element>`_ for the complete list of everything that you can do.
+
+DomQuery: Selecting DOM Nodes
+-----------------------------
+
+If you want to select nodes based on something other than ID, ExtJS provides **DomQuery** a powerful DOM selector which helps
+you select nodes using an attribute or a CSS classname.
+
+To illustrate this, we'll first add paragraphs to our document.
+Put the following code into the body section
+
+.. code-block:: html
+
+    <p>first paragraph</p>
+    <p class="myClass">second paragraph</p>
+    <p>third one</p>
+
+This done, we can select all elements using the following code
+
+.. code-block:: javascript
+
+    console.log(Ext.select('p'));
+
+This returns a `CompositeElement <http://extjs.com/deploy/dev/docs/?class=Ext.CompositeElement>`_, which provides access to every underlying Element via the Element interface.
+This allows you to easily act on every Element instance returned by Element.select without looping and touching each one individually.
+Try out that (directly in the firebug console for example)
+
+.. code-block:: javascript
+
+    Ext.select('p').highlight();
+
+**DomQuery** supports a wide array of selection options, including most of the W3C CSS3 DOM selectors
+
+.. code-block:: javascript
+
+    Ext.select('p.myClass').highlight();
+
+This should select only one element, doesn't it ?
+
+
+More info on DomQuery ? Please see the `DomQuery API documentation <http://extjs.com/deploy/dev/docs/?class=Ext.DomQuery>`_ for complete details on this powerful library.
+
+DomHelper: Manipulating the DOM
+-------------------------------
+
+If you are doing JavaScript development, then at some point or another you have probably had to use DOM to create elements. Like everything else with DOM, creating elements can be extremely verbose, leading to bloated code and spending too much time doing something that should be simple.
+You've probably faced cross-browser problems and performance issues.
+
+The **DomHelper** class provides a layer of abstraction from DOM and transparently supports creating elements via DOM or using HTML fragments. It also has the ability to create HTML fragment templates from your DOM building code.
+
+Simple example
+^^^^^^^^^^^^^^
+
+Let's test this with a simple example
+
+.. code-block:: javascript
+
+    var list = Ext.DomHelper.append('myDiv', {
+         tag: 'ul', cls: 'my-list', children: [
+              {tag: 'li', id: 'item0', html: 'List Item 0'},
+              {tag: 'li', id: 'item1', html: 'List Item 1'},
+              {tag: 'li', id: 'item2', html: 'List Item 2'},
+              {tag: 'li', id: 'item3', html: 'List Item 3'},
+              {tag: 'li', id: 'item4', html: 'List Item 4'}
+          ]
+    });
+
+Using templates
+^^^^^^^^^^^^^^^
+
+.. code-block:: javascript
+
+    var html = '<a id="{id}" href="{url}" class="nav">{text}</a>';
+
+    var tpl = Ext.DomHelper.createTemplate(html);
+    tpl.append('myDiv', {
+        id: 'link1',
+        url: 'http://www.jackslocum.com/',
+        text: "Jack's Site"
+
+    });
+    tpl.append('myDiv', {
+        id: 'link2',
+        url: 'http://www.dustindiaz.com/',
+        text: "Dustin's Site"
+    });
+
+Compiling templates
+^^^^^^^^^^^^^^^^^^^
+
+The performance is great, but if you are adding a bunch of DOM elements using the same template, you can increase performance even further by "compiling" the template.
+
+.. code-block:: javascript
+
+    var html = '<a id="{id}" href="{url}" class="nav">{text}</a>';
+
+    var tpl = Ext.DomHelper.createTemplate(html);
+    tpl.compile();
+
+    //... use template like normal
+
+
+If you need more info on how to deal with **DomHelper** and templates see the great `DomHelper Blog <http://extjs.com/learn/Tutorial:DomHelper_Blog#Benchmarks>`_ tutorial.
+
+
+Events
+------
+
+Definition
+^^^^^^^^^^
+
+Event is a message, a function call, generated by one (part of) program, the event source, that notifies another (part of) program, the event listener, that something happened. Events are generated as responses to user actions or to state changes of the event source.
+
+The event source is independent of event listeners and it generates events also if nobody listens or even if there is no listener defined. The viewpoint of our infinite loop would be: "I'm informing everybody that user moved the mouse to position [x,y] and I do not care who listens, if anybody."
+
+The viewpoint of the listener would be: "Let me know when user moves the mouse, I need to do something with it."
+
+Events in Ext
+^^^^^^^^^^^^^
+
+There are two main "sorts" of events in *Ext: DOM* events and *JavaScript*, or software, events.
+
+DOM Events
+^^^^^^^^^^
+
+Browsers that display (X)HTML pages already have our "infinite loop" that watches user actions and fires events if these actions are occurring on DOM elements. Before Ext we were used to install event listeners on DOM elements this way
+
+.. code-block:: html
+
+    <div id="myDiv" onclick="alert('You clicked me')">Click me!</div>
+
+``Ext.Element`` wraps DOM elements together with their events so now we install the same event handlers this way
+
+.. code-block:: javascript
+
+    Ext.get('myDiv').on('click', function() {alert('You clicked me');});
+
+It can be said that DOM events are "passed-through" from DOM through *Ext.Element* to listeners.
+
+If you followed the previous steps, you should be able to test the following code
+
+.. code-block:: javascript
+
+        var paragraphClicked = function(e) {
+		Ext.get(e.target).highlight();
+	}
+	Ext.select('p').on('click', paragraphClicked);
+
+It mixes the *Events* and *DomQuery* concepts. 
+
+For the list of available DOM events get a look at `Wikipedia DOM Events <http://en.wikipedia.org/wiki/DOM_Events>`_.
+
+JavaScript Events
+^^^^^^^^^^^^^^^^^
+
+Now, DOM elements are not the only possible event sources; it is quite easy to implement event source logic and event listener installation to any JavaScript object. But, what could it be good for?
+
+Imagine that you have a complex component such as grid. If you had only DOM events, the handling of user actions such as column move would be extremely difficult. You would need to listen to DOM elements, process mouse clicks, moves, calculate from where to where the column has been moved, etc. It would be much easier if grid component would do all this dirty work for you and, after everything has be done, just informed you: "User moved column 3 to position 1."
+
+That is exactly what grid does: it fires JavaScript events that inform potential listeners what has happened to it. The same is true for another Ext components. Form validation events, Panel resize events, Tree expand/collapse events can serve as examples, to name a few. 
+
+How do I listen to events?
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you have an object of Ext class, for example *Panel*, and you need to do some action when panel resizes you would install a listener to implement your action
+
+.. code-block:: javascript
+
+    // create panel
+    var myPanel = new Ext.Panel({...});
+
+    // install resize event listener
+    myPanel.on('resize', function(panel, w, h) {
+        alert('Panel resized to ' + w + 'x' + h);
+    });
+
+    // you can also add an event listener to a component configuration.
+    var myPanel2 = new Ext.Panel({
+        listeners: {
+            resize: function(panel, w, h) {
+                alert('Panel resized to ' + w + 'x' + h);
+            }
+        }
+    });
+
+From this point on, whenever the panel ``myPanel`` is resized your function is called so you can do your actions.
+
+Attaching multiple handlers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you want to attach multiple handlers to one element you can do this in one function call
+
+.. code-block:: javascript
+
+    el.on({
+        'click' : function() { /* do something */},
+        'mouseover' : function() { /* do something */},
+        'mouseout' : function() { /* do something */},
+        scope: {} /* the context */
+    });
+
+Or if you are using the *listeners* property
+
+.. code-block:: javascript
+
+    var myPanel2 = new Ext.Panel({
+        listeners: {
+            resize: function(panel, w, h) {
+                alert('Panel resized to ' + w + 'x' + h);
+            },
+            expand: function() {/* do something */},
+            scope: {}
+        }
+    });
+
+How do I create event source?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Events related functionality is implemented in **Ext.util.Observable** class so if you want your extension to be an event source just extend Observable. Also, if you extend a class that is already descendant of Observable (Panel, Grid, Form, Tree, etc), your extension is automatically the event source.
+
+Events fired by your extension are events fired by parent class(es).
+
+Custom Events
+^^^^^^^^^^^^^
+
+It happens very often that you need add new events, for example you create *Employee* class and *Organization Chart* class and you implement drag&drop assignment/dismissal of employee to/from a position. It would come handy to fire event *assigned* and *dismissed*, wouldn’t it?
+
+We could listen to these events and the listeners could send e-mails to the employee informing him that he has been assigned to a position or dismissed from it.
+
+We do it this way
+
+.. code-block:: javascript
+
+    OrgChart = Ext.extend(Ext.Panel, {
+        initComponent:function() {
+            // call parent init component
+            OrgChart.superclass.initComponent.apply(this, arguments);
+
+            // add custom events
+            this.addEvents('assigned', 'dismissed');
+        }
+
+        ,assign:function(employee, position) {
+            // do whatever is necessary to assign the employee to position
+
+            // fire assigned event
+            this.fireEvent('assigned', this, employee, position);
+        }
+
+        ,dismiss:function(empoyee, position) {
+            // do whatever is necessary to dismiss employee from position
+
+            // fire dismissed event
+            this.fireEvent('dismissed', this, employee, position);
+        }
+    });
+
+In the ``initComponent`` function we inform *Observable* class that we are going to fire our new events so it can do all necessary setup.
+
+Note: We do not extend Observable directly here but *Panel*, what we extend, does. *Panel* ’s inheritance chain is: *Observable* -> *Component* -> *BoxComponent* -> *Container* -> *Panel*.
+
+And in ``assign`` and ``dismiss`` functions we fire our events after all assign/dismiss job has been done with signature (arguments) of our choice.
+
+When we ``fireEvent``, *Observable* looks if there are some listeners to this event and calls all listeners with arguments we supplied in ``fireEvent`` call. If there is no listener it just does nothing.
+
+Summary
+^^^^^^^
+
+    * event is a message sent (fired) by an event source to inform listeners that something happened
+    * event source is an object that can fire events
+    * event listener is a function that is called when event source fires an event
+    * to listen to events we use **on** function to install an event listener
+    * to create an event source we extend **Observable** class, **addEvents** and **fireEvent**
+
+Components
+----------
+
+This chapter is based on the `Introduction to Ext Tutorial <http://extjs.com/learn/Tutorial:Introduction_to_Ext>`_ *Using Widgets* section.
+
+In addition to the core javascript library that we've been discussing, Ext also includes one of the richest sets of Javascript UI widgets available today. There are far too many to cover in this introduction, but let's take a look at a couple of the widgets that people use most commonly and how easy they are to work with.
+
+MessageBox
+^^^^^^^^^^
+
+We already have code that we wrote in the previous section that highlights each paragraph when you click on it. Let's modify that code to also show the text of the paragraph that was clicked in a message box. In the paragraphClicked function above, replace the line
+
+.. code-block:: javascript
+
+    Ext.get(e.target).highlight();
+
+...with this code
+
+.. code-block:: javascript
+
+    var paragraph = Ext.get(e.target);
+    paragraph.highlight();
+
+    Ext.MessageBox.show({
+        title: 'Paragraph Clicked',
+        msg: paragraph.dom.innerHTML,
+        width:400,
+        buttons: Ext.MessageBox.OK,
+        animEl: paragraph
+    });
+
+What is actually being passed to MessageBox.show() in this case is only one parameter: an object literal that contains a set of properties and values.
+
+GridPanel
+^^^^^^^^^
+
+The grid is one of the most popular widgets in Ext, and usually the first one that people want to see, so let's take a look at how easy it is to get a basic grid up and running. Replace any existing code you have in ``ExtStart.js`` so that it looks like this
+
+.. code-block:: javascript
+
+    Ext.onReady(function() {
+        var myData = [
+            ['Apple',29.89,0.24,0.81,'9/1 12:00am'],
+            ['Ext',83.81,0.28,0.34,'9/12 12:00am'],
+            ['Google',71.72,0.02,0.03,'10/1 12:00am'],
+            ['Microsoft',52.55,0.01,0.02,'7/4 12:00am'],
+            ['Yahoo!',29.01,0.42,1.47,'5/22 12:00am']
+        ];
+
+        var ds = new Ext.data.SimpleStore({
+            fields: [
+                {name: 'company'},
+                {name: 'price', type: 'float'},
+                {name: 'change', type: 'float'},
+                {name: 'pctChange', type: 'float'},
+                {name: 'lastChange', type: 'date', dateFormat: 'n/j h:ia'}
+            ]
+        });
+        ds.loadData(myData);
+
+        var colModel = new Ext.grid.ColumnModel([
+            {header: "Company", width: 120, sortable: true, dataIndex: 'company'},
+            {header: "Price", width: 90, sortable: true, dataIndex: 'price'},
+            {header: "Change", width: 90, sortable: true, dataIndex: 'change'},
+            {header: "% Change", width: 90, sortable: true, dataIndex: 'pctChange'},
+            {header: "Last Updated", width: 120, sortable: true,
+                renderer: Ext.util.Format.dateRenderer('m/d/Y'),
+                            dataIndex: 'lastChange'}
+        ]);
+
+        var grid = new Ext.grid.GridPanel({ height:200, width:600, ds: ds, cm: colModel});
+        grid.render(document.body);
+        grid.getSelectionModel().selectFirstRow();
+    });
+
+While this looks like a lot, it is really only seven lines of code in total!
+
+    * The first line of code creates an array of data to be displayed in the grid. In real projects, you would likely load this data from some dynamic source like a database or web service.
+    * Next, we create and load a data store, which will tell the underlying Ext library how to read and format the data.
+    * Next, we define our column model which simply allows us to set up configuration options for each column of the grid.
+    * Lastly, we create the grid widget, passing in the data store and column model, render it and select the first row.
+
+And Many More...
+^^^^^^^^^^^^^^^^
+
+We've only seen the top of the iceberg here. There are literally dozens of UI widgets to choose from in Ext, including automatic page layouts, tabs, menus, toolbars, dialogs, a tree view and many more. Please explore the examples section of the API documentation for a glimpse of everything that's available.
+
+Layouts
+-------
+
+`Ext2 Layouts <http://extjs.com/learn/Tutorial:Ext2_Layouts>`_
+
+Tabs
+^^^^
+
+Then the following in the onReady method
+
+.. code-block:: javascript
+
+    var panel = new Ext.TabPanel({
+        width: 200,
+        height: 200,
+        activeItem: 0, // index or id
+        items:[{
+            title: 'Tab 1',
+            html: 'This is tab 1 content.'
+        },{
+            title: 'Tab 2',
+            html: 'This is tab 2 content.'
+        },{
+            title: 'Tab 3',
+            html: 'This is tab 3 content.'
+        }]
+    });
+    panel.render(document.body);
+
+
+ViewPort and Border Layout
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Because the ViewPort container is a bit specific as it represents the viewable application area (ie. the browser viewport), we'll start with a cleaned code.
+Let's save a copy of our ``ExtStart.js``, and remove everything in the ``onReady`` method.
+
+The Viewport renders itself to the document body, and automatically sizes itself to the size of the browser viewport and manages window resizing.
+
+Though it's not required, people usually uses the **BorderLayout** as the layout of the ViewPort.
+
+Copy and paste the following code in your onReady method
+
+.. code-block:: javascript
+
+    new Ext.Viewport({
+        layout: 'border',
+        items: [{
+            region: 'north',
+            html: '<h1 class="x-panel-header">Page Title</h1>',
+            autoHeight: true,
+            border: false,
+            margins: '0 0 5 0'
+        }, {
+            region: 'west',
+            collapsible: true,
+            title: 'Navigation',
+            width: 200,
+            autoScroll: true,
+            split: true,
+            html: 'this is the west region'
+        }, {
+            region: 'center',
+            html: 'this is center region'
+        }, {
+            region: 'south',
+            title: 'Information',
+            collapsible: true,
+            html: 'Information goes here',
+            split: true,
+            height: 100,
+            minHeight: 100
+        }]
+    });
+
+Please don't forget that every border layout **must** at least have a center region. All other regions are optional.
+
+Accordion Layout
+^^^^^^^^^^^^^^^^
+
+Now that you have a better view on how layouts work, take a look at the documentation for *Accordions* layout and give it a try.
+
+You may also want to add a tabpanel in the center region.
+
+
+And Many More...
+^^^^^^^^^^^^^^^^
+
+There are many more layouts available. If you're lost or if you need more examples, check out the `Layout Browser <http://extjs.com/deploy/dev/examples/layout-browser/layout-browser.html>`_
+
+The `GUI Builder <http://tof2k.com/ext/formbuilder/>`_  and the `GUI Designer <http://www.projectspace.nl/>`_ can help to create nice UI.
