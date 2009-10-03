@@ -1,5 +1,5 @@
-The MapFish Protocol
-********************
+MapFish Protocol
+****************
 
 This page describes the HTTP interfaces of web services created with the
 `paster mf-layer` command.

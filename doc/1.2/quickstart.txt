@@ -52,7 +52,7 @@ pure-Python web server commonly used during development.
 Open http://localhost:5000 in your web browser, you should get the default
 page:
 
-.. image:: ../../_static/pylons.png
+.. image:: _static/pylons.png
     :height: 300pt
     :width: 500pt
 
@@ -81,7 +81,7 @@ provided by the ``mapfish_client`` template. When asked whether to overwrite
 
 Start the application again::
 
-    (env) $ cd MapFishAppC:\MapFish>cd MapFishApp
+    (env) $ cd MapFishApp
     (env) $ paster serve --reload development.ini
 
 .. note::
@@ -93,7 +93,7 @@ Start the application again::
 Open or reload http://localhost:5000 in your web browser, you should now get
 the default user interface:
 
-.. image:: ../../_static/osm.png
+.. image:: _static/osm.png
     :height: 300pt
     :width: 500pt
 
@@ -108,6 +108,76 @@ write his own if he wants.
 
 Creating a web service
 ----------------------
+
+MapFish provides a command for generating web services implementing the
+`MapFish Protocol <protocol.html>`_. A MapFish web service relies on
+geographic database table.
+
+.. note::
+    Only PostGIS tables are currently supported.
+
+Before creating web services you need to set up the connection to the
+geographic database. For this quickstart an existing public database will be
+used. In real-life scenarios, the database system and the MapFish application
+execute on the same host or on hosts of the same private network.
+
+To set up the database connection edit ``development.ini`` and replace the line
+::
+
+    sqlalchemy.url = sqlite:///%(here)s/development.db
+
+by this one::
+
+    sqlalchemy.url = postgres://quickstart:quickstart@www.mapfish.org:5432/quickstart
+
+The connection string specifies that the ``postgres`` driver must be used, the
+database system is located at ``www.mapfish.org`` on port ``5432``, and the
+name of the database is ``quickstart``.
+
+Now that the database connection is set up, you're ready to create the web
+service. Creating a web service is done in three steps:
+
+1. create a layer configuration in the ``layers.ini`` file, in our case we're
+   going rely on the table named ``countries`` in the database, so the
+   configuration is::
+
+        [countries]
+        singular=country
+        plural=countries
+        table=countries
+        epsg=4326
+        geomcolumn=the_geom
+
+   ``singular`` provides a ``singular`` name for the layer. ``plural`` provides
+   a plural name for the layer. Both are used by the code generator when
+   substituting variables. ``table`` provides the name of the database.
+   ``epsg`` provides the coordinate system of the table data. ``geomcolumn``
+   provides the name of the geometry column.
+
+2. generate the web service code with the ``mf-layer`` command::
+
+    (env) $ paster mf-layer countries
+
+3. configure a route to the ``countries`` controller, this is done by adding
+   the following statement after the "CUSTOM ROUTES HERE" comment in the
+   ``mapfishapp/config/routing.py`` file::
+
+    map.resource("country", "countries")
+
+Watch the indentation! 4 spaces are needed here.
+
+If you stopped ``paster serve`` or if you did not add the ``--reload`` switch,
+restart ``MapFishApp`` with::
+
+    (env) $ paster serve --reload development.ini
+
+You can now open http://localhost:5000/countries?limit=1 in your browser, you
+should see a `GeoJSON <http://geojson.org>`_ representation of the first object
+in the ``countries`` table:
+
+.. image:: _static/geojson.png
+    :height: 300pt
+    :width: 500pt
 
 Creating search functionality
 -----------------------------

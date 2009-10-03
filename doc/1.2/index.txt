@@ -1,14 +1,31 @@
 Documentation
 *************
 
+Getting started
+---------------
+
 .. toctree::
    :maxdepth: 1
 
    installation
    quickstart
+
+Main docs
+---------
+
+.. toctree::
+   :maxdepth: 1
+
    framework
    protocol
+   api
    ../print
    ../implementations/index
+
+Others
+------
+
+.. toctree::
+   :maxdepth: 1
+
    ../tutorials/index
-   api
