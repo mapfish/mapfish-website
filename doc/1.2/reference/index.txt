@@ -14,18 +14,21 @@ Server
 Geometry type
 
 .. toctree::
+   :maxdepth: 1
    
    sqlalchemygeom
 
 Protocol implementation
 
 .. toctree::
+   :maxdepth: 1
 
    protocol 
 
 Filtering API
 
 .. toctree::
+   :maxdepth: 1
 
    filters
    filters.comparison
