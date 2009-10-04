@@ -1,9 +1,6 @@
 Framework
 *********
 
-What it provides
-----------------
-
 MapFish is a flexible and complete framework for building rich web-mapping
 applications. It emphasizes high productivity, and high-quality development. 
 
