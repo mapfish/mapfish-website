@@ -14,6 +14,12 @@ On a Windows system::
 This command creates a virtual Python environment named ``env`` and installs
 MapFish and its dependencies into it.
 
+.. note::
+    The so-called `go` script actually installs two Python eggs for MapFish:
+
+     - the egg ``mapfish`` for the server framework
+     - the egg ``mapfish.plugin.client`` for the Javascript toolbox
+
 Now activate the virtual environment.
 
 On a Unix system::
