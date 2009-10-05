@@ -20,6 +20,11 @@ for generating MapFish applications and web services, it relies on the
 The `plugin <http://www.symfony-project.org/plugins/sfMapFishPlugin>`_ is
 hosted by the Symfony project.
 
+.. toctree::
+    :maxdepth: 1
+
+    php_symfony
+
 Rails plugin
 ------------
 
