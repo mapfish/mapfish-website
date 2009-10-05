@@ -6,8 +6,9 @@ various interoperable implementations. In addition to the reference
 implementation provided by the Python framework, two other implementations are
 currently available:
 
-* a Ruby/Rails plugin
 * a PHP/Symfony plugin
+* a Ruby/Rails plugin
+
 
 Symfony plugin
 --------------
@@ -18,12 +19,7 @@ for generating MapFish applications and web services, it relies on the
 `Doctrine ORM <http://www.doctrine-project.org/>`_.
 
 The `plugin <http://www.symfony-project.org/plugins/sfMapFishPlugin>`_ is
-hosted by the Symfony project.
-
-.. toctree::
-    :maxdepth: 1
-
-    php_symfony
+hosted by the Symfony project. The `README <http://www.symfony-project.org/plugins/sfMapFishPlugin?tab=plugin_readme>`_ is also hosted by the Symfony project.
 
 Rails plugin
 ------------
