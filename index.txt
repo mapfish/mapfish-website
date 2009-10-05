@@ -25,7 +25,7 @@ MapFish is open source, and distributed under the `GPLv3
 
 The MapFish framework is built around an open HTTP-based protocol, allowing
 various interoperable implementations. In addition to the reference
-implementation provided by the Python framework, two other implementations are
+implementation provided by the Python/Pylons framework, two other implementations are
 currently available:
 
 * a Ruby/Rails plugin
