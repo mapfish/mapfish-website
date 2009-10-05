@@ -37,7 +37,7 @@ See the documentation for more information.
 `Installation <doc/1.2/installation.html>`_ |
 `Documentation <doc/1.2/index.html>`_ |
 `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_ |
-`Development <http://trac.mapfish.org/>`_
+`Wiki <http://trac.mapfish.org/>`_
 
 .. toctree::
    :hidden:
