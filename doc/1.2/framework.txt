@@ -258,10 +258,10 @@ second step involves invoking the ``paster mf-layer`` command.
         schema.
 
 ``paster mf-layer``
-    The second involves entering the ``paster mf-layer`` command with the layer
-    identifier as the argument to the command. This command must be entered
-    from within the application's main directory (``HelloWorld`` in our example).
-    The command used to generate the ``users`` web service is::
+    The second step involves entering the ``paster mf-layer`` command with the
+    layer identifier as the argument to the command. This command must be
+    entered from within the application's main directory (``HelloWorld`` in our
+    example).  The command used to generate the ``users`` web service is::
 
         (venv) $ paster mf-layer users
 
@@ -290,8 +290,8 @@ second step involves invoking the ``paster mf-layer`` command.
 You can now visit, for example, http://localhost:5000/users?limit=3 in your
 browser. You should get a `GeoJSON <http://geojson.org>`_ representation of the
 first three users of the ``users`` table. Look at the `Protocol page
-<protocol.html>`_ to know more about to parameters that can be passed to
-MapFish web services.
+<protocol.html>`_ to know more about parameters that can be passed to MapFish
+web services.
 
 .. hint::
    Recommended reading:
@@ -309,9 +309,137 @@ Adding filters
 ~~~~~~~~~~~~~~
 
 Web services generated with the ``paster mf-layer`` command implement the HTTP
-interfaces described in the `Protocol page <protocol.html>`_. You may need to 
-to augment the protocol and add custom filter parameters.
+interfaces described in the `Protocol page <protocol.html>`_. You may need to
+augment these interfaces and add your own, custom filtering parameters. The
+MapFish framework provides `APIs <reference/index.html/filters.html>`_ for
+that.
 
-[TO COMPLETE]
+The generated controller class for the ``users`` layer looks like this::
 
-`API References <api.html#server>`_
+    class UsersController(BaseController):
+        readonly = True # if set to True, only GET is supported
+
+        def __init__(self):
+            self.protocol = Protocol(Session, User, self.readonly)
+
+        def index(self, format='json'):
+            return self.protocol.index(request, response, format=format)
+
+(The comments and the other actions have been intentionally omited.)
+
+Note that no filter is passed to the protocol (the ``filter`` positional
+argument to the ``index`` method is not set). When the protocol isn't passed a
+filter it creates a default one, the *MapFish default filter*, which
+corresponds to what's defined in the MapFish Protocol.
+
+We're now going to see how you can change the behavior of the ``users`` web
+service.
+
+**Scenario #1**
+    Let's assume you want that only *managers* are returned by the ``users``
+    web service. For this you will create a comparison filter and combine it
+    with the MapFish default filter::
+
+        class UsersController(BaseController):
+            readonly = True # if set to True, only GET is supported
+
+            def __init__(self):
+                self.protocol = Protocol(Session, User, self.readonly)
+
+            def index(self, format='json'):
+                compare_filter = comparison.Comparison(
+                    comparison.Comparison.EQUAL_TO,
+                    User.type,
+                    value="employee"
+                )
+                default_filter = create_default_filter(request, User)
+                filter = logical.Logical(
+                    logical.Logical.AND,
+                    filters=[compare_filter, default_filter]
+                )
+                return self.protocol.index(request, response, format=format, filter=filter)
+
+    The new comparison filter is combined with the default filter in a logical
+    and filter. See the documentations of the `mapfish.lib.filters.comparison
+    <reference/filters.comparison.html>`_ and `mapfish.lib.filters.logical
+    <reference/filters.logical.html>`_ modules and of the
+    `create_default_filter()
+    <reference/protocol.html#creating-protocol-filter>`_ function.
+
+**Scenario #2**
+    Let's now assume that you want the web service to return either *managers*
+    or *developers* or both based on the *type* parameter in the query string.
+    Let's also assume that you still want your web service to support all the
+    geographic filtering capability of the MapFish protocol::
+
+        class UsersController(BaseController):
+            readonly = True # if set to True, only GET is supported
+
+            def __init__(self):
+                self.protocol = Protocol(Session, User, self.readonly)
+
+            def index(self, format='json'):
+                filter = create_geom_filter(request, User)
+                compare_filter = None
+                if "type" in request.params:
+                    compare_filter = comparison.Comparison(
+                        comparison.Comparison.EQUAL_TO,
+                        User.type,
+                        value=request.params["type"]
+                    )
+                if compare_filter is not None:
+                    filter = logical.Logical(
+                        logical.Logical.AND,
+                        filters=[filter, compare_filter]
+                    )
+                return self.protocol.index(request, response, format=format, filter=filter)
+
+    The ``create_geom_filter()`` function is called to get the default
+    geographic filter. And, if the query string includes the ``type``
+    parameter, the geographic filter is combined with a comparison filter whose
+    value is the value of the ``type`` parameter in the query string. See the
+    documentation of the `create_geom_filter()
+    <reference/protocol.html#creating-protocol-filter>`_ function.
+
+**Scenario #3**
+    We assume in this scenario that you want to support the *type* parameter in
+    the query string (as in Scenario #2) and that you only want to support
+    *bbox* for the geographic filtering::
+
+        class UsersController(BaseController):
+            readonly = True # if set to True, only GET is supported
+
+            def __init__(self):
+                self.protocol = Protocol(Session, User, self.readonly)
+
+            def index(self, format='json'):
+                filters = []
+                if "type" in request.params:
+                    filters.append(
+                        comparison.Comparison(
+                            comparison.Comparison.EQUAL_TO,
+                            User.type,
+                            value=request.params["type"]
+                        )
+                    )
+                if "bbox" in request.params:
+                    filters.append(
+                        spatial.Spatial(
+                            spatial.Spatial.BOX,
+                            User.geometry_column(),
+                            box=request.params["bbox"].split(",")
+                        )
+                    )
+                filter = logical.Logical(
+                    logical.Logical.AND,
+                    filters=filters
+                )
+                return self.protocol.index(request, response, format=format, filter=filter)
+
+    In this scenario the web service doesn't rely on the default filters of the
+    MapFish Protocol. See the documentation of the `mapfish.lib.filters.spatial
+    <reference/filters.spatial.html>`_ module.
+
+-----------
+
+`API References <reference/index.html#server>`_
