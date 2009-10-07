@@ -1,7 +1,7 @@
-.. _mapfish_api:
+.. _mapfishapi:
 
-MapFish API
-***********
+MapFishAPI
+**********
 
 The API allows the integration of page inside HTML and the usage of permalink for a MapFish application
 
@@ -16,8 +16,8 @@ You can now add the API in your project (in MyMapFish directory)::
   cd mymapfish/public/
   svn checkout http://www.mapfish.org/svn/mapfish/contribs/mapfish-api/trunk/MapFishApi/
 
-Use MapFish API
----------------
+Use MapFishAPI
+--------------
 
 The directory MapFishApi/js contains generic API function, like createMap which is used to create an OpenLayers Map.
 

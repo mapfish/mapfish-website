@@ -4,4 +4,4 @@ Contribs
 .. toctree::
     :maxdepth: 1
 
-    mapfish_api
+    mapfishapi
