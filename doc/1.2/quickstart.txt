@@ -181,3 +181,43 @@ in the ``countries`` table:
 
 Creating search functionality
 -----------------------------
+
+Now that the ``countries`` web service works, let's create a search
+functionality based on that web service. This search functionality will involve
+displaying a popup containing information about the country that is clicked by
+the user.
+
+Edit the ``mapfishapp/public/app/js/mapfishapp_layout.js`` file, look up the
+``createTbarItems()`` function, and insert a new ``GeoExt.Action`` to the array
+returned by the function by adding the following code to the function (If
+unsure, see this :download:`file <_static/mapfishapp_layout.js>`):
+
+.. code-block:: javascript
+
+    actions.push(new GeoExt.Action({
+        iconCls: "info",
+        map: map,
+        toggleGroup: "tools",
+        allowDepress: false,
+        tooltip: "Query",
+        control: new mapfish.Searcher.Map({
+            url: "countries",
+            protocol: {
+                params: {
+                    epsg: "900913",
+                    attrs: "pays,continent"
+                }
+            },
+            displayDefaultPopup: true
+        })
+    }));
+
+In the above code a ``GeoExt.Action`` configured with ``mapfish.Searcher.Map``
+is added to the array of actions. The ``mapfish.Searcher.Map`` object is
+connected to the ``countries`` web service through the ``url`` option. In this
+example the ``mapfish.Searcher.Map`` object displays a default popup containing
+the name of the clicked country, and the name of is continent.
+
+.. image:: _static/query.png
+    :height: 300pt
+    :width: 500pt
