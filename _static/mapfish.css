@@ -1,0 +1,61 @@
+@import "basic.css";
+@import "pygments.css";
+@import "sphinxdoc.css";
+
+body {
+    background-color: #eeeeee;
+    color: #333333;
+}
+
+div.sphinxsidebar h3, div.sphinxsidebar h4 {
+    border: 1px solid #ff5c00;
+    background-color: #ff5c00;
+}
+
+div.footer {
+    color: white !important;
+}
+
+div.footer a {
+    color: white !important;
+}
+
+div.admonition, div.warning {
+    border: 1px solid #ff5c00;
+}
+
+div.warning p.admonition-title {
+    border-bottom: 1px solid #ff5c00;
+    background-color: #ff5c00;
+}
+
+h1 {
+    color: #ff5c00;
+}
+
+div.related ul li a:hover {
+    color: #ff5c00;
+}
+
+div.footer {
+    background-color: #ff5c00;
+}
+
+div.admonition p.admonition-title,
+div.warning p.admonition-title {
+    border-bottom: 1px solid #ff5c00;
+    font-weight: bold;
+    background-color: #ff5c00;
+}
+
+a:hover {
+   color:#ff5c00 !important;
+}
+
+a {
+   color:#FF9900 !important;
+}
+
+div.sphinxsidebar input {
+    border: 1px solid #bbbbbb;
+}
