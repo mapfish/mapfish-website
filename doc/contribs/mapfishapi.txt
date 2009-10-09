@@ -3,17 +3,23 @@
 MapFishAPI
 **********
 
-The API allows the integration of page inside HTML and the usage of permalink for a MapFish application
+The MapFishAPI provides a way to create MapFish applications that can be integrated in CMS or can be configured through permalinks.
+
+The MapFishAPI can be seen as a development layer on the top of a MapFish application that exposes function to be used in the context of a CMS.
+
+The MapFishAPI provides also general functions that will simplify the creation of a MapFish application.
+
+The class documentation of the MapFish API can be found here: TODO (http://www.mapfish.org/svn/mapfish/contribs/mapfish-api/trunk/apidoc/)
 
 Install MapFish
 ---------------
 
-Install first the MapFish Framework and create a MapFish application as
-described in the quickstart. 
+Proceed first to the  :ref:`installation` of MapFish Framework and create a MapFish application as
+described in the :ref:`quickstart` (the creation of a web service is not necessary for this tutorial).
 
-You can now add the API in your project (in MyMapFish directory)::
+You can now add the API in your project (in MapFishApp directory)::
 
-  cd mymapfish/public/
+  cd mapfishapp/public/
   svn checkout http://www.mapfish.org/svn/mapfish/contribs/mapfish-api/trunk/MapFishApi/
 
 Use MapFishAPI
@@ -26,7 +32,7 @@ Create a project API
 
 In order to use this API, it is needed to create a project api which will herite from the MapFish.API and will specialize or ovveride some functions.
 
-Let's create a file :download:`mymapfishApi.js <_static/mymapfishApi.js>` in the a directory mymapfishApi/js/
+Let's create a file :download:`mymapfishApi.js <_static/mymapfishApi.js>` in a newly created directory mymapfishApi/js/
 
 .. code-block:: javascript
 
@@ -61,7 +67,7 @@ In this case, the getLayers function defines the layers and getMapOptions define
 Use a project API
 ^^^^^^^^^^^^^^^^^
 
-It is now possible to create an application with the project API (mymapfishApi.js). Let's create a file :download:`layout.js <_static/layout.js>` in app/js/
+It is now possible to create an application with the project API (mymapfishApi.js). Let's create a file :download:`layout.js <_static/layout.js>` in the directory app/js/
 
 .. code-block:: javascript
 
@@ -101,7 +107,7 @@ It is now possible to create an application with the project API (mymapfishApi.j
 
   })();
 
-In order to use it, it is needed to initialize this api. Create a :download:`init.js <_static/init.js>` file in app/js/
+In order to use it, it is needed to initialize this api. Create a :download:`init.js <_static/init.js>` file in directory app/js/
 
 .. code-block:: javascript
 
