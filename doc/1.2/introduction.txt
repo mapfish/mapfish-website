@@ -1,0 +1,1261 @@
+.. _introduction:
+
+8 hours introduction to MapFish Framework
+*****************************************
+
+Welcome in the MapFish world ! First the archtiecture and components of the :ref:`mapfish_framework` are introduced.
+
+Then, :ref:`mapfish_client`, :ref:`mapfish_server` and :ref:`mapfish_tiling` are presented with practical examples.
+
+.. _mapfish_framework:
+
+MapFish Framework
+=================
+
+What is a framework ?
+---------------------
+
+MapFish is an easy-to-use and extensible web 2.0 mapping application framework.  But, what is a framework ? From `wikipedia <http://en.wikipedia.org/wiki/Framework>`_ : "A framework is a basic conceptual structure used to solve or address complex issues.". The framework aims to alleviate the overhead associated with common activities performed in Web mapping development.
+
+In that sense, MapFish provides the technology for building web mapping applications. With :ref:`mapfish_client` technologies, the developer can create user interfaces and with :ref:`mapfish_server` technologies, it is possible to develop the necessary web services.
+
+On the client side, JavaScript libraries are mainly used, on the server side, several languages can be used. Originally, Python components were used, but with the time, Java, Ruby and PHP components have also been developped. This shows the flexibility and openness of the framework.
+
+.. note::
+
+   MapFish is cartographic server agnostic. It can be used with `MapServer <http://www.mapserver.org>`_, `GeoServer <http://www.geoserver.org>`_, `MapGuide <http://www.mapguide.org>`_ or whatever cartographic server that is able to communicate with open protocols like WMS or WFS.
+
+Components of MapFish framework
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Several Open Source technologies are used in MapFish:
+
+ * `GeoExt <http://www.geoext.org>`_: GeoExt is a JavaScript library providing the groundwork for creating web-mapping applications based on OpenLayers and ExtJS.
+ * `OpenLayers <http://www.openlayers.org>`_: OpenLayers makes it easy to put a dynamic map in any web page. It can display map tiles and markers loaded from any source.
+ * `ExtJS <http://extjs.com/>`_: Ext JS is a cross-browser JavaScript library for building rich internet applications.
+ * `Shapely <http://pypi.python.org/pypi/Shapely>`_: Shapely is a Python package for manipulation and analysis of 2D geospatial geometries. 
+ * `SqlAlchemy <http://www.sqlalchemy.org/>`_: SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
+ * `TileCache <http://tilecache.org/>`_: TileCache provides a Python-based WMS-C/TMS server, with pluggable caching mechanisms and rendering backends.
+ * `PostGIS <http://postgis.refractions.net/>`_: PostGIS adds support for geographic objects to the PostgreSQL object-relational database. In effect, PostGIS "spatially enables" the PostgreSQL server, allowing it to be used as a backend spatial database for geographic information systems (GIS).
+ * `GeoJSON <http://geojson.org/>`_: GeoJSON is a format for encoding a variety of geographic data structures.
+ * `OGR <http://www.gdal.org/ogr/index.html>`_: The OGR Simple Features Library is a C++ open source library providing read and sometimes write access to a variety of vector file formats.
+ * `GDAL <http://www.gdal.org/>`_: is a translator library for raster geospatial data formats.
+ * `Pylons <http://pylonshq.com/>`_: Pylons is a lightweight web framework emphasizing flexibility and rapid development.
+
+MapFish aggregates these components and ensure that they can work together.
+
+Architecture of MapFish application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ .. image:: _static/mapfish_architecture_en.png
+
+On the **server side**, the data can be managed inside a **database** or as **files**. From these data, in order to improve the application performance, a **tile generator** can be used to cache the geographic content. The tile generation process is based on a cartographic server that is able to serve the tiles or on files (images, for example). The **MapFish application server** provides services like search, print or edit. Complex and custom data analysis can be developed with the technology provided by the MapFish framework.
+
+.. note::
+
+   The `MapFish Protocol <http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol>`_ is a RESTFull protocol for creating/reading/querying/updating/deleting features. The MapFish protocol defines a communication language between client and server part. 
+
+On the **client side**, four JavaScript libraries are used to allow the creation of advanced user interfaces. Some demos here:
+
+ * `MapPanel  <http://dev.geoext.org/trunk/geoext/examples/mappanel-div.html>`_
+ * `LayerTree <http://dev.geoext.org/trunk/geoext/examples/mappanel-div.html>`_
+ * `Search <http://demo.mapfish.org/mapfishsample/trunk/examples/search/c2corg.html>`_
+ * `GeoStat <http://demo.mapfish.org/mapfishsample/trunk/examples/geostat/>`_
+ * `3D (only on Windows and MacOS) <http://demo.mapfish.org/mapfishsample/trunk/examples/earth/earth.html>`_
+ * `Toolbar <http://demo.mapfish.org/mapfishsample/trunk/examples/map/toolbar.html>`_
+ * `Print <http://demo.mapfish.org/mapfishsample/trunk/examples/print/simple.html>`_
+ * `Edit <http://demo.mapfish.org/mapfishsample/trunk/examples/editing/>`_
+ * `Routing <http://demo.mapfish.org/mapfishsample/trunk/demos/routing/epfl.html>`_
+ * ... and all the `live applications <http://trac.mapfish.org/trac/mapfish/wiki/Users>`_ ;-)
+
+Through **internet** the data are transferred as JSON/GeoJSON or XML/GML data flow. OGC or other web services can of course be used by the client applications.
+
+Development of MapFish application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The MapFish Framework provides the bricks to create web mapping applications. From these bricks, there are two main ways to create custom MapFish applications.
+
+Application from scratch
+""""""""""""""""""""""""
+
+In this case, the bricks of the framework are used to create a custom application.
+
+ .. image:: _static/mapfish_custom.png
+
+Application from template
+"""""""""""""""""""""""""
+
+In this case, the bricks of the framework are used to create a template. The template can contain for example the general layout of the application or some base layers. This template can be used several times to create custom applications. And, of course, custom code can be done for the specific applications.
+
+ .. image:: _static/mapfish_template.png
+
+
+OGC compliance
+^^^^^^^^^^^^^^
+
+MapFish is compliant with the `Open Geospatial Consortium <http://www.opengeospatial.org/>`_ standards. This is achieved through OpenLayers or GeoExt which support several OGC norms, like WMS, WFS, WMC, KML, GML etc..
+
+MapFish Technologies
+====================
+
+.. _mapfish_client:
+
+MapFish JavaScript Toolbox
+--------------------------
+
+MapFish JavaScript Toolbox is composed of four JavaScript libraries: ExtJS, OpenLayers, GeoExt and MapFish. The functionality of all these libraries will be highlighted with some example code.
+
+.. _mapfish_client_extjs:
+
+ExtJS
+^^^^^
+
+Ext JS is a cross-browser JavaScript library for building rich internet applications. It provides a `very large list of UI components <http://www.extjs.com/deploy/dev/examples/samples.html>`_.
+
+Some editors can help to create ExtJS UI: `GUI Builder <http://tof2k.com/ext/formbuilder/>`_  or `GUI Designer <http://www.projectspace.nl/>`_. To know more about this technology, you can follow the :ref:`extjs`. 
+
+.. note::
+
+   In order to play with ExtJS, it is needed to reference the ExtJS library and the associated css (more information here: :ref:`get_prepared_extjs`). For simplicity, we have prepared an accessible build with `CacheFly <http://extjs.com/products/extjs/build/index.php>`_.
+
+   Then, simply add the following code in the html page:
+   
+   <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+   
+   <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css" />
+
+Ext "Hello World"
+"""""""""""""""""
+
+Create your own html page with the following code. If you open it in a browser, you should get a message "Hello World!  You have ExtJS configured correctly!"
+
+(To test: :download:`extjs_hello_world.html <_static/extjs_hello_world.html>`):
+
+.. code-block:: html
+
+  <html>
+     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title id='title'>ExtJS Hello World</title>
+
+        <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css" />
+
+        <script type="text/javascript">
+        Ext.onReady(function(){
+           alert("Hello World!  You have ExtJS configured correctly!");
+        }); //end onReady
+        </script>
+
+     </head>
+     <body>
+     </body>
+   </html>
+
+Ext.Viewport
+""""""""""""
+
+The Viewport renders itself to the document body, and automatically sizes itself to the size of the browser viewport and manages window resizing. There may only be one Viewport created in a page. Let's have a look at the configuration of a `viewport <http://www.extjs.com/deploy/dev/docs/?class=Ext.Viewport>`_:
+
+(To test: :download:`extjs_viewport.html <_static/extjs_viewport.html>`)
+
+.. code-block:: html
+
+  <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <title id='title'>ExtJS Viewport</title>
+
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css"/>
+
+    <script type="text/javascript">
+        Ext.onReady(function() {
+            new Ext.Viewport({
+                layout: 'border',
+                items: [
+                    {
+                        region: 'north',
+                        html: '<h1 class="x-panel-header">Page Title</h1>',
+                        autoHeight: true,
+                        border: false,
+                        margins: '0 0 5 0'
+                    },
+                    {
+                        region: 'west',
+                        collapsible: true,
+                        title: 'Navigation',
+                        xtype: 'treepanel',
+                        width: 200,
+                        autoScroll: true,
+                        split: true,
+                        loader: new Ext.tree.TreeLoader(),
+                        root: new Ext.tree.AsyncTreeNode({
+                            expanded: true,
+                            children: [
+                                {
+                                    text: 'Menu Option 1',
+                                    leaf: true
+                                },
+                                {
+                                    text: 'Menu Option 2',
+                                    leaf: true
+                                },
+                                {
+                                    text: 'Menu Option 3',
+                                    leaf: true
+                                }
+                            ]
+                        }),
+                        rootVisible: false,
+                        listeners: {
+                            click: function(n) {
+                                Ext.Msg.alert('Navigation Tree Click', 'You clicked: "' + n.attributes.text + '"');
+                            }
+                        }
+                    },
+                    {
+                        region: 'center',
+                        xtype: 'tabpanel',
+                        items: {
+                            title: 'Default Tab',
+                            html: 'The first tab\'s content. Others may be added dynamically'
+                        }
+                    },
+                    {
+                        region: 'south',
+                        title: 'Information',
+                        collapsible: true,
+                        html: 'Information goes here',
+                        split: true,
+                        height: 100,
+                        minHeight: 100
+                    }
+                ]
+            });
+        }); //end onReady
+    </script>
+
+  </head>
+  <body>
+  </body>
+  </html>
+
+Ext.grid.GridPanel
+""""""""""""""""""
+
+`Globe application <http://map.globe.admin.ch>`_ uses a `grid panel <http://extjs.com/deploy/dev/docs/?class=Ext.grid.GridPanel>`_:
+
+ .. image:: _static/mapfish_globe.png
+
+.. _mapfish_client_openlayers:
+
+OpenLayers
+^^^^^^^^^^
+
+OpenLayers makes it easy to put a dynamic map in any web page. It can display map tiles and markers loaded from any source.
+
+Have a look at the `OpenLayers examples <http://openlayers.org/dev/examples/>`_ to see the power of this library.
+
+.. note::
+
+   In order to play with OpenLayers, it is needed to reference the OpenLayers library.
+
+   Simply add the following code in the html page:
+
+   <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+Map
+"""
+
+Instances of `OpenLayers.Map <http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/files/OpenLayers/Map-js.html>`_ are interactive maps embedded in a web page.
+
+(To test: :download:`openlayers_map.html <_static/openlayers_map.html>`)
+
+.. code-block:: html
+
+   <html>
+   <head>
+      <title>OpenLayers Map</title>
+
+      <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+      <script type="text/javascript">
+         var map, layer;
+         function init() {
+            map = new OpenLayers.Map('map');
+            layer = new OpenLayers.Layer.WMS("OpenLayers WMS",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'}
+                    );
+            map.addLayer(layer);
+            map.zoomToMaxExtent();
+         }
+      </script>
+   </head>
+
+   <body onload="init()">
+
+   <div id="map"></div>
+
+   </body>
+   </html>
+
+Editing Toolbar
+"""""""""""""""
+
+`Editing Toolbar <http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/_staticOpenLayers/Control/EditingToolbar-js.html>`_
+
+(To test: :download:`openlayers_editing_toolbar.html <_static/openlayers_editing_toolbar.html>`)
+
+.. code-block:: html
+
+   <html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+    <title>OpenLayers Editing Toolbar </title>
+
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+    <script type="text/javascript">
+        var lon = 5;
+        var lat = 40;
+        var zoom = 5;
+        var map, layer;
+
+        function init() {
+            layer = new OpenLayers.Layer.WMS("OpenLayers WMS",
+                    "http://labs.metacarta.com/wms/vmap0",
+                    {layers: 'basic'}
+                    );
+
+            vlayer = new OpenLayers.Layer.Vector("Editable");
+            map = new OpenLayers.Map('map', {
+                controls: [
+                    new OpenLayers.Control.PanZoom(),
+                    new OpenLayers.Control.EditingToolbar(vlayer)
+                ]
+            });
+            map.addLayers([layer, vlayer]);
+
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+        }
+    </script>
+   </head>
+   <body onload="init()">
+   <div id="map"></div>
+   </body>
+   </html>
+
+Popup
+"""""
+
+`Swissrivers.ch application <http://www.swissrivers.ch>`_ uses `OpenLayers popups <http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/files/OpenLayers/Popup-js.html>`_ to present hydrogramms.
+
+ .. image:: _static/mapfish_swissrivers.png
+
+.. _mapfish_client_geoext:
+
+GeoExt
+^^^^^^
+
+GeoExt is a JavaScript library providing the groundwork for creating web-mapping applications based on OpenLayers and ExtJS.
+
+Have a look at the `GeoExt examples <http://dev.geoext.org/trunk/geoext/examples/>`_ to see the power of this library.
+
+.. note::
+
+   In order to play with GeoExt, it is needed to reference the OpenLayers, ExtJS and GeoExt library.
+
+   For GeoExt, simply add the following code in the html page:
+
+   <script src="http://dev.geoext.org/trunk/geoext/lib/GeoExt.js"></script>
+
+   GeoExt relies on features from OpenLayers 2.8. Until OpenLayers 2.8 is released, you can use the latest release candidate (link directly to http://openlayers.org/api/2.8-rc2/OpenLayers.js)
+
+GeoExt.MapPanel
+"""""""""""""""
+
+A GeoExt MapPanel is an OpenLayers map integrated into an ExtJS Panel.
+
+(To test: :download:`geoext_mappanel.html <_static/geoext_mappanel.html>`)
+
+.. code-block:: html
+
+   <html>
+   <head>
+
+    <title>GeoExt Map Panel</title>
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css"/>
+
+    <script src="http://openlayers.org/api/2.8-rc2/OpenLayers.js"></script>
+
+    <script src="http://dev.geoext.org/trunk/geoext/lib/GeoExt.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        Ext.onReady(function() {
+            var map = new OpenLayers.Map();
+            var layer = new OpenLayers.Layer.WMS(
+                    "Blue Marble",
+                    "http://sigma.openplans.org/geoserver/wms?",
+            {layers: "bluemarble"}
+                    );
+            map.addLayer(layer);
+
+            new GeoExt.MapPanel({
+                renderTo: 'gxmap',
+                height: 400,
+                width: 600,
+                map: map,
+                title: 'GeoExt Map Panel'
+            });
+        });
+    </script>
+   </head>
+   <body>
+   <div id="gxmap"></div>
+   </body>
+   </html>
+
+GeoExt.Action
+"""""""""""""
+
+GeoExt provides the GeoExt.Action class for adaptating a control to an object that can be inserted in a toolbar or in a menu.
+
+(To test: :download:`geoext_action.html <_static/geoext_action.html>`)
+
+.. code-block:: html
+
+   <html>
+   <head>
+    <title>GeoExt Action</title>
+
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css"/>
+
+    <script src="http://openlayers.org/api/2.8-rc2/OpenLayers.js"></script>
+
+    <script type="text/javascript" src="http://dev.geoext.org/trunk/geoext/lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+        Ext.onReady(function() {
+            var map = new OpenLayers.Map();
+            var wms = new OpenLayers.Layer.WMS(
+                    "bluemarble",
+                    "http://sigma.openplans.org/geoserver/wms?",
+            {layers: 'bluemarble'}
+                    );
+            var vector = new OpenLayers.Layer.Vector("vector");
+            map.addLayers([wms, vector]);
+
+            var ctrl, toolbarItems = [], action, actions = {};
+
+            // ZoomToMaxExtent control, a "button" control
+            action = new GeoExt.Action({
+                control: new OpenLayers.Control.ZoomToMaxExtent(),
+                map: map,
+                text: "max extent"
+            });
+            actions["max_extent"] = action;
+            toolbarItems.push(action);
+            toolbarItems.push("-");
+
+            // Navigation control and DrawFeature controls
+            // in the same toggle group
+            action = new GeoExt.Action({
+                text: "nav",
+                control: new OpenLayers.Control.Navigation(),
+                map: map,
+                // button options
+                toggleGroup: "draw",
+                allowDepress: false,
+                pressed: true,
+                // check item options
+                group: "draw",
+                checked: true
+            });
+            actions["nav"] = action;
+            toolbarItems.push(action);
+
+            action = new GeoExt.Action({
+                text: "draw poly",
+                control: new OpenLayers.Control.DrawFeature(
+                        vector, OpenLayers.Handler.Polygon
+                        ),
+                map: map,
+                // button options
+                toggleGroup: "draw",
+                allowDepress: false,
+                // check item options
+                group: "draw"
+            });
+            actions["draw_poly"] = action;
+            toolbarItems.push(action);
+
+            action = new GeoExt.Action({
+                text: "draw line",
+                control: new OpenLayers.Control.DrawFeature(
+                        vector, OpenLayers.Handler.Path
+                        ),
+                map: map,
+                // button options
+                toggleGroup: "draw",
+                allowDepress: false,
+                // check item options
+                group: "draw"
+            });
+            actions["draw_line"] = action;
+            toolbarItems.push(action);
+            toolbarItems.push("-");
+
+            // SelectFeature control, a "toggle" control
+            action = new GeoExt.Action({
+                text: "select",
+                control: new OpenLayers.Control.SelectFeature(vector, {
+                    type: OpenLayers.Control.TYPE_TOGGLE,
+                    hover: true
+                }),
+                map: map,
+                // button options
+                enableToggle: true
+            });
+            actions["select"] = action;
+            toolbarItems.push(action);
+            toolbarItems.push("-");
+
+            // Navigation history - two "button" controls
+            ctrl = new OpenLayers.Control.NavigationHistory();
+            map.addControl(ctrl);
+
+            action = new GeoExt.Action({
+                text: "previous",
+                control: ctrl.previous,
+                disabled: true
+            });
+            actions["previous"] = action;
+            toolbarItems.push(action);
+
+            action = new GeoExt.Action({
+                text: "next",
+                control: ctrl.next,
+                disabled: true
+            });
+            actions["next"] = action;
+            toolbarItems.push(action);
+            toolbarItems.push("->");
+
+            // Reuse the GeoExt.Action objects created above
+            // as menu items
+            toolbarItems.push({
+                text: "menu",
+                menu: new Ext.menu.Menu({
+                    items: [
+                        // ZoomToMaxExtent
+                        actions["max_extent"],
+                        // Nav
+                        new Ext.menu.CheckItem(actions["nav"]),
+                        // Draw poly
+                        new Ext.menu.CheckItem(actions["draw_poly"]),
+                        // Draw line
+                        new Ext.menu.CheckItem(actions["draw_line"]),
+                        // Select control
+                        new Ext.menu.CheckItem(actions["select"]),
+                        // Navigation history control
+                        actions["previous"],
+                        actions["next"]
+                    ]
+                })
+            });
+
+            var mapPanel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4,
+                tbar: toolbarItems
+            });
+        });
+    </script>
+
+    <style type="text/css">
+            /* work around an Ext bug that makes the rendering
+               of menu items not as one would expect */
+        .ext-ie .x-menu-item-icon {
+            left: -24px;
+        }
+
+        .ext-strict .x-menu-item-icon {
+            left: 3px;
+        }
+
+        .ext-ie6 .x-menu-item-icon {
+            left: -24px;
+        }
+
+        .ext-ie7 .x-menu-item-icon {
+            left: -24px;
+        }
+    </style>
+   </head>
+   <body>
+   <div id="mappanel"></div>
+   </body>
+
+   </html>
+
+
+.. _mapfish_client_mapfishjs:
+
+MapFish Javacript
+^^^^^^^^^^^^^^^^^
+
+MapFish JavaScript contains specific MapFish UI components that are not part of the other libraries.
+
+Print
+"""""
+
+(To test: `basic_print.html <http://demo.mapfish.org/mapfishsample/trunk/examples/print/basic.html>`_)
+
+.. code-block:: html
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <title>Map printing with a simple form</title>
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" type="text/css"
+      href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css"/>
+  <link rel="stylesheet" type="text/css"
+      href="http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/mapfish.css"/>
+
+  <script type="text/javascript"
+        src="http://openlayers.org/api/OpenLayers.js"></script>
+
+  <script type="text/javascript"
+        src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+
+  <script type="text/javascript" src="http://dev.geoext.org/trunk/geoext/lib/GeoExt.js"></script>
+
+  <script type="text/javascript">
+  // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+  // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+  var gMfLocation = "http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/";
+  </script>
+  <script type="text/javascript" src="http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/MapFish.js"></script>
+
+  <style type="text/css">
+  html, body {
+    font: normal 12px verdana;
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    overflow: hidden;
+    height: 100%;
+  }
+  </style>
+  <script type="text/javascript">
+  // reference local blank image
+  Ext.BLANK_IMAGE_URL = 'http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/ext/resources/images/default/s.gif';
+  Ext.onReady(function() {
+
+    var map = new OpenLayers.Map();
+
+    var wms = new OpenLayers.Layer.WMS("OpenLayers WMS",
+            "http://labs.metacarta.com/wms/vmap0", {layers: 'basic'}, {buffer: 0});
+
+    var layerOverrides={
+        "OpenLayers WMS": {overview: true}
+    };
+
+    var printConfigUrl = mapfish.SERVER_BASE_URL + 'print/info.json';
+
+    var toolbar = new mapfish.widgets.toolbar.Toolbar({
+        map: map,
+        configurable: false,
+        items: [new mapfish.widgets.print.PrintAction({
+            map: map,
+            configUrl: printConfigUrl,
+            overrides: layerOverrides
+        })]
+    });
+
+    var viewport = new Ext.Viewport({
+      layout:'border',
+      items:[
+        new Ext.BoxComponent({ // raw
+          region: 'north',
+          el: 'north',
+          height: 32,
+          margins: {left: 5,top: 5}
+        }),
+        {
+          region: 'west',
+          id: 'west-panel',
+          title: 'West',
+          split: true,
+          width: 280,
+          minSize: 175,
+          maxSize: 400,
+          collapsible: true,
+          margins: '0 0 0 5',
+          layout: 'accordion',
+          defaults: {
+            collapsed: true
+          },
+          layoutConfig:{
+            animate: true,
+            activeOnTop: false
+          },
+          items: [
+            {
+              xtype: 'print-simple',
+              title: 'Print single page',
+              bodyStyle: 'padding: 7px;',
+	      collapsed: false,
+              formConfig: {
+                labelWidth: 65,
+                defaults: {
+                  width: 140,
+                  listWidth: 140
+                },
+                items: [
+                  {
+                    xtype: 'textfield',
+                    fieldLabel: OpenLayers.Lang.translate('mf.print.mapTitle'),
+                    name: 'mapTitle',
+                    value: 'Map title'
+                  },
+                  {
+                    xtype: 'textarea',
+                    fieldLabel: OpenLayers.Lang.translate('mf.print.comment'),
+                    name: 'comment',
+                    height: 100,
+                    value: 'Some comments'
+                  }
+                ]
+              },
+              border: false,
+              map: map,
+              configUrl: printConfigUrl,
+              overrides: layerOverrides
+            }
+          ]
+        },{
+            region: 'center',
+            title: 'Map',
+            layout: 'fit',
+            xtype: 'gx_mappanel',
+            map: map,
+            layers: [wms],
+            tbar: toolbar,
+            zoom: 3,
+            center:new OpenLayers.LonLat(8.5, 0)
+        }]
+    });
+  });
+  </script>
+  </head>
+  <body>
+  <div id="west"></div>
+
+   <div id="north">
+    <p style="font-size:16pt;color:#15428B;font-weight:bold">MapFish example: print</p>
+  </div>
+  <div id="center"></div>
+  </body>
+  </html>
+
+Recenter
+""""""""
+
+(To test: `datafield.html <http://demo.mapfish.org/mapfishsample/trunk/examples/recenter/datafield.html>`_)
+
+.. code-block:: html
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Recenter DataField</title>
+    <link rel="stylesheet" type="text/css"
+        href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css"
+        href="http://demo.mapfish.org/mapfishsample/trunk/mfbase/mapfish/mapfish.css"/>
+
+    <script type="text/javascript"
+          src="http://demo.mapfish.org/mapfishsample/trunk/mfbase/openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript"
+          src="http://demo.mapfish.org/mapfishsample/trunk/mfbase/ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript"
+          src="http://demo.mapfish.org/mapfishsample/trunk/mfbase/ext/ext-all-debug.js"></script>
+    <script type="text/javascript"
+          src="http://demo.mapfish.org/mapfishsample/trunk/mfbase/geoext/lib/GeoExt.js"></script>
+    <script type="text/javascript">
+      // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+      // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+      var gMfLocation = "http://demo.mapfish.org/mapfishsample/trunk/mfbase/mapfish/";
+    </script>
+    <script type="text/javascript"
+          src="http://demo.mapfish.org/mapfishsample/trunk/mfbase/mapfish/MapFish.js"></script>
+    <script type="text/javascript"
+          src="http://demo.mapfish.org/mapfishsample/trunk/examples/examples.js"></script>
+
+    <script type="text/javascript">
+        Ext.onReady(function() {
+            var map = new OpenLayers.Map();
+            var layer = new OpenLayers.Layer.WMS(
+                "bluemarble",
+                "http://sigma.openplans.org/geoserver/wms?",
+                {layers: 'bluemarble'}
+            );
+            map.addLayer(layer);
+
+            var mapPanel = new GeoExt.MapPanel({
+                title: "MapPanel",
+                renderTo: "map",
+                height: 400,
+                width: 600,
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+
+            var recenter = new mapfish.widgets.recenter.DataField({
+                title: "Recenter",
+                url: mapfish.SERVER_BASE_URL + "countries",
+                map: map,
+                fieldLabel: "Africa country",
+                displayField: "country",
+                renderTo: "recenter",
+                height: 400,
+                width: 250
+            });
+        });
+    </script>
+  </head>
+
+  <body>
+    <div id="map" style="float:left;"></div>
+    <div id="recenter" style="float:left;"></div>
+  </body>
+  </html>
+
+.. _mapfish_api:
+
+MapFish API
+"""""""""""
+
+The goal of the MapFish API is to allow the integration of a MapFish application inside a web page or a CMS.
+
+The `SwitzerlandMobility project <http://map.veloland.ch/?lang=en>`_ has an API:
+
+.. code-block:: html
+
+   <html>
+   <head>
+    <title>Veloland API</title>
+    <script type="text/javascript" src="http://map.schweizmobil.ch/api/api_merged.js"></script>
+    <script type="text/javascript">
+        function init() {
+
+            // centering example map
+            new SchweizmobilApi({
+                land: 'wander',
+                mapContainerId: 'mymap1',
+                center: {
+                    easting: 600000,
+                    northing: 200000,
+                    zoom: 20
+                }
+            });
+        }
+    </script>
+   </head>
+   <body onload="init()">
+     <div id="mymap1" style="width:800px;height:600px;border:1px solid grey;float:left;margin:10px !important;"></div>
+   </body>
+   </html>
+
+Live example of this API (`copyright and privacy policy <http://www.wanderland.ch/en/copyright_datenschutz.cfm>`_):
+
+.. raw:: html
+
+   <script type="text/javascript" src="http://map.schweizmobil.ch/api/api_merged.js"></script>
+    <script type="text/javascript">
+        function init() {
+
+            // centering example map
+            new SchweizmobilApi({
+                land: 'wander',
+                mapContainerId: 'mymap1',
+                center: {
+                    easting: 600000,
+                    northing: 200000,
+                    zoom: 20
+                }
+            });
+        }
+    </script>
+   </head>
+   <body onload="init()">
+     <div id="mymap1" style="width:600px;height:400px;border:1px solid grey;padding: 0 0 0 0;margin:10px !important;"></div>
+   </body>
+
+MapFish Permalink
+"""""""""""""""""
+
+A MapFish permalink is an hyperlink that will return the user to the current MapFish view and configuration. The URL parameters store the application state.
+
+ * Permalink with centering on a city: http://map.veloland.ch?lang=en&p&gemeinde=249372
+
+.. _mapfish_server:
+
+MapFish Server
+--------------
+
+MapFish Server is responsible for server side treatments and is composed of several modules which can be implemented in several languages such as Python, Java, Ruby, PHP or others.
+
+
+.. note::
+
+   This chapter will be focused on the Python trunk. Python 2.5 has to be used. Other languages like Java, Ruby or PHP will be discussed here: :ref:`mapfish_server_other_languages`.
+   This introduction is done for computer with an Ubuntu distribution.
+    
+Data Storage
+^^^^^^^^^^^^
+
+In MapFish server, the data are usually stored in a geospatial database (PostGIS, Oracle Spatial, SpatialLite for example) or as flat files (Shapefile, GeoTIFF, Mif/Mid etc..). In Python, OGR/GDAL functions can be used through a `Python binding <http://trac.osgeo.org/gdal/wiki/GdalOgrInPython>`_.
+
+Load vector data in PostGIS
+"""""""""""""""""""""""""""
+
+In order to load the countries file (:download:`countries.zip <_static/countries.zip>`) in a PostGIS database (we assume `PostGis database is installed <http://postgis.refractions.net/documentation/manual-1.3/ch02.html>`_), the following procedure can be follow:
+
+Create a new database "intro"::
+
+  sudo su postgres
+  createdb -E UNICODE intro
+  createlang plpgsql intro
+  psql -d intro -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+  psql -d intro -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql
+  psql -d intro -c "SELECT postgis_full_version()"
+  exit
+
+The last query will inform you about the version of the installed PostGIS version.
+
+Import the data in the "intro" database::
+
+  unzip countries.zip
+  sudo su postgres
+  shp2pgsql -W utf8 -s 4326 countries.shp  countries | psql -d intro
+  exit
+
+And to check that everything is ok. Additionaly we need to grant the access to this table to user www-data in order to allow an access from MapFish server in a web environment::
+
+  sudo su postgres
+  psql intro
+  \d
+  select count(1) from countries;
+  GRANT ALL ON countries TO "www-data" ;
+  GRANT SELECT ON geometry_columns TO "www-data";
+  GRANT SELECT ON spatial_ref_sys TO "www-data";
+  \q
+  exit
+
+Data Stylization
+^^^^^^^^^^^^^^^^
+
+MapFish Server is not a cartographic server. For customer projects, a cartographic server is usually set up together with MapFish Server in order to diffuse the geographic data. With `MapServer <http://www.mapserver.org>`_, the stylization and creation of WMS/WFS services is done through the configuration of the `MapFile <http://www.mapserver.org/mapfile/index.html#mapfile>`_. 
+
+Data Access: MapFish REST Protocol
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In order to access data, a REST architecture is used within MapFish Server. A protocol characterized this architecture and defines a common language for creating/reading/querying/updating/deleting features.
+
+To read features, here are example URL's. The answer is provided as GeoJSON flow:
+
+
+ * Request: GET http://www.example.fr/features?lon=5&lat=50
+ * Response: the features that contain point (5,50)
+
+ * Request: GET http://www.example.fr/features?box=5,50,7,60
+ * Response: the features within the bounding box (5,50,7,60)
+
+ * Request: GET http://www.example.fr/features?maxfeatures=3
+ * Response: a maximum of 3 features
+
+A complete description of the protocol can be found `here <http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol>`_.
+
+Generation of MapFish REST Protocol
+"""""""""""""""""""""""""""""""""""
+
+It's clear that, programmatically, the MapFish REST protocol is dependent of the user data. But, in order to simplify the development of web mapping applications, MapFish provides functions that can generate, based on a configuration file, the code for you.
+
+More information on this `in the MapFish Wiki <http://trac.mapfish.org/trac/mapfish/wiki/Releases/1.2/HowToUseMapFishServer#Setuplayers>`_.
+
+More details about the generated code can be found in :ref:`sqlalchemy`.
+
+Install first the MapFish Framework: :ref:`installation`.
+
+Then, in order to create a MapFish protocol, follow theses steps::
+
+  source venv/bin/activate
+  paster create --template=mapfish intro sqlalchemy=true
+
+Configure the connection to the PostGis database by editing development.ini::
+
+  sqlalchemy.url = postgres://www-data:www-data@localhost:5432/intro
+
+You can test that the server is ready by starting::
+  
+  paster serve development.ini --reload
+
+And testing the URL http://localhost:5000
+
+.. _configure_mapfish_protocol:
+
+Configure the information about the countries layer in file layers.ini::
+
+  [countries]
+  singular=country
+  plural=countries
+  table=countries
+  epsg=4326
+  geomcolumn=the_geom
+
+And let MapFish generates the code for you !::
+
+  paster mf-layer countries
+
+Last thing: don't forget to add the correct route in intro/config/routing.py (**before** map.connect('/{controller}/{action}')), if root directory is where layers.ini and development.ini are.::
+
+  map.resource("country", "countries")
+
+It's now ok. You can start the server::
+
+  paster serve development.ini --reload
+
+And use the MapFish Protocol::
+
+  http://localhost:5000/countries/1
+
+  view-source:http://localhost:5000/countries/1
+
+.. note::
+
+  view-source is for for Firefox users
+
+Get all the countries that contain point (5,50)::
+
+   view-source:http://localhost:5000/countries?lon=5&lat=50
+
+Get all the countries within the bounding box (5,50,7,60)::
+
+   view-source:http://localhost:5000/countries?box=5,50,7,60
+
+Get a maximum of 3 countries::
+
+   view-source:http://localhost:5000/countries?maxfeatures=3
+
+Get the list of all countries.pays attribute, without geometries::
+
+   view-source:http://localhost:5000/countries?attrs=pays&no_geom=true
+
+MapFish Template
+""""""""""""""""
+
+MapFish uses the power of paster to let you easily create new MapFish applications. With paster, you can generate the code for your application based on a MapFish template::
+
+  paster create --template=mapfish intro sqlalchemy=true
+  
+In addition, you can create a template from your application in order to reuse it.
+
+Additional Libraries for MapFish
+""""""""""""""""""""""""""""""""
+
+The `Python Package Index <http://pypi.python.org/pypi>`_ is a repository of software for the Python programming language. An huge amount of libraries (6000+ !) are referenced over there. MapFish can work together with the majority of them. Here is a listing of often uses libraries:
+
+ * `AuthKIT <http://pypi.python.org/pypi/AuthKit>`_: An authentication and authorization toolkit for WSGI applications and frameworks
+ * `repoze.who <http://pypi.python.org/pypi/repoze.who>`_: An identification and authentication framework for WSGI.
+ * `FormAlchemy <http://pypi.python.org/pypi/FormAlchemy/>`_: FormAlchemy greatly speeds development with SQLAlchemy mapped classes (models) in a HTML forms environment.
+ * `GDAL Python Binding <http://pypi.python.org/pypi/GDAL>`_: This Python package and extensions are a number of tools for programming and manipulating the GDAL Geospatial Data Abstraction Library for manipulating raster data and OGR for manipulating geospatial vector data.
+
+
+Example: recenter tool with autocompletion
+""""""""""""""""""""""""""""""""""""""""""
+
+The creation of a recentering tool providing autocompletion capabilities implies two developments. On client side, a recentering widget is needed to manage the user input. This widget will communicate with a server side service: the MapFish protocol.
+
+(To test: :download:`local_recenter.html <_static/local_recenter.html>` and store it in intro/public and start it with http://127.0.0.1:5000/local_recenter.html):
+
+
+.. code-block:: html
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Map recenter with autocompletion</title>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" type="text/css"
+          href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/mapfish.css"/>
+
+    <script type="text/javascript"
+            src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript"
+            src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script type="text/javascript"
+            src="http://dev.geoext.org/trunk/geoext/lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+        // Because of a bug in Firefox 2 we need to specify the MapFish base path.
+        // See https://bugzilla.mozilla.org/show_bug.cgi?id=351282
+        var gMfLocation = "http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/";
+    </script>
+    <script type="text/javascript"
+            src="http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/MapFish.js"></script>
+
+    <style type="text/css">
+        html, body {
+            font: normal 12px verdana;
+            margin: 0;
+            padding: 0;
+            border: 0 none;
+            overflow: hidden;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript">
+        // reference local blank image
+        Ext.BLANK_IMAGE_URL = 'http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/ext/resources/images/default/s.gif';
+        Ext.onReady(function() {
+
+            var map = new OpenLayers.Map();
+
+            var wms = new OpenLayers.Layer.WMS("OpenLayers WMS",
+                    "http://labs.metacarta.com/wms/vmap0",
+            {layers: 'basic'},
+            {buffer: 0}
+                    );
+
+            var viewport = new Ext.Viewport({
+                layout:'border',
+                items:[
+                    new Ext.BoxComponent({ // raw
+                        region: 'north',
+                        el: 'north',
+                        height: 32
+                    }),
+                    {
+                        region: 'west',
+                        id: 'west-panel',
+                        title: 'West',
+                        split: true,
+                        width: 320,
+                        minSize: 175,
+                        maxSize: 400,
+                        collapsible: true,
+                        margins: '0 0 0 5',
+                        layout: 'accordion',
+                        defaults: {
+                            collapsed: true
+                        },
+                        layoutConfig:{
+                            animate: true,
+                            activeOnTop: false
+                        },
+                        items: [
+                            {
+                                xtype: 'datafieldrecenter',
+                                title: 'Recenter',
+                                bodyStyle: 'padding: 7px;',
+                                collapsed: false,
+                                url: "/countries",
+                                map: map,
+                                fieldLabel: "Country name",
+                                displayField: "pays"
+                            }
+                        ]
+                    },{
+                        region: 'center',
+                        title: 'Map',
+                        layout: 'fit',
+                        xtype: 'gx_mappanel',
+                        map: map,
+                        layers: [wms],
+                        center: new OpenLayers.LonLat(8.5, 0),
+                        zoom: 3
+
+                    }]
+            });
+        });
+    </script>
+  </head>
+  <body>
+  <div id="west"></div>
+  <div id="north">
+    <p style="font-size:16pt;color:#15428B;font-weight:bold">MapFish recenter</p>
+  </div>
+  </body>
+  </html>
+
+Example: MapFish edition and authentication
+"""""""""""""""""""""""""""""""""""""""""""
+
+`Globe application <http://map.globe.admin.ch>`_ uses the MapFish protocol to allow edition and have authentication capabilities.
+
+ .. image:: _static/mapfish_globe.png
+
+.. _mapfish_server_other_languages:
+
+MapFish Server in Java, Ruby or PHP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Java
+""""
+
+MapFish contains two main `java developments <http://trac.mapfish.org/trac/mapfish/browser/trunk/MapFish/server/java>`_:
+
+ * The print module: `print documentation <http://www.mapfish.org/trac/mapfish/wiki/PrintModuleDoc>`_ / `print sample <http://demo.mapfish.org/mapfishsample/trunk/examples/print/simple.html>`_
+ * A library for the management of geometries and the parsing/writing of GeoJSON
+
+Ruby
+""""
+
+The Mapfish REST protocol for Ruby is implemented as a plugin for the `Ruby on Rails <http://www.rubyonrails.org/>`_ framework. `MapFish Ruby documentation <http://trac.mapfish.org/trac/mapfish/browser/trunk/MapFish/server/ruby/mapfish/README>`_.
+
+PHP
+"""
+
+A `Symfony MapFish Plug-in <http://www.symfony-project.org/plugins/sfMapFishPlugin>`_ has been developped to easily develop MapFish application with PHP. This plug-in contains a GeoJSON parser and writer and a bridge to the MapFish print server. It uses Doctrine as ORM. The main goal of this plug-in is to create a MapFish protocol in a PHP environment.
+
+Studio: MapFish generator
+-------------------------
+
+Studio is a web software used to administrate web mapping applications based on `MapFish <http://www.mapfish.org>`_ framework.
+
+  .. note::
+
+    Studio's motto are "no development" and "no file edition"
+    
+Studio UI is divided in three functional parts:
+
+* Data: for the management of data stored as file or in a PostGis database
+* MapFile: for the easy creation of MapFile and the definition of WMS / WFS services in MapServer
+* MapFish: for the creation and publication of MapFish website. It is possible to configure the following components:
+
+  * Layer (through WMS or mapFile) and Layer tree
+  * Site Header
+  * Tooltip
+  * Search
+  * Edition
+  * Print
+
+.. image:: _static/studio_full_view.png
+
+More information: :ref:`work_with_studio`.
+
+Studio uses a Pylon template to create the MapFish applications. This template can be customized.

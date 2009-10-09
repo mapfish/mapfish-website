@@ -59,3 +59,15 @@ a {
 div.sphinxsidebar input {
     border: 1px solid #bbbbbb;
 }
+
+div.bodywrapper {
+    margin: 0 380px 0 0 !important;
+}
+
+div.sphinxsidebar {
+    width: 350px;
+}
+
+.logo {
+    padding-left:50px;
+}

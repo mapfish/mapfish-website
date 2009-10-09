@@ -9,6 +9,8 @@ Getting started
 
    installation
    quickstart
+   introduction
+   howto_app_development
 
 Main docs
 ---------

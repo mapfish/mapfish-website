@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>OpenLayers Editing Toolbar </title>
+
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+    <script type="text/javascript">
+        var lon = 5;
+        var lat = 40;
+        var zoom = 5;
+        var map, layer;
+
+        function init() {
+            layer = new OpenLayers.Layer.WMS("OpenLayers WMS",
+                    "http://labs.metacarta.com/wms/vmap0", {layers: 'basic'});
+
+            vlayer = new OpenLayers.Layer.Vector("Editable");
+            map = new OpenLayers.Map('map', {
+                controls: [
+                    new OpenLayers.Control.PanZoom(),
+                    new OpenLayers.Control.EditingToolbar(vlayer)
+                ]
+            });
+            map.addLayers([layer, vlayer]);
+
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+        }
+    </script>
+</head>
+<body onload="init()">
+<div id="map"></div>
+</body>
+</html>
