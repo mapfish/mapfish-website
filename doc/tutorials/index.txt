@@ -1,13 +1,37 @@
 Miscellaneous, Non-official Tutorials
 *************************************
 
+Server tutorials
+----------------
+
 .. toctree::
    :maxdepth: 1
 
    sqlalchemy
    pylons
 
+Client tutorials
+----------------
+
 .. toctree::
    :maxdepth: 1
 
    extjs
+
+Studio (BETA)
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   studio_user_guide
+   studio_developer_guide
+
+Miscellaneous
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   tiling
+   ogrs2009_lab

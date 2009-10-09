@@ -69,7 +69,7 @@ div.sphinxsidebar {
 }
 
 .logo {
-    padding-left:50px;
+    padding-left:40px;
 }
 
 div.sphinxsidebar h3 a {
@@ -84,7 +84,7 @@ div.sphinxsidebar h3 a {
    background-color:#ff5c00;
    position:absolute;
    right:485px;
-   top:39px;
+   top:37px;
    color: white !important;
 }
 
