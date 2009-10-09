@@ -71,3 +71,7 @@ div.sphinxsidebar {
 .logo {
     padding-left:50px;
 }
+
+div.sphinxsidebar h3 a {
+   color:white !important;
+}

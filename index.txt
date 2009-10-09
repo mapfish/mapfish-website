@@ -15,7 +15,7 @@ and editing geographic objects.
 
 MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
 testing environment, and tools for compressing JavaScript code. The JavaScript
-toolbox is composed of the `Ext <http://extjs.com>`_, `OpenLayers
+toolbox is composed of the `ExtJS <http://extjs.com>`_, `OpenLayers
 <http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
 toolkits, and specific components for interacting with MapFish web services.
 
