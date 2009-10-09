@@ -3,11 +3,11 @@
 MapFishAPI
 **********
 
-The MapFishAPI provides a way to create MapFish applications that can be integrated in CMS or can be configured through permalinks.
+The MapFishAPI provides a way to create MapFish applications that can be integrated in a CMS or another web application or can be configured through permalinks.
 
-The MapFishAPI can be seen as a development layer on the top of a MapFish application that exposes function to be used in the context of a CMS.
+The MapFishAPI can be seen as a development layer on the top of a MapFish application that exposes function to be used in the context of another web application.
 
-The MapFishAPI provides also general functions that will simplify the creation of a MapFish application.
+The MapFishAPI provides also general functions that will simplify the creation of MapFish applications.
 
 The class documentation of the MapFish API can be found here: TODO (http://www.mapfish.org/svn/mapfish/contribs/mapfish-api/trunk/apidoc/)
 
