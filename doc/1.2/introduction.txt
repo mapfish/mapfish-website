@@ -15,37 +15,74 @@ MapFish Framework
 What is a framework ?
 ---------------------
 
-MapFish is an easy-to-use and extensible web 2.0 mapping application framework.  But, what is a framework ? From `wikipedia <http://en.wikipedia.org/wiki/Framework>`_ : "A framework is a basic conceptual structure used to solve or address complex issues.". The framework aims to alleviate the overhead associated with common activities performed in Web mapping development.
+MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development.
+But, what is a framework ? From `wikipedia <http://en.wikipedia.org/wiki/Framework>`_ :
+"A framework is a basic conceptual structure used to solve or address complex issues.".
+The framework aims to alleviate the overhead associated with common activities performed in Web mapping development.
 
-In that sense, MapFish provides the technology for building web mapping applications. With :ref:`mapfish_client` technologies, the developer can create user interfaces and with :ref:`mapfish_server` technologies, it is possible to develop the necessary web services.
+In that sense, MapFish Framework provides the technology for building web mapping applications.
+With :ref:`mapfish_client` technologies, the developer can create user interfaces and with :ref:`mapfish_server` technologies, it is possible to develop the necessary web services.
 
-On the client side, JavaScript libraries are mainly used, on the server side, several languages can be used. Originally, Python components were used, but with the time, Java, Ruby and PHP components have also been developped. This shows the flexibility and openness of the framework.
+On the client side, JavaScript libraries are mainly used, on the server side, several languages can be used.
+Originally, Python components were used, but with the time, Java, Ruby and PHP components have also been developped.
+This shows the flexibility and openness of the framework.
 
 .. note::
 
-   MapFish is cartographic server agnostic. It can be used with `MapServer <http://www.mapserver.org>`_, `GeoServer <http://www.geoserver.org>`_, `MapGuide <http://www.mapguide.org>`_ or whatever cartographic server that is able to communicate with open protocols like WMS or WFS.
+   MapFish is cartographic server agnostic. It can be used with `MapServer <http://www.mapserver.org>`_, `GeoServer <http://www.geoserver.org>`_, `MapGuide <http://www.mapguide.org>`_
+   or whatever cartographic server that is able to communicate with open protocols like WMS or WFS.
 
+.. raw:: html
+
+   <script language=javascript type='text/javascript'>
+
+   function hidediv(div, showDiv, hideDiv) {
+      document.getElementById(div).style.visibility = 'hidden';
+      document.getElementById(div).style.display = 'none';
+      document.getElementById(hideDiv).style.visibility = 'hidden';
+      document.getElementById(hideDiv).style.display = 'none';
+      document.getElementById(showDiv).style.visibility = 'visible';
+      document.getElementById(showDiv).style.display = 'block';
+   }
+
+   function showdiv(div, showDiv, hideDiv) {
+      document.getElementById(div).style.visibility = 'visible';
+      document.getElementById(div).style.display = 'block';
+      document.getElementById(showDiv).style.visibility = 'hidden';
+      document.getElementById(showDiv).style.display = 'none';
+      document.getElementById(hideDiv).style.visibility = 'visible';
+      document.getElementById(hideDiv).style.display = 'block';
+   }
+   </script>
+   
 Components of MapFish framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Several Open Source technologies are used in MapFish:
+Several Open Source technologies are used in MapFish Framework:
 
  * `GeoExt <http://www.geoext.org>`_: GeoExt is a JavaScript library providing the groundwork for creating web-mapping applications based on OpenLayers and ExtJS.
  * `OpenLayers <http://www.openlayers.org>`_: OpenLayers makes it easy to put a dynamic map in any web page. It can display map tiles and markers loaded from any source.
  * `ExtJS <http://extjs.com/>`_: Ext JS is a cross-browser JavaScript library for building rich internet applications.
  * `Shapely <http://pypi.python.org/pypi/Shapely>`_: Shapely is a Python package for manipulation and analysis of 2D geospatial geometries. 
  * `SqlAlchemy <http://www.sqlalchemy.org/>`_: SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
+ * `GeoJSON <http://geojson.org/>`_: GeoJSON is a format for encoding a variety of geographic data structures.
+ * `Pylons <http://pylonshq.com/>`_: Pylons is a lightweight web framework emphasizing flexibility and rapid development.
+
+Additionaly, the creation of MapFish applications will use the following Open Source Technologies:
+
  * `TileCache <http://tilecache.org/>`_: TileCache provides a Python-based WMS-C/TMS server, with pluggable caching mechanisms and rendering backends.
  * `PostGIS <http://postgis.refractions.net/>`_: PostGIS adds support for geographic objects to the PostgreSQL object-relational database. In effect, PostGIS "spatially enables" the PostgreSQL server, allowing it to be used as a backend spatial database for geographic information systems (GIS).
- * `GeoJSON <http://geojson.org/>`_: GeoJSON is a format for encoding a variety of geographic data structures.
  * `OGR <http://www.gdal.org/ogr/index.html>`_: The OGR Simple Features Library is a C++ open source library providing read and sometimes write access to a variety of vector file formats.
  * `GDAL <http://www.gdal.org/>`_: is a translator library for raster geospatial data formats.
- * `Pylons <http://pylonshq.com/>`_: Pylons is a lightweight web framework emphasizing flexibility and rapid development.
 
 MapFish aggregates these components and ensure that they can work together.
 
-Architecture of MapFish application
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Architecture of MapFish applications
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The main goal of the MapFish Framework is to simplfiy the developer's life when building MapFish applications.
+The following schema describes the general architecture of MapFish applications:
 
  .. image:: _static/mapfish_architecture_en.png
 
@@ -61,7 +98,6 @@ On the **client side**, four JavaScript libraries are used to allow the creation
  * `LayerTree <http://dev.geoext.org/trunk/geoext/examples/mappanel-div.html>`_
  * `Search <http://demo.mapfish.org/mapfishsample/trunk/examples/search/c2corg.html>`_
  * `GeoStat <http://demo.mapfish.org/mapfishsample/trunk/examples/geostat/>`_
- * `3D (only on Windows and MacOS) <http://demo.mapfish.org/mapfishsample/trunk/examples/earth/earth.html>`_
  * `Toolbar <http://demo.mapfish.org/mapfishsample/trunk/examples/map/toolbar.html>`_
  * `Print <http://demo.mapfish.org/mapfishsample/trunk/examples/print/simple.html>`_
  * `Edit <http://demo.mapfish.org/mapfishsample/trunk/examples/editing/>`_
@@ -70,10 +106,11 @@ On the **client side**, four JavaScript libraries are used to allow the creation
 
 Through **internet** the data are transferred as JSON/GeoJSON or XML/GML data flow. OGC or other web services can of course be used by the client applications.
 
-Development of MapFish application
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Development of MapFish applications
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The MapFish Framework provides the bricks to create web mapping applications. From these bricks, there are two main ways to create custom MapFish applications.
+The MapFish Framework provides the bricks to create web mapping applications.
+From these bricks, there are two main ways to create custom MapFish applications.
 
 Application from scratch
 """"""""""""""""""""""""
@@ -85,7 +122,10 @@ In this case, the bricks of the framework are used to create a custom applicatio
 Application from template
 """""""""""""""""""""""""
 
-In this case, the bricks of the framework are used to create a template. The template can contain for example the general layout of the application or some base layers. This template can be used several times to create custom applications. And, of course, custom code can be done for the specific applications.
+In this case, the bricks of the framework are used to create a template.
+The template can contain for example the general layout of the application or some base layers.
+This template can be used several times to create custom applications.
+And, of course, custom code can be done for the specific applications.
 
  .. image:: _static/mapfish_template.png
 
@@ -127,9 +167,14 @@ Some editors can help to create ExtJS UI: `GUI Builder <http://tof2k.com/ext/for
 Ext "Hello World"
 """""""""""""""""
 
-Create your own html page with the following code. If you open it in a browser, you should get a message "Hello World!  You have ExtJS configured correctly!"
+Create your own html page with the following code :download:`extjs_hello_world.html <_static/extjs_hello_world.html>`.
+If you open it in a browser, you should get a message "Hello World!  You have ExtJS configured correctly!"
 
-(To test: :download:`extjs_hello_world.html <_static/extjs_hello_world.html>`):
+.. raw:: html
+
+    <a id="showRef2" href="javascript:showdiv('codeBlock2','showRef2','hideRef2')">Show code</a>
+    <a id="hideRef2" href="javascript:hidediv('codeBlock2','showRef2','hideRef2')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock2" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -152,12 +197,22 @@ Create your own html page with the following code. If you open it in a browser, 
      </body>
    </html>
 
+.. raw:: html
+
+    </div>
+       
 Ext.Viewport
 """"""""""""
 
 The Viewport renders itself to the document body, and automatically sizes itself to the size of the browser viewport and manages window resizing. There may only be one Viewport created in a page. Let's have a look at the configuration of a `viewport <http://www.extjs.com/deploy/dev/docs/?class=Ext.Viewport>`_:
 
-(To test: :download:`extjs_viewport.html <_static/extjs_viewport.html>`)
+To test: :download:`extjs_viewport.html <_static/extjs_viewport.html>`
+
+.. raw:: html
+
+    <a id="showRef3" href="javascript:showdiv('codeBlock3','showRef3','hideRef3')">Show code</a>
+    <a id="hideRef3" href="javascript:hidediv('codeBlock3','showRef3','hideRef3')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock3" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -241,6 +296,10 @@ The Viewport renders itself to the document body, and automatically sizes itself
   </body>
   </html>
 
+.. raw:: html
+
+   </div>
+   
 Ext.grid.GridPanel
 """"""""""""""""""
 
@@ -270,7 +329,13 @@ Map
 
 Instances of `OpenLayers.Map <http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/files/OpenLayers/Map-js.html>`_ are interactive maps embedded in a web page.
 
-(To test: :download:`openlayers_map.html <_static/openlayers_map.html>`)
+To test: :download:`openlayers_map.html <_static/openlayers_map.html>`
+
+.. raw:: html
+
+    <a id="showRef4" href="javascript:showdiv('codeBlock4','showRef4','hideRef4')">Show code</a>
+    <a id="hideRef4" href="javascript:hidediv('codeBlock4','showRef4','hideRef4')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock4" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -301,12 +366,22 @@ Instances of `OpenLayers.Map <http://dev.openlayers.org/releases/OpenLayers-2.7/
    </body>
    </html>
 
+.. raw:: html
+
+    </div>
+
 Editing Toolbar
 """""""""""""""
 
 `Editing Toolbar <http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/_staticOpenLayers/Control/EditingToolbar-js.html>`_
 
-(To test: :download:`openlayers_editing_toolbar.html <_static/openlayers_editing_toolbar.html>`)
+To test: :download:`openlayers_editing_toolbar.html <_static/openlayers_editing_toolbar.html>`
+
+.. raw:: html
+
+    <a id="showRef5" href="javascript:showdiv('codeBlock5','showRef5','hideRef5')">Show code</a>
+    <a id="hideRef5" href="javascript:hidediv('codeBlock5','showRef5','hideRef5')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock5" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -346,6 +421,10 @@ Editing Toolbar
    </body>
    </html>
 
+.. raw:: html
+
+    </div>
+
 Popup
 """""
 
@@ -377,7 +456,13 @@ GeoExt.MapPanel
 
 A GeoExt MapPanel is an OpenLayers map integrated into an ExtJS Panel.
 
-(To test: :download:`geoext_mappanel.html <_static/geoext_mappanel.html>`)
+To test: :download:`geoext_mappanel.html <_static/geoext_mappanel.html>`
+
+.. raw:: html
+
+    <a id="showRef6" href="javascript:showdiv('codeBlock6','showRef6','hideRef6')">Show code</a>
+    <a id="hideRef6" href="javascript:hidediv('codeBlock6','showRef6','hideRef6')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock6" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -417,12 +502,22 @@ A GeoExt MapPanel is an OpenLayers map integrated into an ExtJS Panel.
    </body>
    </html>
 
+.. raw:: html
+
+    </div>
+
 GeoExt.Action
 """""""""""""
 
 GeoExt provides the GeoExt.Action class for adaptating a control to an object that can be inserted in a toolbar or in a menu.
 
-(To test: :download:`geoext_action.html <_static/geoext_action.html>`)
+To test: :download:`geoext_action.html <_static/geoext_action.html>`
+
+.. raw:: html
+
+    <a id="showRef7" href="javascript:showdiv('codeBlock7','showRef7','hideRef7')">Show code</a>
+    <a id="hideRef7" href="javascript:hidediv('codeBlock7','showRef7','hideRef7')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock7" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -605,6 +700,9 @@ GeoExt provides the GeoExt.Action class for adaptating a control to an object th
 
    </html>
 
+.. raw:: html
+
+    </div>
 
 .. _mapfish_client_mapfishjs:
 
@@ -616,7 +714,13 @@ MapFish JavaScript contains specific MapFish UI components that are not part of 
 Print
 """""
 
-(To test: `basic_print.html <http://demo.mapfish.org/mapfishsample/trunk/examples/print/basic.html>`_)
+To test: `basic_print.html <http://demo.mapfish.org/mapfishsample/trunk/examples/print/basic.html>`_
+
+.. raw:: html
+
+    <a id="showRef8" href="javascript:showdiv('codeBlock8','showRef8','hideRef8')">Show code</a>
+    <a id="hideRef8" href="javascript:hidediv('codeBlock8','showRef8','hideRef8')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock8" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -767,10 +871,20 @@ Print
   </body>
   </html>
 
+.. raw:: html
+
+   </div>
+
 Recenter
 """"""""
 
-(To test: `datafield.html <http://demo.mapfish.org/mapfishsample/trunk/examples/recenter/datafield.html>`_)
+To test: `datafield.html <http://demo.mapfish.org/mapfishsample/trunk/examples/recenter/datafield.html>`_
+
+.. raw:: html
+
+    <a id="showRef9" href="javascript:showdiv('codeBlock9','showRef9','hideRef9')">Show code</a>
+    <a id="hideRef9" href="javascript:hidediv('codeBlock9','showRef9','hideRef9')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock9" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -841,6 +955,10 @@ Recenter
   </body>
   </html>
 
+.. raw:: html
+
+   </div>
+   
 .. _mapfish_api:
 
 MapFish API
@@ -1089,6 +1207,11 @@ The creation of a recentering tool providing autocompletion capabilities implies
 
 (To test: :download:`local_recenter.html <_static/local_recenter.html>` and store it in intro/public and start it with http://127.0.0.1:5000/local_recenter.html):
 
+.. raw:: html
+
+    <a id="showRef1" href="javascript:showdiv('codeBlock1','showRef1','hideRef1')">Show code</a>
+    <a id="hideRef1" href="javascript:hidediv('codeBlock1','showRef1','hideRef1')" style="display: none; visibility: hidden">Hide code</a>
+    <div id="codeBlock1" style="display: none; visibility: hidden">
 
 .. code-block:: html
 
@@ -1202,6 +1325,10 @@ The creation of a recentering tool providing autocompletion capabilities implies
   </body>
   </html>
 
+.. raw:: html
+
+   </div>
+
 Example: MapFish edition and authentication
 """""""""""""""""""""""""""""""""""""""""""
 
@@ -1232,10 +1359,10 @@ PHP
 
 A `Symfony MapFish Plug-in <http://www.symfony-project.org/plugins/sfMapFishPlugin>`_ has been developped to easily develop MapFish application with PHP. This plug-in contains a GeoJSON parser and writer and a bridge to the MapFish print server. It uses Doctrine as ORM. The main goal of this plug-in is to create a MapFish protocol in a PHP environment.
 
-Studio: MapFish generator
--------------------------
+Studio (BETA): MapFish Application generator
+--------------------------------------------
 
-Studio is a web software used to administrate web mapping applications based on `MapFish <http://www.mapfish.org>`_ framework.
+Studio is a web software used to administrate web mapping applications created from `MapFish <http://www.mapfish.org>`_ framework.
 
   .. note::
 
