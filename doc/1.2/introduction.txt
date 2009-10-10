@@ -1344,15 +1344,15 @@ MapFish Server in Java, Ruby or PHP
 Java
 """"
 
-MapFish contains two main `java developments <http://trac.mapfish.org/trac/mapfish/browser/trunk/MapFish/server/java>`_:
+MapFish contains two main Java components :
 
  * The print module: `print documentation <http://www.mapfish.org/trac/mapfish/wiki/PrintModuleDoc>`_ / `print sample <http://demo.mapfish.org/mapfishsample/trunk/examples/print/simple.html>`_
- * A library for the management of geometries and the parsing/writing of GeoJSON
+ * A library for the management of geometries and the parsing/writing of `GeoJSON <http://trac.mapfish.org/trac/mapfish/browser/contribs/java-geojson/trunk/>`_
 
 Ruby
 """"
 
-The Mapfish REST protocol for Ruby is implemented as a plugin for the `Ruby on Rails <http://www.rubyonrails.org/>`_ framework. `MapFish Ruby documentation <http://trac.mapfish.org/trac/mapfish/browser/trunk/MapFish/server/ruby/mapfish/README>`_.
+The Mapfish REST protocol for Ruby is implemented as a plugin for the `Ruby on Rails <http://www.rubyonrails.org/>`_ framework. `MapFish Ruby documentation <http://trac.mapfish.org/trac/mapfish/browser/implementations/rails-plugin/mapfish/trunk/README>`_.
 
 PHP
 """
