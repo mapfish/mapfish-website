@@ -6,19 +6,18 @@ Installation
 Installing system dependencies
 ------------------------------
 
-Python 2.5 or 2.6 must be installed. On Unix, the Python header files as well as
-PostgreSQL header files must also be installed.
+Python 2.5 or 2.6 must be installed. On Unix, the Python header files as well
+as PostgreSQL header files must also be installed. On Windows, the `Python for
+Windows extensions <http://sourceforge.net/projects/pywin32/>`_ must be
+installed.
 
 .. note::
     On Debian-based systems one can use ``apt-get install python2.5
     python2.5-dev libpq-dev`` to install Python 2.5, its header files, and
     PostgreSQL header files.
 
-.. note::
-    For Windows, we assume in the rest of this page that Python 2.5 is
-    installed in ``C:\Python25``.
-    Python Extensions for Windows need to be preinstalled: `installer can be found here <http://sourceforge.net/projects/pywin32/>`_.
-    
+For Windows, we assume in the rest of this page that Python 2.5 is installed in
+``C:\Python25``.
 
 Installing MapFish
 ------------------
