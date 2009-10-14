@@ -81,13 +81,14 @@ div.sphinxsidebar h3 a {
    padding-right:5px;
    padding-top:3px;
    padding-bottom:6px; 
-   background-color:#ff5c00;
+   background-color:white;
    position:absolute;
    right:485px;
    top:37px;
-   color: white !important;
+   color: #ff5c00 !important;
 }
 
 .navigation-links a {
-    color: white !important;
+    color: #ff5c00 !important;
+    font-weight:bold;
 }
