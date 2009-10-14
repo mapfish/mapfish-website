@@ -1347,7 +1347,7 @@ Java
 MapFish contains two main Java components :
 
  * The print module: `print documentation <http://www.mapfish.org/trac/mapfish/wiki/PrintModuleDoc>`_ / `print sample <http://demo.mapfish.org/mapfishsample/trunk/examples/print/simple.html>`_
- * A library for the management of geometries and the parsing/writing of `GeoJSON <http://trac.mapfish.org/trac/mapfish/browser/contribs/java-geojson/trunk/>`_
+ * A library for the management of geometries and the parsing/writing `of GeoJSON <http://trac.mapfish.org/trac/mapfish/browser/contribs/java-geojson/trunk/>`_
 
 Ruby
 """"

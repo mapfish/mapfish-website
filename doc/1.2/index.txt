@@ -9,8 +9,6 @@ Getting started
 
    installation
    quickstart
-   introduction
-   howto_app_development
 
 Main docs
 ---------
@@ -28,6 +26,8 @@ Other docs
 .. toctree::
    :maxdepth: 1
 
+   ../tutorials/introduction/introduction
+   ../tutorials/howto_app_development/howto_app_development
    ../print
    ../implementations/index
    ../contribs/index
