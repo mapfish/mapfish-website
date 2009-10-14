@@ -14,8 +14,8 @@ The class documentation of the MapFish API can be found here: TODO (http://www.m
 Install MapFish
 ---------------
 
-Proceed first to the  :ref:`installation` of MapFish Framework and create a MapFish application as
-described in the :ref:`quickstart` (the creation of a web service is not necessary for this tutorial).
+Proceed first to the  :ref:`installation_1_2_` of MapFish Framework and create a MapFish application as
+described in the :ref:`quickstart_1_2_` (the creation of a web service is not necessary for this tutorial).
 
 You can now add the API in your project (in MapFishApp directory)::
 

@@ -1,4 +1,4 @@
-.. _quickstart:
+.. _quickstart_1_2:
 
 Quickstart
 **********

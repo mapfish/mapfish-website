@@ -1114,7 +1114,7 @@ More information on this `in the MapFish Wiki <http://trac.mapfish.org/trac/mapf
 
 More details about the generated code can be found in :ref:`sqlalchemy`.
 
-Install first the MapFish Framework: :ref:`installation`.
+Install first the MapFish Framework: :ref:`installation_1_2_`.
 
 Then, in order to create a MapFish protocol, follow theses steps::
 
