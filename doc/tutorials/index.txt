@@ -35,3 +35,9 @@ Miscellaneous
 
    tiling
    ogrs2009_lab
+
+.. cssclass:: navigation_links
+
+ `Documentation <../../doc/1.2/index.html>`_ |
+ `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_ |
+ `Wiki <http://trac.mapfish.org/>`_

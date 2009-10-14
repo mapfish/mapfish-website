@@ -32,3 +32,9 @@ Other docs
    ../implementations/index
    ../contribs/index
    ../tutorials/index
+
+.. cssclass:: navigation_links
+
+ `Documentation <index.html>`_ |
+ `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_ |
+ `Wiki <http://trac.mapfish.org/>`_
