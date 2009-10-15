@@ -7,8 +7,8 @@ Getting started
 .. toctree::
    :maxdepth: 1
 
-   installation
-   quickstart
+   1.2/installation
+   1.2/quickstart
 
 Main docs
 ---------
@@ -16,9 +16,9 @@ Main docs
 .. toctree::
    :maxdepth: 1
 
-   framework
-   protocol
-   reference/index
+   1.2/framework
+   1.2/protocol
+   1.2/reference/index
 
 Other docs
 ----------
@@ -26,15 +26,20 @@ Other docs
 .. toctree::
    :maxdepth: 1
 
-   ../tutorials/introduction/introduction
-   ../tutorials/howto_app_development/howto_app_development
-   ../print
-   ../implementations/index
-   ../contribs/index
-   ../tutorials/index
+   tutorials/introduction/introduction
+   tutorials/howto_app_development/howto_app_development
+   print
+   implementations/index
+   contribs/index
+   tutorials/index
 
 .. cssclass:: navigation_links
 
  `Documentation <index.html>`_ |
  `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_ |
  `Wiki <http://trac.mapfish.org/>`_
+
+.. toctree::
+   :hidden:
+
+   1.2/index
