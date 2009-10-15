@@ -22,7 +22,13 @@ toolkits, and specific components for interacting with MapFish web services.
 MapFish is open source, and distributed under the `GPLv3
 <http://www.gnu.org/licenses/gpl-3.0.html>`_ license.
 
-**Interoperability**
+Current release
+---------------
+
+MapFish 1.2 is the current release. To install it, follow :ref:`installation_1_2_`.
+
+Interoperability
+----------------
 
 The MapFish framework is built around an open HTTP-based protocol, allowing
 various interoperable implementations. In addition to the reference
