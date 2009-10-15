@@ -16,7 +16,8 @@ Symfony plugin
 A PHP implementation of the MapFish Protocol is available as a plugin to the
 `Symfony framework <http://www.symfony-project.org/>`_. The plugin offers tools
 for generating MapFish applications and web services, it relies on the
-`Doctrine ORM <http://www.doctrine-project.org/>`_.
+`Doctrine ORM <http://www.doctrine-project.org/>`_. It is distributed under
+the terms of the BSD license.
 
 The `plugin <http://www.symfony-project.org/plugins/sfMapFishPlugin>`_ is
 hosted by the Symfony project. The `README <http://www.symfony-project.org/plugins/sfMapFishPlugin?tab=plugin_readme>`_ is also hosted by the Symfony project.
@@ -26,10 +27,10 @@ Rails plugin
 
 A Ruby implementation of the MapFish Protocol is available as a plugin to
 the `Ruby on Rails framework <http://rubyonrails.org/>`_. The plugin offers
-tools for generating MapFish applications and web services.
+tools for generating MapFish applications and web services. 
 
 This plugin is available in the ``implementations`` directory of the MapFish
-SVN.
+SVN, under the terms of the GPLv3 license.
 
 .. toctree::
     :maxdepth: 1

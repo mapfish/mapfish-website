@@ -32,11 +32,11 @@ Interoperability
 
 The MapFish framework is built around an open HTTP-based protocol, allowing
 various interoperable implementations. In addition to the reference
-implementation provided by the Python/Pylons-based framework, two other implementations are
-currently available:
+implementation provided by the Python/Pylons-based framework, two other 
+`implementations <doc/implementations/index.html>`_ are currently available:
 
-* a Ruby/Rails plugin
-* a PHP/Symfony plugin
+* a Ruby/Rails plugin (GPLv3)
+* a PHP/Symfony plugin (BSD)
 
 See the documentation for more information.
 
