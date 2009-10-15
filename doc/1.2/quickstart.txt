@@ -207,7 +207,8 @@ unsure, see this :download:`file <_static/mapfishapp_layout.js>`):
             protocol: {
                 params: {
                     epsg: "900913",
-                    attrs: "pays,continent"
+                    attrs: "pays,continent",
+                    no_geom: true
                 }
             },
             displayDefaultPopup: true
