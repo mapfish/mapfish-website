@@ -9,7 +9,7 @@ The MapFishAPI can be seen as a development layer on the top of a MapFish applic
 
 The MapFishAPI provides also general functions that will simplify the creation of MapFish applications.
 
-The class documentation of the MapFish API can be found here: TODO (http://www.mapfish.org/svn/mapfish/contribs/mapfish-api/trunk/apidoc/)
+`Class documentation of the MapFish API <http://www.mapfish.org/apidoc/api/index.html>`_
 
 Install MapFish
 ---------------
