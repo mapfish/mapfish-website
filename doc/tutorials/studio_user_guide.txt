@@ -78,7 +78,7 @@ with the installation.
 If you use Python 2.4, you need to install the ``pysqlite`` package as it is
 not distributed with Python 2.4. On Unix do::
 
-    easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com pysqlite
+    easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org pysqlite
 
 On Windows download http://www.pylonshq.com/download/0.9.7/pysqlite-2.4.1.win32-py2.4.exe and execute it.
 
@@ -95,7 +95,7 @@ Feel free to adjust your newly created ``my_studio.ini`` configuration file to y
 
 Studio uses a database to store metainformation about the Studio configuration (not the data themselves). If you want to configure Studio with a PostgreSQL database, you will use a database URL that looks like this ``postgres://user:password@host:port/dbname``. Studio assumes the database ``dbname`` has already been created and the user is allowed to connect to this database. You can rely on `postgresql documentation <http://www.postgresql.org/docs/>`__ to learn `how to create a new database <http://www.postgresql.org/docs/8.3/static/manage-ag-createdb.html>`__.  You will also need to install the ``psycopg2`` package in the Python virtual environment, you can use that::
 
-    easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com psycopg2
+    easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org psycopg2
 
 Set Up
 ^^^^^^
