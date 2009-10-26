@@ -21,23 +21,16 @@ Here is the procedure on a Debian-like computer. Create first a directory::
 **Note**
     If you already have the ``easy_install`` (if it is not the case: sudo apt-get install python-setuptools) program installed, you can install ``virtualenv`` using::
 
-        easy_install "virtualenv==1.3.2"
+        easy_install virtualenv
 
 Unix users will use this in order to create a python virtual environment::
 
-  wget http://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.3.2.tar.gz
-  tar xvzf virtualenv-1.3.2.tar.gz
-  cp virtualenv-1.3.2/virtualenv.py ./
-  rm -rf virtualenv-1.3.2
-  rm -rf virtualenv-1.3.2.tar.gz
-  mkdir venv
-  python virtualenv.py venv
+  wget http://www.mapfish.org/downloads/virtualenv-1.3.4.py
+  python virtualenv-1.3.4.py venv
 
-Windows users will download the file through their browsers and use a tool such as 7-zip from http://www.7-zip.org to extract the files.
+Windows users will download the file and create a virtual env with::
 
-Here's how to create a virtual env on Windows::
-
-    C:\>C:\Python25\python.exe "C:\Documents and Settings\Administrator\virtualenv.py" C:\env
+    C:\>C:\Python25\python.exe "C:\Documents and Settings\Administrator\virtualenv-1.3.4.py" C:\env
     New python executable in C:\env\Scripts\python.exe
     Installing setuptools..............done.
 
