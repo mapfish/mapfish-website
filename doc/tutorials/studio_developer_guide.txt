@@ -60,8 +60,8 @@ You can check out the source tree with::
 
 Install MapFish (python server component)::
 
-  svn co http://www.mapfish.org/svn/mapfish/framework/server/trunk/ Mapfish
-  easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org Mapfish
+  svn co http://www.mapfish.org/svn/mapfish/framework/server/trunk/ MapFish
+  easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org MapFish
 
 Install MapFish Client (the javascript libraries for the creation of advanced User Interfaces)::
 
