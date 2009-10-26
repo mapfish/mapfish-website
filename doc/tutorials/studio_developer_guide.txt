@@ -50,6 +50,7 @@ MapScript can't be installed through easy_install, so it is needed to do the fol
   sudo apt-get install python-mapscript
   cp /usr/lib/python2.5/site-packages/_mapscript.so venv/lib/python2.5/site-packages/
   cp /usr/share/pyshared/mapscript.py venv/lib/python2.5/site-packages/
+If you are not using python 2.5, you probably need to change the 'python2.5' directory name.
 
 Currently the Studio source tree is located in a MapFish sandbox http://www.mapfish.org/svn/mapfish/sandbox/camptocamp/Studio
 
