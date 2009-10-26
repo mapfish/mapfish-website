@@ -66,17 +66,13 @@ You can check out the source tree with::
 
 Install MapFish (python server component)::
 
-  svn co http://www.mapfish.org/svn/mapfish/trunk/MapFish
-  easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com MapFish/server/python
-
-Install psycopg2 (this is used to allow a connection with PostGIS database)::
-
-  easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com psycopg2
+  svn co http://www.mapfish.org/svn/mapfish/framework/server/trunk/ Mapfish
+  easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org Mapfish
 
 Install MapFish Client (the javascript libraries for the creation of advanced User Interfaces)::
 
-  svn co http://www.mapfish.org/svn/mapfish/mapfish-framework/plugins/client/trunk/mapfish.framework.plugins.client MapFishClient
-  easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com MapFishClient
+  svn co http://www.mapfish.org/svn/mapfish/framework/plugin/client/trunk/ MapFishClient
+  easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org MapFishClient
 
 Now that you have a virtual Python environment ready, you can proceed with the installation of Studio with::
 
