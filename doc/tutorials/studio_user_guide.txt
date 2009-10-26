@@ -21,11 +21,11 @@ Studio has two types of dependencies: pure Python dependencies, and system depen
 dependencies will be installed as part of the installation of Studio. System dependencies, listed
 below, are installed separately.
 
-* Python 2.4 or 2.5 (2.5 is recommended)
-* MapServer CGI, version 5.0 and higher
-* MapServer MapScript Python, version 5.0 and higher
-* OGRGDAL Python, version 1.5 and higher
-* Java JRE version 1.5.0 and higher (only needed if you want to enable printing)
+* Python 2.4 or 2.5 (2.5 or higher is recommended)
+* MapServer CGI, version 5.0 or higher
+* MapServer MapScript Python, version 5.0 or higher
+* OGRGDAL Python, version 1.5 or higher
+* Java JRE version 1.5.0 or higher (only needed if you want to enable printing)
 
 On a Linux system, you can rely on your distribution packages (recommanded).
 For example, on Debian-like system, you would install the packages with::
@@ -38,7 +38,9 @@ extension from http://sourceforge.net/project/showfiles.php?group_id=78018. You
 would rely on the MS4W distribution from http://www.maptools.org/ms4w/ for
 MapServer and OGRDAL.
 
-On a Debian system, you can check that MapServer CGI works locally by testing the following URL in a browser (you should receive the answer "No query information to decode. QUERY_STRING is set, but empty." )::
+You can check that MapServer CGI works locally by testing the following URL in
+a browser (you should receive the answer "No query information to
+decode. QUERY_STRING is set, but empty." ):: 
 
     http://localhost/cgi-bin/mapserv
 
@@ -48,7 +50,9 @@ Install Studio
 Start by creating a folder named ``studio``. This folder will contain your
 installation of Studio.
 
-You can now download the `go-mapfish-studio.py <http://dev.camptocamp.com/packages/mapfish/go-mapfish-studio.py>`_ script at http://dev.camptocamp.com/packages/mapfish/go-mapfish-studio.py
+You can now download the `go-mapfish-studio.py
+<http://www.mapfish.org/downloads/go-mapfish-studio.py>`_ script at
+http://www.mapfish.org/downloads/go-mapfish-studio.py 
 
 Place it in the ``studio`` folder.
 
@@ -56,7 +60,9 @@ Now open a console, go into the ``studio`` folder and run the ``go-mapfish-studi
 
     python go-mapfish-studio.py venv
 
-``venv`` is the name of the virtual Python environment Studio will be installed in. Don't worry if you don't know what a virtual Python environment, you don't need to understand that to complete the installation.
+``venv`` is the name of the virtual Python environment Studio will be installed
+in. Don't worry if you don't know what a virtual Python environment, you don't
+need to understand that to complete the installation. 
 
 Before going to the next section, you must activate the virtual environment. You would use the following on a Unix system::
 
