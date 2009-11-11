@@ -54,7 +54,7 @@ Here is the procedure on a Debian-like computer. Create first a directory::
 Unix users will use this in order to create a python virtual environment::
 
   wget http://www.mapfish.org/downloads/virtualenv-1.3.4.py
-  python virtualenv-1.3.4.py venv
+  python2.5 virtualenv-1.3.4.py venv
 
 Windows users will download the file and create a virtual env with::
 
