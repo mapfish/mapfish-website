@@ -12,7 +12,7 @@ Studio has two types of dependencies: pure Python dependencies, and system depen
 dependencies will be installed as part of the installation of Studio. System dependencies, listed
 below, are installed separately.
 
-* Python 2.4 or 2.5 (2.5 is recommended)
+* Python 2.5
 * MapServer CGI, version 5.0 and higher
 * MapServer MapScript Python, version 5.0 and higher
 * OGRGDAL Python, version 1.5 and higher
