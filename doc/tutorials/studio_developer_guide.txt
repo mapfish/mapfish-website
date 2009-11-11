@@ -5,8 +5,36 @@ Studio - Developer Guide (BETA)
 
 This document contains instructions for Studio developers.
 
+Install Dependencies
+--------------------
+
+Studio has two types of dependencies: pure Python dependencies, and system dependencies. Pure Python
+dependencies will be installed as part of the installation of Studio. System dependencies, listed
+below, are installed separately.
+
+* Python 2.4 or 2.5 (2.5 is recommended)
+* MapServer CGI, version 5.0 and higher
+* MapServer MapScript Python, version 5.0 and higher
+* OGRGDAL Python, version 1.5 and higher
+* Java JRE version 1.5.0 and higher (only needed if you want to enable printing)
+
+On a Linux system, you can rely on your distribution packages (recommanded).
+For example, on Debian-like system, you would install the packages with::
+
+    sudo apt-get install gcc libc6-dev libpq-dev python2.5 python2.5-dev libgeos-dev cgi-mapserver python-mapscript python-gdal postgresql postgis sun-java6-bin
+
+On a Windows system, you would need to install Python 2.5 from
+http://www.python.org/download/releases/ and its pywin32 (a.k.a win32api)
+extension from http://sourceforge.net/project/showfiles.php?group_id=78018. You
+would rely on the MS4W distribution from http://www.maptools.org/ms4w/ for
+MapServer and OGRDAL.
+
+On a Debian system, you can check that MapServer CGI works locally by testing the following URL in a browser (you should receive the answer "No query information to decode. QUERY_STRING is set, but empty." )::
+
+    http://localhost/cgi-bin/mapserv
+
 Install Studio from SVN
---------------------------
+-----------------------
 
 It is highly recommended to install Studio in a virtual environment, so you'll start with that.
 
@@ -38,12 +66,17 @@ You can now activate the virtual environment::
 
   source venv/bin/activate
 
+On a Windows system::
+
+    C:\> env\Scripts\activate.bat
+
+
 Install
 ^^^^^^^
 
 Install the necessary basic library::
 
-  sudo apt-get install gcc libc6-dev libpq-dev python python-dev libgeos-dev
+  sudo apt-get install gcc libc6-dev libpq-dev python2.5 python2.5-dev libgeos-dev cgi-mapserver python-gdal postgresql postgis sun-java6-bin
 
 MapScript can't be installed through easy_install, so it is needed to do the following procedure to install it::
 
@@ -60,19 +93,19 @@ You can check out the source tree with::
 
 Install MapFish (python server component)::
 
-  svn co http://www.mapfish.org/svn/mapfish/framework/server/trunk/ MapFish
-  easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org MapFish
+  svn checkout http://www.mapfish.org/svn/mapfish/framework/server/trunk server
+  easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com server
 
-Install MapFish Client (the javascript libraries for the creation of advanced User Interfaces)::
+Install MapFish Client plug-in
 
-  svn co http://www.mapfish.org/svn/mapfish/framework/plugin/client/trunk/ MapFishClient
-  easy_install --index-url=http://www.mapfish.org/downloads/all/pkg/ --allow-hosts=www.mapfish.org MapFishClient
+  svn checkout http://www.mapfish.org/svn/mapfish/framework/plugin/client/trunk plugin-client
+  easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com plugin-client
 
 Now that you have a virtual Python environment ready, you can proceed with the installation of Studio with::
 
     cd Studio
 
-You need first to adapt the connexion to the PostGIS database in studio/config/environment.py, with something like::
+You need first to adapt the connexion to the PostGIS database in studio/config/environment.py, with something like (a connexion to a database used to store your data and accessible thourgh www-data)::
 
     # path to default postgis datastore
     config['default_datastore_postgis'] = "PG:host=localhost dbname=studio user=www-data password=www-data"
@@ -96,6 +129,17 @@ Then, you can test Studio by starting it::
     paster serve --reload development.ini
 
 And login in http://localhost:5000 (the password of admin user is set in development.ini)
+
+Two user accounts have been created by default:
+
+* Admin user is the master user. He owns all permissions.
+    * login: ``admin``
+    * password: ``change_this_password``
+* Enduser is a standard user. He owns all permissions except those to add/update/view datastores.
+    * login: ``enduser``
+    * password: ``password``
+
+If something goes wrong, try to replace all mention to "mapfish.framework.plugins.client" by "mapfish.plugin.client" in directory studiodev, recursively.
 
 Run the tests
 -------------
