@@ -12,7 +12,7 @@ installed.
 .. note::
     On Debian-based systems one can use ``apt-get install python2.5
     python2.5-dev`` to install Python 2.5 and its development files.
-    Geos and Postgres/Postgis are also required:  ``sudo apt-get install libpq-dev libgeos-dev postgresql postgis``
+    Geos and Postgres/Postgis are also required:  ``sudo apt-get install libgeos-3.0.0 postgresql postgis``
 
 On Windows `Python 2.5 <http://www.python.org/download/releases/2.5.4/>`_, and
 the `Python for Windows extensions <http://sourceforge.net/projects/pywin32/>`_
