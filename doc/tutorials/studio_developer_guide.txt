@@ -96,7 +96,11 @@ Install MapFish (python server component)::
   svn checkout http://www.mapfish.org/svn/mapfish/framework/server/trunk server
   easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com server
 
-Install MapFish Client plug-in
+Install pycopg2::
+
+  easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com psycopg2  
+
+Install MapFish Client plug-in::
 
   svn checkout http://www.mapfish.org/svn/mapfish/framework/plugin/client/trunk plugin-client
   easy_install --index-url=http://dev.camptocamp.com/packages/mapfish/all/index --allow-hosts=dev.camptocamp.com plugin-client
