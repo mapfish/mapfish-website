@@ -29,7 +29,7 @@ Install the required plugins and gems::
 
   sudo gem install GeoRuby
   ./script/plugin install git://github.com/fragility/spatial_adapter.git
-  sudo gem install open4
+  sudo gem install POpen4 --source http://gemcutter.org
 
 Set up the PostGIS database
 ---------------------------
@@ -65,7 +65,7 @@ You now need to create layers. In effect, a layer corresponds to a PostGIS table
 
 Create a resource (model and controller)::
 
-  ./script/generate mapfish_resource --skip-timestamps --skip-fixture WeatherStation name:string geom:point
+  ./script/generate mapfish_resource --skip-timestamps WeatherStation name:string geom:point
   rake db:migrate
 
 Import some data::
@@ -74,9 +74,9 @@ Import some data::
 
 (needs lib/geonames.rb from http://github.com/pka/map_layers/tree in lib/)
 
-Create a resource for an existing table::
+Create a resource for an existing table from the `MapFishSample data set <http://trac.mapfish.org/trac/mapfish/wiki/HowToInstallMapFishSample#Data>`_::
 
-  ./script/generate mapfish_resource --skip-migration --skip-fixture Country
+  ./script/generate mapfish_resource --skip-migration Country
 
 Insert table name and custom id in ``app/models/country.rb``::
 
@@ -114,6 +114,14 @@ CSS and Javascript files can be included from public/javascripts::
    <script type="text/javascript" src="javascripts/ext/adapter/ext/ext-base.js"></script>
    <script type="text/javascript" src="javascripts/ext/ext-all.js"></script>
    <script type="text/javascript" src="javascripts/mapfish/MapFish.js"></script>
+
+
+The mapfish examples are working without any changes::
+
+   svn export --force http://www.mapfish.org/svn/mapfish/sample/trunk/mapfishsample/public
+   svn export --force http://www.mapfish.org/svn/mapfish/framework/client/trunk/examples public/examples
+
+and start on ``http://localhost:3000/``
 
 
 Using the print module
