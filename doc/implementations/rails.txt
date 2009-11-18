@@ -131,6 +131,13 @@ The Rails MapFish plugin can generate a controller for the `MapFish print protoc
 
   ./script/generate print_controller Print
 
+Add the following routes to config/routes.rb::
+
+   map.connect 'print/info.:format',   :controller=>'print', :action=>'info',   :method=>:get
+   map.connect 'print/create.:format', :controller=>'print', :action=>'create', :method=>:post
+   map.connect 'print/:id.:format',    :controller=>'print', :action=>'show',   :method=>:get
+
+
 You'll need to have `Sun's JRE <http://www.java.com/download/>`_ installed to make this working.
 
 * The print module should be ready & responding to /print/info to get print configuration. 
