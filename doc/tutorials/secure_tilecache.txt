@@ -1,0 +1,325 @@
+.. _secure_tilecache:
+
+Secure TileCache Tutorial
+=========================
+
+This tutorial shows how to use `Pylons <http://pylonshq.com>`_ and `repoze.what
+<http://docs.repoze.org/what>`_ to secure `TileCache <http://tilecache.org>`_.
+More specifically, it shows how to restrict access to TileCache layers based on
+user permissions.
+
+You don't need to know Pylons and repoze.what to follow this tutorial.
+
+Install Pylons
+--------------
+
+To install Pylons download the `go-pylons.py <http://www.pylonshq.com/download/0.9.7/go-pylons.py>`_ and execute it with::
+
+    $ python go-pylons.py --no-site-packages env
+
+This commands creates a virtual Python environment named ``env`` and installs
+Pylons and its dependencies into it.
+
+Now activate the virtual environment::
+
+    $ source env/bin/activate
+
+Create Application
+------------------
+
+TileCache will run in a Pylons application. Let's create that application and
+name it ``SecureTileCache``::
+
+    $ paster create -t pylons SecureTileCache
+
+Your application will use Mako and SQLAlchemy, so answer ``mako`` (the default)
+when asked about the template language to use, and answer ``True`` when asked
+about whether to use SQLAlchemy.
+
+Set Up Application Dependencies
+-------------------------------
+
+Here you're going to set up your application's dependencies, and install these
+dependencies in the virtual environment Pylons has been installed in.
+
+To set up the application's dependencies edit the ``setup.py`` file, which is
+located in the application's root directory (``SecureTileCache``), and change
+the value of the ``install_requires`` argument from:
+
+.. code-block:: python
+
+    install_requires=[
+        "Pylons>=0.9.7",
+        "SQLAlchemy>=0.5",
+    ],
+
+to:
+
+.. code-block:: python
+
+    install_requires=[
+        "Pylons>=0.9.7",
+        "SQLAlchemy>=0.5",
+        "repoze.what-quickstart>=1.0.3,<=1.0.99",
+        "repoze.what-pylons>=1.0,<=1.0.99",
+        "TileCache>=2.10,<=2.10.99",
+    ],
+
+With this, installing the ``SecureTileCache`` application (in the virtual
+environment) will also install Pylons, SQLAlchemy, repoze.what-quickstart,
+repoze.what-pylons, and TileCache. Let's do it::
+
+    $ python setup.py develop
+
+.. note::
+
+    Lauch the command again if you get an error saying that repoze.who couldn't
+    be found.
+
+Create Database Model
+---------------------
+
+In this tutorial, the users, groups, and permissions will be stored in an
+SQLite database. The database and its schema will be created on application
+setup, i.e. upon entering ``paster setup-app development.ini``.
+
+For this you first need to define the database model, i.e. define the tables
+and the relations between those tables. This is done in the
+``securetilecache/model/__init.py`` file using SQLAlchemy.
+
+Edit the ``securetilecache/model/__init.py``, add
+
+.. code-block:: python
+
+    import os
+    from hashlib import sha1
+
+at the very beginning of the file (right after the ``"""The application's model objects"""`` line), and add the following at the end of the file:
+
+.. code-block:: python
+
+    from sqlalchemy.ext.declarative import declarative_base
+    DeclarativeBase = declarative_base(metadata=meta.metadata)
+
+    group_permission_table = sa.Table('group_permission', meta.metadata,
+        sa.Column('group_id', sa.types.Integer, sa.ForeignKey('group.group_id',
+            onupdate="CASCADE", ondelete="CASCADE")),
+        sa.Column('permission_id', sa.types.Integer, sa.ForeignKey('permission.permission_id',
+            onupdate="CASCADE", ondelete="CASCADE"))
+    )
+
+
+    user_group_table = sa.Table('user_group', meta.metadata,
+        sa.Column('user_id', sa.types.Integer, sa.ForeignKey('user.user_id',
+            onupdate="CASCADE", ondelete="CASCADE")),
+        sa.Column('group_id', sa.types.Integer, sa.ForeignKey('group.group_id',
+            onupdate="CASCADE", ondelete="CASCADE"))
+    )
+
+    class Group(DeclarativeBase):
+        """An ultra-simple group definition."""
+        __tablename__ = 'group'
+
+        group_id = sa.Column(sa.types.Integer, autoincrement=True, primary_key=True)
+        group_name = sa.Column(sa.types.Unicode(16), unique=True)
+        users = orm.relation('User', secondary=user_group_table, backref='groups')
+
+
+    class User(DeclarativeBase):
+        """
+        Reasonably basic User definition. Probably would want additional
+        attributes.
+
+        """
+        __tablename__ = 'user'
+
+        user_id = sa.Column(sa.types.Integer, autoincrement=True, primary_key=True)
+        user_name = sa.Column(sa.types.Unicode(16), unique=True)
+        _password = sa.Column('password', sa.types.Unicode(80))
+
+        def _set_password(self, password):
+            """Hash password on the fly."""
+            hashed_password = password
+
+            if isinstance(password, unicode):
+                password_8bit = password.encode('UTF-8')
+            else:
+                password_8bit = password
+
+            salt = sha1()
+            salt.update(os.urandom(60))
+            hash = sha1()
+            hash.update(password_8bit + salt.hexdigest())
+            hashed_password = salt.hexdigest() + hash.hexdigest()
+
+            # Make sure the hased password is an UTF-8 object at the end of the
+            # process because SQLAlchemy _wants_ a unicode object for Unicode
+            # fields
+            if not isinstance(hashed_password, unicode):
+                hashed_password = hashed_password.decode('UTF-8')
+
+            self._password = hashed_password
+
+        def _get_password(self):
+            """Return the password hashed"""
+            return self._password
+
+        password = orm.synonym('_password', descriptor=property(_get_password,
+                                                                _set_password))
+
+        def validate_password(self, password):
+            """
+            Check the password against existing credentials.
+
+            :param password: the password that was provided by the user to
+                try and authenticate. This is the clear text version that we will
+                need to match against the hashed one in the database.
+            :type password: unicode object.
+            :return: Whether the password is valid.
+            :rtype: bool
+
+            """
+            hashed_pass = sha1()
+            hashed_pass.update(password + self.password[:40])
+            return self.password[40:] == hashed_pass.hexdigest()
+
+
+    class Permission(DeclarativeBase):
+        """A relationship that determines what each Group can do"""
+        __tablename__ = 'permission'
+
+        permission_id = sa.Column(sa.types.Integer, autoincrement=True, primary_key=True)
+        permission_name = sa.Column(sa.types.Unicode(16), unique=True)
+        groups = orm.relation(Group, secondary=group_permission_table,
+                              backref='permissions')
+
+You can now try to create the SQLite database using::
+
+    $ paster setup-app development.ini
+
+It should generate a fair amount of output, with the ten last lines looking
+like this::
+
+    CREATE TABLE group_permission (
+        group_id INTEGER, 
+        permission_id INTEGER, 
+         FOREIGN KEY(group_id) REFERENCES "group" (group_id) ON DELETE CASCADE ON UPDATE CASCADE, 
+         FOREIGN KEY(permission_id) REFERENCES permission (permission_id) ON DELETE CASCADE ON UPDATE CASCADE
+    )
+
+
+    22:24:41,456 INFO  [sqlalchemy.engine.base.Engine.0x...1fac] ()
+    22:24:41,459 INFO  [sqlalchemy.engine.base.Engine.0x...1fac] COMMIT
+
+You should also now have a ``development.db`` file (the SQLite database) at the
+root of the application (in the ``SecureTileCache`` directory).
+
+Populate the Database
+---------------------
+
+Let's now add users, groups and permissions to the ``development.db`` database.
+For that edit ``securetilecache/websetup.py`` and add the following code at the
+end of the ``setup_app`` function:
+
+.. code-block:: python
+
+    from securetilecache import model
+
+    # Create two users, user1 and user2
+    u1 = model.User()
+    u1.user_name = u'user1'
+    u1.password = u'password'
+    meta.Session.add(u1)
+
+    u2 = model.User()
+    u2.user_name = u'user2'
+    u2.password = u'password'
+    meta.Session.add(u2)
+
+    # Create two groups, g1 and g2, add u1 to g1
+    # and u2 to g2
+    g1 = model.Group()
+    g1.group_name = u'g1'
+    g1.users.append(u1)
+    meta.Session.add(g1)
+
+    g2 = model.Group()
+    g2.group_name = u'g2'
+    g2.users.append(u2)
+    meta.Session.add(g2)
+
+    # Create two permissions, basic and coastline, give
+    # g1 the permission basic, and g1 the permission
+    # coastline
+    p = model.Permission()
+    p.permission_name = u'basic'
+    p.groups.append(g1)
+    meta.Session.add(p)
+
+    p = model.Permission()
+    p.permission_name = u'coastline'
+    p.groups.append(g2)
+    meta.Session.add(p)
+
+    meta.Session.commit()
+ 
+(Read the comments in the code to understand what the code does.)
+
+You can now delete the database and create it again::
+
+    $ rm development.db
+    $ paster setup-app development.ini
+
+The output of the ``paster setup-app`` command should end with something like that::
+
+    22:49:01,682 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO "group" (group_name) VALUES (?)
+    22:49:01,682 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u'g1']
+    22:49:01,683 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO "group" (group_name) VALUES (?)
+    22:49:01,683 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u'g2']
+    22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO permission (permission_name) VALUES (?)
+    22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u'basic']
+    22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO permission (permission_name) VALUES (?)
+    22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u'coastline']
+    22:49:01,685 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO group_permission (group_id, permission_id) VALUES (?, ?)
+    22:49:01,685 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [[2, 2], [1, 1]]
+    22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO user (user_name, password) VALUES (?, ?)
+    22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u'user1', u'8732c61585087c4fe98f3bf95c3594795b5ceb5618fa719e547c39f0a22562d9779202f6e743dc32']
+    22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO user (user_name, password) VALUES (?, ?)
+    22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u'user2', u'1103295bd139c11ccf5a79afcd83550f14fbaa36ebf871f7c9e05555e388ff379f6daee379561162']
+    22:49:01,687 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO user_group (user_id, group_id) VALUES (?, ?)
+    22:49:01,687 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [[1, 1], [2, 2]]
+    22:49:01,688 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] COMMIT
+
+Okay, the SQLite is created and populated with users, groups and permissions.
+
+Configure Authentication and Authorization
+------------------------------------------
+
+Here you're going to configure authentication and authorization with
+repoze.what within the ``SecureTileCache`` application. For this edit the
+``securetilecache/config/middleware.py`` file, look up the ``# CUSTOM
+MIDDLEWARE HERE`` line, and add the following after this line:
+
+.. code-block:: python
+
+   # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
+   from repoze.what.plugins.quickstart import setup_sql_auth
+   from securetilecache import model
+   app = setup_sql_auth(app,
+                        model.User, model.Group, model.Permission,
+                        model.meta.Session,
+                        cookie_secret="cookie_secret",
+                        login_url="/signin",
+                        login_handler="/login",
+                        logout_handler="/logout",
+                        post_logout_url="/signin",
+                       )
+
+This provides repoze.what with the model classes representing the user, group
+and permission database tables, and with "login", "logout", and "post_logout"
+URLs (see the `repoze.what-quickstart doc
+<http://code.gustavonarea.net/repoze.what-quickstart/index.html#module-repoze.what.plugins.quickstart>`_
+for further detail).
+
+Let's now create the `sign in` page containing the `sign in` form (whose URL is
+``/signin``).
