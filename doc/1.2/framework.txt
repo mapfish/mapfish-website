@@ -298,7 +298,7 @@ web services.
    Recommended reading:
 
    * `Pylons Book Chapter 9: URLs, Routing and Dispatch <http://pylonsbook.com/en/1.0/urls-routing-and-dispatch.html>`_ 
-   * `Routes docs <http://routes.groovie.org/docs/>`_
+   * `Routes docs <http://routes.groovie.org/>`_
 
 Customizing Web Services
 ------------------------
@@ -337,7 +337,7 @@ We're now going to see how you can change the behavior of the ``users`` web
 service.
 
 **Scenario #1**
-    Let's assume you want that only *managers* are returned by the ``users``
+    Let's assume you want that only *employees* are returned by the ``users``
     web service. For this you will create a comparison filter and combine it
     with the MapFish default filter::
 

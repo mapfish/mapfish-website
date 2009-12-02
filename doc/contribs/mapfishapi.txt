@@ -30,7 +30,7 @@ The directory MapFishApi/js contains generic API function, like createMap which 
 Create a project API
 ^^^^^^^^^^^^^^^^^^^^
 
-In order to use this API, it is needed to create a project api which will herite from the MapFish.API and will specialize or ovveride some functions.
+In order to use this API, it is needed to create a project api which will herite from the MapFish.API and will specialize or override some functions.
 
 Let's create a file :download:`mymapfishApi.js <_static/mymapfishApi.js>` in a newly created directory mymapfishApi/js/
 
