@@ -183,9 +183,9 @@ entering ``paster setup-app development.ini``.
 
 For this you first need to define the database model, i.e. define the tables
 and the relations between those tables. This is done in the
-``securetilecache/model/__init.py`` file using SQLAlchemy.
+``securetilecache/model/__init__.py`` file using SQLAlchemy.
 
-Edit the ``securetilecache/model/__init.py``, add
+Edit the ``securetilecache/model/__init__.py``, add
 
 .. code-block:: python
 
