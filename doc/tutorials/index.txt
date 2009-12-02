@@ -9,6 +9,7 @@ Server tutorials
 
    sqlalchemy
    pylons
+   secure_tilecache
 
 Client tutorials
 ----------------
