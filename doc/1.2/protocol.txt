@@ -2,4 +2,4 @@ MapFish Protocol
 ****************
 
 The MapFish Protocol is described in a wiki `page
-<http://www.mapfish.org/trac/mapfish/wiki/MapFishProtocol>`_.
+<http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol>`_.
