@@ -43,6 +43,16 @@ implementation provided by the Python/Pylons-based framework, two other
 
 See the documentation for more information.
 
+News and Events
+---------------
+
+.. image:: _static/img/foss4g2010.png
+
+`FOSS4G 2010 <http://2010.foss4g.org/>`_ is the leading annual conference for
+free and open source geospatial software. It will include workshops, tutorials
+and presentations related to MapFish. It is the event for those interested in
+MapFish, other FOSS geospatial technologies and the community around them.
+
 .. cssclass:: navigation_links
 
  `Quickstart <doc/1.2/quickstart.html>`_ |
