@@ -28,10 +28,11 @@ Other docs
 
    tutorials/introduction/introduction
    tutorials/howto_app_development/howto_app_development
-   print
    implementations/index
    contribs/index
    tutorials/index
+
+* `MapFish Print Module <print/index.html>`_
 
 .. cssclass:: navigation_links
 
