@@ -19,6 +19,14 @@ Client tutorials
 
    extjs
 
+Workshops
+---------
+
+* `The Python Workshop <http://www.mapfish.org/doc/tutorials/python-workshop/>`_
+
+  Presented at FOSS4G 2010. This workshop teaches the basics of Pylons,
+  SQLAlchemy, GeoAlchemy, Shapely, geojson, and MapFish.
+
 Studio (BETA)
 -------------
 
@@ -36,6 +44,8 @@ Miscellaneous
 
    tiling
    ogrs2009_lab
+   introduction/introduction
+   howto_app_development/howto_app_development
 
 .. cssclass:: navigation_links
 

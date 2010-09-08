@@ -28,7 +28,8 @@ MapFish is open source, and distributed under the `GPLv3
 Current release
 ---------------
 
-MapFish 1.2 is the current release. To install it, follow :ref:`installation_1_2_`.
+MapFish 2.0 is the current release. Check out the `documentation
+<doc/2.0/index.html>`_.
 
 Interoperability
 ----------------
@@ -55,8 +56,8 @@ MapFish, other FOSS geospatial technologies and the community around them.
 
 .. cssclass:: navigation_links
 
- `Quickstart <doc/1.2/quickstart.html>`_ |
- `Installation <doc/1.2/installation.html>`_ |
+ `Quickstart <doc/2.0/quickstart.html>`_ |
+ `Installation <doc/2.0/installation.html>`_ |
  `Documentation <doc/index.html>`_ |
  `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_ |
  `Wiki <http://trac.mapfish.org/>`_

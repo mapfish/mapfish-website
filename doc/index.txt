@@ -4,21 +4,36 @@ Documentation
 Getting started
 ---------------
 
+* `Installation <2.0/installation.html>`_
+* `Quickstart <2.0/quickstart.html>`_
+
+.. toctree::
+   :maxdepth: 1
+
+
+Release 2.0
+-----------
+
+* `Framework <2.0/framework/index.html>`_
+* `Protocol <2.0/protocol.html>`_
+* `API References <2.0/reference/index.html>`_
+
+Release 1.2 
+-----------
+
 .. toctree::
    :maxdepth: 1
 
    1.2/installation
    1.2/quickstart
-
-Main docs
----------
-
-.. toctree::
-   :maxdepth: 1
-
    1.2/framework
    1.2/protocol
    1.2/reference/index
+
+MapFish Print
+-------------
+
+* `MapFish Print Module <print/index.html>`_
 
 Other docs
 ----------
@@ -26,13 +41,9 @@ Other docs
 .. toctree::
    :maxdepth: 1
 
-   tutorials/introduction/introduction
-   tutorials/howto_app_development/howto_app_development
    implementations/index
    contribs/index
    tutorials/index
-
-* `MapFish Print Module <print/index.html>`_
 
 .. cssclass:: navigation_links
 
