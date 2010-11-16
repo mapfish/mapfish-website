@@ -47,12 +47,9 @@ See the documentation for more information.
 News and Events
 ---------------
 
-.. image:: _static/img/foss4g2010.png
+.. image:: _static/img/logo_osgeo.png
 
-`FOSS4G 2010 <http://2010.foss4g.org/>`_ is the leading annual conference for
-free and open source geospatial software. It will include workshops, tutorials
-and presentations related to MapFish. It is the event for those interested in
-MapFish, other FOSS geospatial technologies and the community around them.
+The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to support and build the highest-quality open source geospatial software. MapFish is currently undergoing the OSGEO Incubation Process.
 
 .. cssclass:: navigation_links
 
