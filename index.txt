@@ -22,8 +22,8 @@ toolkits, and specific components for interacting with MapFish web services.
 MapFish is compliant with the `Open Geospatial Consortium <http://www.opengeospatial.org/>`_ standards.
 This is achieved through OpenLayers or GeoExt supporting several OGC norms, like WMS, WFS, WMC, KML, GML etc..
 
-MapFish is open source, and distributed under the `GPLv3
-<http://www.gnu.org/licenses/gpl-3.0.html>`_ license.
+MapFish is open source, and distributed under the `BSD
+<http://www.opensource.org/licenses/bsd-license.php>`_ license.
 
 Current release
 ---------------
