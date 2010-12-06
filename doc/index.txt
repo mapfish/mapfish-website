@@ -1,39 +1,64 @@
 Documentation
 *************
 
-Getting started
----------------
+Reference docs
+--------------
 
-* `Installation <2.0/installation.html>`_
-* `Quickstart <2.0/quickstart.html>`_
+* Release 2.0
+
+  * `Installation <2.0/installation.html>`_
+  * `Quickstart <2.0/quickstart.html>`_
+  * `Framework <2.0/framework/index.html>`_
+  * `Protocol <2.0/protocol.html>`_
+  * `API References <2.0/reference/index.html>`_
+
+* Release 1.2 
+
+  .. toctree::
+     :maxdepth: 1
+  
+     1.2/installation
+     1.2/quickstart
+     1.2/framework
+     1.2/protocol
+     1.2/reference/index
+
+Tutorials and workshops
+-----------------------
+
+* `The MapFish tutorial <http://www.mapfish.org/doc/tutorials/mapfish-tutorial/en/index.html>`_ (`Version française du tutorial <http://www.mapfish.org/doc/tutorials/mapfish-tutorial/fr/index.html>`_)
+
+  Presented at FOSS4G 2010. This tutorial provides an overview of the
+  MapFish framework.
+
+
+* `The Python Workshop <http://www.mapfish.org/doc/tutorials/python-workshop/en/index.html>`_ (`Version française du workshop <http://www.mapfish.org/doc/tutorials/python-workshop/fr/index.html>`_)
+
+  Presented at FOSS4G 2010. This workshop teaches the basics of Pylons,
+  SQLAlchemy, GeoAlchemy, Shapely, geojson, and MapFish.
 
 .. toctree::
    :maxdepth: 1
 
+   tutorials/sqlalchemy
+   tutorials/pylons
+   tutorials/secure_tilecache
+   tutorials/extjs
 
-Release 2.0
------------
+Related projects
+----------------
 
-* `Framework <2.0/framework/index.html>`_
-* `Protocol <2.0/protocol.html>`_
-* `API References <2.0/reference/index.html>`_
-
-Release 1.2 
------------
-
-.. toctree::
-   :maxdepth: 1
-
-   1.2/installation
-   1.2/quickstart
-   1.2/framework
-   1.2/protocol
-   1.2/reference/index
-
-MapFish Print
--------------
+MapFish hosts various related projects:
 
 * `MapFish Print Module <print/index.html>`_
+
+.. toctree::
+   :maxdepth: 1
+
+   implementations/index
+   contribs/mapfishapi
+   tutorials/studio_user_guide
+   tutorials/studio_developer_guide
 
 Other docs
 ----------
@@ -41,9 +66,10 @@ Other docs
 .. toctree::
    :maxdepth: 1
 
-   implementations/index
-   contribs/index
-   tutorials/index
+   tutorials/tiling
+   tutorials/ogrs2009_lab
+   tutorials/introduction/introduction
+   tutorials/howto_app_development/howto_app_development
 
 .. cssclass:: navigation_links
 

@@ -1,7 +1,0 @@
-Contribs
-========
-
-.. toctree::
-    :maxdepth: 1
-
-    mapfishapi
