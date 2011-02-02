@@ -10,7 +10,7 @@ Welcome in the MapFish world ! First the architecture and components of the :ref
 
 Then, :ref:`mapfish_client`, :ref:`mapfish_server` and :ref:`mapfish.tutorials.tiling` are presented with practical examples.
 
-.. mapfish.tutorials.introduction.framework:
+.. _mapfish.tutorials.introduction.framework:
 
 MapFish Framework
 =================
@@ -1386,6 +1386,6 @@ Studio UI is divided in three functional parts:
 
 .. image:: _static/studio_full_view.png
 
-More information: :ref:`work_with_studio`.
+More information: :ref:`mapfish.tutorials.studio_user_guide.work_with_studio`.
 
 Studio uses a Pylon template to create the MapFish applications. This template can be customized.

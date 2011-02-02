@@ -9,7 +9,7 @@ General information
 ===================
 
  * Link to Studio instance: `Instance 1 <http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com:5000>`_
- * Detailed studio documentation: :ref:`work_with_studio`
+ * Detailed studio documentation: :ref:`mapfish.tutorials.studio_user_guide.work_with_studio`
 
 Lab 1: Create a WMS Service
 ===========================
