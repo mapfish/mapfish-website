@@ -1,0 +1,18 @@
+.. _`mapfish.tutorials`:
+
+Tutorials
+===========
+
+.. toctree::
+   :maxdepth: 1
+
+   howto_app_development/howto_app_development
+   introduction/introduction
+   extjs
+   ogrs2009_lab
+   pylons
+   secure_tilecache
+   sqlalchemy
+   studio_developer_guide
+   studio_user_guide
+   tiling
