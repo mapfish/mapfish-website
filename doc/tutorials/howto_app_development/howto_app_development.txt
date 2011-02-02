@@ -34,7 +34,7 @@ Data
 Install MapFish
 ---------------
 
-Install first the MapFish Framework :ref:`installation_1_2_`.
+Install first the MapFish Framework :ref:`mapfish.refdoc.1_2.installation`.
 
 Data preparation
 ================

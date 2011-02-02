@@ -6,7 +6,7 @@ SQLAlchemy tutorial
 This tutorial provides a quick tour of SQLAlchemy. It is based on Chapter 7
 of the Pylons Book http://pylonsbook.com/.
 
-.. _sqlalchemy-installing:
+.. _mapfish.tutorials.sqlalchemy.installing:
 
 Installing
 ----------

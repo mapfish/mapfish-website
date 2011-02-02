@@ -6,11 +6,11 @@
 .. warning::
     This document includes outdated information..
 
-Welcome in the MapFish world ! First the archtiecture and components of the :ref:`mapfish_framework` are introduced.
+Welcome in the MapFish world ! First the architecture and components of the :ref:`mapfish.tutorials.introduction.framework` are introduced.
 
-Then, :ref:`mapfish_client`, :ref:`mapfish_server` and :ref:`mapfish_tiling` are presented with practical examples.
+Then, :ref:`mapfish_client`, :ref:`mapfish_server` and :ref:`mapfish.tutorials.tiling` are presented with practical examples.
 
-.. _mapfish_framework:
+.. mapfish.tutorials.introduction.framework:
 
 MapFish Framework
 =================
@@ -155,7 +155,7 @@ ExtJS
 
 Ext JS is a cross-browser JavaScript library for building rich internet applications. It provides a `very large list of UI components <http://www.extjs.com/deploy/dev/examples/samples.html>`_.
 
-Some editors can help to create ExtJS UI: `GUI Builder <http://tof2k.com/ext/formbuilder/>`_  or `GUI Designer <http://www.projectspace.nl/>`_. To know more about this technology, you can follow the :ref:`extjs`. 
+Some editors can help to create ExtJS UI: `GUI Builder <http://tof2k.com/ext/formbuilder/>`_  or `GUI Designer <http://www.projectspace.nl/>`_. To know more about this technology, you can follow the :ref:`mapfish.tutorials.extjs`. 
 
 .. note::
 
@@ -1115,9 +1115,9 @@ It's clear that, programmatically, the MapFish REST protocol is dependent of the
 
 More information on this `in the MapFish Wiki <http://trac.mapfish.org/trac/mapfish/wiki/Releases/1.2/HowToUseMapFishServer#Setuplayers>`_.
 
-More details about the generated code can be found in :ref:`sqlalchemy`.
+More details about the generated code can be found in :ref:`mapfish.tutorials.sqlalchemy`.
 
-Install first the MapFish Framework: :ref:`installation_1_2_`.
+Install first the MapFish Framework: :ref:`mapfish.refdoc.1_2.installation`.
 
 Then, in order to create a MapFish protocol, follow theses steps::
 

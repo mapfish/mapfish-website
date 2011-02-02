@@ -17,9 +17,9 @@ Install Studio
 Install
 ^^^^^^^
 
-Currently, use :ref:`studio_developer_guide` for installation.
+Currently, use :ref:`mapfish.tutorials.studio_developer_guide` for installation.
 
-.. _work_with_studio:
+.. _mapfish.tutorials.studio_user_guide.work_with_studio:
 
 Work with Studio
 ----------------

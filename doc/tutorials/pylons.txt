@@ -7,7 +7,7 @@ This tutorial provides a quick tour of the Pylons framework
 http://pylonshq.com. It is based on the SimpleSite tutorial included in Chapter
 8 of the Pylons Book http://pylonsbook.com.
 
-Prior to following this tutorial, it is recommented to follow the :ref:`sqlalchemy` tutorial.
+Prior to following this tutorial, it is recommented to follow the :ref:`mapfish.tutorials.sqlalchemy` tutorial.
 
 In this tutorial you will create a Pylons-based, wiki-like web site.
 SQLAlchemy will be used to store the individual pages in the site in such a way
@@ -19,8 +19,8 @@ Installing
 It will come to no surprise that creating a Pylons project implies having
 Pylons installed.
 
-If you haven't followed the :ref:`sqlalchemy` tutorial, you need to go to
-this tutorial's :ref:`sqlalchemy-installing` section and create a virtual
+If you haven't followed the :ref:`mapfish.tutorials.sqlalchemy` tutorial, you need to go to
+this tutorial's :ref:`mapfish.tutorials.sqlalchemy.installing` section and create a virtual
 Python environment as indicated there. You can also install SQLAlchemy 0.5.2
 as you will need it for your Pylons project.
 
