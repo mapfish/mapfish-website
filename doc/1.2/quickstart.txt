@@ -3,6 +3,10 @@
 Quickstart
 **********
 
+.. warning::
+    MapFish 1.2 is not the latest MapFish version, refer to `Documentation 2.0
+    <../../2.0/index.html>`_ for the documentation of the latest version.
+
 A 20-minute quickstart to get a good sense of what MapFish is and what MapFish
 provides.
 

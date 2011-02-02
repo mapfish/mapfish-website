@@ -3,6 +3,10 @@
 Framework
 *********
 
+.. warning::
+    MapFish 1.2 is not the latest MapFish version, refer to `Documentation 2.0
+    <../../2.0/index.html>`_ for the documentation of the latest version.
+
 MapFish is a flexible and complete framework for building rich web-mapping
 applications. It emphasizes high productivity, and high-quality development. 
 
