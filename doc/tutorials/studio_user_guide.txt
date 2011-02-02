@@ -1,4 +1,4 @@
-.. _studio_user_guide:
+.. _`mapfish.tutorials.studio_user_guide`:
 
 Studio - User Guide (BETA)
 ==========================

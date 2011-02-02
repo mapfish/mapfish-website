@@ -1,7 +1,10 @@
-.. _howto_app_development:
+.. _`mapfish.tutorials.howto_app_development`:
 
-Tutorial: Application development with MapFish Framework
-********************************************************
+Tutorial: Application development with MapFish Framework 1.2
+*************************************************************
+
+.. warning::
+    This document includes outdated information.
 
 One goal of this tutorial is to provide a step-by-step process for the creation of a MapFish application. This requires an undertstanding of JavaScript and Python development.
 

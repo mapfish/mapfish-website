@@ -1,4 +1,4 @@
-.. _pylons:
+.. _`mapfish.tutorials.pylons`:
 
 Pylons tutorial
 ===============

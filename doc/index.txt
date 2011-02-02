@@ -4,7 +4,7 @@ Documentation
 Reference docs
 --------------
 
-* Release 2.0
+* `Release 2.0 <2.0/index.html>`_
 
   * `Installation <2.0/installation.html>`_
   * `Quickstart <2.0/quickstart.html>`_
@@ -12,7 +12,7 @@ Reference docs
   * `Protocol <2.0/protocol.html>`_
   * `API References <2.0/reference/index.html>`_
 
-* Release 1.2 
+* `Release 1.2 <1.2/index.html>`_
 
   .. toctree::
      :maxdepth: 1
@@ -63,6 +63,8 @@ MapFish hosts various related projects:
 Other docs
 ----------
 
+These docs are unofficial and might be outdated.
+
 .. toctree::
    :maxdepth: 1
 
@@ -81,3 +83,4 @@ Other docs
    :hidden:
 
    1.2/index
+   tutorials/index

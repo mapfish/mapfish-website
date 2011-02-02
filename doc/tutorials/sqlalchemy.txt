@@ -1,4 +1,4 @@
-.. _sqlalchemy:
+.. _`mapfish.tutorials.sqlalchemy`:
 
 SQLAlchemy tutorial
 ===================

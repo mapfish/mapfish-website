@@ -1,5 +1,10 @@
-Documentation
-*************
+.. _`mapfish.refdoc.1_2`:
+
+Documentation MapFish 1.2
+***************************
+
+.. warning::
+    MapFish 1.2 is not the latest MapFish version, refer to `Documentation 2.0 <../2.0/index.html>`_ for the documentation of the latest version.
 
 Getting started
 ---------------

@@ -1,4 +1,4 @@
-.. _mapfish_tiling:
+.. _`mapfish.tutorials.tiling`:
 
 Tiling
 ******

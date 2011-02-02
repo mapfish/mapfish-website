@@ -1,4 +1,4 @@
-.. _secure_tilecache:
+.. _`mapfish.tutorials.secure_tilecache`:
 
 Secure TileCache Tutorial
 =========================

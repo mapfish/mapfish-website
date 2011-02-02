@@ -1,3 +1,5 @@
+.. _`mapfish.refdoc.1_2.reference.filters`:
+
 mapfish.lib.filters
 ===================
 

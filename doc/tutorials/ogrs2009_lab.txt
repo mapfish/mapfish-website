@@ -1,4 +1,4 @@
-.. _ogrs2009_lab:
+.. _`mapfish.tutorials.ogrs2009`:
 
 OGRS 2009 - State of the art of the creation of GIS rich internet application
 *****************************************************************************

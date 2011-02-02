@@ -1,7 +1,10 @@
-.. _introduction:
+.. _`mapfish.tutorials.introduction`:
 
-8 hours introduction to MapFish Framework
-*****************************************
+8 hours introduction to MapFish Framework 1.2
+**********************************************
+
+.. warning::
+    This document includes outdated information..
 
 Welcome in the MapFish world ! First the archtiecture and components of the :ref:`mapfish_framework` are introduced.
 

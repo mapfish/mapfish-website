@@ -1,4 +1,4 @@
-.. _rails:
+.. _`mapfish.implementations.rails`:
 
 Developer Guide - Ruby on Rails Server
 ======================================

@@ -1,4 +1,4 @@
-.. _quickstart_1_2_:
+.. _`mapfish.refdoc.1_2.quickstart`:
 
 Quickstart
 **********

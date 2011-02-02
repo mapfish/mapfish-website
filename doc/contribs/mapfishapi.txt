@@ -1,4 +1,4 @@
-.. _mapfishapi:
+.. _`mapfish.contrib.api`:
 
 MapFishAPI
 **********

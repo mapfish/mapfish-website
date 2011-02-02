@@ -1,4 +1,4 @@
-.. _extjs:
+.. _`mapfish.tutorials.extjs`:
 
 ExtJS tutorial
 ==============
