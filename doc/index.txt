@@ -76,7 +76,7 @@ These docs are unofficial and might be outdated.
 .. cssclass:: navigation_links
 
  `Documentation <index.html>`_ |
- `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_ |
+ `Demo <http://demo.mapfish.org/mapfishsample/2.0/>`_ |
  `Wiki <http://trac.mapfish.org/>`_
 
 .. toctree::

@@ -56,7 +56,7 @@ The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to s
  `Quickstart <doc/2.0/quickstart.html>`_ |
  `Installation <doc/2.0/installation.html>`_ |
  `Documentation <doc/index.html>`_ |
- `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_ |
+ `Demo <http://demo.mapfish.org/mapfishsample/2.0/>`_ |
  `Wiki <http://trac.mapfish.org/>`_
 
 .. toctree::
