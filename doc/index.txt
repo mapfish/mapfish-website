@@ -23,6 +23,8 @@ Reference docs
      1.2/protocol
      1.2/reference/index
 
+  * `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_
+
 Tutorials and workshops
 -----------------------
 
