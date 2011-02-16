@@ -17,7 +17,7 @@ MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
 testing environment, and tools for compressing JavaScript code. The JavaScript
 toolbox is composed of the `ExtJS <http://extjs.com>`_, `OpenLayers
 <http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
-toolkits, and specific components for interacting with MapFish web services.
+toolkits.
 
 MapFish is compliant with the `Open Geospatial Consortium <http://www.opengeospatial.org/>`_ standards.
 This is achieved through OpenLayers or GeoExt supporting several OGC norms, like WMS, WFS, WMC, KML, GML etc..
