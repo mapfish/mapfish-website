@@ -13,6 +13,4 @@ Tutorials
    pylons
    secure_tilecache
    sqlalchemy
-   studio_developer_guide
-   studio_user_guide
    tiling

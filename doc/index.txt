@@ -59,8 +59,8 @@ MapFish hosts various related projects:
 
    implementations/index
    contribs/mapfishapi
-   tutorials/studio_user_guide
-   tutorials/studio_developer_guide
+
+* `Studio <http://camptocamp.github.com/Studio/>`_
 
 Other docs
 ----------
