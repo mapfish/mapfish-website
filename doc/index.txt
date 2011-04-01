@@ -4,6 +4,17 @@ Documentation
 Reference docs
 --------------
 
+* `Release 2.1 <2.1/index.html>`_
+
+  * `Installation <2.1/installation.html>`_
+  * `Quickstart <2.1/quickstart.html>`_
+  * `Framework <2.1/framework/index.html>`_
+  * `Protocol <2.1/protocol.html>`_
+  * `API References <2.1/reference/index.html>`_
+
+Previous releases
+~~~~~~~~~~~~~~~~~
+
 * `Release 2.0 <2.0/index.html>`_
 
   * `Installation <2.0/installation.html>`_
