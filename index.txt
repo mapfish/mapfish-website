@@ -28,8 +28,8 @@ MapFish is open source, and distributed under the `BSD
 Current release
 ---------------
 
-MapFish 2.0 is the current release. Check out the `reference documentation 
-<doc/2.0/index.html>`_.
+MapFish 2.1 is the current release. Check out the `reference documentation 
+<doc/2.1/index.html>`_.
 
 Interoperability
 ----------------
@@ -53,8 +53,8 @@ The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to s
 
 .. cssclass:: navigation_links
 
- `Quickstart <doc/2.0/quickstart.html>`_ |
- `Installation <doc/2.0/installation.html>`_ |
+ `Quickstart <doc/2.1/quickstart.html>`_ |
+ `Installation <doc/2.1/installation.html>`_ |
  `Documentation <doc/index.html>`_ |
  `Demo <http://demo.mapfish.org/mapfishsample/2.0/>`_ |
  `Wiki <http://trac.mapfish.org/>`_
