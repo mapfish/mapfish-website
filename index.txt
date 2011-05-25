@@ -44,12 +44,19 @@ implementation provided by the Python/Pylons-based framework, two other
 
 See the documentation for more information.
 
-News and Events
----------------
+Affiliation
+-----------
 
 .. image:: _static/img/logo_osgeo.png
 
-The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to support and build the highest-quality open source geospatial software. MapFish is currently undergoing the OSGEO Incubation Process.
+MapFish is currently undergoing the OSGEO Incubation Process.
+
+The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to support and build the highest-quality open source geospatial software.
+
+News and Events
+---------------
+
+FOSS4G is the global conference focused on Free and Open Source Software for Geospatial, organized by OSGeo. In 2011, FOSS4G will be held in Denver. See http://2011.foss4g.org/.
 
 .. cssclass:: navigation_links
 
