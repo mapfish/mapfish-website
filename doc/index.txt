@@ -4,6 +4,17 @@ Documentation
 Reference docs
 --------------
 
+* `Release 2.2 <2.2/index.html>`_
+
+  * `2.2 Installation <2.2/installation.html>`_
+  * `2.2 Quickstart <2.2/quickstart.html>`_
+  * `2.2 Framework <2.2/framework/index.html>`_
+  * `2.2 Protocol <2.2/protocol.html>`_
+  * `2.2 API References <2.2/reference/index.html>`_
+
+Previous releases
+~~~~~~~~~~~~~~~~~
+
 * `Release 2.1 <2.1/index.html>`_
 
   * `2.1 Installation <2.1/installation.html>`_
@@ -11,17 +22,6 @@ Reference docs
   * `2.1 Framework <2.1/framework/index.html>`_
   * `2.1 Protocol <2.1/protocol.html>`_
   * `2.1 API References <2.1/reference/index.html>`_
-
-Previous releases
-~~~~~~~~~~~~~~~~~
-
-* `Release 2.0 <2.0/index.html>`_
-
-  * `2.0 Installation <2.0/installation.html>`_
-  * `2.0 Quickstart <2.0/quickstart.html>`_
-  * `2.0 Framework <2.0/framework/index.html>`_
-  * `2.0 Protocol <2.0/protocol.html>`_
-  * `2.0 API References <2.0/reference/index.html>`_
 
 * `Release 1.2 <1.2/index.html>`_
 
