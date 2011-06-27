@@ -19,8 +19,10 @@ toolbox is composed of the `ExtJS <http://extjs.com>`_, `OpenLayers
 <http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
 toolkits.
 
-MapFish is compliant with the `Open Geospatial Consortium <http://www.opengeospatial.org/>`_ standards.
-This is achieved through OpenLayers or GeoExt supporting several OGC norms, like WMS, WFS, WMC, KML, GML etc..
+MapFish is compliant with the `Open Geospatial Consortium
+<http://www.opengeospatial.org/>`_ standards.  This is achieved through
+OpenLayers or GeoExt supporting several OGC norms, like WMS, WFS, WMC, KML, GML
+etc..
 
 MapFish is open source, and distributed under the `BSD
 <http://www.opensource.org/licenses/bsd-license.php>`_ license.
@@ -43,6 +45,18 @@ implementation provided by the Python/Pylons-based framework, two other
 * a PHP/Symfony plugin (BSD)
 
 See the documentation for more information.
+
+MapFish Print
+-------------
+
+The MapFish project hosts *MapFish Print*, a Java library to print maps.
+MapFish Print is independent from the MapFish framework, but works well with
+it.
+
+MapFish Print is released under the GPLv3 license.
+
+See the `MapFish Print Documentation
+<http://www.mapfish.org/doc/print/index.html>`_ for more information.
 
 Affiliation
 -----------
