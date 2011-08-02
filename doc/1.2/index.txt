@@ -4,7 +4,7 @@ Documentation MapFish 1.2
 ***************************
 
 .. warning::
-    MapFish 1.2 is not the latest MapFish version, refer to `Documentation 2.0 <../2.0/index.html>`_ for the documentation of the latest version.
+    MapFish 1.2 is not the latest MapFish version, refer to `Documentation 2.2 <../2.2/index.html>`_ for the documentation of the latest version.
 
 Getting started
 ---------------
@@ -24,3 +24,14 @@ Main docs
    framework
    protocol
    reference/index
+
+Warranty disclaimer and license
+-------------------------------
+
+The authors provide these document "AS-IS", without warranty of any kind either
+expressed or implied.
+
+Document under `Creative Common License Attribution-Share Alike 2.5 Generic
+<http://creativecommons.org/licenses/by-sa/2.5/>`_.
+
+Authors: MapFish developers.
