@@ -90,7 +90,7 @@ These docs are unofficial and might be outdated.
 
  `Documentation <index.html>`_ |
  `Demo <http://demo.mapfish.org/mapfishsample/2.0/>`_ |
- `Wiki <http://trac.mapfish.org/>`_
+ `Wiki/Trac <http://trac.mapfish.org/>`_
 
 .. toctree::
    :hidden:

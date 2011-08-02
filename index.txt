@@ -67,6 +67,12 @@ MapFish is currently undergoing the OSGEO Incubation Process.
 
 The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to support and build the highest-quality open source geospatial software.
 
+Community
+---------
+
+The information related to the community (project governance, mailing lists,
+etc.) is available in the `Wiki/Trac <http://trac.mapfish.org/>`_.
+
 News and Events
 ---------------
 
@@ -78,7 +84,7 @@ FOSS4G is the global conference focused on Free and Open Source Software for Geo
  `Installation <doc/2.2/installation.html>`_ |
  `Documentation <doc/index.html>`_ |
  `Demo <http://demo.mapfish.org/mapfishsample/2.2/>`_ |
- `Wiki <http://trac.mapfish.org/>`_
+ `Wiki/Trac <http://trac.mapfish.org/>`_
 
 .. toctree::
    :hidden:
