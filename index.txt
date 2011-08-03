@@ -70,8 +70,22 @@ The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to s
 Community
 ---------
 
-The information related to the community (project governance, mailing lists,
-etc.) is available in the `Wiki/Trac <http://trac.mapfish.org/>`_.
+The MapFish project is governed by a `Project Steering Committee
+<http://trac.mapfish.org/trac/mapfish/wiki/Community/PSC>`_, composed of people
+from various organizations.
+
+Discussions regarding the project are public. They occur on the project
+`mailing lists <http://lists.mapfish.org/cgi-bin/mailman/listinfo>`_ and on IRC
+(irc://irc.freenode.net/#mapfish).
+
+The project welcome new contributions; bugs and new features can be reported
+and requested on the `bug tracker <http://trac.mapfish.org/>`_.  Visit also the
+`wiki page
+<http://trac.mapfish.org/trac/mapfish/wiki/Community/HowToContribute>`_
+describing how to contribute to the project.
+
+More information related to the community and development is available in the
+`Wiki/Trac <http://trac.mapfish.org/>`_.
 
 News and Events
 ---------------
