@@ -39,6 +39,13 @@ Previous releases
 Tutorials and workshops
 -----------------------
 
+* `The MapFish In Production Workshop <http://www.mapfish.org/doc/tutorials/mapfishsample-workshop/index.html>`_
+
+  Presented at FOSS4G 2011. This workshop shows the tools and practices the
+  Camptocamp teams use for developing, deploying, and running MapFish
+  applications. This workshop is a also a guide to MapFishSample, the official
+  MapFish demo application.
+
 * `The MapFish tutorial <http://www.mapfish.org/doc/tutorials/mapfish-tutorial/en/index.html>`_ (`Version française du tutorial <http://www.mapfish.org/doc/tutorials/mapfish-tutorial/fr/index.html>`_)
 
   Presented at FOSS4G 2010. This tutorial provides an overview of the
