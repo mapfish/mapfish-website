@@ -61,11 +61,11 @@ See the `MapFish Print Documentation
 Affiliation
 -----------
 
-.. image:: _static/img/logo_osgeo.png
+.. image:: _static/img/OSGeo_project.png
 
-MapFish is currently undergoing the OSGEO Incubation Process.
-
-The `Open Source Geospatial Foundation <http://www.osgeo.org/>`_ mission is to support and build the highest-quality open source geospatial software.
+MapFish is a project of the Open Source Geospatial Foundation (OSGeo
+Foundation). `OSGeo <http://www.osgeo.org/>`_'s mission is to support and build
+the highest-quality open source geospatial software.
 
 Community
 ---------
