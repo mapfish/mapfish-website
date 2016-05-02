@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Understanding MapFish &mdash; MapFish In Production Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish In Production Workshop v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Installing and Running MapFishSample" href="installing_and_running_mapfishsample.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="installing_and_running_mapfishsample.html" title="Installing and Running MapFishSample"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Understanding MapFish</a><ul>
+<li><a class="reference external" href="#install-mapfish">Install MapFish</a></li>
+<li><a class="reference external" href="#create-a-mapfish-application">Create a MapFish application</a></li>
+<li><a class="reference external" href="#create-a-mapfish-web-service">Create a MapFish Web Service</a></li>
+<li><a class="reference external" href="#understand-the-mapfish-protocol">Understand the MapFish Protocol</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="getting_started.html"
+                                  title="previous chapter">Getting Started</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="installing_and_running_mapfishsample.html"
+                                  title="next chapter">Installing and Running MapFishSample</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/understanding_mapfish.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="understanding-mapfish">
+<h1>Understanding MapFish<a class="headerlink" href="#understanding-mapfish" title="Permalink to this headline">¶</a></h1>
+<p>MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development.</p>
+<p>MapFish is based on the <a class="reference external" href="http://pylonshq.com">Pylons</a> Python web framework.
+MapFish extends Pylons with geospatial-specific functionality. For example
+MapFish provides specific tools for easily creating web services that allow
+querying and editing geographic objects.</p>
+<p>MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the <a class="reference external" href="http://extjs.com">ExtJS</a>, <a class="reference external" href="http://www.openlayers.org">OpenLayers</a> , <a class="reference external" href="http://www.geoext.org">GeoExt</a> JavaScript
+toolkits.</p>
+<p>MapFish is open source, and distributed under the <a class="reference external" href="http://www.opensource.org/licenses/bsd-license.php">BSD</a> license.</p>
+<p>In this module, you&#8217;re going to familiarize yourselves with
+the MapFish framework. More specifically, you&#8217;re going to install MapFish,
+create a basic MapFish application, and generate a MapFish web service
+in this application.</p>
+<div class="section" id="install-mapfish">
+<h2>Install MapFish<a class="headerlink" href="#install-mapfish" title="Permalink to this headline">¶</a></h2>
+<p>To be able to create a MapFish application, the MapFish framework must be
+installed.</p>
+<p>MapFish is typically installed in a <em>virtual Python environment</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A virtual Python environment is a Python environment isolated from the
+main, system-wide Python environment. A virtual Python environment allows
+to install and uninstall Python packages as a regular user, i.e. with no
+admin priviledges.</p>
+</div>
+<p>There are multiple ways to install MapFish. The official and documented way
+involves downloading and executing the so-called <a class="reference external" href="http://www.mapfish.org/downloads/go-mapfish-framework-2.2.py">go</a> script.</p>
+<div class="admonition-task-1 admonition ">
+<p class="first admonition-title">Task #1</p>
+<p>Open a terminal, change to <tt class="docutils literal"><span class="pre">mapfish_workshop</span></tt> directory, an install
+MapFish using the following commands:</p>
+<div class="highlight-python"><pre>$ wget http://www.mapfish.org/downloads/go-mapfish-framework-2.2.py
+$ python go-mapfish-framework-2.2.py --no-site-packages env</pre>
+</div>
+<p class="last">The last command line creates a directory named <tt class="docutils literal"><span class="pre">env</span></tt> in the current
+directory (<tt class="docutils literal"><span class="pre">mapfish_workshop</span></tt>). The <tt class="docutils literal"><span class="pre">--no-site-packages</span></tt> switch
+specifies that you want a virtual environment that is isolated from the
+main, system-wide environment, which means that Python packages installed
+in the main environment won&#8217;t be available in the virtual environment.</p>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">go</span></tt> script creates a virtual Python environment, and install MapFish and
+its dependencies into it.</p>
+<div class="admonition-task-2 admonition ">
+<p class="first admonition-title">Task #2</p>
+<p>You can verify that MapFish is correctly installed by entering this
+command:</p>
+<div class="highlight-python"><pre>$ env/bin/paster create --list-templates</pre>
+</div>
+<p>and verifying that you get this in the output:</p>
+<div class="highlight-python"><pre>Available templates:
+  basic_package:   A basic setuptools-enabled package
+  mapfish:         MapFish application template
+  mapfish_client:  MapFish client plugin template
+  paste_deploy:    A web application deployed through paste.deploy
+  pylons:          Pylons application template
+  pylons_minimal:  Pylons minimal application template</pre>
+</div>
+<p class="last">Make sure the <em>mapfish</em> and <em>mapfish_client</em> templates are listed. If so
+then MapFish is correctly installed. Congrats!</p>
+</div>
+</div>
+<div class="section" id="create-a-mapfish-application">
+<h2>Create a MapFish application<a class="headerlink" href="#create-a-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>Creating a MapFish application involves applying the <em>mapfish</em> template, and
+optionally the <em>mapfish_client</em> template. The <em>mapfish</em> template creates
+the base, the <em>mapfish_client</em> template adds the JavaScript programming
+environment to the application.</p>
+<div class="admonition-task-3 admonition ">
+<p class="first admonition-title">Task #3</p>
+<p>In the same terminal create a MapFish application named <em>MyApp</em> using
+this command:</p>
+<div class="highlight-python"><pre>$ env/bin/paster create -t mapfish MyApp sqlalchemy=true template_engine=mako</pre>
+</div>
+<p>This command creates a <tt class="docutils literal"><span class="pre">MyApp</span></tt> directory, containing the MyApp
+application.</p>
+<p><tt class="docutils literal"><span class="pre">sqlalchemy=true</span></tt> specifies that you want to use the SQLAlchemy database
+toolkit, and <tt class="docutils literal"><span class="pre">template_engine=mako</span></tt> specifies that you want to use
+Mako as the tempate engine. Both settings are typical when working with
+MapFish.</p>
+<p class="last">Answer &#8220;yes&#8221; to all questions.</p>
+</div>
+<p>A MapFish application is a Pylons application with specificities. One of these
+specificities is to be able to create REST web services for querying and
+editing geographic objects. You will create such a web service in the next
+section.</p>
+<p>At this point you haven&#8217;t applied the <em>mapfish_client</em> template, so the
+<em>JavaScript toolbox</em>, composed of ExtJS, OpenLayers and GeoExt, isn&#8217;t installed
+yet.</p>
+<div class="admonition-task-4 admonition ">
+<p class="first admonition-title">Task #4</p>
+<p>Apply the <em>mapfish_client</em> template on the MyApp application and execute
+the application using the Paste HTTP server:</p>
+<div class="highlight-python"><pre>$ cd ~/mapfish_workshop
+$ env/bin/paster create -t mapfish_client MyApp
+$ cd MyApp
+$ ../env/bin/paster serve development.ini</pre>
+</div>
+<p>Open <a class="reference external" href="http://locahost:5000">http://locahost:5000</a> in Iceweasel.</p>
+<p class="last">Hit CTRL+C to shut down the server.</p>
+</div>
+<p>The <em>mapfish_client</em> template installs ExtJS, OpenLayers, GeoExt, and a sample
+JavaScript application based on these librairies.</p>
+<div class="admonition-task-5 admonition ">
+<p class="first admonition-title">Task #5</p>
+<p class="last">Take some time to browse the application source tree, and view a few files.
+In particular you can view <tt class="docutils literal"><span class="pre">myapp/public/app/lib/App/main.js</span></tt> and
+<tt class="docutils literal"><span class="pre">myapp/public/app/lib/App/layout.js</span></tt> which contain the JavaScript making
+up the web interface.</p>
+</div>
+</div>
+<div class="section" id="create-a-mapfish-web-service">
+<h2>Create a MapFish Web Service<a class="headerlink" href="#create-a-mapfish-web-service" title="Permalink to this headline">¶</a></h2>
+<p>One of the things that MapFish adds to Pylons is the ability to easily create
+HTTP web services for querying and editing geographic objects stored in
+geospatial databases.</p>
+<p>To illustrate this we&#8217;re going to create such a web service in this section.</p>
+<p>The Debian GNU/Linux system executes PostgreSQL 8.4 and PostGIS 1.5.</p>
+<p>A database named <tt class="docutils literal"><span class="pre">v2.2_mapfishsample</span></tt> is available, it includes a table named
+<tt class="docutils literal"><span class="pre">poi_osm</span></tt> that contain POIs from the OSM dataset. The MapFish web service
+we&#8217;re going to create will rely on this table. It will provide HTTP interfaces
+for creating, reading, updating, and deleting POIs.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The shapefile used to create the <tt class="docutils literal"><span class="pre">poi_osm</span></tt> table are available in
+the MapFishSample SVN directory at
+&lt;<a class="reference external" href="http://svn.mapfish.org/svn/mapfish/sample/trunk/geodata/">http://svn.mapfish.org/svn/mapfish/sample/trunk/geodata/</a>&gt;.</p>
+<p>This directory also includes a shell script to import the shapefile into
+a PostGIS table. This script is to be executed by the <tt class="docutils literal"><span class="pre">postgres</span></tt> user
+with this command line:</p>
+<div class="highlight-python"><pre>$ ./create_database.bash -p</pre>
+</div>
+<p class="last">Again, users of the virtual machine don&#8217;t need to execute this
+script.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can launch pgAdmin and use the <tt class="docutils literal"><span class="pre">localhost</span></tt> connection to connect to
+the <tt class="docutils literal"><span class="pre">v2.2_mapfishsample</span></tt> database and view the <tt class="docutils literal"><span class="pre">poi_osm</span></tt> table.</p>
+</div>
+<p>Creating a MapFish web service is a three-step process:</p>
+<ol class="arabic simple">
+<li>Edit the <tt class="docutils literal"><span class="pre">layers.ini</span></tt> file, and add a section for the targeted database
+table.</li>
+<li>Execute the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></tt> command, specifying the name of the
+section created at the previous step.</li>
+<li>Add <em>routes</em> for the web service. Routes are rules matching URLs to
+Python code.</li>
+</ol>
+<div class="admonition-task-6 admonition ">
+<p class="first admonition-title">Task #6</p>
+<p>Edit the <tt class="docutils literal"><span class="pre">development.ini</span></tt> file and replace the <tt class="docutils literal"><span class="pre">sqlalchemy.url</span></tt> line
+by this one:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = postgresql://www-data:www-data@localhost/v2.2_mapfishsample</pre>
+</div>
+<p class="last">The <tt class="docutils literal"><span class="pre">sqlalchemy.url</span></tt> variable defines the connection to the PostgreSQL
+database.</p>
+</div>
+<div class="admonition-task-7 admonition ">
+<p class="first admonition-title">Task #7</p>
+<p>In this task you&#8217;re going to actually create a MapFish web service
+for the <tt class="docutils literal"><span class="pre">poi_osm</span></tt> table.</p>
+<ol class="last arabic">
+<li><p class="first">Edit the <tt class="docutils literal"><span class="pre">layers.ini</span></tt> and add this content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">pois</span><span class="p">]</span>
+<span class="n">singular</span><span class="o">=</span><span class="n">poi</span>
+<span class="n">plural</span><span class="o">=</span><span class="n">pois</span>
+<span class="n">table</span><span class="o">=</span><span class="n">poi_osm</span>
+<span class="n">epsg</span><span class="o">=</span><span class="mi">900913</span>
+<span class="n">geomcolumn</span><span class="o">=</span><span class="n">the_geom</span>
+<span class="n">geomtype</span><span class="o">=</span><span class="n">Point</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></tt> command:</p>
+<div class="highlight-python"><pre>$ ../env/bin/paster mf-layer pois</pre>
+</div>
+</li>
+<li><p class="first">Edit <tt class="docutils literal"><span class="pre">myapp/config/routing.py</span></tt> and add the following two lines after
+the <tt class="docutils literal"><span class="pre">#</span> <span class="pre">CUSTOM</span> <span class="pre">ROUTES</span> <span class="pre">HERE</span></tt> line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;/pois/count&quot;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s">&quot;pois&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">)</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s">&quot;poi&quot;</span><span class="p">,</span> <span class="s">&quot;pois&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Watch the indentation! 4 spaces, no tabs</p>
+</li>
+<li><p class="first">You can now run the Paste HTTP Serve again:</p>
+<div class="highlight-python"><pre>$ ../env/bin/paster serve development.ini</pre>
+</div>
+<p>And open <a class="reference external" href="http://localhost:5000/pois?limit=1">http://localhost:5000/pois?limit=1</a> to see the web service in
+action.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="understand-the-mapfish-protocol">
+<h2>Understand the MapFish Protocol<a class="headerlink" href="#understand-the-mapfish-protocol" title="Permalink to this headline">¶</a></h2>
+<p>MapFish web services implement the <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol">MapFish Protocol</a>. The protocol
+defines APIs to create, read, update, and delete geographic objects.</p>
+<p>To read objects the HTTP verb <tt class="docutils literal"><span class="pre">GET</span></tt> is used. To create, update, and delete
+objects the verbs <tt class="docutils literal"><span class="pre">POST</span></tt>, <tt class="docutils literal"><span class="pre">PUT</span></tt>, and <tt class="docutils literal"><span class="pre">DELETE</span></tt> are used, respectively.
+<a class="reference external" href="http://geojson.org/">GeoJSON</a> is used as the representation format.</p>
+<div class="admonition-task-7 admonition ">
+<p class="first admonition-title">Task #7</p>
+<p>Open <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol">http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol</a> in one
+tab of the browser.</p>
+<p>In another tab find the URLs that correspond to the following queries:</p>
+<ol class="last arabic simple">
+<li>The first POI in the table (This one is very easy, as the answer was
+provided in the previous Task).</li>
+<li>The second POI in the table.</li>
+<li>POIs ordered by their ratings, from the highest to the lowest.</li>
+<li>The POIs included in the bounding box defined by these coordinates:
+<tt class="docutils literal"><span class="pre">658617.26544395,5711420.1369314,659047.223728,5711725.8850445</span></tt>.</li>
+<li>POIs that are restaurants.</li>
+<li>The POI whose id is 6.</li>
+<li>The total number of POIs in the table.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="installing_and_running_mapfishsample.html" title="Installing and Running MapFishSample"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

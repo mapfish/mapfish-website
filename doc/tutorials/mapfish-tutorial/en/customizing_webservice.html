@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 7 - Customizing the web service &mdash; MapFish Tutorial v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
+    <link rel="up" title="MapFish Tutorial" href="index.html" />
+    <link rel="next" title="Tutorial MapFish" href="../fr/index.html" />
+    <link rel="prev" title="Module 6 - Adding search functionality" href="adding_search_functionality.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../fr/index.html" title="Tutorial MapFish"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="adding_search_functionality.html" title="Module 6 - Adding search functionality"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="adding_search_functionality.html"
+                                  title="previous chapter">Module 6 - Adding search functionality</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../fr/index.html"
+                                  title="next chapter">Tutorial MapFish</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/customizing_webservice.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-7-customizing-the-web-service">
+<h1>Module 7 - Customizing the web service<a class="headerlink" href="#module-7-customizing-the-web-service" title="Permalink to this headline">¶</a></h1>
+<p>This module will demonstrate one example of web service customization.</p>
+<p>You&#8217;re going to customize the <tt class="docutils literal"><span class="pre">countries</span></tt> web service so it includes only
+countries of the Oceana continent in its GeoJSON responses.</p>
+<p><strong>Programming task</strong></p>
+<p>This is done by adding code to the <tt class="docutils literal"><span class="pre">index</span></tt> action (function) of the
+<tt class="docutils literal"><span class="pre">CountriesController</span></tt>. The code to be added involves creating a
+<tt class="docutils literal"><span class="pre">Comparison</span></tt> filter and combining it with the default MapFish filter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">and_</span>
+
+<span class="nd">@geojsonify</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;GET /: return all features.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">format</span> <span class="o">!=</span> <span class="s">&#39;json&#39;</span><span class="p">:</span>
+        <span class="n">abort</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">and_</span><span class="p">(</span><span class="n">create_default_filter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">Country</span><span class="p">),</span>
+                  <span class="n">Country</span><span class="o">.</span><span class="n">continent</span> <span class="o">==</span> <span class="s">&quot;Africa&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>[<a class="reference external" href="_static/controller_countries_module7.py">Correction here (controller/countries.py)</a>]</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../fr/index.html" title="Tutorial MapFish"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="adding_search_functionality.html" title="Module 6 - Adding search functionality"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Éric Lemoine, Cédric Moullet, Claude Philipona.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

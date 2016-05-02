@@ -1,0 +1,205 @@
+Module 4 - Construction de scripts JavaScript
+=============================================
+
+Au sein de ce module vous allez apprendre à utiliser l’outil ``jsbuild`` pour
+optimiser et réduire le code JavaScript de votre application. Minimiser votre
+code JavaScript est très important si vous êtes attentif à la performance de
+votre application, cette opération permet de réduire de façon drastique le temps
+de chargement du code JavaScript.
+
+Installation
+------------
+
+L’outil ``jsbuild`` est inclus dans le package Python ``JSTools``. La structure
+du package MapFish dépendant du ``JSTools``, ce dernier à été installé au sein
+de l’environnement virtuel de Python comme partie intégrante de l’installation
+du Framework.
+
+Vous pouvez vérifier que ``jsbuild`` est proprement installé en lançant cette 
+commande :
+
+::
+    
+    $ jsbuild --help
+
+Ce qui devrait vous donner le résultat suivant :
+
+::
+    
+    Usage: jsbuild-script.py [options] filename1.cfg [filename2.cfg...]
+
+    Options:
+      -h, --help            show this help message and exit
+      -u, --uncompress      Don't compresses aggregated javascript
+      -v, --verbose         print more info
+      -o OUTPUT_DIR, --output=OUTPUT_DIR
+                            Output directory
+      -r RESOURCE_DIR, --resource=RESOURCE_DIR
+                            resource base directory (for interpolation)
+      -j SINGLE_FILE, --just=SINGLE_FILE
+                            Only create file for this section
+      -s CONCAT, --single-file-build=CONCAT
+                            Create a single file of all of possible output
+      -c COMPRESSOR, --compressor=COMPRESSOR
+                            Compressor plugin to use in form
+                            {specifier}:{'arguments_string'}
+
+Conception du profile de compression
+------------------------------------
+
+Pour être capable de minimiser le code JavaScript de votre application vous
+devrez créer un profile de compression. Ce dernier détient par exemple la
+configuration des chemins d'accès aux dossiers JavaScript, etc.
+
+Un profile de compression pour l’interface utilisateur par défaut est proposé
+dans le fichier ``jsbuild/app.cfg``. Ce dernier ressemble à ceci :
+
+::
+    
+    [app.js]
+    root =
+        ../mapfishapp/public/app/lib
+        ../mapfishapp/public/lib/ext
+        ../mapfishapp/public/lib/openlayers/lib
+        ../mapfishapp/public/lib/geoext/lib
+    first =
+        Ext/adapter/ext/ext-base.js
+        Ext/ext-all.js
+        OpenLayers/SingleFile.js
+        OpenLayers.js
+        OpenLayers/Util.js
+        OpenLayers/Lang.js
+        OpenLayers/Lang/en.js
+        OpenLayers/Console.js
+        OpenLayers/BaseTypes.js
+        OpenLayers/BaseTypes/Class.js
+        OpenLayers/BaseTypes/Pixel.js
+        OpenLayers/BaseTypes/Bounds.js
+        OpenLayers/BaseTypes/LonLat.js
+        OpenLayers/BaseTypes/Element.js
+        OpenLayers/BaseTypes/Size.js
+    include =
+        App/main.js
+    exclude =
+        GeoExt.js
+        GeoExt/SingleFile.js
+
+``[app.js]``
+    ``app.js`` sera le nom du fichier compressé.
+
+``root``
+    La propriété ``root`` présente les chemins d’accès vers les dossiers
+    contenant le code JavaScript. Il faut noter qu’avec le profile de compression
+    précédant, le code JavaScript d’OpenLayers, de GeoExt, du Client MapFish, et de
+    l’application est minimisé et associé au sein d’un seul et même fichier
+    compressé, ``app.js``.
+
+``first``
+    La propriété ``first`` présente la liste des fichiers JavaScript devant
+    apparaître en priorité dans le fichier compressé résultant.
+
+``include``
+    La propriété ``include`` présente la liste des fichiers devant êtres inclus dans
+    le fichier compressé. Vous pourrez constater qu’un seul fichier est ici
+    spécifier: le fichier .app, point d’entrée de l'application. Les autres fichiers
+    JavaScript devant êtres inclus au sein du fichier compressé sont spécifiés en
+    utilisant les directives ``@include`` au sein même des fichiers JavaScript de
+    l’application.
+
+``exclude``
+    La propriété ``exclude`` présente la liste des fichiers ne devant pas êtres
+    inclus au sein du fichier compressé.
+
+Construction
+------------
+
+Avant de construire votre code JavaScript, vous devez créer le dossier où le
+fichier compressé sera placé. Au sein du dossier ``public`` créez un dossier que
+vous nommerez ``build`` :
+
+::
+    
+    $ mkdir -p mapfishapp/public/build
+
+Vous pouvez maintenant lancer la commande de compression :
+
+::
+    
+    $ cd jsbuild
+    $ jsbuild -o ../mapfishapp/public/build   app.cfg
+
+Après un cours instant, le résultat doit correspondre à :
+
+::
+    
+    Done:
+    ../mapfishapp/public/build/app.js
+
+
+Vous pouvez à présent éditer la page ``public/index.html`` afin de d’utiliser la
+version intégrée du code JavaScript. Pour cela faites attention à commenter la
+section *debug mode* et de supprimer les commentaires de la section *non debug
+mode*. Opérez comme ceci :
+
+::
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+            <meta name="content-language" content="en" />
+            <title>Application</title>
+
+            <link rel="stylesheet" type="text/css" href="lib/ext/Ext/resources/css/ext-all.css"></link>
+            <link rel="stylesheet" type="text/css" href="lib/ext/Ext/resources/css/xtheme-gray.css"></link>
+            <link rel="stylesheet" type="text/css" href="lib/openlayers/theme/default/style.css"></link>
+            <link rel="stylesheet" type="text/css" href="lib/geoext/resources/css/popup.css"></link>
+            <link rel="stylesheet" type="text/css" href="app/css/main.css"></link>
+
+            <script type="text/javascript" src="lib/ext/Ext/adapter/ext/ext-base.js"></script>
+
+            <!-- debug mode (begin) -->
+            <!--
+            <script type="text/javascript" src="lib/ext/Ext/ext-all-debug.js"></script>
+            <script type="text/javascript" src="lib/openlayers/lib/OpenLayers.js"></script>
+            <script type="text/javascript" src="lib/geoext/lib/GeoExt.js"></script>
+            <script type="text/javascript" src="app/lib/App/layout.js"></script>
+            <script type="text/javascript" src="app/lib/App/main.js"></script>
+            -->
+            <!-- debug mode (end) -->
+
+            <!-- non debug mode (begin) -->
+            <script type="text/javascript" src="build/app.js"></script>
+            <!-- non debug mode (end) -->
+
+        </head>
+
+        <body>
+        </body>
+    <html>
+
+Rechargez maintenant la page http://localhost:5000 au sein de votre navigateur.
+
+Vous devriez obtenir des erreurs JavaScript au sein de la console FireBug, elles
+sont liées aux fonctionnalités intégrées dans le module précédant du tutoriel.
+Ces dernières n’ont pas respectées les directives d’ ``@include`` au sein du
+fichier ``layout.js``. Vous êtes maintenant capable de résoudre ce problème en intégrant la directive
+``@include``, en voici un exemple:
+
+::
+    
+    /*
+     * @include OpenLayers/Layer/WMS.js
+     * @include OpenLayers/Map.js
+     * @include OpenLayers/Projection.js
+     * @include OpenLayers/Layer/XYZ.js
+     * @include OpenLayers/Tile/Image.js
+     * @include OpenLayers/Control/Navigation.js
+     * @include OpenLayers/Control/ZoomBox.js
+     * @include OpenLayers/Control/NavigationHistory.js
+     * @include GeoExt/data/LayerStore.js
+     * @include GeoExt/widgets/MapPanel.js
+     * @include GeoExt/widgets/Action.js
+     * @include GeoExt/widgets/ZoomSlider.js
+     * @include GeoExt/widgets/tips/ZoomSliderTip.js
+     * @include GeoExt/widgets/tree/LayerContainer.js
+     */

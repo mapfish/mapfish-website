@@ -1,0 +1,33 @@
+.. MapFish Tutorial documentation master file, created by
+   sphinx-quickstart on Mon Sep 21 16:47:05 2009.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. _`mapfish.workshop.tuto_foss4g_2010`:
+
+Tutorial MapFish
+================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   getting_started
+   creating_application
+   customizing_application
+   building_javascript
+   creating_webservice
+   adding_search_functionality
+   customizing_webservice
+
+Licence et limitation de garantie
+---------------------------------
+
+`Camptocamp <http://www.camptocamp.com>`_ et les auteurs fournissent ces documents
+“TELS QUELs,” sans aucune garantie expresse ou implicite.
+
+Documents sous licence `Creative Common License Attribution-Share Alike 2.5 Generic
+<http://creativecommons.org/licenses/by-sa/2.5/>`_.
+
+Authors: Éric Lemoine, François Van Der Biest, Antoine Abt

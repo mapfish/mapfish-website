@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing the JavaScript toolbox &mdash; MapFish v2.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.1 documentation" href="../index.html" />
+    <link rel="up" title="Framework" href="index.html" />
+    <link rel="next" title="Creating MapFish Web Services" href="webservice.html" />
+    <link rel="prev" title="Setting up a MapFish application" href="mapfish-application.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="webservice.html" title="Creating MapFish Web Services"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mapfish-application.html" title="Setting up a MapFish application"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mapfish-application.html"
+                        title="previous chapter">Setting up a MapFish application</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="webservice.html"
+                        title="next chapter">Creating MapFish Web Services</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/framework/javascript-toolbox.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-the-javascript-toolbox">
+<h1>Installing the JavaScript toolbox<a class="headerlink" href="#installing-the-javascript-toolbox" title="Permalink to this headline">¶</a></h1>
+<p>MapFish provides another application template for installing the MapFish JavaScript
+toolbox in the application, this template is named <tt class="docutils literal"><span class="pre">mapfish_client</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can use <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">--list-templates</span></tt> to get a list of all
+available application templates.</p>
+</div>
+<p>To install the JavaScript toolbox in the <tt class="docutils literal"><span class="pre">HelloWorld</span></tt> application execute the
+following command in the directory including the <tt class="docutils literal"><span class="pre">HelloWorld</span></tt> directory:</p>
+<div class="highlight-python"><pre>(venv) $ paster create -t mapfish_client HelloWorld</pre>
+</div>
+<p>You can safely answer <tt class="docutils literal"><span class="pre">y</span></tt> when you asked whether the <tt class="docutils literal"><span class="pre">favicon.ico</span></tt> and
+<tt class="docutils literal"><span class="pre">index.html</span></tt> files can be overwritten. It means those two files will be
+replaced by those in the <tt class="docutils literal"><span class="pre">mapfish_client</span></tt> template, which is what we want.</p>
+<p>You can now visit <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> again. You should get an example page,
+with an <a class="reference external" href="http://www.openstreetmap.org/">OpenStreetMap</a> map.</p>
+<p>Let&#8217;s now look at what the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">-t</span> <span class="pre">mapfish_client</span></tt> command does.
+In addition to replacing the <tt class="docutils literal"><span class="pre">favicon.ico</span></tt> and <tt class="docutils literal"><span class="pre">index.html</span></tt> file the
+command creates three new directories in the application&#8217;s <tt class="docutils literal"><span class="pre">public</span></tt> directory.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">lib</span></tt></dt>
+<dd>This directory contains the JavaScript toolbox. It includes sub-directories
+for the <a class="reference external" href="http://extjs.com">Ext</a>, <a class="reference external" href="http://www.openlayers.org">OpenLayers</a>, <a class="reference external" href="http://www.geoext.org">GeoExt</a>, and
+MapFish Client toolkits.</dd>
+<dt><tt class="docutils literal"><span class="pre">app</span></tt></dt>
+<dd>This directory contains static files specific to the application. It includes a
+<tt class="docutils literal"><span class="pre">js</span></tt> directory, into which you can put the JavaScript code specific to
+the application. The <tt class="docutils literal"><span class="pre">mapfish_client</span></tt> template installs a default JavaScript
+application, which is implemented in the <tt class="docutils literal"><span class="pre">helloworld_init.js</span></tt> and
+<tt class="docutils literal"><span class="pre">helloworld_layout.js</span></tt> files. You can add other directories like <tt class="docutils literal"><span class="pre">css</span></tt>
+and <tt class="docutils literal"><span class="pre">img</span></tt> in this <tt class="docutils literal"><span class="pre">app</span></tt> directory.</dd>
+<dt><tt class="docutils literal"><span class="pre">tests</span></tt></dt>
+<dd>This directory includes the <a class="reference external" href="http://www.openjsan.org/doc/a/ar/artemkhodush/">Test.AnotherWay</a> JavaScript testing
+framework, with a test example in <tt class="docutils literal"><span class="pre">app/TheObvious.html</span></tt>. MapFish
+encourages JavaScript developpers to write tests.</dd>
+</dl>
+<p>To learn how to use the JavaScript libraries composing the toolbox consult the
+following documentations:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.openlayers.org/">OpenLayers docs</a></li>
+<li><a class="reference external" href="http://www.geoext.org/docs.html">GeoExt docs</a></li>
+</ul>
+<p>Look also at the <a class="reference external" href="../reference/index.html#client">various API docs</a>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="webservice.html" title="Creating MapFish Web Services"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mapfish-application.html" title="Setting up a MapFish application"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; MapFish v2.0 documentation</title>
+    <link rel="stylesheet" href="_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.0 documentation" href="index.html" />
+    <link rel="next" title="Quickstart" href="quickstart.html" />
+    <link rel="prev" title="Mapfish 2.0" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Mapfish 2.0"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">MapFish v2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#installing-system-dependencies">Installing system dependencies</a></li>
+<li><a class="reference internal" href="#installing-mapfish">Installing MapFish</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Mapfish 2.0</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="next chapter">Quickstart</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<span id="installation-2-0"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installing-system-dependencies">
+<h2>Installing system dependencies<a class="headerlink" href="#installing-system-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>On Unix, Python version 2.5 or 2.6 and the Python development files must be
+installed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On Debian-based systems one can use <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python2.5</span>
+<span class="pre">python2.5-dev</span></tt> to install Python 2.5 and its development files.
+Geos and Postgres/Postgis are also required:  <tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libgeos-3.0.0</span> <span class="pre">postgresql</span> <span class="pre">postgis</span> <span class="pre">postgresql-8.3-postgis</span></tt></p>
+</div>
+<p>On Windows <a class="reference external" href="http://www.python.org/download/releases/2.5.4/">Python 2.5</a>, and
+the <a class="reference external" href="http://sourceforge.net/projects/pywin32/">Python for Windows extensions</a>
+must be installed.</p>
+<p>For Windows, we assume in the rest of this page that Python 2.5 is installed in
+<tt class="docutils literal"><span class="pre">C:\Python25</span></tt>.</p>
+</div>
+<div class="section" id="installing-mapfish">
+<h2>Installing MapFish<a class="headerlink" href="#installing-mapfish" title="Permalink to this headline">¶</a></h2>
+<p>To install MapFish, <a class="reference external" href="http://www.mapfish.org/downloads/go-mapfish-framework-2.0.py">download</a> the installation script, and execute it from a terminal.</p>
+<p>On a Unix system:</p>
+<div class="highlight-python"><pre>$ python go-mapfish-framework-2.0.py --no-site-packages env</pre>
+</div>
+<p>On a Windows system:</p>
+<div class="highlight-python"><pre>C:\&gt; C:\Python25\python.exe go-mapfish-framework-2.0.py --no-site-packages env</pre>
+</div>
+<p>This command creates a virtual Python environment named <tt class="docutils literal"><span class="pre">env</span></tt> and installs
+MapFish and its dependencies into it.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The so-called <cite>go</cite> script actually installs two Python eggs for MapFish:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>the egg <tt class="docutils literal"><span class="pre">mapfish</span></tt> for the server framework</li>
+<li>the egg <tt class="docutils literal"><span class="pre">mapfish.plugin.client</span></tt> for the Javascript toolbox</li>
+</ul>
+</div></blockquote>
+</div>
+<p>Now activate the virtual environment.</p>
+<p>On a Unix system:</p>
+<div class="highlight-python"><pre>$ source env/bin/activate</pre>
+</div>
+<p>On a Windows system:</p>
+<div class="highlight-python"><pre>C:\&gt; env\Scripts\activate.bat</pre>
+</div>
+<p>You command prompt should now look like this:</p>
+<div class="highlight-python"><pre>(env) $</pre>
+</div>
+<p>To check that MapFish is correctly installed, enter:</p>
+<div class="highlight-python"><pre>(env) $ paster create --list-templates</pre>
+</div>
+<p>and check that the output is:</p>
+<div class="highlight-python"><pre>Available templates:
+basic_package:   A basic setuptools-enabled package
+mapfish:         MapFish application template
+mapfish_client:  MapFish client plugin template
+paste_deploy:    A web application deployed through paste.deploy
+pylons:          Pylons application template
+pylons_minimal:  Pylons minimal application template</pre>
+</div>
+<p>MapFish is installed, congratulations!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Mapfish 2.0"
+             >previous</a> |</li>
+        <li><a href="index.html">MapFish v2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

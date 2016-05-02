@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 6 - Adding search functionality &mdash; MapFish Tutorial v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
+    <link rel="up" title="MapFish Tutorial" href="index.html" />
+    <link rel="next" title="Module 7 - Customizing the web service" href="customizing_webservice.html" />
+    <link rel="prev" title="Module 5 - Creating Web Services" href="creating_webservice.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="customizing_webservice.html" title="Module 7 - Customizing the web service"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="creating_webservice.html" title="Module 5 - Creating Web Services"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="creating_webservice.html"
+                                  title="previous chapter">Module 5 - Creating Web Services</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="customizing_webservice.html"
+                                  title="next chapter">Module 7 - Customizing the web service</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/adding_search_functionality.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-6-adding-search-functionality">
+<h1>Module 6 - Adding search functionality<a class="headerlink" href="#module-6-adding-search-functionality" title="Permalink to this headline">¶</a></h1>
+<p>In this module you&#8217;re going to add a search functionality to the user
+interface. This search functionality will rely on the <tt class="docutils literal"><span class="pre">countries</span></tt> web
+service that you created in the previous module.</p>
+<p>With this search functionality users will be able to click on the map and get a
+popup giving information about the clicked country.</p>
+<p>We have to create a <tt class="docutils literal"><span class="pre">OpenLayers.Control.getFeature</span></tt> linked to our previously
+created controller, dealing in GeoJSON format:</p>
+<div class="highlight-python"><pre>var gf = new OpenLayers.Control.GetFeature({
+    protocol: new OpenLayers.Protocol.HTTP({
+        url: '/countries',
+        format: new OpenLayers.Format.GeoJSON()
+    })
+});</pre>
+</div>
+<p>Listening to the <tt class="docutils literal"><span class="pre">featureselected</span></tt> event of the Control, you might be able to
+add the feature to the vector layer and create a <tt class="docutils literal"><span class="pre">GeoExt.Popup</span></tt> anchored to this
+feature, displaying in it attributes of the the feature:</p>
+<div class="highlight-python"><pre>gf.events.on({
+    'featureselected': function(e){
+        if (arguments.callee.current_popup &amp;&amp; arguments.callee.current_popup.anc) {
+            arguments.callee.current_popup.destroy();
+        }
+        var layer = map.getLayersByName('vector')[0];
+        layer.destroyFeatures();
+        layer.addFeatures([e.feature]);
+        arguments.callee.current_popup = new GeoExt.Popup({
+            feature: e.feature,
+            title: e.feature.data.pays,
+            html: e.feature.data.pays+' ('+e.feature.data.continent+')',
+            width: 200
+        });
+        arguments.callee.current_popup.show();
+    }
+});</pre>
+</div>
+<p>Then we add this control to the toolbar, wrapped in a <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt>:</p>
+<div class="highlight-python"><pre>actions.push(new GeoExt.Action({
+    iconCls: "info",
+    map: map,
+    toggleGroup: "tools",
+    allowDepress: false,
+    tooltip: "Get country information",
+    control: gf
+}));</pre>
+</div>
+<p>And some CSS in <tt class="docutils literal"><span class="pre">mapfishapp/public/app/css/main.css</span></tt>:</p>
+<div class="highlight-python"><pre>.info {
+     background-image:url(../img/info.png) !important;
+     height:20px !important;
+     width:20px !important;
+ }</pre>
+</div>
+<p>and a link to the <tt class="docutils literal"><span class="pre">GeoExt.Popup</span></tt>&#8216;s CSS in <tt class="docutils literal"><span class="pre">mapfishapp/public/index.html</span></tt>:</p>
+<div class="highlight-python"><pre>&lt;link rel="stylesheet" type="text/css" href="lib/geoext/resources/css/popup.css" /&gt;</pre>
+</div>
+<p>When clicking on a country you should get a popup looking like this:</p>
+<img alt="../_images/popup.png" src="../_images/popup.png" style="width: 500pt; height: 300pt;" />
+<p>[<a class="reference external" href="../_static/layout.js">Correction here</a>]</p>
+<p>Note that the AJAX responses may show that the database complains about EPSG:900913 code not being known.
+In that case, you may run the following INSERT statement in your database:</p>
+<div class="highlight-python"><pre>INSERT INTO spatial_ref_sys (srid,auth_name,auth_srid,srtext,proj4text) VALUES
+(900913,'EPSG',900913,'PROJCS["Google Mercator", GEOGCS["WGS 84",DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic latitude", NORTH], AXIS["Geodetic longitude", EAST], AUTHORITY["EPSG","4326"]], PROJECTION["Mercator (1SP)", AUTHORITY["EPSG","9804"]], PARAMETER["semi_major", 6378137.0], PARAMETER["semi_minor", 6378137.0], PARAMETER["latitude_of_origin", 0.0], PARAMETER["central_meridian", 0.0], PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", 0.0], PARAMETER["false_northing", 0.0], UNIT["m", 1.0], AXIS["Easting", EAST], AXIS["Northing", NORTH], AUTHORITY["EPSG","900913"]]','+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs');</pre>
+</div>
+<p><strong>Bonus tasks</strong></p>
+<p>1. Change the <tt class="docutils literal"><span class="pre">OpenLayers.Control.GetFeature</span></tt> configuration so it sends
+requests as the user pauses on the map.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="customizing_webservice.html" title="Module 7 - Customizing the web service"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="creating_webservice.html" title="Module 5 - Creating Web Services"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Éric Lemoine, Cédric Moullet, Claude Philipona.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

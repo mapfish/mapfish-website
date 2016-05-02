@@ -1,0 +1,593 @@
+**********************
+Securing MapFishSample
+**********************
+
+Real-life applications very often require some sort of access control. Access
+control can be implemented in MapFish applications using any security toolkit
+that can be used with Pylons, including `repoze.who
+<http://docs.repoze.org/who/>`_ and `AuthKit <http://authkit.org/>`_.
+
+In this module we will see how to secure MapFish applications with repoze.who,
+which has become the most popular security toolkit for Pylons.
+
+This module is based on a simple, yet realistic, scenario:
+
+* The application is available to authenticated users only, so a login
+  form is immediately displayed when the application is loaded in the
+  browser.
+* Every web service composing the application must be protected, including
+  the POI, MapServer, and TileCache web services.
+* The HTTP Basic authentication mechanism is used.
+* Users are stored in the PostgreSQL database.
+
+Create User Model
+=================
+
+In this section we will create a user table in the database. This table will
+include the following columns: ``name``, ``login``, ``password``, and
+``editor``. This table will be created at application setup time, using
+SQLAlchemy.
+
+The first step involves creating an SQLAlchemy model class for the ``user``
+table. Model classes are typically defined in the ``model/__init__.py`` file.
+
+.. admonition:: Task #1
+
+    Edit ``mapfishample/model/__init__.py`` and append the following content to
+    the file::
+
+        class User(Base):
+            __tablename__ = 'user'
+
+            id = Column(types.Integer, primary_key=True)
+            name = Column(types.Unicode)
+            login = Column(types.Unicode)
+            password = Column(types.Unicode)
+            editor = Column(types.Boolean)
+
+            def validate_password(self, password):
+                return self.password == password
+
+    Again, watch your indentation! The ``class`` keyword should start at the
+    first column.
+
+    With this code a model class ``User`` bound to a table ``user`` is defined.
+    Five properties are defined in the class, each corresponds to a table
+    column. The ``validate_password`` function will be called by the security
+    toolkit to validate the password entered by the user.
+
+Once the model class is defined, the corresponding table can be created in the
+database with the ``paster setup-app`` command. As its name suggests the goal
+of this command is to set up the application. This command actually executes
+the ``setup_app`` function that is defined in the ``websetup.py`` file.
+
+.. admonition:: Task #2
+
+    Run ``paster setup-app`` to create the ``user`` table in the database::
+
+        $ ./buildout/bin/paster setup-app development.ini
+
+    Open ``pgadmin`` and verify that the table has been created, and that
+    its columns are as expected.
+
+For the ``user`` table to be useful users must be inserted into it. Again
+this is done at application setup time, so the code to insert users in
+the table goes to the ``websetup.py`` file.
+
+.. admonition:: Task #3
+
+    Edit ``mapfishsample/websetup.py`` again, and append the following
+    content to the ``setup_app`` function::
+
+        from mapfishsample.model import User
+ 
+        # create user "Johane"
+        u1 = User()
+        u1.name = "Johane"
+        u1.login = "johane"
+        u1.password = "johane"
+        u1.editor = True
+
+        # create user "Alix"
+        u2 = User()
+        u2.name = "Alix"
+        u2.login = "alix"
+        u2.password = "alix"
+        u2.editor = False
+
+        # add them to the database
+        Session.add_all([u1, u2])
+        Session.commit()
+
+    Run ``paster setup-app`` again, to execute the ``setup_app`` function
+    again, and insert our two users::
+
+        $ ./buildout/bin/paster setup-app development.ini
+
+    Open ``pgadmin`` one more time and verify that the ``user`` table
+    contains Johane and Alix.
+
+We now have our ``user`` table, with two users inserted into it. We're
+ready to set up authentication.
+
+.. note::
+
+    For security reasons passwords should actually be encrypted in the
+    database. This is ommitted here, for the sake of simplicity.
+
+Set Up Authentication
+=====================
+
+In this section we will set up authentication in MapFishSample, using
+``repoze.who``. This is done by adding code to two files:
+``mapfishsample/lib/auth.py`` and ``mapfishsample/config/middleware.py``.  The
+``auth.py`` file doesn't exist yet, it will be created for the specific purpose
+of setting up authentication.
+
+Prior to using ``repoze.who`` we need to install it in the Python
+environment. For that we just need to make ``repoze.who`` a dependency
+of MapFishSample.
+
+.. admonition:: Task #4
+
+    Edit ``setup.py`` and ``repoze.who.plugins.sa==1.0`` to the
+    ``install_requires`` array::
+
+        install_requires=[
+            "psycopg2>=2.2.0,<=2.2.99",
+            "mapfish>=2.0,<=2.2.99",
+            "httplib2>=0.6.0,<=0.6.99",
+            "Babel<=0.9.99",
+            "TileCache>=2.10,<=2.10.99",
+            "GeoFormAlchemy>=0.2,<=0.3.99",
+            "repoze.who.plugins.sa==1.0",
+        ],
+
+    The last entry in the array sets ``repoze.who.plugins.sa`` as a dependency
+    of MapFishSample. `repoze.who.plugins.sa
+    <http://code.gustavonarea.net/repoze.who.plugins.sa/>`_ is a ``repoze.who``
+    plugin to work with SQLAlchemy. ``repoze.who.plugins.sa`` requires
+    ``repoze.who``, so the installation of ``repoze.who.plugins.sa`` will
+    automatically install ``repoze.who``.
+
+    Execute the ``eggs`` and ``modwsgi`` Buildout parts to install the
+    ``repoze.who`` packages, and recreate the modwsgi script::
+
+        $ ./buildout/bin/buildout -c buildout_mine.cfg install eggs
+
+With ``repoze.who`` installed we can now go on with setting up the
+authentication. The main task for that involves writing a WSGI middleware
+dedicated to the authentication. This is typically done in ``lib/auth.py``.
+
+.. admonition:: Task #5
+
+    Create the file ``mapfishsample/lib/auth.py``, and open it in your editor,
+    and add this content to it::
+
+        import logging 
+         
+        from repoze.who.middleware import PluggableAuthenticationMiddleware 
+        from repoze.who.classifiers import default_request_classifier 
+        from repoze.who.classifiers import default_challenge_decider 
+         
+        from repoze.who.plugins.sa import SQLAlchemyAuthenticatorPlugin 
+        from repoze.who.plugins.sa import SQLAlchemyUserMDPlugin 
+        from repoze.who.plugins.basicauth import BasicAuthPlugin 
+         
+        from mapfishsample.model import meta, User 
+         
+        log = logging.getLogger(__name__) 
+         
+        def AuthMiddleware(app): 
+         
+            basicauth = BasicAuthPlugin('repoze.who') 
+         
+            authenticator = SQLAlchemyAuthenticatorPlugin(User, meta.Session) 
+            authenticator.translations['user_name'] = 'login' 
+         
+            mdprovider = SQLAlchemyUserMDPlugin(User, meta.Session) 
+            mdprovider.translations['user_name'] = 'login' 
+         
+            identifiers = [('basicauth', basicauth)] 
+            authenticators = [('sqlalchemy', authenticator)] 
+            challengers = [('basicauth', basicauth)] 
+            mdproviders = [('sqlalchemy', mdprovider)] 
+         
+            return PluggableAuthenticationMiddleware( 
+                app, 
+                identifiers, 
+                authenticators, 
+                challengers, 
+                mdproviders, 
+                default_request_classifier, 
+                default_challenge_decider, 
+                #log_stream = log, 
+                #log_level = logging.DEBUG 
+            )
+
+    The ``AuthMiddleware`` function returns the WSGI middleware dedicated to
+    the authentication. This middleware is configured with parameters
+    that specify how we want authentication to work.
+
+    The ``basicauth`` object specifies the authentication method we use, HTTP
+    Basic Authentication here.
+    
+    The ``authenticator`` object takes care of validating the user credentials,
+    and returning the user object if the credentials can be validated.
+
+    The ``mdprovider`` object allows obtaining more information about the
+    authenticated user. In our case the ``mdprovider`` object will provide us
+    with the information of whether the user is an editor or not.
+
+We have our authentication middleware ready. We now need to plug it
+into the WSGI stack defined in ``config/middleware.py``.
+
+.. admonition:: Task #6
+
+    Edit ``mapfishsample/config/middleware.py`` and insert the authentication
+    middleware in the WSGI stack. As an help here's an excerpt of the
+    ``middleware.py`` file::
+
+        if asbool(full_stack):
+            # Handle Python exceptions
+            app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
+
+            # Display error documents for 401, 403, 404 status codes (and
+            # 500 when debug is disabled)
+            if asbool(config['debug']):
+                app = StatusCodeRedirect(app)
+            else:
+                app = StatusCodeRedirect(app, [400, 401, 403, 404, 500])
+
+        # The Authentication middleware
+        # Note: AuthMiddleware must wrap StatusCodeRedirect or AuthMiddleware
+        # won't see 401 (or 403) responses from the error controller.
+        from mapfishsample.lib.auth import AuthMiddleware
+        app = AuthMiddleware(app)
+
+        # Establish the Registry for this application
+        app = RegistryManager(app)
+
+The last thing to do is to modify the Apache mod_wsgi configuration to make
+mod_wsgi pass the user credentials to the WSGI application (MapFishSample).
+
+.. admonition:: Task #7
+
+    Edit ``apache/wsgi.conf.in``, and uncomment this line::
+    
+        WSGIPassAuthorization On
+
+    Run the ``template`` Buildout part::
+
+        $ ./buildout/bin/buildout -c buildout_mine.cfg install template
+
+    And reload Apache::
+
+        $ sudo /etc/init.d/apache2 reload
+
+    You can now open http://mapfish again in the browser, and verify that the
+    application continues to function properly.
+
+The authentication bits are in place, but we haven't secure the application
+yet, and this is what we're going to do in the next section.
+
+Secure Application
+==================
+
+We want to control access to every web service of the application - so that the
+unauthenticated user gets a login form each time he or she attempts to access
+a resource of the application.
+
+For that we're going to set up access-control at the lowest level, i.e.  in the
+``BaseController`` class defined in ``lib/base.py``. The ``BaseController``
+class is the parent class of every controller of the application.
+
+.. admonition:: Task #8
+
+    Edit ``mapfishsample/lib/base.py`` and add a ``__before__`` function
+    to the ``BaseController`` class::
+
+        """The base Controller API
+
+        Provides the BaseController class for subclassing.
+        """
+        from pylons.controllers import WSGIController
+        from pylons.templating import render_mako as render
+        from pylons import request, tmpl_context as c
+        from pylons.controllers.util import abort
+
+        from mapfishsample.model.meta import Session
+
+        class BaseController(WSGIController):
+
+            def __before__(self):
+                identity = request.environ.get('repoze.who.identity')
+                user = identity and identity.get('user')
+                if user is None:
+                    abort(401)
+                c.user = user
+
+            def __call__(self, environ, start_response):
+                """Invoke the Controller"""
+                # WSGIController.__call__ dispatches to the Controller method
+                # the request is routed to. This routing information is
+                # available in environ['pylons.routes_dict']
+                try:
+                    return WSGIController.__call__(self, environ, start_response)
+                finally:
+                    Session.remove()
+
+    When a request comes in and is directed to a controller, the ``__before__``
+    function of the controller is invoked before anything else.
+
+    Our implementation of ``__before__`` checks if the ``repoze.who``
+    middleware has identified the user already, i.e. if the user is already
+    logged in. If the user isn't logged in, a ``401 Unauthorized`` response is
+    sent back, which will make the ``repoze.who`` middleware send an
+    authentication challenge to the browser, which will further make the
+    browser open a login window. If the user has already logged in, the
+    authenticated user is stored in the context object (``c``), for later use
+    by other functions of the controller.
+
+    For this change to be available in the instance run in Apache
+    you need to reload Apache::
+
+        $ sudo /etc/init.d/apache2 reload
+
+
+By adding a ``__before__`` function to base controller that sends a ``401
+Unauthorized`` response if the user isn't identified, we have added
+access-control to all web services of the application, including the POI
+MapFish web service, and the TileCache web service.
+
+.. admonition:: Task #9
+
+    In this task you're going to verify that the POIS and TileCache web
+    services are secured.
+
+    Open http://mapfish/mapfishsample/sample/wsgi/pois in the
+    browser, and verify that you get a login window. Do not
+    log in for now.
+
+    Do the same with http://mapfish/mapfishsample/sample/wsgi/tilecache. Log in
+    with either ``johane/johane`` or ``alix/alix``.
+
+    To clear the credentials in the browser you can do ``CTRL+SHIT+DEL``,
+    select ``Active Logins`` in the ``Details`` list, and hit the ``Clear Now``
+    button.
+
+In fact the entry point controller (``controller/entry.py``) isn't secured yet.
+This is because this controller defines its own ``__before__`` function. So,
+for the authentication to work for this controller as well, we need to modify
+the ``__before__`` function to make it call its parent.
+
+.. admonition:: Task #10
+
+    If you haven't cleared your credentials in the browser at the end of the
+    previous task do it now.
+    
+    Now open http://mapfish in the browser, and observe that you effectively
+    don't get a login window.
+
+    To remedy that edit ``mapfishsample/controllers/entry.py`` and modify the
+    ``__before__`` function as done in the following code excerpt::
+
+        import logging
+
+        from pylons import request, response, config, tmpl_context as c
+        from pylons.controllers.util import abort
+        from pylons.i18n import set_lang
+
+        from mapfishsample.lib.base import BaseController, render
+
+        log = logging.getLogger(__name__)
+
+        class EntryController(BaseController):
+
+            def __before__(self):
+                # call our parent for access-control
+                super(EntryController, self).__before__()
+
+                c.debug = "debug" in request.params
+                c.lang = str(request.params.get("lang", config.get("default_lang")))
+                set_lang(c.lang, fallback=True)
+
+            def index(self):
+                return render("index.html")
+
+            def apiloader(self):
+                return render("apiloader.js")
+
+            def apihelp(self):
+                return render("apihelp.html")
+
+    You can now reload http://mapfish. You should get a login window this time!
+
+MapFishSample is secured!
+
+.. note::
+
+    It is to be noted that there's no access control for the static resources
+    when the application is served by Apache. Indeed, as we've seen previously
+    the static resources are served by Apache directly.
+
+Secure MapFish Web Services
+===========================
+
+In this section we're going to go one step further with access-control for the
+POI MapFish web service. We're going to modify the ``pois`` controller in such
+a way that only *editors* are able to created, update, or delete POIs.
+
+With everything now in place adding this is straightforward.
+
+.. admonition:: Task #11
+
+    Open ``mapfishsample/controllers/pois.py`` in your editor, and modify
+    the ``create``, ``update``, and ``delete`` methods so they return
+    a ``403 Forbidden`` response if the user isn't an *editor*.
+
+    Here's what ``update`` function will look like::
+
+        @geojsonify
+        def update(self, id):
+            """PUT /id: Update an existing feature."""
+            if c.user.editor == False:
+                abort(403)
+            return self.protocol.update(request, response, id)
+
+    You can do the same for ``create`` and ``delete``.
+
+    Open or reload http://mapfish in the browser, log in with ``alix/alix``,
+    and verify in the FireBug console that you get ``403`` errors when
+    attempting to create, update, or delete POIs.
+
+.. admonition:: Bonus Task #1
+
+    As a bonus task you can attempt to modify the application to disable the
+    ``editing`` button in the UI if the user isn't an editor.
+
+Secure MapServer
+================
+
+MapServer is external to the MapFishSample application, so controlling
+access to it isn't as straightforward.
+
+A solution to introducing access-control for MapServer, and reusing what we
+have put in place in this module, involves implementing a controller that
+proxies requests and responses to and from MapServer, respectively.
+
+.. admonition:: Task #12
+
+    As a first task for this section you're going to create the controller for
+    proxying requests and responses to and from MapServer.
+
+    Create the file ``mapfishsample/controllers/mapserverproxy.py``
+    with this content::
+
+        import logging
+        import httplib2
+        import urllib
+
+        from pylons import config
+        from pylons import request, response
+        from pylons.controllers.util import abort
+
+        from mapfishsample.lib.base import BaseController
+        from mapfishsample.model import User
+        from mapfishsample.model.meta import Session
+
+        log = logging.getLogger(__name__)
+
+        class MapserverproxyController(BaseController):
+
+            def index(self):
+
+                # params hold the params to send to MapServer
+                params = dict(request.params)
+
+                # get query string
+                query_string = urllib.urlencode(params)
+
+                # get URL
+                _url = config['mapserv.url'] + '?' + query_string
+
+                # get method
+                method = request.method
+
+                # get body
+                body = None
+                if method in ("POST", "PUT"):
+                    body = request.body
+
+                # forward request to target (without Host Header)
+                http = httplib2.Http()
+                h = dict(request.headers)
+                h.pop("Host", h)
+                try:
+                    resp, content = http.request(_url, method=method, body=body, headers=h)
+                except:
+                    abort(502) # Bad Gateway
+
+                if resp.has_key("content-type"):
+                    response.headers["Content-Type"] = resp["content-type"]
+                else:
+                    abort(406) # Not Acceptable
+
+                response.status = resp.status
+                return content
+
+    Study the code of the controller.
+    
+.. admonition:: Task #13
+
+    For the ``mapserverproxy`` controller to be operational a few
+    things remain to be done.
+
+    By studying the code of the controller you may have observed that the URL to
+    MapServer must be set in the application configuration, through the
+    ``mapserv.url`` variable.
+    
+    Edit ``production.ini.in`` and add the following lines anywhere in the
+    ``[app.main]`` section (for example after the setting of
+    ``default_lang``)::
+
+        # MapServer URL
+        mapserv.url = ${mapserv_url}
+
+    Also, as for every controller, a *route* to this controller is needed.
+
+    Edit ``mapfishsample/config/routing.py`` and add these lines::
+
+        # MapServer Proxy route
+        map.connect('/mapserv', controller='mapserverproxy', action='index')
+
+    At this stage all the necessary code is in place. You can now rerun
+    the ``template`` part of Buildout::
+
+        $ ./buildout/bin/buildout -c buildout_mine.cfg install template
+
+    Reload Apache::
+
+        $ sudo /etc/init.d/apache2 reload
+
+    And open http://mapfish/mapfishsample/sample/wsgi/mapserv in
+    the browser. If your credentials are cleared in the browser
+    you should get a login window.
+
+Securing MapServer through a proxy controller in the application takes a few
+lines of code only. And it is to be noted that, with this few lines of code,
+all the power and flexibility of ``repoze.who`` can be leveraged.
+
+.. admonition:: Task #14
+
+    As a very last task you're going to change the URL used by the client code
+    for the POI WMS layer.
+    
+    Edit ``mapfishsample/templates/globals.js.in`` and change the value of
+    ``App.mapservURL``::
+
+        App.mapservURL = "$${url(controller='mapserverproxy', action='index', qualified=True)}";
+
+    You also need to edit ``mapfishsample/public/app/lib/App/Map.js`` to rely
+    on ``App.mapservURL`` again for the POI WMS layer::
+
+        poisLayer = new OpenLayers.Layer.WMS(
+            'POIS',
+            App.mapservURL,
+            {
+                layers: ['sustenance'],
+                transparent: true
+            },
+            {
+                singleTile: true
+            }
+        );
+
+    At this stage all the necessary code is in place. You can now rerun
+    the ``template`` part of Buildout::
+
+        $ ./buildout/bin/buildout -c buildout_mine.cfg install template
+
+    Open or http://mapfish and observe in the FireBug Net tab that
+    our MapServer proxy is now used to access MapServer.
+

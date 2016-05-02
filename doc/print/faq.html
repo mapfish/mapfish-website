@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FAQ &mdash; MapFish Print v2.0-SNAPSHOT documentation</title>
+    <link rel="stylesheet" href="_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '2.0-SNAPSHOT',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="MapFish Print v2.0-SNAPSHOT documentation" href="index.html" />
+    <link rel="prev" title="Protocol" href="protocol.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="protocol.html" title="Protocol"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">MapFish Print v2.0-SNAPSHOT documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="protocol.html"
+                                  title="previous chapter">Protocol</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/faq.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="faq">
+<h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt><strong>All I get in my PDF is: &#8220;ERROR: infinite table loop&#8221;. What&#8217;s wrong?</strong></dt>
+<dd>Something in your page is too big. For example, the width or the height of your !map block.</dd>
+<dt><strong>I tried to print (pylons mode) and I get a &#8220;Java error&#8221;. What&#8217;s next?</strong></dt>
+<dd>Look in the apache error log, you&#8217;ll find more information.</dd>
+<dt><strong>What are the limitations of the type 2 layers?</strong></dt>
+<dd><p class="first">It depends mostly on the map server you use. For the moment, GeoServer has not been extensively tested. With MapServer:</p>
+<ul class="last simple">
+<li>The PDF output must be enabled when you compile and doesn&#8217;t work in WMS mode, only in native MapServer mode. There are some limitations. on the styling. And you must use truetype fonts.</li>
+<li>The SVG output is limited regarding the stylings you can use. For example only plain polygon fillings are supported by MapServer. If a complex styling is used, your features may appear plain black.</li>
+</ul>
+</dd>
+<dt><strong>I tried to change the layout and half the Map is printed off the page on the right. Or I have an empty page added. Is it a bug?</strong></dt>
+<dd>It&#8217;s mostly a feature ;-) . This kind of behavior can be seen in iText, when adding a block that is too big for the page size. Try to reduce the size of your map block.</dd>
+<dt><strong>When I look at my generated PDF in Acrobat Reader, it looks good. But, when I print it, it misses some tiles/layers, some bitmaps are just weird or there are no page printed. What&#8217;s wrong?</strong></dt>
+<dd><p class="first">There are three possible explanations:</p>
+<ul class="last simple">
+<li>Your printer has not enough memory: in Acrobat&#8217;s print dialog, select &#8220;Save printer memory&#8221;</li>
+<li>Your printer firmware is buggy: upgrade it</li>
+<li>Your printer driver is buggy: upgrade it</li>
+</ul>
+</dd>
+<dt><strong>The module needs to go through a proxy to acces the map services.</strong></dt>
+<dd><p class="first">It&#8217;s so 90s... you should hire some fresh guys for your IT team. ;-)</p>
+<p class="last">You need to set some system properties (http.proxy*) when you start your java programs.</p>
+</dd>
+<dt><strong>On the browser, the scale is displayed with spaces to separate thousands and it&#8217;s against my religion. How do I put my sacred separator?</strong></dt>
+<dd><p class="first">By default, the browser&#8217;s configured locale is used. You can force another locale in the print widget configuration:</p>
+<div class="last highlight-yaml"><div class="highlight"><pre><span class="p-Indicator">{</span>
+  <span class="nv">...</span>
+  <span class="nv">configUrl</span><span class="p-Indicator">:</span> <span class="s">&#39;print/info.json&#39;</span><span class="p-Indicator">,</span>
+  <span class="nv">serviceParams</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">locale</span><span class="p-Indicator">:</span> <span class="s">&#39;fr_CH&#39;</span> <span class="p-Indicator">},</span>
+  <span class="nv">...</span>
+<span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</dd>
+<dt><strong>I copied the examples and the print widgets are not working.</strong></dt>
+<dd><p class="first">First edit the client/examples/examples.js file and make sure the URLs are correct.</p>
+<ol class="arabic simple">
+<li>If you don&#8217;t want to install the server side, make sure you installed a proxy (see Configure Proxy). For example, test (must return a JSON content, not the proxy.cgi script&#8217;s content) it with an URL like that (adapt the hostname, port and path): <cite>http://localhost/cgi-bin/proxy.cgi?url=http://demo.mapfish.org/mapfishsample/trunk/print/info.json</cite></li>
+<li>If you installed the server side, make sure it works by calling the URL specified in the mapfish.SERVER_BASE_URL variable (must be the hostname/port your page is accessed through) added with <cite>/print/info.json</cite>. For example, if you have <cite>mapfish.SERVER_BASE_URL=&#8221;http://localhost/mapfish&#8221;: http://localhost/mapfish/print/info.json</cite></li>
+</ol>
+<p class="last">If it still doesn&#8217;t work, use firefox, install firebug and check in the console panel that the AJAX request made by the print widget works fine.</p>
+</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="protocol.html" title="Protocol"
+             >previous</a> |</li>
+        <li><a href="index.html">MapFish Print v2.0-SNAPSHOT documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Going Further With Security &mdash; MapFish In Production Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish In Production Workshop v0.1 documentation" href="../index.html" />
+    <link rel="prev" title="Securing MapFishSample" href="securing_mapfishsample.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="securing_mapfishsample.html" title="Securing MapFishSample"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Going Further With Security</a><ul>
+<li><a class="reference external" href="#extend-user-model">Extend User Model</a></li>
+<li><a class="reference external" href="#secure-poi-web-service">Secure POI Web Service</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="securing_mapfishsample.html"
+                                  title="previous chapter">Securing MapFishSample</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/going_further_with_security.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="going-further-with-security">
+<h1>Going Further With Security<a class="headerlink" href="#going-further-with-security" title="Permalink to this headline">¶</a></h1>
+<p>In this module we&#8217;re going to extend the access-control mechanisms implemented
+previously. More specifically we&#8217;re going to modify MapFishSample so users can
+only edit POIs that are within specific areas.</p>
+<p>The goal of this module is to demonstrate the great flexibility of the tools
+provided by MapFish.</p>
+<p><a class="reference external" href="http://geoalchemy.org">GeoAlchemy</a> will be used in this module.</p>
+<div class="section" id="extend-user-model">
+<h2>Extend User Model<a class="headerlink" href="#extend-user-model" title="Permalink to this headline">¶</a></h2>
+<p>First we&#8217;re going to extend the user model, by adding a geometry column
+named <tt class="docutils literal"><span class="pre">area</span></tt> to our <tt class="docutils literal"><span class="pre">user</span></tt> table. We will rely on ``</p>
+<div class="admonition-task-1 admonition ">
+<p class="first admonition-title">Task #1</p>
+<p>Edit <tt class="docutils literal"><span class="pre">mapfishsample/model/__init__.py</span></tt>, and do the following steps:</p>
+<ol class="last arabic">
+<li><p class="first">Add the following import statement somewhere near the head of the file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">GeometryDDL</span>
+</pre></div>
+</div>
+<p>Importing <tt class="docutils literal"><span class="pre">GeometryColumn</span></tt>, <tt class="docutils literal"><span class="pre">Polygon</span></tt> and <tt class="docutils literal"><span class="pre">GeometryDDL</span></tt> from the
+<tt class="docutils literal"><span class="pre">geoalchemy</span></tt> module is necessary for the following two steps.</p>
+</li>
+<li><p class="first">Add a <tt class="docutils literal"><span class="pre">GeometryColumn</span></tt> property to the <tt class="docutils literal"><span class="pre">User</span></tt> class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;user&#39;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">)</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">)</span>
+    <span class="n">editor</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Boolean</span><span class="p">)</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Polygon</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">validate_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">==</span> <span class="n">password</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">area</span></tt> property corresponds to the <tt class="docutils literal"><span class="pre">area</span></tt> geometry column we
+want to add to the <tt class="docutils literal"><span class="pre">user</span></tt> table. This column will be automatically
+created by GeoAlchemy when running the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> command.</p>
+</li>
+<li><p class="first">Right after the definition of the <tt class="docutils literal"><span class="pre">User</span></tt> class add the following
+statement:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">GeometryDDL</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">__table__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Calling <tt class="docutils literal"><span class="pre">GeometryDDL</span></tt> tells GeoAlchemy to participate in the creation
+of the <tt class="docutils literal"><span class="pre">user</span></tt> table, for the creating of the geometry column (which,
+for PostGIS, involves calling <tt class="docutils literal"><span class="pre">AddGeometryColum</span></tt>).</p>
+</li>
+</ol>
+</div>
+<p>At this point our new data model is ready, but our <tt class="docutils literal"><span class="pre">user</span></tt> table in the
+database still has no geometry column. We&#8217;re going to change that in the next
+task.</p>
+<div class="admonition-task-2 admonition ">
+<p class="first admonition-title">Task #2</p>
+<p>First of all and edit <tt class="docutils literal"><span class="pre">mapfishsample/websetup.py</span></tt>, and insert the following
+lines into the <tt class="docutils literal"><span class="pre">setup_app</span></tt> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Drop the user table</span>
+<span class="kn">from</span> <span class="nn">mapfishsample.model</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="n">User</span><span class="o">.</span><span class="n">__table__</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Insert these three lines right before the call to
+<tt class="docutils literal"><span class="pre">Base.metadata.create_all</span></tt>.</p>
+<p>With these lines, each time the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> command is run, the
+<tt class="docutils literal"><span class="pre">user</span></tt> table is dropped before being created again by <tt class="docutils literal"><span class="pre">create_all</span></tt>.</p>
+<p>The entire <tt class="docutils literal"><span class="pre">setup_app</span></tt> function should now look like this:</p>
+<div class="highlight-python"><pre>def setup_app(command, conf, vars):
+    ""Place any commands to setup mapfishsample here"""
+    # Don't reload the app if it was loaded under the testing environment
+    if not pylons.test.pylonsapp:
+        load_environment(conf.global_conf, conf.local_conf)
+
+    # Drop the user table
+    from mapfishsample.model import User
+    User.__table__.drop()
+
+    # Create the tables if they don't already exist
+    Base.metadata.create_all(bind=Session.bind)
+
+    from mapfishsample.model import User
+
+    # create user "Johane"
+    u1 = User()
+    u1.name = "Johane"
+    u1.login = "johane"
+    u1.password = "johane"
+    u1.editor = True
+
+    # create user "Alix"
+    u2 = User()
+    u2.name = "Alix"
+    u2.login = "alix"
+    u2.password = "alix"
+    u2.editor = False
+
+    # add them to the database
+    Session.add_all([u1, u2])
+    Session.commit()</pre>
+</div>
+<p>You can now run <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> again to recreate the <tt class="docutils literal"><span class="pre">user</span></tt>
+table in the database:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/paster setup-app development.ini</pre>
+</div>
+<p class="last">The <tt class="docutils literal"><span class="pre">user</span></tt> table should now include a geometry column named <tt class="docutils literal"><span class="pre">area</span></tt>. You
+can verify that using pgAdmin.</p>
+</div>
+<p>Our <tt class="docutils literal"><span class="pre">user</span></tt> table now has a geometry column, but we have no data for this
+column yet. The following task involves modifying <tt class="docutils literal"><span class="pre">websetup.py</span></tt> to assign
+give &#8220;Johane&#8221; an area (user &#8220;Alix&#8221; isn&#8217;t an editor, so it makes no sense to
+give her an area).</p>
+<div class="admonition-task-3 admonition ">
+<p class="first admonition-title">Task #3</p>
+<p>Edit <tt class="docutils literal"><span class="pre">mapfishsample/websetup.py</span></tt> again, and insert the following three
+lines after <tt class="docutils literal"><span class="pre">u1.editor</span> <span class="pre">=</span> <span class="pre">True</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">WKTSpatialElement</span>
+<span class="n">u1</span><span class="o">.</span><span class="n">area</span> <span class="o">=</span> <span class="n">WKTSpatialElement</span><span class="p">(</span><span class="s">&#39;POLYGON((657053 5711411,658006 5711411,658006 5711854,657053 5711854,657053 5711411))&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Run <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> again:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/paster setup-app development.ini</pre>
+</div>
+<p class="last">Use pgAdmin to verify that an area has been assigned to &#8220;Johane&#8221;.</p>
+</div>
+</div>
+<div class="section" id="secure-poi-web-service">
+<h2>Secure POI Web Service<a class="headerlink" href="#secure-poi-web-service" title="Permalink to this headline">¶</a></h2>
+<p>Now that our data model is ready, we can go ahead and add more security
+restrictions to the POI web service.</p>
+<div class="admonition-task-4 admonition ">
+<p class="first admonition-title">Task #4</p>
+<p>Edit <tt class="docutils literal"><span class="pre">mapfishsample/pois.py</span></tt> and modify the <tt class="docutils literal"><span class="pre">update</span></tt> method so a 403
+response is returned if the user&#8217;s area doesn&#8217;t contain the targeted POI:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;PUT /id: Update an existing feature.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">editor</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="n">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+    <span class="n">poi</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Poi</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">poi</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+    <span class="n">poi_wkt</span> <span class="o">=</span>  <span class="n">Session</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">poi</span><span class="o">.</span><span class="n">the_geom</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Session</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">gcontains</span><span class="p">(</span><span class="n">poi_wkt</span><span class="p">)):</span>
+        <span class="n">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We heavily rely on the capabilities of GeoAlchemy here. To better
+understand the added code you can refer to the GeoAlchemy documention on
+<a class="reference external" href="http://www.geoalchemy.org">http://www.geoalchemy.org</a>.</p>
+<p class="last">Open or reload <a class="reference external" href="http://mapfish">http://mapfish</a> in the browser, log in with
+<tt class="docutils literal"><span class="pre">johane/johane</span></tt>, and verify in the FireBug console that you get <tt class="docutils literal"><span class="pre">403</span></tt>
+errors when attempting to update POIs that are outside the user&#8217;s area.</p>
+</div>
+<div class="admonition-task-5 admonition ">
+<p class="first admonition-title">Task #5</p>
+<p>As an exercice you can modify the <tt class="docutils literal"><span class="pre">delete</span></tt> and <tt class="docutils literal"><span class="pre">create</span></tt> actions of the
+POI controller to implement the same kind access-control as for the
+<tt class="docutils literal"><span class="pre">update</span></tt> action.</p>
+<p class="last">Note that the <tt class="docutils literal"><span class="pre">create</span></tt> action will require more code, as WKT strings will
+need to be created from the GeoJSON representations of the geometries.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="securing_mapfishsample.html" title="Securing MapFishSample"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

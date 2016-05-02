@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 5 - Creating Web Services &mdash; MapFish Tutorial v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
+    <link rel="up" title="MapFish Tutorial" href="index.html" />
+    <link rel="next" title="Module 6 - Adding search functionality" href="adding_search_functionality.html" />
+    <link rel="prev" title="Module 4 - Building JavaScript" href="building_javascript.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="adding_search_functionality.html" title="Module 6 - Adding search functionality"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="building_javascript.html" title="Module 4 - Building JavaScript"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Module 5 - Creating Web Services</a><ul>
+<li><a class="reference external" href="#installing-data">Installing data</a></li>
+<li><a class="reference external" href="#connecting-to-the-database">Connecting to the database</a></li>
+<li><a class="reference external" href="#creating-web-service">Creating web service</a></li>
+<li><a class="reference external" href="#studying-the-web-service-code">Studying the web service code</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="building_javascript.html"
+                                  title="previous chapter">Module 4 - Building JavaScript</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="adding_search_functionality.html"
+                                  title="next chapter">Module 6 - Adding search functionality</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/creating_webservice.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-5-creating-web-services">
+<h1>Module 5 - Creating Web Services<a class="headerlink" href="#module-5-creating-web-services" title="Permalink to this headline">¶</a></h1>
+<p>In this module you are going to learn how to use the framework to create
+<em>MapFish web services</em> in your application.</p>
+<p>MapFish web services are web services for creating, reading, updating and
+deleting geographic objects (features) through the <em>MapFish Protocol</em>.</p>
+<p>The MapFish Protocol is a collection of HTTP APIs. It is highly recommended to
+take some time to go through the description of these <a class="reference external" href="http://www.mapfish.org/doc/2.0/protocol.html">APIs</a> <a class="footnote-reference" href="#id2" id="id1">[1]</a> before moving on with the
+rest of this module.</p>
+<div class="section" id="installing-data">
+<h2>Installing data<a class="headerlink" href="#installing-data" title="Permalink to this headline">¶</a></h2>
+<p>A MapFish web service relies on a spatial data source.</p>
+<p>Before creating the web service we need to create a PostGIS table with some
+data into it. You&#8217;re going to create a PostGIS table from a Shapefile of
+countries.</p>
+<p>First, create a PostGIS-enabled database and name it <tt class="docutils literal"><span class="pre">mapfish_tutorial</span></tt>. For
+that enter the following commands in your shell:</p>
+<div class="highlight-python"><pre>$ sudo su - postgres
+$ createdb mapfish_tutorial
+$ createlang plpgsql mapfish_tutorial
+$ psql -d mapfish_tutorial -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
+$ psql -d mapfish_tutorial -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The above commands assume PostgreSQL 8.4 and PostGIS 1.5, they must therefore be adapted
+based on the versions of PostgreSQL and PostGIS installed on your system. For example, with
+PostgreSQL 8.3 the last two command lines would be as follows on a Debian system:</p>
+<div class="last highlight-python"><pre>$ psql -d mapfish_tutorial -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+$ psql -d mapfish_tutorial -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql</pre>
+</div>
+</div>
+<p>Then, download a zipped shapefile available on mapfish.org, and unzip it:</p>
+<div class="highlight-python"><pre>$ wget http://www.mapfish.org/svn/mapfish/sandbox/camptocamp/mapfish_workshop/data/countries.zip
+$ unzip countries.zip</pre>
+</div>
+<p>As our application will work in Google Spherical Mercator, let&#8217;s reproject (and
+simplify a bit those geometry), thanks to two very useful tools, ogr2ogr and
+shp2pgsql:</p>
+<div class="highlight-python"><pre>$ ogr2ogr -t_srs EPSG:900913 -segmentize 2000 countries-900913.shp  countries.shp</pre>
+</div>
+<p>Then, as postgres user, import it into a the <tt class="docutils literal"><span class="pre">mapfish_tutorial</span></tt> database:</p>
+<div class="highlight-python"><pre>$ shp2pgsql -s 900913 -I countries-900913.shp countries | psql -d mapfish_tutorial</pre>
+</div>
+<p>First, create a database user, named <tt class="docutils literal"><span class="pre">mapfish</span></tt> and with password <tt class="docutils literal"><span class="pre">mapfish</span></tt>
+for example:</p>
+<div class="highlight-python"><pre>$ createuser --no-superuser --no-createdb --no-createrole mapfish
+$ psql -c "ALTER USER mapfish WITH PASSWORD 'mapfish';"
+$ psql -d mapfish_tutorial -c "GRANT ALL ON TABLE countries TO mapfish;"
+$ psql -d mapfish_tutorial -c "GRANT ALL ON TABLE geometry_columns TO mapfish;"</pre>
+</div>
+<p>You can start psql and connect to the <tt class="docutils literal"><span class="pre">mapfish_tutorial</span></tt> database to check
+that the <tt class="docutils literal"><span class="pre">countries</span></tt> table is present and non-empty.</p>
+</div>
+<div class="section" id="connecting-to-the-database">
+<h2>Connecting to the database<a class="headerlink" href="#connecting-to-the-database" title="Permalink to this headline">¶</a></h2>
+<p>You now need to setup the connection to the <tt class="docutils literal"><span class="pre">mapfish_tutorial</span></tt> database from
+<tt class="docutils literal"><span class="pre">MapFishApp</span></tt>. This is done in the <tt class="docutils literal"><span class="pre">development.ini</span></tt> file.</p>
+<p>Edit <tt class="docutils literal"><span class="pre">development.ini</span></tt> and replace the line</p>
+<div class="highlight-python"><pre>sqlalchemy.url = sqlite:///%(here)s/development.db</pre>
+</div>
+<p>by this one:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = postgresql://mapfish:mapfish@localhost:5432/mapfish_tutorial</pre>
+</div>
+<p>The connection string specifies that the <tt class="docutils literal"><span class="pre">postgresql</span></tt> driver must be used, the
+database system listens on <tt class="docutils literal"><span class="pre">localhost</span></tt> and on <tt class="docutils literal"><span class="pre">port</span></tt> 5432, and the name of
+the database is <tt class="docutils literal"><span class="pre">mapfish_tutorial</span></tt>.</p>
+</div>
+<div class="section" id="creating-web-service">
+<h2>Creating web service<a class="headerlink" href="#creating-web-service" title="Permalink to this headline">¶</a></h2>
+<p>Now that the table is created and the connection to the database is set up,
+you&#8217;re ready to create the web service.</p>
+<p>Creating a web service is done in three steps:</p>
+<ol class="arabic">
+<li><p class="first">create a layer configuration in the <tt class="docutils literal"><span class="pre">layers.ini</span></tt> file, in our case:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">countries</span><span class="p">]</span>
+<span class="n">singular</span><span class="o">=</span><span class="n">country</span>
+<span class="n">plural</span><span class="o">=</span><span class="n">countries</span>
+<span class="n">table</span><span class="o">=</span><span class="n">countries</span>
+<span class="n">epsg</span><span class="o">=</span><span class="mi">900913</span>
+<span class="n">geomcolumn</span><span class="o">=</span><span class="n">the_geom</span>
+<span class="n">geomtype</span><span class="o">=</span><span class="n">MultiPolygon</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">singular</span></tt> provides a <tt class="docutils literal"><span class="pre">singular</span></tt> name for the layer. <tt class="docutils literal"><span class="pre">plural</span></tt> provides
+a plural name for the layer. Both are used by the code generator when
+substituting variables. <tt class="docutils literal"><span class="pre">table</span></tt> provides the name of the database.
+<tt class="docutils literal"><span class="pre">epsg</span></tt> provides the coordinate system of the table data. <tt class="docutils literal"><span class="pre">geomcolumn</span></tt>
+provides the name of the geometry column.</p>
+</li>
+<li><p class="first">generate the web service code with the <tt class="docutils literal"><span class="pre">mf-layer</span></tt> command:</p>
+<div class="highlight-python"><pre>$ paster mf-layer countries</pre>
+</div>
+</li>
+<li><p class="first">configure a route to the <tt class="docutils literal"><span class="pre">countries</span></tt> controller, this is done by adding
+the following lines after the &#8220;CUSTOM ROUTES HERE&#8221; comment in the
+<tt class="docutils literal"><span class="pre">mapfishapp/config/routing.py</span></tt> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;/countries/count&quot;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s">&quot;countries&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">)</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s">&quot;country&quot;</span><span class="p">,</span> <span class="s">&quot;countries&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">you can add a route for counting rows on the table mapped in your controller
+<em>Be careful of adding this line BEFORE the previous map.resource…</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/countries/count&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s">&#39;countries&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;count&#39;</span><span class="p">)</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s">&quot;country&quot;</span><span class="p">,</span> <span class="s">&quot;countries&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Watch the indentation! Four spaces are needed here.</p>
+<p>If you killed <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">serve</span></tt> or if you did not add the <tt class="docutils literal"><span class="pre">--reload</span></tt> switch,
+restart <tt class="docutils literal"><span class="pre">MapFishApp</span></tt> with:</p>
+<div class="highlight-python"><pre>$ paster serve --reload development.ini</pre>
+</div>
+<p>You can now open <a class="reference external" href="http://localhost:5000/countries?limit=1">http://localhost:5000/countries?limit=1</a> in your browser, you
+should see a <a class="reference external" href="http://geojson.org">GeoJSON</a> representation of the first object
+in the <tt class="docutils literal"><span class="pre">countries</span></tt> table:</p>
+<img alt="../_images/geojson.png" src="../_images/geojson.png" style="width: 500pt; height: 300pt;" />
+<p><strong>Bonus task</strong></p>
+<p>Open the MapFish Protocol <a class="reference external" href="http://www.mapfish.org/doc/2.0/protocol.html">description</a> again and write the URLs for
+the following queries:</p>
+<ul class="simple">
+<li>get the country whose identifier is 1</li>
+<li>get the country which contains the point (5, 45)</li>
+<li>get the country which contains the point (5, 45) but don&#8217;t receive its geometry</li>
+<li>get the country which contains the point (5, 45) and receive only the
+attributes <tt class="docutils literal"><span class="pre">pays</span></tt> and <tt class="docutils literal"><span class="pre">population</span></tt></li>
+</ul>
+</div>
+<div class="section" id="studying-the-web-service-code">
+<h2>Studying the web service code<a class="headerlink" href="#studying-the-web-service-code" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span> <span class="pre">countries</span></tt> command created three Python files:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">mapfishapp/controllers/countries.py</span></tt></dt>
+<dd><p class="first">This file includes the controller code of the <tt class="docutils literal"><span class="pre">countries</span></tt> web service.
+This is the core of the web service.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CountriesController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">Country</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /: return all features.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">format</span> <span class="o">!=</span> <span class="s">&#39;json&#39;</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /id: Show a specific feature.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">format</span> <span class="o">!=</span> <span class="s">&#39;json&#39;</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;POST /: Create a new feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;PUT /id: Update an existing feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;DELETE /id: Delete an existing feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /count: Count all features.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">The controller has methods for each protocol operation: <em>get features</em>
+(<tt class="docutils literal"><span class="pre">index</span></tt>), <em>get a feature</em> (<tt class="docutils literal"><span class="pre">show</span></tt>), <em>create features</em> (<tt class="docutils literal"><span class="pre">create</span></tt>),
+<em>update a feature</em> (<tt class="docutils literal"><span class="pre">update</span></tt>), and <em>delete a feature</em> (<tt class="docutils literal"><span class="pre">delete</span></tt>). These
+methods all rely on <tt class="docutils literal"><span class="pre">Protocol</span></tt> object, this protocol object includes all
+the logic of the MapFish Protocol as defined in the description.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">mapfishapp/model/countries.py</span></tt></dt>
+<dd><p class="first">This file includes the model code of the <tt class="docutils literal"><span class="pre">countries</span></tt> web service. The
+model defines the <tt class="docutils literal"><span class="pre">countries</span></tt> table object, the <tt class="docutils literal"><span class="pre">Country</span></tt> class
+representing a table record, and the mapping between the two.</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Country</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;countries&#39;</span>
+    <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;autoload&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&quot;autoload_with&quot;</span><span class="p">:</span> <span class="n">Session</span><span class="o">.</span><span class="n">bind</span>
+    <span class="p">}</span>
+    <span class="n">the_geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">MultiPolygon</span><span class="p">(</span><span class="n">srid</span><span class="o">=</span><span class="mi">900913</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">tests/functional/test_countries.py</span></tt></dt>
+<dd>This file is where the application developer can put functional tests for
+the <tt class="docutils literal"><span class="pre">countries</span></tt> web service. This is an empty shell.</dd>
+</dl>
+<p>The code generated by the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></tt> command belongs to the application
+developer. The developer is free to modify it, based on his needs.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://www.mapfish.org/doc/2.0/protocol.html">http://www.mapfish.org/doc/2.0/protocol.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="adding_search_functionality.html" title="Module 6 - Adding search functionality"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="building_javascript.html" title="Module 4 - Building JavaScript"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Éric Lemoine, Cédric Moullet, Claude Philipona.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

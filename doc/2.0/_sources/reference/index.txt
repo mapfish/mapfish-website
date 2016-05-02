@@ -1,0 +1,25 @@
+API References
+==============
+
+Client
+------
+
+* `OpenLayers API docs <http://dev.openlayers.org/apidocs/files/OpenLayers-js.html>`_
+* `GeoExt API docs <http://www.geoext.org/lib/index.html>`_
+
+Server
+------
+
+Geometry type
+
+.. toctree::
+   :maxdepth: 1
+   
+   sqlalchemygeom
+
+Protocol implementation
+
+.. toctree::
+   :maxdepth: 1
+
+   protocol 

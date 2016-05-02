@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pylons et SQLAlchemy &mdash; Python Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Python Workshop v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Workshop Python (version française)" href="index.html" />
+    <link rel="next" title="GeoAlchemy" href="geoalchemy.html" />
+    <link rel="prev" title="Pour commencer" href="getting_started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="geoalchemy.html" title="GeoAlchemy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Pour commencer"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Workshop Python (version française)</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Pylons et SQLAlchemy</a><ul>
+<li><a class="reference external" href="#installer-pylons-et-sqlalchemy">Installer Pylons et SQLAlchemy</a></li>
+<li><a class="reference external" href="#creer-une-application">Créer une application</a></li>
+<li><a class="reference external" href="#etudier-l-application">Étudier l&#8217;application</a></li>
+<li><a class="reference external" href="#configurer-l-application">Configurer l&#8217;application</a></li>
+<li><a class="reference external" href="#creer-le-model-sqlalchemy">Créer le model SQLAlchemy</a></li>
+<li><a class="reference external" href="#creer-un-controlleur">Créer un controlleur</a></li>
+<li><a class="reference external" href="#creer-de-nouvelles-tables">Créer de nouvelles tables</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="getting_started.html"
+                                  title="previous chapter">Pour commencer</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="geoalchemy.html"
+                                  title="next chapter">GeoAlchemy</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/fr/pylons.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pylons-et-sqlalchemy">
+<h1>Pylons et SQLAlchemy<a class="headerlink" href="#pylons-et-sqlalchemy" title="Permalink to this headline">¶</a></h1>
+<p>Dans ce module vous apprendrez à utiliser le framework Pylons et le toolkit de
+base de données SQLAlchemy. Plus précisément vous apprendrez comment créer une
+application  (ou projet) Pylons, et comment utiliser SQLAlchemy dans cette
+application.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">L&#8217;environnement virtuel doit être activé avant d&#8217;éxécuter les commandes
+listées dans ce module.</p>
+</div>
+<div class="section" id="installer-pylons-et-sqlalchemy">
+<h2>Installer Pylons et SQLAlchemy<a class="headerlink" href="#installer-pylons-et-sqlalchemy" title="Permalink to this headline">¶</a></h2>
+<p>Vous allez démarrez par l&#8217;installation de Pylons 1.0 et de SQLAlchemy 0.6.1.</p>
+<p>Pour installer Pylons utilisez :</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "Pylons==1.0"</pre>
+</div>
+<p>La commande <tt class="docutils literal"><span class="pre">easy_install</span></tt> télécharge les packages à partir du dépôt officiel
+de packages Python (<a class="reference external" href="http://pypi.python.org">http://pypi.python.org</a>) et les installe dans l&#8217;environnement
+Python (ici l&#8217;environnement virtuel).</p>
+<p>Vous devez maintenant avoir Pylons d&#8217;installé. Vous pouvez vérifier cela en
+utilisant cette commande :</p>
+<div class="highlight-python"><pre>(vp) $ paster create --list-templates</pre>
+</div>
+<p>Cette commande doit vous renvoyer ceci :</p>
+<div class="highlight-python"><pre>Available templates:
+basic_package:   A basic setuptools-enabled package
+paste_deploy:    A web application deployed through paste.deploy
+pylons:          Pylons application template
+pylons_minimal:  Pylons minimal application template</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">La commande <tt class="docutils literal"><span class="pre">paster</span></tt> est fournie avec <tt class="docutils literal"><span class="pre">Paste</span></tt> <a class="reference external" href="http://pythonpaste.org/">http://pythonpaste.org/</a>.
+<tt class="docutils literal"><span class="pre">Paste</span></tt> est un framework de bas niveau pour le développement web, Pylons
+se base fortement sur lui.</p>
+</div>
+<p>Pour installer SQLAlchemy utilisez :</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "SQLAlchemy==0.6.1"</pre>
+</div>
+<p>Vous utiliserez PostgreSQL comme système de base de données dans ce workshop, le
+pilote python de PostgreSQL doit être installé également :</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "psycopg2==2.0.14"</pre>
+</div>
+</div>
+<div class="section" id="creer-une-application">
+<h2>Créer une application<a class="headerlink" href="#creer-une-application" title="Permalink to this headline">¶</a></h2>
+<p>Vous pouvez maintenant créer l&#8217;application Pylons avec :</p>
+<div class="highlight-python"><pre>(vp) $ paster create -t pylons WorkshopApp</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">WorkshopApp</span></tt> est le nom de l&#8217;application Pylons, vous pouvez utiliser le nom
+de votre choix, bien qu&#8217;il soit supposé que vous ayez choisie <tt class="docutils literal"><span class="pre">WorkshopApp</span></tt>
+dans le reste du document.</p>
+<p>Lorsque le moteur de modèle à utiliser est demandé répondez <tt class="docutils literal"><span class="pre">mako</span></tt>, qui est
+celui par défaut. Lorsqu&#8217;il est demandé si la configuration de SQLAlchemy 0.5
+doit être inclue, répondez <tt class="xref docutils literal"><span class="pre">True</span></tt>, puisque votre application incluera des
+services web se basant sur des tables de base de données.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Bien que Pylons suppose que SQLAlchemy 0.5 est utilisé, SQLAlchemy 0.6 et
+Pylons 1.0 sont totalement compatible.</p>
+</div>
+<p>Vous devez maintenant avoir un répertoire nommé <tt class="docutils literal"><span class="pre">WorkshopApp</span></tt>. Ce répertoire
+contient les fichiers de votre application, principalement des fichiers Python.</p>
+<p>Maintenant il est temps de vérifier que votre application Pylons fonctionne. Pour
+cela allez dans le répertoire <tt class="docutils literal"><span class="pre">WorkshopApp</span></tt> et lancez l&#8217;application :</p>
+<div class="highlight-python"><pre>(vp) $ cd WorkshopApp
+(vp) $ paster serve development.ini</pre>
+</div>
+<p>Cette commande lance votre application dans le serveur web Paste. Paste est un
+serveur web en Python, souvent utilisé pendant le développement.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Vous pouvez utiliser <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">serve</span> <span class="pre">--reload</span> <span class="pre">development.ini</span></tt> afin que le
+serveur web Paste se relance de lui-même lorsque des fichiers sont modifiés
+dans votre application.</p>
+</div>
+<p>Ouvrez <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> dans votre navigateur web, vous devez tomber sur la
+page par défaut :</p>
+<img alt="../_images/pylons1.png" src="../_images/pylons1.png" style="width: 500pt; height: 400pt;" />
+</div>
+<div class="section" id="etudier-l-application">
+<h2>Étudier l&#8217;application<a class="headerlink" href="#etudier-l-application" title="Permalink to this headline">¶</a></h2>
+<p>Les sous-sections suivantes vous donnent un rapide tour d&#8217;horizon à travers les
+répertoires et les fichiers de votre application Pylons. Prenez le temps de
+naviguer à travers ces répertoires et fichiers afin de bien comprendre comment
+l&#8217;application est structurée.</p>
+<p>Le répertoire principal de l&#8217;application, <tt class="docutils literal"><span class="pre">WorkshopApp</span></tt>, contient :</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">development.ini</span></tt></dt>
+<dd>C&#8217;est le fichier de configuration de l&#8217;application. Ce fichier inclus des
+paramètres comme l&#8217;adresse IP et le port TCP que le serveur doit écouter, la
+chaîne de connexion de la base de données, etc.</dd>
+<dt><tt class="docutils literal"><span class="pre">setup.cfg</span></tt> et <tt class="docutils literal"><span class="pre">setup.py</span></tt></dt>
+<dd>Ces fichiers contrôlent les différents aspects sur la manière dont votre
+application est packagée lors de sa distribution.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">workshopapp</span></tt></p>
+<blockquote>
+<p>C&#8217;est le répertoire principal de l&#8217;application, son nom dépend du nom de
+l&#8217;application donné en argument de la commande <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span></tt>. Les
+sous-répertoires principaux de ce répertoire sont : <tt class="docutils literal"><span class="pre">controllers</span></tt>,
+<tt class="docutils literal"><span class="pre">model</span></tt>, <tt class="docutils literal"><span class="pre">lib</span></tt>, <tt class="docutils literal"><span class="pre">config</span></tt>, <tt class="docutils literal"><span class="pre">tests</span></tt>, <tt class="docutils literal"><span class="pre">templates</span></tt>, et <tt class="docutils literal"><span class="pre">public</span></tt>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">controllers</span></tt></dt>
+<dd>Le répertoire <tt class="docutils literal"><span class="pre">controllers</span></tt> contient les contrôleurs de l&#8217;application.
+Les contrôleurs sont des composants qui prennent en charge les requêtes
+HTTP et renvoie des requêtes HTTP. Ils interagissent souvent avec le
+code des <tt class="docutils literal"><span class="pre">model</span></tt> et des <tt class="docutils literal"><span class="pre">templates</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">model</span></tt></dt>
+<dd>Le répertoire <tt class="docutils literal"><span class="pre">model</span></tt> est l&#8217;endroit où est configuré le model de la
+base de données. C&#8217;est typiquement l&#8217;endroit où les tables et les
+relations sont définies.</dd>
+<dt><tt class="docutils literal"><span class="pre">lib</span></tt></dt>
+<dd>Le répertoire <tt class="docutils literal"><span class="pre">lib</span></tt> inclus du code Python partagé par différent
+contrôleur et bibliothèque tierce.</dd>
+<dt><tt class="docutils literal"><span class="pre">config</span></tt></dt>
+<dd>Le répertoire <tt class="docutils literal"><span class="pre">config</span></tt> inclus le code généré par le framework et
+exposé à l&#8217;application pour personnalisation.</dd>
+<dt><tt class="docutils literal"><span class="pre">tests</span></tt></dt>
+<dd>Le répertoire <tt class="docutils literal"><span class="pre">tests</span></tt> est l&#8217;endroit où vous pouvez ajouter des tests
+Python automatisés pour l&#8217;application.</dd>
+<dt><tt class="docutils literal"><span class="pre">templates</span></tt></dt>
+<dd>Le répertoire <tt class="docutils literal"><span class="pre">templates</span></tt> est l&#8217;endroit où les modèles de vues sont
+stockés. Notez que nous n&#8217;écrirons pas de modèle lors de ce workshop
+puisque le rendu HTML sera principalement réalisé côté client.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">public</span></tt></p>
+<blockquote>
+Le répertoire <tt class="docutils literal"><span class="pre">public</span></tt> inclus les fichiers statiques de l&#8217;application,
+i.e. HTML, fichiers CSS, JavaScript, etc.</blockquote>
+</blockquote>
+</div>
+<div class="section" id="configurer-l-application">
+<h2>Configurer l&#8217;application<a class="headerlink" href="#configurer-l-application" title="Permalink to this headline">¶</a></h2>
+<p>Vous devez maintenant définir la localisation de la base de données dans la
+configuration de l&#8217;application. Pour cela éditez le fichier <tt class="docutils literal"><span class="pre">development.ini</span></tt>
+et changez la valeur de l&#8217;option <tt class="docutils literal"><span class="pre">sqlalchemy.url</span></tt> comme cela :</p>
+<div class="highlight-python"><pre>sqlalchemy.url = postgresql://www-data:www-data@localhost:5432/python_workshop</pre>
+</div>
+<p>Cette configuration suppose qu&#8217;une instance PostgreSQL existe sur la machine
+locale, écoute sur le port 5432 et possède une base de données nommée
+<tt class="docutils literal"><span class="pre">python_workshop</span></tt>, et dont l&#8217;utilisateur <tt class="docutils literal"><span class="pre">www-data</span></tt> peut y accéder avec le
+mot de passe <tt class="docutils literal"><span class="pre">www-data</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">L&#8217;image Debian de VirtualBox contient un serveur PostgreSQL incluant la base
+de données <tt class="docutils literal"><span class="pre">python_workshop</span></tt>, et le serveur PostgreSQL est démarré
+automatiquement au lancement du système.</p>
+</div>
+</div>
+<div class="section" id="creer-le-model-sqlalchemy">
+<h2>Créer le model SQLAlchemy<a class="headerlink" href="#creer-le-model-sqlalchemy" title="Permalink to this headline">¶</a></h2>
+<p>La base de données <tt class="docutils literal"><span class="pre">python_workshop</span></tt> inclus une table nommée <tt class="docutils literal"><span class="pre">summits</span></tt>, qui
+inclus des informations sur les sommets en France. Ici vous allez définir le
+modèle SQLAlchemy pour cette table. Plus précisément vous allez définir une
+classe dont les instances représenteront des sommets.</p>
+<p>Éditez le fichier <tt class="docutils literal"><span class="pre">workshopapp/model/__init__.py</span></tt> et changez le afin qu&#8217;il
+ressemble à ceci :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;Les objets du modele de l&#39;application&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">Base</span>
+
+
+<span class="k">def</span> <span class="nf">init_model</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;M&#39;appelle avant d&#39;utiliser n&#39;importe quelle table ou classe dans le modele&quot;&quot;&quot;</span>
+    <span class="n">Session</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">Summit</span>
+    <span class="k">class</span> <span class="nc">Summit</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;summits&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;autoload&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s">&#39;autoload_with&#39;</span><span class="p">:</span> <span class="n">engine</span>
+            <span class="p">}</span>
+</pre></div>
+</div>
+<p>Définir <tt class="docutils literal"><span class="pre">autoload</span></tt> à <tt class="xref docutils literal"><span class="pre">True</span></tt> dans l&#8217;argument de la table permet à SQLAlchemy
+de découvrir automatiquement le schéma de la table (et de charger des valeurs
+pour chaque colonne de la table lors des requêtes).</p>
+<p>Vous pouvez maintenant relancer le serveur web Paste (s&#8217;il n&#8217;est pas déjà
+démarré) et vous verrez les commandes SQL de SQLAlchemy envoyées vers PostgreSQL
+pour découvrir les colonnes de la table :</p>
+<div class="highlight-python"><pre>(vp) $ paster serve --reload development.ini</pre>
+</div>
+</div>
+<div class="section" id="creer-un-controlleur">
+<h2>Créer un controlleur<a class="headerlink" href="#creer-un-controlleur" title="Permalink to this headline">¶</a></h2>
+<p>Vous allez maintenant créer un service web afin que les informations sur les
+sommets puissent être récupérées par HTTP. Pour cela un contrôleur lié à la table
+<tt class="docutils literal"><span class="pre">summits</span></tt>, en fait la classe <tt class="docutils literal"><span class="pre">Summit</span></tt>, sera créé.</p>
+<p>Pylons fournie une commande pour générer des contrôleurs. Vous pouvez l&#8217;utiliser
+pour générer votre contrôleur <tt class="docutils literal"><span class="pre">summits</span></tt> :</p>
+<div class="highlight-python"><pre>(vp) $ paster controller summits</pre>
+</div>
+<p>Cette commande créée deux fichiers : <tt class="docutils literal"><span class="pre">workshopapp/controllers/summits.py</span></tt>, qui
+inclus le contrôleur lui-même, et <tt class="docutils literal"><span class="pre">workshopapp/tests/functional/test_summits.py</span></tt>,
+qui inclus des tests fonctionnels pour ce contrôleur. Ces fichiers sont seulement
+des squelettes.</p>
+<p>Pour vérifier que votre contrôleur est fonctionnel vous pouvez maintenant ouvrir
+<a class="reference external" href="http://localhost:5000/summits/index">http://localhost:5000/summits/index</a> dans votre navigateur, vous devez obtenir une
+page HTML <tt class="docutils literal"><span class="pre">Hello</span> <span class="pre">World</span></tt>.</p>
+<p>Vous allez maintenant modifier le contrôleur <tt class="docutils literal"><span class="pre">summits</span></tt> afin qu&#8217;il renvoie une
+réprésentation JSON des dix premiers sommets de la table. SQLAlchemy est
+utilisé pour requêter la base de données, et une fonction décorateur spécifique
+à Pylons (<tt class="docutils literal"><span class="pre">jsonify</span></tt>) est utilisé pour sérialiser les objets de la base de
+données en JSON.</p>
+<p>Voici le code complet du contrôleur <tt class="docutils literal"><span class="pre">summits</span></tt> :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">pylons.decorators</span> <span class="kn">import</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model</span> <span class="kn">import</span> <span class="n">Summit</span>
+
+<span class="kn">from</span> <span class="nn">workshopapp.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SummitsController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="nd">@jsonify</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">summits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">summit</span> <span class="ow">in</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Summit</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">summits</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">elevation</span>
+                <span class="p">})</span>
+
+
+        <span class="k">return</span> <span class="n">summits</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creer-de-nouvelles-tables">
+<h2>Créer de nouvelles tables<a class="headerlink" href="#creer-de-nouvelles-tables" title="Permalink to this headline">¶</a></h2>
+<p>Cette section montre comment créer des tables dans la base de données lorsqu&#8217;une
+application Pylons est configurée.</p>
+<p>Pour configurer le projet la commande <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> est utilisée :</p>
+<div class="highlight-python"><pre>(vp) $ paster setup-app development.ini</pre>
+</div>
+<p>Cette commande éxécute la fonction <tt class="docutils literal"><span class="pre">setup_app</span></tt> définie dans le fichier
+<tt class="docutils literal"><span class="pre">workshopapp/websetup.py</span></tt> file.</p>
+<p>Par défaut la fonction <tt class="docutils literal"><span class="pre">setup_app</span></tt> appelle la fonction
+<tt class="docutils literal"><span class="pre">Base.metadata.create_all</span></tt>. Cette fonction créé les tables définie dans le
+model si elles n&#8217;existent pas dans la base de données.</p>
+<p>Pour créer les tables lors de la configuration vous devez simplement déclarer les
+nouvelles tables dans le modèle.</p>
+<p>Déclarons une table <tt class="docutils literal"><span class="pre">areas</span></tt> dans le modèle. Pour cela éditez le fichier
+<tt class="docutils literal"><span class="pre">workshopapp/model/__init__.py</span></tt> et changez son contenu :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;The appplication&#39;s model objects&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.schema</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.types</span> <span class="kn">import</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">Base</span>
+
+<span class="k">def</span> <span class="nf">init_model</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Call me before using any of the tables or classes in the model&quot;&quot;&quot;</span>
+    <span class="n">Session</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">Summit</span>
+    <span class="k">class</span> <span class="nc">Summit</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;summits&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;autoload&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s">&#39;autoload_with&#39;</span><span class="p">:</span> <span class="n">engine</span>
+            <span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Area</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;areas&#39;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Le code ci-dessus déclare une table nommée <tt class="docutils literal"><span class="pre">areas</span></tt>. Cette table possède deux
+colonnes, une colonne de type entier nommée <tt class="docutils literal"><span class="pre">id</span></tt>, qui est la clé primaire, et
+une colonne nommée <tt class="docutils literal"><span class="pre">name</span></tt> de type chaîne de caractère.</p>
+<p>Vous pouvez maintenant éxécuter la commande <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> de nouveau. Une
+fois éxécuté vous devez avoir la table <tt class="docutils literal"><span class="pre">areas</span></tt> dans la base PostgreSQL. Vous
+pouvez utiliser <tt class="docutils literal"><span class="pre">pgAdmin</span></tt> ou n&#8217;importe quel client PostgreSQL pour vérifier
+l&#8217;existence de cette table.</p>
+<p>Maintenant vous allez modifier la fonction <tt class="docutils literal"><span class="pre">setup_app</span></tt> pour insérer des
+données dans la table <tt class="docutils literal"><span class="pre">areas</span></tt> au moment de la configuration (souvenez vous que
+la fonction <tt class="docutils literal"><span class="pre">setup_app</span></tt> est définie dans le fichier
+<tt class="docutils literal"><span class="pre">workshopapp/websetup.py</span></tt>) :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;Setup the WorkshopApp application&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">pylons.test</span>
+
+<span class="kn">from</span> <span class="nn">workshopapp.config.environment</span> <span class="kn">import</span> <span class="n">load_environment</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model</span> <span class="kn">import</span> <span class="n">Area</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">setup_app</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="nb">vars</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Placez les commandes pour configurer workshopapp ici&quot;&quot;&quot;</span>
+    <span class="c"># Ne recharge pas l&#39;app si elle a ete chargee sous l&#39;env. de test</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pylons</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">pylonsapp</span><span class="p">:</span>
+        <span class="n">load_environment</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">global_conf</span><span class="p">,</span> <span class="n">conf</span><span class="o">.</span><span class="n">local_conf</span><span class="p">)</span>
+
+    <span class="c"># Creer les tables si elles n&#39;existent pas</span>
+    <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">Session</span><span class="o">.</span><span class="n">bind</span><span class="p">)</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Adding default area...&quot;</span><span class="p">)</span>
+    <span class="n">default_area</span> <span class="o">=</span> <span class="n">Area</span><span class="p">()</span>
+    <span class="n">default_area</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;Default area&quot;</span>
+    <span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">default_area</span><span class="p">)</span>
+    <span class="n">Session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Successfully set up.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Avec le code ci-dessus une surface est ajoutée à la table <tt class="docutils literal"><span class="pre">areas</span></tt>. Éxécutez la
+commande <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> de nouveau et vérifiez que la surface a été
+effectivement insérée (par exemple en utilisant encore <tt class="docutils literal"><span class="pre">pgAdmin</span></tt>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Ici chaque fois que <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> est éxécutée une nouvelle surface
+avec le même nom est insérée. Chaque surface insérée possède un id différent,
+le champ id est autoincrémenté, grâce à la séquence SQLAlchemy créée dans la
+base de données.</p>
+</div>
+<p><strong>Tâche en bonus 1</strong></p>
+<p>Créez un contrôleur <tt class="docutils literal"><span class="pre">areas</span></tt>, similaire au contrôleur <tt class="docutils literal"><span class="pre">summits</span></tt>, mais basé
+sur la table <tt class="docutils literal"><span class="pre">areas</span></tt>.</p>
+<p><strong>Tâche en bonus 2</strong></p>
+<p>Ajoutez une nouvelle action au contrôleur <tt class="docutils literal"><span class="pre">areas</span></tt> (par exemple nommée
+<tt class="docutils literal"><span class="pre">create</span></tt>) pour insérer de nouvelles surfaces. Vous utiliserez <tt class="docutils literal"><span class="pre">Session.add</span></tt>
+et <tt class="docutils literal"><span class="pre">Session.commit</span></tt> comme dans <tt class="docutils literal"><span class="pre">websetup.py</span></tt> pour cela.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="geoalchemy.html" title="GeoAlchemy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Pour commencer"
+             >previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Workshop Python (version française)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,181 @@
+Module 4 - Building JavaScript
+==============================
+
+In this module you're going to learn how to use the ``jsbuild`` tool to minify
+the JavaScript of your application. Minifying the JavaScript code is important
+if you care about performance, as it drastically reduces the time to load the
+JavaScript code.
+
+Installation
+------------
+
+The ``jsbuild`` tool is included in the ``JSTools`` Python package. The MapFish
+framework package depends on ``JSTools``, so ``JSTools`` was installed in the
+virtual Python environment as part of the framework installation.
+
+You can check that ``jsbuild`` is properly installed by running this command::
+
+    $ jsbuild --help
+
+It should produce this output::
+
+    Usage: jsbuild-script.py [options] filename1.cfg [filename2.cfg...]
+
+    Options:
+      -h, --help            show this help message and exit
+      -u, --uncompress      Don't compresses aggregated javascript
+      -v, --verbose         print more info
+      -o OUTPUT_DIR, --output=OUTPUT_DIR
+                            Output directory
+      -r RESOURCE_DIR, --resource=RESOURCE_DIR
+                            resource base directory (for interpolation)
+      -j SINGLE_FILE, --just=SINGLE_FILE
+                            Only create file for this section
+      -s CONCAT, --single-file-build=CONCAT
+                            Create a single file of all of possible output
+      -c COMPRESSOR, --compressor=COMPRESSOR
+                            Compressor plugin to use in form
+                            {specifier}:{'arguments_string'}
+
+Creating Build Profile
+----------------------
+
+To be able to minify your application JavaScript code you must first create a
+*build profile*. A build profile holds the build configuration: paths to
+JavaScript folders, etc.
+
+A build profile for the default user interface is provided in
+``jsbuild/app.cfg``. It looks like this::
+
+    [app.js]
+    root =
+        ../mapfishapp/public/app/lib
+        ../mapfishapp/public/lib/ext
+        ../mapfishapp/public/lib/openlayers/lib
+        ../mapfishapp/public/lib/geoext/lib
+    first =
+        Ext/adapter/ext/ext-base.js
+        Ext/ext-all.js
+        OpenLayers/SingleFile.js
+        OpenLayers.js
+        OpenLayers/Util.js
+        OpenLayers/Lang.js
+        OpenLayers/Lang/en.js
+        OpenLayers/Console.js
+        OpenLayers/BaseTypes.js
+        OpenLayers/BaseTypes/Class.js
+        OpenLayers/BaseTypes/Pixel.js
+        OpenLayers/BaseTypes/Bounds.js
+        OpenLayers/BaseTypes/LonLat.js
+        OpenLayers/BaseTypes/Element.js
+        OpenLayers/BaseTypes/Size.js
+    include =
+        App/main.js
+    exclude =
+        GeoExt.js
+        GeoExt/SingleFile.js
+
+``[app.js]``
+    ``app.js`` will be the name of the resulting build file.
+
+``root``
+    The ``root`` property provides the paths to the folders containing
+    JavaScript code. It is to be noted that, with the above build profile, the
+    JavaScript code for OpenLayers, GeoExt, and the application
+    is minified and merged in a single build file, ``app.js``.
+
+``first``
+    The ``first`` property provides the list of JavaScript files that
+    must be first in the resulting build file.
+
+``include``
+    The ``include`` property provides the list of files that should be included
+    in the build file. You'll note that only one file is specified here: the entry
+    point app file. The other JavaScript files to be included in the build file are
+    specified using ``@include`` directives in the JavaScript application files themselves.
+
+``exclude``
+    The ``exclude`` property provides the list of files that should not be
+    included in the build file.
+
+Building
+--------
+
+Before actually building the JavaScript code you need to create the folder
+where the build file will be placed. In the ``public`` folder create a folder
+named ``build``::
+
+    $ mkdir -p mapfishapp/public/build
+
+You can now launch the build command::
+
+    $ cd jsbuild
+    $ jsbuild -o ../mapfishapp/public/build   app.cfg
+
+After a small while, the output should be::
+
+    Done:
+    ../mapfishapp/public/build/app.js
+
+
+You can now edit ``public/index.html`` to use the built version of the
+JavaScript code. For that comment the *debug mode* section and uncomment the
+*non debug mode* section. Like this::
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+            <meta name="content-language" content="en" />
+            <title>Application</title>
+
+            <link rel="stylesheet" type="text/css" href="lib/ext/Ext/resources/css/ext-all.css"></link>
+            <link rel="stylesheet" type="text/css" href="lib/ext/Ext/resources/css/xtheme-gray.css"></link>
+            <link rel="stylesheet" type="text/css" href="lib/openlayers/theme/default/style.css"></link>
+            <link rel="stylesheet" type="text/css" href="lib/geoext/resources/css/popup.css"></link>
+            <link rel="stylesheet" type="text/css" href="app/css/main.css"></link>
+
+            <script type="text/javascript" src="lib/ext/Ext/adapter/ext/ext-base.js"></script>
+
+            <!-- debug mode (begin) -->
+            <!--
+            <script type="text/javascript" src="lib/ext/Ext/ext-all-debug.js"></script>
+            <script type="text/javascript" src="lib/openlayers/lib/OpenLayers.js"></script>
+            <script type="text/javascript" src="lib/geoext/lib/GeoExt.js"></script>
+            <script type="text/javascript" src="app/lib/App/layout.js"></script>
+            <script type="text/javascript" src="app/lib/App/main.js"></script>
+            -->
+            <!-- debug mode (end) -->
+
+            <!-- non debug mode (begin) -->
+            <script type="text/javascript" src="build/app.js"></script>
+            <!-- non debug mode (end) -->
+
+        </head>
+
+        <body>
+        </body>
+    <html>
+
+You can now reload http://localhost:5000 in your browser.
+
+You should get JavaScript errors in the FireBug console, this is because you
+added functionality in the previous modules of this workshop without adding
+proper ``@include`` directives in the ``layout.js``. You should be
+able to fix that by adding the missing ``@include`` directives, for instance::
+
+    /*
+     * @include OpenLayers/Layer/WMS.js
+     * @include OpenLayers/Map.js
+     * @include OpenLayers/Projection.js
+     * @include OpenLayers/Layer/XYZ.js
+     * @include OpenLayers/Tile/Image.js
+     * @include OpenLayers/Control/Navigation.js
+     * @include OpenLayers/Control/ZoomBox.js
+     * @include OpenLayers/Control/NavigationHistory.js
+     * @include GeoExt/data/LayerStore.js
+     * @include GeoExt/widgets/MapPanel.js
+     * @include GeoExt/widgets/Action.js
+     * @include GeoExt/widgets/ZoomSlider.js
+     * @include GeoExt/widgets/tips/ZoomSliderTip.js
+     * @include GeoExt/widgets/tree/LayerContainer.js
+     */

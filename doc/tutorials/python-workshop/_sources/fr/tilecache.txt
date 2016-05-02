@@ -1,0 +1,128 @@
+*********
+TileCache
+*********
+
+Ce module montre comment utiliser TileCache dans une application Pylons, i.e. 
+comment accéder à TileCache à travers un contrôleur de l'application.
+
+Cela peut être utile par exemple pour sécuriser l'accès à TileCache, en utilisant 
+le framework de sécurité repoze.who/what, ou n'importe quel framework de sécurité 
+qui peut être utilisé dans les applications Pylons.
+
+Installation
+=============
+
+Pour installer TileCache dans l'environnement virtuel Python, utilisez :
+
+::
+    
+    (vp) $ easy_install "TileCache==2.10"
+
+Créer la configuration
+=======================
+
+D'abord vous devrez définir la configuration de TileCache, i.e. où le cache est 
+localisé dans le système de fichier, les couches à mettre en cache, etc. Pour 
+cela créez un fichier nommé ``tilecache.cfg`` avec le contenu suivant à la racine 
+de l'application :
+
+::
+    
+    [cache]
+    type=Disk
+    base=/tmp/tilecache
+
+    [basic]
+    type=WMS
+    url=http://labs.metacarta.com/wms/vmap0
+    extension=png
+
+Dans la section ``[cache]`` sont définie le type et la localisation du cache, 
+avec la section ``[basic]`` une couche nommée ``basic`` a été définie, cette 
+couche se base sur un WMS. Lisez la page http://tilecache.org/readme.html pour 
+plus d'information sur la configuration de TileCache.
+
+Créer un controlleur
+=====================
+
+Pour créer le contrôleur pour TileCache créez le fichier 
+``workshopapp/controllers/tilecache.py`` avec le contenu suivant :
+
+.. code-block:: python
+
+    from TileCache.Service import wsgiApp as TilecacheController
+
+.. note::
+
+    Intégrer TileCache dans une application est aussi facile que cela grâce à 
+    l'interface WSGI que TileCache implémente (``wsgiApp``).
+
+Pour être capable d'utiliser ce contrôleur une *route* spécifique doit être 
+créée. Cette route définira la correspondance entre une URL est le contrôleur 
+``tilecache``. Éditez le fichier ``workshopapp/config/routing.py`` et ajoutez la 
+ligne suivante après le commentaire ``CUSTOM ROUTES HERE`` :
+
+.. code-block:: python
+
+    map.connect('/tilecache', controller='tilecache')
+
+Vous pouvez maintenant tester votre service web ``tilecache`` en ouvrant l'URL 
+suivant dans votre navigateur :
+
+::
+    
+    http://localhost:5000/tilecache?LAYERS=basic&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1
+    &REQUEST=GetMap&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A4326
+    &BBOX=-11.25,33.75,0,45&WIDTH=256&HEIGHT=256
+
+Vous devez obtenir une image de 256x256 pixels représentant l'Espagne.
+
+Visualiser la carte
+=====================
+
+Pour vous amuser, vous pouvez également créer une petit application OpenLayers 
+(http://www.openlayers.org) basée sur un service web de TileCace.
+
+Créez le fichier ``workshopapp/public/tilecache.html`` avec ce contenu :
+
+.. code-block:: html
+
+    <head>
+    <style type="text/css">
+        body {
+            padding:0px;                                                                                                                                                 
+            margin:0px
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript">
+        var map, layer;
+
+        function init(){
+            map = new OpenLayers.Map('map', {'maxResolution': 360/512});
+            layer = new OpenLayers.Layer.WMS(
+                "Basic layer",
+                "tilecache?", // the URL to the TileCache web service
+                {layers: 'basic', format: 'image/png' }
+            );
+            map.addLayer(layer);
+            map.zoomToMaxExtent();
+        }
+    </script>
+    </head>
+    <body onload="init()">
+      <div id="map"></div>
+    </body>
+    </html>
+
+et ouvrez http://localhost:5000/tilecache.html dans votre navigateur.
+
+**Tâche bonus**
+
+Modifier le contrôleur ``tilecache`` afin que TileCache soit éxécuté dans une 
+action du contrôleur. Vous pouvez regarder sur 
+http://pylonsbook.com/en/1.1/the-web-server-gateway-interface-wsgi.html#wsgi-in-pylons-controllers.

@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 4 - Construction de scripts JavaScript &mdash; MapFish Tutorial v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Tutorial MapFish" href="index.html" />
+    <link rel="next" title="Module 5 – Création du service Web" href="creating_webservice.html" />
+    <link rel="prev" title="Module 3 – Personnalisation de l’Application" href="customizing_application.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="creating_webservice.html" title="Module 5 – Création du service Web"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="customizing_application.html" title="Module 3 – Personnalisation de l’Application"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorial MapFish</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Module 4 - Construction de scripts JavaScript</a><ul>
+<li><a class="reference external" href="#installation">Installation</a></li>
+<li><a class="reference external" href="#conception-du-profile-de-compression">Conception du profile de compression</a></li>
+<li><a class="reference external" href="#construction">Construction</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="customizing_application.html"
+                                  title="previous chapter">Module 3 – Personnalisation de l&#8217;Application</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="creating_webservice.html"
+                                  title="next chapter">Module 5 – Création du service Web</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/fr/building_javascript.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-4-construction-de-scripts-javascript">
+<h1>Module 4 - Construction de scripts JavaScript<a class="headerlink" href="#module-4-construction-de-scripts-javascript" title="Permalink to this headline">¶</a></h1>
+<p>Au sein de ce module vous allez apprendre à utiliser l’outil <tt class="docutils literal"><span class="pre">jsbuild</span></tt> pour
+optimiser et réduire le code JavaScript de votre application. Minimiser votre
+code JavaScript est très important si vous êtes attentif à la performance de
+votre application, cette opération permet de réduire de façon drastique le temps
+de chargement du code JavaScript.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>L’outil <tt class="docutils literal"><span class="pre">jsbuild</span></tt> est inclus dans le package Python <tt class="docutils literal"><span class="pre">JSTools</span></tt>. La structure
+du package MapFish dépendant du <tt class="docutils literal"><span class="pre">JSTools</span></tt>, ce dernier à été installé au sein
+de l’environnement virtuel de Python comme partie intégrante de l’installation
+du Framework.</p>
+<p>Vous pouvez vérifier que <tt class="docutils literal"><span class="pre">jsbuild</span></tt> est proprement installé en lançant cette
+commande :</p>
+<div class="highlight-python"><pre>$ jsbuild --help</pre>
+</div>
+<p>Ce qui devrait vous donner le résultat suivant :</p>
+<div class="highlight-python"><pre>Usage: jsbuild-script.py [options] filename1.cfg [filename2.cfg...]
+
+Options:
+  -h, --help            show this help message and exit
+  -u, --uncompress      Don't compresses aggregated javascript
+  -v, --verbose         print more info
+  -o OUTPUT_DIR, --output=OUTPUT_DIR
+                        Output directory
+  -r RESOURCE_DIR, --resource=RESOURCE_DIR
+                        resource base directory (for interpolation)
+  -j SINGLE_FILE, --just=SINGLE_FILE
+                        Only create file for this section
+  -s CONCAT, --single-file-build=CONCAT
+                        Create a single file of all of possible output
+  -c COMPRESSOR, --compressor=COMPRESSOR
+                        Compressor plugin to use in form
+                        {specifier}:{'arguments_string'}</pre>
+</div>
+</div>
+<div class="section" id="conception-du-profile-de-compression">
+<h2>Conception du profile de compression<a class="headerlink" href="#conception-du-profile-de-compression" title="Permalink to this headline">¶</a></h2>
+<p>Pour être capable de minimiser le code JavaScript de votre application vous
+devrez créer un profile de compression. Ce dernier détient par exemple la
+configuration des chemins d&#8217;accès aux dossiers JavaScript, etc.</p>
+<p>Un profile de compression pour l’interface utilisateur par défaut est proposé
+dans le fichier <tt class="docutils literal"><span class="pre">jsbuild/app.cfg</span></tt>. Ce dernier ressemble à ceci :</p>
+<div class="highlight-python"><pre>[app.js]
+root =
+    ../mapfishapp/public/app/lib
+    ../mapfishapp/public/lib/ext
+    ../mapfishapp/public/lib/openlayers/lib
+    ../mapfishapp/public/lib/geoext/lib
+first =
+    Ext/adapter/ext/ext-base.js
+    Ext/ext-all.js
+    OpenLayers/SingleFile.js
+    OpenLayers.js
+    OpenLayers/Util.js
+    OpenLayers/Lang.js
+    OpenLayers/Lang/en.js
+    OpenLayers/Console.js
+    OpenLayers/BaseTypes.js
+    OpenLayers/BaseTypes/Class.js
+    OpenLayers/BaseTypes/Pixel.js
+    OpenLayers/BaseTypes/Bounds.js
+    OpenLayers/BaseTypes/LonLat.js
+    OpenLayers/BaseTypes/Element.js
+    OpenLayers/BaseTypes/Size.js
+include =
+    App/main.js
+exclude =
+    GeoExt.js
+    GeoExt/SingleFile.js</pre>
+</div>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">[app.js]</span></tt></dt>
+<dd><tt class="docutils literal"><span class="pre">app.js</span></tt> sera le nom du fichier compressé.</dd>
+<dt><tt class="docutils literal"><span class="pre">root</span></tt></dt>
+<dd>La propriété <tt class="docutils literal"><span class="pre">root</span></tt> présente les chemins d’accès vers les dossiers
+contenant le code JavaScript. Il faut noter qu’avec le profile de compression
+précédant, le code JavaScript d’OpenLayers, de GeoExt, du Client MapFish, et de
+l’application est minimisé et associé au sein d’un seul et même fichier
+compressé, <tt class="docutils literal"><span class="pre">app.js</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">first</span></tt></dt>
+<dd>La propriété <tt class="docutils literal"><span class="pre">first</span></tt> présente la liste des fichiers JavaScript devant
+apparaître en priorité dans le fichier compressé résultant.</dd>
+<dt><tt class="docutils literal"><span class="pre">include</span></tt></dt>
+<dd>La propriété <tt class="docutils literal"><span class="pre">include</span></tt> présente la liste des fichiers devant êtres inclus dans
+le fichier compressé. Vous pourrez constater qu’un seul fichier est ici
+spécifier: le fichier .app, point d’entrée de l&#8217;application. Les autres fichiers
+JavaScript devant êtres inclus au sein du fichier compressé sont spécifiés en
+utilisant les directives <tt class="docutils literal"><span class="pre">&#64;include</span></tt> au sein même des fichiers JavaScript de
+l’application.</dd>
+<dt><tt class="docutils literal"><span class="pre">exclude</span></tt></dt>
+<dd>La propriété <tt class="docutils literal"><span class="pre">exclude</span></tt> présente la liste des fichiers ne devant pas êtres
+inclus au sein du fichier compressé.</dd>
+</dl>
+</div>
+<div class="section" id="construction">
+<h2>Construction<a class="headerlink" href="#construction" title="Permalink to this headline">¶</a></h2>
+<p>Avant de construire votre code JavaScript, vous devez créer le dossier où le
+fichier compressé sera placé. Au sein du dossier <tt class="docutils literal"><span class="pre">public</span></tt> créez un dossier que
+vous nommerez <tt class="docutils literal"><span class="pre">build</span></tt> :</p>
+<div class="highlight-python"><pre>$ mkdir -p mapfishapp/public/build</pre>
+</div>
+<p>Vous pouvez maintenant lancer la commande de compression&nbsp;:</p>
+<div class="highlight-python"><pre>$ cd jsbuild
+$ jsbuild -o ../mapfishapp/public/build   app.cfg</pre>
+</div>
+<p>Après un cours instant, le résultat doit correspondre à :</p>
+<div class="highlight-python"><pre>Done:
+../mapfishapp/public/build/app.js</pre>
+</div>
+<p>Vous pouvez à présent éditer la page <tt class="docutils literal"><span class="pre">public/index.html</span></tt> afin de d’utiliser la
+version intégrée du code JavaScript. Pour cela faites attention à commenter la
+section <em>debug mode</em> et de supprimer les commentaires de la section <em>non debug
+mode</em>. Opérez comme ceci :</p>
+<div class="highlight-python"><pre>&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv="Content-Type" content="text/html; charset=utf8" /&gt;
+        &lt;meta name="content-language" content="en" /&gt;
+        &lt;title&gt;Application&lt;/title&gt;
+
+        &lt;link rel="stylesheet" type="text/css" href="lib/ext/Ext/resources/css/ext-all.css"&gt;&lt;/link&gt;
+        &lt;link rel="stylesheet" type="text/css" href="lib/ext/Ext/resources/css/xtheme-gray.css"&gt;&lt;/link&gt;
+        &lt;link rel="stylesheet" type="text/css" href="lib/openlayers/theme/default/style.css"&gt;&lt;/link&gt;
+        &lt;link rel="stylesheet" type="text/css" href="lib/geoext/resources/css/popup.css"&gt;&lt;/link&gt;
+        &lt;link rel="stylesheet" type="text/css" href="app/css/main.css"&gt;&lt;/link&gt;
+
+        &lt;script type="text/javascript" src="lib/ext/Ext/adapter/ext/ext-base.js"&gt;&lt;/script&gt;
+
+        &lt;!-- debug mode (begin) --&gt;
+        &lt;!--
+        &lt;script type="text/javascript" src="lib/ext/Ext/ext-all-debug.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="lib/openlayers/lib/OpenLayers.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="lib/geoext/lib/GeoExt.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="app/lib/App/layout.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="app/lib/App/main.js"&gt;&lt;/script&gt;
+        --&gt;
+        &lt;!-- debug mode (end) --&gt;
+
+        &lt;!-- non debug mode (begin) --&gt;
+        &lt;script type="text/javascript" src="build/app.js"&gt;&lt;/script&gt;
+        &lt;!-- non debug mode (end) --&gt;
+
+    &lt;/head&gt;
+
+    &lt;body&gt;
+    &lt;/body&gt;
+&lt;html&gt;</pre>
+</div>
+<p>Rechargez maintenant la page <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> au sein de votre navigateur.</p>
+<p>Vous devriez obtenir des erreurs JavaScript au sein de la console FireBug, elles
+sont liées aux fonctionnalités intégrées dans le module précédant du tutoriel.
+Ces dernières n’ont pas respectées les directives d’ <tt class="docutils literal"><span class="pre">&#64;include</span></tt> au sein du
+fichier <tt class="docutils literal"><span class="pre">layout.js</span></tt>. Vous êtes maintenant capable de résoudre ce problème en intégrant la directive
+<tt class="docutils literal"><span class="pre">&#64;include</span></tt>, en voici un exemple:</p>
+<div class="highlight-python"><pre>/*
+ * @include OpenLayers/Layer/WMS.js
+ * @include OpenLayers/Map.js
+ * @include OpenLayers/Projection.js
+ * @include OpenLayers/Layer/XYZ.js
+ * @include OpenLayers/Tile/Image.js
+ * @include OpenLayers/Control/Navigation.js
+ * @include OpenLayers/Control/ZoomBox.js
+ * @include OpenLayers/Control/NavigationHistory.js
+ * @include GeoExt/data/LayerStore.js
+ * @include GeoExt/widgets/MapPanel.js
+ * @include GeoExt/widgets/Action.js
+ * @include GeoExt/widgets/ZoomSlider.js
+ * @include GeoExt/widgets/tips/ZoomSliderTip.js
+ * @include GeoExt/widgets/tree/LayerContainer.js
+ */</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="creating_webservice.html" title="Module 5 – Création du service Web"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="customizing_application.html" title="Module 3 – Personnalisation de l’Application"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Tutorial MapFish</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Éric Lemoine, Cédric Moullet, Claude Philipona.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

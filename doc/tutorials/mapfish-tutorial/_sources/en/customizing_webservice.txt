@@ -1,0 +1,26 @@
+Module 7 - Customizing the web service
+======================================
+
+This module will demonstrate one example of web service customization.
+
+You're going to customize the ``countries`` web service so it includes only
+countries of the Oceana continent in its GeoJSON responses.
+
+**Programming task**
+
+This is done by adding code to the ``index`` action (function) of the
+``CountriesController``. The code to be added involves creating a
+``Comparison`` filter and combining it with the default MapFish filter::
+
+    from sqlalchemy.sql import and_
+
+    @geojsonify
+    def index(self, format='json'):
+        """GET /: return all features."""
+        if format != 'json':
+            abort(400)
+        filter = and_(create_default_filter(request, Country),
+                      Country.continent == "Africa")
+        return self.protocol.read(request, filter=filter)
+
+[`Correction here (controller/countries.py) <_static/controller_countries_module7.py>`_]

@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 3 - Customizing the Application &mdash; MapFish Tutorial v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
+    <link rel="up" title="MapFish Tutorial" href="index.html" />
+    <link rel="next" title="Module 4 - Building JavaScript" href="building_javascript.html" />
+    <link rel="prev" title="Module 2 - Creating Application" href="creating_application.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="building_javascript.html" title="Module 4 - Building JavaScript"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="creating_application.html" title="Module 2 - Creating Application"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Module 3 - Customizing the Application</a><ul>
+<li><a class="reference external" href="#adding-layers">Adding layers</a></li>
+<li><a class="reference external" href="#adding-tools">Adding tools</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="creating_application.html"
+                                  title="previous chapter">Module 2 - Creating Application</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="building_javascript.html"
+                                  title="next chapter">Module 4 - Building JavaScript</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/customizing_application.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-3-customizing-the-application">
+<h1>Module 3 - Customizing the Application<a class="headerlink" href="#module-3-customizing-the-application" title="Permalink to this headline">¶</a></h1>
+<p>In this section you&#8217;re going to customize the default user interface. More
+specifically you&#8217;re going to add layers and tools to the map. These tasks will
+involve adding JavaScript code in the <tt class="docutils literal"><span class="pre">layout.js</span></tt> file.</p>
+<div class="section" id="adding-layers">
+<h2>Adding layers<a class="headerlink" href="#adding-layers" title="Permalink to this headline">¶</a></h2>
+<p>You&#8217;re going to add a WMS layer to the map.</p>
+<p><strong>Programming task</strong></p>
+<p>Edit the <tt class="docutils literal"><span class="pre">layout.js</span></tt> file and add a <tt class="docutils literal"><span class="pre">OpenLayers.Layer.WMS</span></tt>
+object to the array of layers returned by the <tt class="docutils literal"><span class="pre">createLayers</span></tt> function. Here&#8217;s
+the code for creating the <tt class="docutils literal"><span class="pre">OpenLayers.Layer.WMS</span></tt> object:</p>
+<div class="highlight-python"><pre>new OpenLayers.Layer.WMS(
+    "c2c.org",
+    "http://www.camptocamp.org/cgi-bin/mapserv_c2corg",
+    {
+        layers: 'summits,routes,huts,parkings,sites',
+        format: 'png',
+        transparent: true
+    }, {
+        singleTile: true
+    }
+)</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">OpenLayers.Layer.WMS</span></tt> object is given a name, a URL to the WMS, WMS
+parameters, and options. The <tt class="docutils literal"><span class="pre">singleTile</span></tt> option indicates that the layer is
+to be displayed with a single image as opposed to a grid of image tiles. See
+the <a class="reference external" href="http://dev.openlayers.org/apidocs/files/OpenLayers/Layer/WMS-js.html">OpenLayers.Layer.WMS doc</a> <a class="footnote-reference" href="#id6" id="id1">[1]</a> to
+know more about the <tt class="docutils literal"><span class="pre">OpenLayers.Layers.WMS</span></tt> class.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The WMS service used here is provided by the <a class="reference external" href="http://www.camptocamp.org">camptocamp.org</a> <a class="footnote-reference" href="#id7" id="id2">[2]</a> non-profit organization.</p>
+</div>
+<p>After reloading the application in the browser you should get this:</p>
+<img alt="../_images/c2corg.png" src="../_images/c2corg.png" style="width: 500pt; height: 300pt;" />
+<p>Please contribute to <a class="reference external" href="http://www.camptocamp.org">http://www.camptocamp.org</a> if you want to see more summits,
+routes, huts, parkings and climbing sites added to your map of&nbsp;Espagna :-)</p>
+<p>The code you added here makes use of the OpenLayers library only, you haven&#8217;t
+written any GeoExt and MapFish code at this point.</p>
+<p>[<a class="reference external" href="../_static/mapfishapp_layout_module3_addwms.js">Correction here</a>]</p>
+</div>
+<div class="section" id="adding-tools">
+<h2>Adding tools<a class="headerlink" href="#adding-tools" title="Permalink to this headline">¶</a></h2>
+<p>Here you&#8217;re going to add a <em>Zoom -</em> tool next to the <em>Zoom +</em> tool in the map&#8217;s
+toolbar.</p>
+<p><strong>Programming task</strong></p>
+<p>Edit the <tt class="docutils literal"><span class="pre">layout.js</span></tt> file again, look up the <tt class="docutils literal"><span class="pre">createTbarItems</span></tt>
+function, and add a new <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt> object to the <tt class="docutils literal"><span class="pre">actions</span></tt> array
+returned by the function. Here&#8217;s the code for creating the <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt>
+object:</p>
+<div class="highlight-python"><pre>actions.push(new GeoExt.Action({
+    iconCls: "zoomout",
+    map: map,
+    toggleGroup: "tools",
+    allowDepress: false,
+    tooltip: "Zoom out",
+    control: new OpenLayers.Control.ZoomBox({
+        out: true
+    })
+}));</pre>
+</div>
+<p>This code creates a <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt> object configured with an
+<tt class="docutils literal"><span class="pre">OpenLayers.Control.ZoomBox</span></tt> instance. This code looks like that for the
+<em>Zoom -</em> tool, the main difference being the <tt class="docutils literal"><span class="pre">out</span></tt> control option set to
+<tt class="docutils literal"><span class="pre">false</span></tt> for <em>Zoom +</em> and to <tt class="docutils literal"><span class="pre">true</span></tt> for <em>Zoom -</em>. See the <a class="reference external" href="http://www.geoext.org/lib/GeoExt/widgets/Action.html">GeoExt.Action doc</a> <a class="footnote-reference" href="#id8" id="id3">[3]</a> and the
+<a class="reference external" href="http://dev.openlayers.org/apidocs/files/OpenLayers/Control/ZoomBox-js.html">OpenLayers.Control.ZoomBox doc</a>
+<a class="footnote-reference" href="#id9" id="id4">[4]</a> (no, actually don&#8217;t look at the later, it&#8217;s rather empty!).</p>
+<p>We also need some CSS in <tt class="docutils literal"><span class="pre">mapfishapp/public/app/css/main.css</span></tt>:</p>
+<div class="highlight-python"><pre>.zoomout {
+    background-image:url(../img/icon_zoomout.png) !important;
+    height:20px !important;
+    width:20px !important;
+}</pre>
+</div>
+<p>After reloading the application in the browser you should get this:</p>
+<img alt="../_images/zoomout.png" src="../_images/zoomout.png" style="width: 500pt; height: 300pt;" />
+<p>In this section you have learned how to use <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt> objects together
+with <tt class="docutils literal"><span class="pre">OpenLayers.Control</span></tt> objects to add map tools in a tool bar.</p>
+<p>[<a class="reference external" href="../_static/mapfishapp_layout_module3_addzoomout.js">Correction there</a>]</p>
+<p><strong>Bonus task</strong></p>
+<p>Add <em>zoom to max extent</em> and <em>draw polygons</em> tools to the toolbar. Adding a
+<em>draw polygons</em> tool would require adding an <tt class="docutils literal"><span class="pre">OpenLayers.Layer.Vector</span></tt> to the
+list of layers returned by the <tt class="docutils literal"><span class="pre">createLayers</span></tt> function. Taking a look at the
+GeoExt <a class="reference external" href="http://dev.geoext.org/trunk/geoext/examples/toolbar.html">toolbar.html example</a> <a class="footnote-reference" href="#id10" id="id5">[5]</a> may help.</p>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://dev.openlayers.org/apidocs/files/OpenLayers/Layer/WMS-js.html">http://dev.openlayers.org/apidocs/files/OpenLayers/Layer/WMS-js.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://www.camptocamp.org">http://www.camptocamp.org</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://www.geoext.org/lib/GeoExt/widgets/Action.html">http://www.geoext.org/lib/GeoExt/widgets/Action.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="http://dev.openlayers.org/apidocs/files/OpenLayers/Control/ZoomBox-js.html">http://dev.openlayers.org/apidocs/files/OpenLayers/Control/ZoomBox-js.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="http://dev.geoext.org/trunk/geoext/examples/toolbar.html">http://dev.geoext.org/trunk/geoext/examples/toolbar.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="building_javascript.html" title="Module 4 - Building JavaScript"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="creating_application.html" title="Module 2 - Creating Application"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Éric Lemoine, Cédric Moullet, Claude Philipona.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

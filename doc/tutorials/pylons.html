@@ -1,124 +1,118 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Pylons tutorial &mdash; MapFish</title>
-    
     <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
         VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../index.html" />
     <link rel="up" title="Tutorials" href="index.html" />
     <link rel="next" title="Secure TileCache Tutorial" href="secure_tilecache.html" />
     <link rel="prev" title="OGRS 2009 - State of the art of the creation of GIS rich internet application" href="ogrs2009_lab.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="../../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="secure_tilecache.html" title="Secure TileCache Tutorial"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="ogrs2009_lab.html" title="OGRS 2009 - State of the art of the creation of GIS rich internet application"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../index.html">
               <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
             </a></p>
-  <h3><a href="../../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Pylons tutorial</a><ul>
-<li><a class="reference internal" href="#installing">Installing</a></li>
-<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
-<li><a class="reference internal" href="#controller">Controller</a></li>
-<li><a class="reference internal" href="#view">View</a></li>
-<li><a class="reference internal" href="#model">Model</a><ul>
-<li><a class="reference internal" href="#configuring-the-engine">Configuring the Engine</a></li>
-<li><a class="reference internal" href="#creating-the-model">Creating the Model</a></li>
-<li><a class="reference internal" href="#creating-the-database-tables">Creating the Database Tables</a></li>
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Pylons tutorial</a><ul>
+<li><a class="reference external" href="#installing">Installing</a></li>
+<li><a class="reference external" href="#getting-started">Getting Started</a></li>
+<li><a class="reference external" href="#controller">Controller</a></li>
+<li><a class="reference external" href="#view">View</a></li>
+<li><a class="reference external" href="#model">Model</a><ul>
+<li><a class="reference external" href="#configuring-the-engine">Configuring the Engine</a></li>
+<li><a class="reference external" href="#creating-the-model">Creating the Model</a></li>
+<li><a class="reference external" href="#creating-the-database-tables">Creating the Database Tables</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#putting-it-together">Putting It Together</a></li>
-<li><a class="reference internal" href="#support-creating-pages">Support Creating Pages</a><ul>
-<li><a class="reference internal" href="#new">new()</a></li>
-<li><a class="reference internal" href="#create">create()</a></li>
+<li><a class="reference external" href="#putting-it-together">Putting It Together</a></li>
+<li><a class="reference external" href="#support-creating-pages">Support Creating Pages</a><ul>
+<li><a class="reference external" href="#new">new()</a></li>
+<li><a class="reference external" href="#create">create()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#task">Task</a></li>
-<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li><a class="reference external" href="#task">Task</a></li>
+<li><a class="reference external" href="#conclusion">Conclusion</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="ogrs2009_lab.html"
-                        title="previous chapter">OGRS 2009 - State of the art of the creation of GIS rich internet application</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="secure_tilecache.html"
-                        title="next chapter">Secure TileCache Tutorial</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/doc/tutorials/pylons.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="ogrs2009_lab.html"
+                                  title="previous chapter">OGRS 2009 - State of the art of the creation of GIS rich internet application</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="secure_tilecache.html"
+                                  title="next chapter">Secure TileCache Tutorial</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../../_sources/doc/tutorials/pylons.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="pylons-tutorial">
 <span id="mapfish-tutorials-pylons"></span><h1>Pylons tutorial<a class="headerlink" href="#pylons-tutorial" title="Permalink to this headline">¶</a></h1>
 <p>This tutorial provides a quick tour of the Pylons framework
 <a class="reference external" href="http://pylonshq.com">http://pylonshq.com</a>. It is based on the SimpleSite tutorial included in Chapter
 8 of the Pylons Book <a class="reference external" href="http://pylonsbook.com">http://pylonsbook.com</a>.</p>
-<p>Prior to following this tutorial, it is recommented to follow the <a class="reference internal" href="sqlalchemy.html#mapfish-tutorials-sqlalchemy"><span>SQLAlchemy tutorial</span></a> tutorial.</p>
+<p>Prior to following this tutorial, it is recommented to follow the <a class="reference external" href="sqlalchemy.html#mapfish-tutorials-sqlalchemy"><em>SQLAlchemy tutorial</em></a> tutorial.</p>
 <p>In this tutorial you will create a Pylons-based, wiki-like web site.
 SQLAlchemy will be used to store the individual pages in the site in such a way
 that users can add, edit, or remove them.</p>
@@ -126,8 +120,8 @@ that users can add, edit, or remove them.</p>
 <h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
 <p>It will come to no surprise that creating a Pylons project implies having
 Pylons installed.</p>
-<p>If you haven&#8217;t followed the <a class="reference internal" href="sqlalchemy.html#mapfish-tutorials-sqlalchemy"><span>SQLAlchemy tutorial</span></a> tutorial, you need to go to
-this tutorial&#8217;s <a class="reference internal" href="sqlalchemy.html#mapfish-tutorials-sqlalchemy-installing"><span>Installing</span></a> section and create a virtual
+<p>If you haven&#8217;t followed the <a class="reference external" href="sqlalchemy.html#mapfish-tutorials-sqlalchemy"><em>SQLAlchemy tutorial</em></a> tutorial, you need to go to
+this tutorial&#8217;s <a class="reference external" href="sqlalchemy.html#mapfish-tutorials-sqlalchemy-installing"><em>Installing</em></a> section and create a virtual
 Python environment as indicated there. You can also install SQLAlchemy 0.5.2
 as you will need it for your Pylons project.</p>
 </div>
@@ -135,22 +129,19 @@ as you will need it for your Pylons project.</p>
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p>Once you have a virtual Python environment created and activated, you
 can create your Pylons project with:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ paster create --template=pylons SimpleSite
-</pre></div>
+<div class="highlight-python"><pre>$ paster create --template=pylons SimpleSite</pre>
 </div>
 <p>You will use SQLAlchemy and Mako in this tutorial so answer <cite>True</cite> to the
 SQLAlchemy question.</p>
 <p>You can now start the server with:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd SimpleSite
-$ paster serve --reload development.ini
-</pre></div>
+<div class="highlight-python"><pre>$ cd SimpleSite
+$ paster serve --reload development.ini</pre>
 </div>
-<p>If you visit <code class="docutils literal"><span class="pre">http://locahost:5000</span></code>, you will see the standard Pylons
-introduction page served from the application&#8217;s <code class="docutils literal"><span class="pre">public/index.html</span></code> file.</p>
+<p>If you visit <tt class="docutils literal"><span class="pre">http://locahost:5000</span></tt>, you will see the standard Pylons
+introduction page served from the application&#8217;s <tt class="docutils literal"><span class="pre">public/index.html</span></tt> file.</p>
 <p>Go ahead and remove that default page:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd simplesite
-$ rm public/index.html
-</pre></div>
+<div class="highlight-python"><pre>$ cd simplesite
+$ rm public/index.html</pre>
 </div>
 <p>If you refresh the page, the Pylons built-in error document support will kick
 in and display a 404 Not Found page.</p>
@@ -160,41 +151,38 @@ in and display a 404 Not Found page.</p>
 <p>You are now going to create a controller capable of serving the application
 pages. Each page is going to have its ID, which the controller will obtain
 from the URL path. Here are example URLs that the controller will handle:</p>
-<div class="highlight-python"><div class="highlight"><pre>/page/view/1
-/page/view/2
-</pre></div>
+<div class="highlight-python"><pre>/page/view/1
+/page/view/2</pre>
 </div>
 <p>Let&#8217;s now create this controller:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ paster controller page
+<div class="highlight-python"><pre>$ paster controller page
 Creating /home/eric/SimpleSite/simplesite/controllers/page.py
-Creating /home/eric/SimpleSite/simplesite/tests/functional/test_page.py
-</pre></div>
+Creating /home/eric/SimpleSite/simplesite/tests/functional/test_page.py</pre>
 </div>
 <p>This creates two files, one for the tests you will add for this controller
 and the other for the controller itself.</p>
-<p>Open the <code class="docutils literal"><span class="pre">controllers/page.py</span></code> in your text editor. You will note that the
-page controller is represented by the <code class="docutils literal"><span class="pre">PageController</span></code> class, this class
-has one method, namely <code class="docutils literal"><span class="pre">index()</span></code>. A controller&#8217;s method is called an
+<p>Open the <tt class="docutils literal"><span class="pre">controllers/page.py</span></tt> in your text editor. You will note that the
+page controller is represented by the <tt class="docutils literal"><span class="pre">PageController</span></tt> class, this class
+has one method, namely <tt class="docutils literal"><span class="pre">index()</span></tt>. A controller&#8217;s method is called an
 <em>action</em>.</p>
-<p>Visit the URL <code class="docutils literal"><span class="pre">http://localhost:5000/page/index</span></code>. You should see the the
-message <code class="docutils literal"><span class="pre">Hello</span> <span class="pre">World</span></code>.</p>
-<p>Replace the <code class="docutils literal"><span class="pre">index()</span></code> action with a <code class="docutils literal"><span class="pre">view()</span></code> action that looks like
+<p>Visit the URL <tt class="docutils literal"><span class="pre">http://localhost:5000/page/index</span></tt>. You should see the the
+message <tt class="docutils literal"><span class="pre">Hello</span> <span class="pre">World</span></tt>.</p>
+<p>Replace the <tt class="docutils literal"><span class="pre">index()</span></tt> action with a <tt class="docutils literal"><span class="pre">view()</span></tt> action that looks like
 that:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">return</span> <span class="s">&quot;Viewing &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now visit the following URLs:</p>
-<div class="highlight-python"><div class="highlight"><pre>http://localhost/page/view
+<div class="highlight-python"><pre>http://localhost/page/view
 http://localhost/page/view/1
-http://localhost/page/view/2
-</pre></div>
+http://localhost/page/view/2</pre>
 </div>
 <p>Note how the URLs are matched to the controller, action and id. The first
-element in the URL path, <code class="docutils literal"><span class="pre">page</span></code>, corresponds to the controller; the second
-element, <code class="docutils literal"><span class="pre">view</span></code>, corresponds to the controller action; and the third
+element in the URL path, <tt class="docutils literal"><span class="pre">page</span></tt>, corresponds to the controller; the second
+element, <tt class="docutils literal"><span class="pre">view</span></tt>, corresponds to the controller action; and the third
 element corresponds to the action&#8217;s id argument. This behavior is determined
-by Pylons&#8217; default Routes setup in the <code class="docutils literal"><span class="pre">config/routing.py</span></code> file:</p>
+by Pylons&#8217; default Routes setup in the <tt class="docutils literal"><span class="pre">config/routing.py</span></tt> file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/{controller}/{action}&#39;</span><span class="p">)</span>
 <span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/{controller}/{action}/{id}&#39;</span><span class="p">)</span>
 </pre></div>
@@ -207,7 +195,7 @@ Mako allows you write HTML and embed Python code in your HTML when you need
 to do so. Mako also offers simple constructs for substituting variables or
 repeating certain sections of HTML.</p>
 <p>Here is a simple Mako template:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;html&gt;
+<div class="highlight-python"><pre>&lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Greetings&lt;/title&gt;
 &lt;/head&gt;
@@ -215,26 +203,25 @@ repeating certain sections of HTML.</p>
   &lt;h1&gt;Greetings&lt;/h1&gt;
   &lt;p&gt;Hello ${name}!&lt;/p&gt;
 &lt;/body&gt;
-&lt;/html&gt;
-</pre></div>
+&lt;/html&gt;</pre>
 </div>
-<p>In this example the value of <code class="docutils literal"><span class="pre">name</span></code> will replace the <code class="docutils literal"><span class="pre">${name}</span></code> text when
+<p>In this example the value of <tt class="docutils literal"><span class="pre">name</span></tt> will replace the <tt class="docutils literal"><span class="pre">${name}</span></tt> text when
 the template is rendered.</p>
-<p>In a Pylons project, the templates are located in the <code class="docutils literal"><span class="pre">templates</span></code> directory.</p>
+<p>In a Pylons project, the templates are located in the <tt class="docutils literal"><span class="pre">templates</span></tt> directory.</p>
 <p>Because you are going to need a few templates that will all look similar, you
 are going to take advantage of Mako&#8217;s inheritance chain features, where base
 templates will be inherited from specific templates.</p>
 <p>You&#8217;ll structure these templates as follows:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">templates/base</span></code>: includes the base templates.</li>
-<li><code class="docutils literal"><span class="pre">templates/derived</span></code>: includes the derived templates.</li>
-<li><code class="docutils literal"><span class="pre">templates/component</span></code>: includes components that are used in multiple templates.</li>
+<li><tt class="docutils literal"><span class="pre">templates/base</span></tt>: includes the base templates.</li>
+<li><tt class="docutils literal"><span class="pre">templates/derived</span></tt>: includes the derived templates.</li>
+<li><tt class="docutils literal"><span class="pre">templates/component</span></tt>: includes components that are used in multiple templates.</li>
 </ul>
-<p>Let&#8217;s start with the base template. Save the following template as <code class="docutils literal"><span class="pre">templates/base/index.html</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>## -*- coding: utf-8 -*-
+<p>Let&#8217;s start with the base template. Save the following template as <tt class="docutils literal"><span class="pre">templates/base/index.html</span></tt>:</p>
+<div class="highlight-python"><pre>## -*- coding: utf-8 -*-
 
-&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot;
-&quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd"&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;title&gt;${self.title()}&lt;/title&gt;
@@ -251,40 +238,38 @@ templates will be inherited from specific templates.</p>
 &lt;/body&gt;
 &lt;/html&gt;
 
-&lt;%def name=&quot;title()&quot;&gt;SimpleSite&lt;/%def&gt;
-&lt;%def name=&quot;head()&quot;&gt;&lt;/%def&gt;
-&lt;%def name=&quot;header()&quot;&gt;&lt;a name=&quot;top&quot;&gt;&lt;/a&gt;&lt;/%def&gt;
-&lt;%def name=&quot;tabs()&quot;&gt;&lt;/%def&gt;
-&lt;%def name=&quot;menu()&quot;&gt;&lt;/%def&gt;
-&lt;%def name=&quot;heading()&quot;&gt;&lt;h1&gt;${c.heading or &#39;No Title&#39;}&lt;/h1&gt;&lt;/%def&gt;
-&lt;%def name=&quot;breadcrumbs()&quot;&gt;&lt;/%def&gt;
-&lt;%def name=&quot;footer()&quot;&gt;&lt;p&gt;&lt;a href=&quot;#top&quot;&gt;Top ^&lt;/a&gt;&lt;/p&gt;&lt;/%def&gt;
-</pre></div>
+&lt;%def name="title()"&gt;SimpleSite&lt;/%def&gt;
+&lt;%def name="head()"&gt;&lt;/%def&gt;
+&lt;%def name="header()"&gt;&lt;a name="top"&gt;&lt;/a&gt;&lt;/%def&gt;
+&lt;%def name="tabs()"&gt;&lt;/%def&gt;
+&lt;%def name="menu()"&gt;&lt;/%def&gt;
+&lt;%def name="heading()"&gt;&lt;h1&gt;${c.heading or 'No Title'}&lt;/h1&gt;&lt;/%def&gt;
+&lt;%def name="breadcrumbs()"&gt;&lt;/%def&gt;
+&lt;%def name="footer()"&gt;&lt;p&gt;&lt;a href="#top"&gt;Top ^&lt;/a&gt;&lt;/p&gt;&lt;/%def&gt;</pre>
 </div>
 <p>This template defines eight defs. A def can be seen as a function. Each of
-the calls to <code class="docutils literal"><span class="pre">${self.somedef()}</span></code> will execute the def using either the
+the calls to <tt class="docutils literal"><span class="pre">${self.somedef()}</span></tt> will execute the def using either the
 definition in this base template or the definition in the template that
-inherits from it. The <code class="docutils literal"><span class="pre">${next.body()}</span></code> call will be replaced with the body
+inherits from it. The <tt class="docutils literal"><span class="pre">${next.body()}</span></tt> call will be replaced with the body
 of the template that directly inherits that one.</p>
 <p>Now that the base template is in place, create a new template in the
-<code class="docutils literal"><span class="pre">templates/derived/page</span></code> directory called <code class="docutils literal"><span class="pre">view.html</span></code>. Add this content
+<tt class="docutils literal"><span class="pre">templates/derived/page</span></tt> directory called <tt class="docutils literal"><span class="pre">view.html</span></tt>. Add this content
 to the file:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;%inherit file=&quot;/base/index.html&quot;/&gt;
+<div class="highlight-python"><pre>&lt;%inherit file="/base/index.html"/&gt;
 
-${c.content}
-</pre></div>
+${c.content}</pre>
 </div>
-<p>The last thing to do here is update the <code class="docutils literal"><span class="pre">view()</span></code> action so that it renders
-the <code class="docutils literal"><span class="pre">view.html</span></code> template:</p>
+<p>The last thing to do here is update the <tt class="docutils literal"><span class="pre">view()</span></tt> action so that it renders
+the <tt class="docutils literal"><span class="pre">view.html</span></tt> template:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
     <span class="n">c</span><span class="o">.</span><span class="n">heading</span> <span class="o">=</span> <span class="s">&quot;Sample Page&quot;</span>
     <span class="n">c</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s">&quot;This is page </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">id</span>
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="s">&quot;/derived/page/view.html&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The object referenced to by <code class="docutils literal"><span class="pre">c</span></code> is the <em>context</em> object. It is available
+<p>The object referenced to by <tt class="docutils literal"><span class="pre">c</span></tt> is the <em>context</em> object. It is available
 in both the controllers and templates.</p>
-<p>Visit <code class="docutils literal"><span class="pre">http://localhost:5000/page/view/1</span></code> to see the result.</p>
+<p>Visit <tt class="docutils literal"><span class="pre">http://localhost:5000/page/view/1</span></tt> to see the result.</p>
 </div>
 <div class="section" id="model">
 <h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
@@ -294,39 +279,38 @@ that model.</p>
 <div class="section" id="configuring-the-engine">
 <h3>Configuring the Engine<a class="headerlink" href="#configuring-the-engine" title="Permalink to this headline">¶</a></h3>
 <p>If you followed to SQLAlchemy tutorial, you would remember that an SQLAlchemy
-<em>engine</em> must be created. Open your project&#8217;s <code class="docutils literal"><span class="pre">config/environment.py</span></code> file.
-You&#8217;ll see that Pylons uses the <code class="docutils literal"><span class="pre">engine_from_config()</span></code> function to create
+<em>engine</em> must be created. Open your project&#8217;s <tt class="docutils literal"><span class="pre">config/environment.py</span></tt> file.
+You&#8217;ll see that Pylons uses the <tt class="docutils literal"><span class="pre">engine_from_config()</span></tt> function to create
 an engine from configuration options in your project&#8217;s configuration file
-(<code class="docutils literal"><span class="pre">development.ini</span></code>).</p>
-<p>The main configuration option is <code class="docutils literal"><span class="pre">sqlalchemy.url</span></code>. You are going to use an
-SQLite database for this tutorial, so edit your project&#8217;s <code class="docutils literal"><span class="pre">development.ini</span></code>
+(<tt class="docutils literal"><span class="pre">development.ini</span></tt>).</p>
+<p>The main configuration option is <tt class="docutils literal"><span class="pre">sqlalchemy.url</span></tt>. You are going to use an
+SQLite database for this tutorial, so edit your project&#8217;s <tt class="docutils literal"><span class="pre">development.ini</span></tt>
 file and use the following configuration option:</p>
-<div class="highlight-python"><div class="highlight"><pre>sqlalchemy.url = sqllite:///%(here)s/databasefile.sqlite
-</pre></div>
+<div class="highlight-python"><pre>sqlalchemy.url = sqllite:///%(here)s/databasefile.sqlite</pre>
 </div>
-<p><code class="docutils literal"><span class="pre">%(here)s</span></code> represents the directory containing the <code class="docutils literal"><span class="pre">development.ini</span></code>
+<p><tt class="docutils literal"><span class="pre">%(here)s</span></tt> represents the directory containing the <tt class="docutils literal"><span class="pre">development.ini</span></tt>
 file.</p>
 </div>
 <div class="section" id="creating-the-model">
 <h3>Creating the Model<a class="headerlink" href="#creating-the-model" title="Permalink to this headline">¶</a></h3>
 <p>It is now time to configure the model. To do that, copy the classes, tables,
-and mappers from the <a class="reference internal" href="sqlalchemy.html#sqlalchemy-object-relational"><span>Object-Relational API</span></a> section of the
-SQLAlchemy tutorial into your project&#8217;s <code class="docutils literal"><span class="pre">model/__init__.py</span></code> file.</p>
-<p>You will note that the <code class="docutils literal"><span class="pre">MetaData</span></code> object Pylons uses is defined in
-<code class="docutils literal"><span class="pre">model/meta.py</span></code>, so it is accessed as <code class="docutils literal"><span class="pre">meta.metadata</span></code>, whereas it was
-accessed as <code class="docutils literal"><span class="pre">metadata</span></code> in the <code class="docutils literal"><span class="pre">model.py</span></code> file.</p>
-<p>Also, consider replacing the <code class="docutils literal"><span class="pre">transactional=True</span></code> option by
-<code class="docutils literal"><span class="pre">autocommit=False</span></code> when calling the <code class="docutils literal"><span class="pre">sessionmaker()</span></code> function in the
-<code class="docutils literal"><span class="pre">init_model()</span></code> function, <code class="docutils literal"><span class="pre">transactional</span></code> is a SQLAlchemy 0.4 option, new
+and mappers from the <a class="reference external" href="sqlalchemy.html#sqlalchemy-object-relational"><em>Object-Relational API</em></a> section of the
+SQLAlchemy tutorial into your project&#8217;s <tt class="docutils literal"><span class="pre">model/__init__.py</span></tt> file.</p>
+<p>You will note that the <tt class="docutils literal"><span class="pre">MetaData</span></tt> object Pylons uses is defined in
+<tt class="docutils literal"><span class="pre">model/meta.py</span></tt>, so it is accessed as <tt class="docutils literal"><span class="pre">meta.metadata</span></tt>, whereas it was
+accessed as <tt class="docutils literal"><span class="pre">metadata</span></tt> in the <tt class="docutils literal"><span class="pre">model.py</span></tt> file.</p>
+<p>Also, consider replacing the <tt class="docutils literal"><span class="pre">transactional=True</span></tt> option by
+<tt class="docutils literal"><span class="pre">autocommit=False</span></tt> when calling the <tt class="docutils literal"><span class="pre">sessionmaker()</span></tt> function in the
+<tt class="docutils literal"><span class="pre">init_model()</span></tt> function, <tt class="docutils literal"><span class="pre">transactional</span></tt> is a SQLAlchemy 0.4 option, new
 deprecated in SQLAlchemy 0.5.</p>
 </div>
 <div class="section" id="creating-the-database-tables">
 <h3>Creating the Database Tables<a class="headerlink" href="#creating-the-database-tables" title="Permalink to this headline">¶</a></h3>
-<p>The users of your application can simply run <code class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span>
-<span class="pre">development.ini</span></code> to have the database tables created for them
-automatically. The <code class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span> <span class="pre">development.ini</span></code> relies on the
-<code class="docutils literal"><span class="pre">setup_app()</span></code> function of the <code class="docutils literal"><span class="pre">websetup</span></code> module.</p>
-<p>Open the <code class="docutils literal"><span class="pre">websetup.py</span></code> file, take a look at the <code class="docutils literal"><span class="pre">setup_app()</span></code> function
+<p>The users of your application can simply run <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span>
+<span class="pre">development.ini</span></tt> to have the database tables created for them
+automatically. The <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span> <span class="pre">development.ini</span></tt> relies on the
+<tt class="docutils literal"><span class="pre">setup_app()</span></tt> function of the <tt class="docutils literal"><span class="pre">websetup</span></tt> module.</p>
+<p>Open the <tt class="docutils literal"><span class="pre">websetup.py</span></tt> file, take a look at the <tt class="docutils literal"><span class="pre">setup_app()</span></tt> function
 to understand what it does (it should be straightforward if you followed the
 SQLAlchemy tutorial), and customize it so that it also adds a home page to
 the database:</p>
@@ -343,16 +327,15 @@ the database:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">simplesite</span> <span class="kn">import</span> <span class="n">model</span>
 </pre></div>
 </div>
-<p>You are now ready to run the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></code> command:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ paster setup-app development.ini
-</pre></div>
+<p>You are now ready to run the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> command:</p>
+<div class="highlight-python"><pre>$ paster setup-app development.ini</pre>
 </div>
 <p>You should see quite a lot of debug output.</p>
 </div>
 </div>
 <div class="section" id="putting-it-together">
 <h2>Putting It Together<a class="headerlink" href="#putting-it-together" title="Permalink to this headline">¶</a></h2>
-<p>Now that the model is set, you can go back to the <code class="docutils literal"><span class="pre">view()</span></code> action so that
+<p>Now that the model is set, you can go back to the <tt class="docutils literal"><span class="pre">view()</span></tt> action so that
 it fetches the page from the database:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -364,23 +347,22 @@ it fetches the page from the database:</p>
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="s">&#39;/derived/page/view.html&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>For the new <code class="docutils literal"><span class="pre">view()</span></code> implementation to work you need the following imports
+<p>For the new <tt class="docutils literal"><span class="pre">view()</span></tt> implementation to work you need the following imports
 at the top:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">simplesite.model</span> <span class="kn">as</span> <span class="nn">model</span>
 <span class="kn">import</span> <span class="nn">simplesite.model.meta</span> <span class="kn">as</span> <span class="nn">meta</span>
 </pre></div>
 </div>
-<p>Finally, you&#8217;ll need to update the <code class="docutils literal"><span class="pre">templates/derived/page/view.html</span></code>
+<p>Finally, you&#8217;ll need to update the <tt class="docutils literal"><span class="pre">templates/derived/page/view.html</span></tt>
 template to use the page object:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;%inherit file=&quot;/base/index.html&quot;/&gt;
+<div class="highlight-python"><pre>&lt;%inherit file="/base/index.html"/&gt;
 
-&lt;%def name=&quot;title()&quot;&gt;${c.page.title}&lt;/%def&gt;
-&lt;%def name=&quot;heading()&quot;&gt;&lt;h1&gt;${c.page.heading or c.page.title}&lt;/h1&gt;&lt;/%def&gt;
+&lt;%def name="title()"&gt;${c.page.title}&lt;/%def&gt;
+&lt;%def name="heading()"&gt;&lt;h1&gt;${c.page.heading or c.page.title}&lt;/h1&gt;&lt;/%def&gt;
 
-${c.page.content}
-</pre></div>
+${c.page.content}</pre>
 </div>
-<p>Visit the <code class="docutils literal"><span class="pre">http://localhost:5000/page/view/1</span></code> page again, and you should
+<p>Visit the <tt class="docutils literal"><span class="pre">http://localhost:5000/page/view/1</span></tt> page again, and you should
 see the data loaded from the database.</p>
 </div>
 <div class="section" id="support-creating-pages">
@@ -388,72 +370,70 @@ see the data loaded from the database.</p>
 <p>In this section, you&#8217;re going to add the following actions to the page
 controller:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">new(self)</span></code>: displays a form to create a new page</li>
-<li><code class="docutils literal"><span class="pre">create(self)</span></code>: saves the information submitted from <code class="docutils literal"><span class="pre">new()</span></code> and redirect to <code class="docutils literal"><span class="pre">view()</span></code></li>
+<li><tt class="docutils literal"><span class="pre">new(self)</span></tt>: displays a form to create a new page</li>
+<li><tt class="docutils literal"><span class="pre">create(self)</span></tt>: saves the information submitted from <tt class="docutils literal"><span class="pre">new()</span></tt> and redirect to <tt class="docutils literal"><span class="pre">view()</span></tt></li>
 </ul>
 <div class="section" id="new">
 <h3>new()<a class="headerlink" href="#new" title="Permalink to this headline">¶</a></h3>
-<p>Add the <code class="docutils literal"><span class="pre">new()</span></code> action to the page controller:</p>
+<p>Add the <tt class="docutils literal"><span class="pre">new()</span></tt> action to the page controller:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="s">&#39;/derived/page/new.html&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>And create the <code class="docutils literal"><span class="pre">templates/derived/page/new.html</span></code> file with the following
+<p>And create the <tt class="docutils literal"><span class="pre">templates/derived/page/new.html</span></tt> file with the following
 content:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;%inherit file=&quot;/base/index.html&quot; /&gt;
+<div class="highlight-python"><pre>&lt;%inherit file="/base/index.html" /&gt;
 
-&lt;%def name=&quot;heading()&quot;&gt;
-    &lt;h1 class=&quot;main&quot;&gt;Create a New Page&lt;/h1&gt;
+&lt;%def name="heading()"&gt;
+    &lt;h1 class="main"&gt;Create a New Page&lt;/h1&gt;
 &lt;/%def&gt;
 
-${h.form_start(h.url_for(controller=&#39;page&#39;, action=&#39;create&#39;), method=&quot;post&quot;)}
+${h.form_start(h.url_for(controller='page', action='create'), method="post")}
     ${h.field(
-        &quot;Heading&quot;,
-        h.text(name=&#39;heading&#39;),
+        "Heading",
+        h.text(name='heading'),
         required=False,
     )}
     ${h.field(
-        &quot;Title&quot;,
-        h.text(name=&#39;title&#39;),
+        "Title",
+        h.text(name='title'),
         required=True,
-        field_desc = &quot;Used as the heading too if you didn&#39;t specify one above&quot;
+        field_desc = "Used as the heading too if you didn't specify one above"
     )}
     ${h.field(
-        &quot;Content&quot;,
-        h.textarea(name=&#39;content&#39;, rows=7, cols=40),
+        "Content",
+        h.textarea(name='content', rows=7, cols=40),
         required=True,
-        field_desc = &#39;The text that will make up the body of the page&#39;
+        field_desc = 'The text that will make up the body of the page'
     )}
-    ${h.field(field=h.submit(value=&quot;Create Page&quot;, name=&#39;submit&#39;))}
-${h.form_end()}
-</pre></div>
+    ${h.field(field=h.submit(value="Create Page", name='submit'))}
+${h.form_end()}</pre>
 </div>
 <p>For the above template to work, you&#8217;ll first need to install the FormBuild
 package:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ easy_install &quot;FormBuild&gt;=2.0,&lt;2.99&quot;
-</pre></div>
+<div class="highlight-python"><pre>$ easy_install "FormBuild&gt;=2.0,&lt;2.99"</pre>
 </div>
-<p>and add some imports at the top of the <code class="docutils literal"><span class="pre">lib/helpers.py</span></code> file:</p>
+<p>and add some imports at the top of the <tt class="docutils literal"><span class="pre">lib/helpers.py</span></tt> file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">formbuild.helpers</span> <span class="kn">import</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">formbuild</span> <span class="kn">import</span> <span class="n">start_with_layout</span> <span class="k">as</span> <span class="n">form_start</span><span class="p">,</span> <span class="n">end_with_layout</span> <span class="k">as</span> <span class="n">form_end</span>
 <span class="kn">from</span> <span class="nn">webhelpers.html.tags</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">routes</span> <span class="kn">import</span> <span class="n">url_for</span>
 </pre></div>
 </div>
-<p>(You are also recommended to update your project&#8217;s <code class="docutils literal"><span class="pre">setup.py</span></code> file and add
-<code class="docutils literal"><span class="pre">&quot;FormBuild&gt;=2.0,&lt;2.99&quot;</span></code> to the <code class="docutils literal"><span class="pre">install_requires</span></code> array.)</p>
-<p>Once done, you can visit <code class="docutils literal"><span class="pre">http://localhost:5000/page/new</span></code> and admire a
+<p>(You are also recommended to update your project&#8217;s <tt class="docutils literal"><span class="pre">setup.py</span></tt> file and add
+<tt class="docutils literal"><span class="pre">&quot;FormBuild&gt;=2.0,&lt;2.99&quot;</span></tt> to the <tt class="docutils literal"><span class="pre">install_requires</span></tt> array.)</p>
+<p>Once done, you can visit <tt class="docutils literal"><span class="pre">http://localhost:5000/page/new</span></tt> and admire a
 nice-looking HTML form.</p>
 </div>
 <div class="section" id="create">
 <h3>create()<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h3>
-<p>You can now implement the <code class="docutils literal"><span class="pre">create()</span></code> action, it will perform the following
+<p>You can now implement the <tt class="docutils literal"><span class="pre">create()</span></tt> action, it will perform the following
 tasks:</p>
 <ul class="simple">
 <li>add the data to the database</li>
 <li>redirected the user to the newly created page</li>
 </ul>
-<p>Here is how the <code class="docutils literal"><span class="pre">create()</span></code> action looks like:</p>
+<p>Here is how the <tt class="docutils literal"><span class="pre">create()</span></tt> action looks like:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="c"># Add the new page to the database</span>
     <span class="n">page</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Page</span><span class="p">()</span>
@@ -469,19 +449,19 @@ tasks:</p>
 </pre></div>
 </div>
 <p>You should now be able to create new pages through the HTML form provided at
-<code class="docutils literal"><span class="pre">http://localhost:5000/page/new</span></code>.</p>
+<tt class="docutils literal"><span class="pre">http://localhost:5000/page/new</span></tt>.</p>
 </div>
 </div>
 <div class="section" id="task">
 <h2>Task<a class="headerlink" href="#task" title="Permalink to this headline">¶</a></h2>
 <p>To complete the picture, add the following actions:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">edit(self,</span> <span class="pre">id)</span></code>: displays a form for editing the page id</li>
-<li><code class="docutils literal"><span class="pre">save(self,</span> <span class="pre">id)</span></code>: saves the page id and redirects to <code class="docutils literal"><span class="pre">view()</span></code></li>
-<li><code class="docutils literal"><span class="pre">list(self)</span></code>: lists all pages</li>
-<li><code class="docutils literal"><span class="pre">delete(self,</span> <span class="pre">id)</span></code>: deletes a page</li>
+<li><tt class="docutils literal"><span class="pre">edit(self,</span> <span class="pre">id)</span></tt>: displays a form for editing the page id</li>
+<li><tt class="docutils literal"><span class="pre">save(self,</span> <span class="pre">id)</span></tt>: saves the page id and redirects to <tt class="docutils literal"><span class="pre">view()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">list(self)</span></tt>: lists all pages</li>
+<li><tt class="docutils literal"><span class="pre">delete(self,</span> <span class="pre">id)</span></tt>: deletes a page</li>
 </ul>
-<p>As a second task, you can update the <code class="docutils literal"><span class="pre">derived/page/view.html</span></code> template so
+<p>As a second task, you can update the <tt class="docutils literal"><span class="pre">derived/page/view.html</span></tt> template so
 that it includes &#8220;new&#8221;, &#8220;list&#8221;, &#8220;edit&#8221;, and &#8220;delete&#8221; links.</p>
 </div>
 <div class="section" id="conclusion">
@@ -508,14 +488,14 @@ Gardner to learn about all this. Thanks to him for this excellent book.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
+          <a href="../../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="secure_tilecache.html" title="Secure TileCache Tutorial"
@@ -523,14 +503,14 @@ Gardner to learn about all this. Thanks to him for this excellent book.</p>
         <li class="right" >
           <a href="ogrs2009_lab.html" title="OGRS 2009 - State of the art of the creation of GIS rich internet application"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Tutorials</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Tutorials</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2009, Camptocamp.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    <div class="footer">
+      &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
     </div>
   </body>
 </html>

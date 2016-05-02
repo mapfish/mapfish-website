@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial MapFish &mdash; MapFish Tutorial v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Module 1 - Mise en place" href="getting_started.html" />
+    <link rel="prev" title="Module 7 - Customizing the web service" href="../en/customizing_webservice.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="getting_started.html" title="Module 1 - Mise en place"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../en/customizing_webservice.html" title="Module 7 - Customizing the web service"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Tutorial MapFish</a><ul>
+<li><a class="reference external" href="#licence-et-limitation-de-garantie">Licence et limitation de garantie</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../en/customizing_webservice.html"
+                                  title="previous chapter">Module 7 - Customizing the web service</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="getting_started.html"
+                                  title="next chapter">Module 1 - Mise en place</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/fr/index.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial-mapfish">
+<span id="mapfish-workshop-tuto-foss4g-2010"></span><h1>Tutorial MapFish<a class="headerlink" href="#tutorial-mapfish" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="getting_started.html">Module 1 - Mise en place</a><ul>
+<li class="toctree-l2"><a class="reference external" href="getting_started.html#installer-mapfish">Installer MapFish</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="creating_application.html">Module 2 – Création de l&#8217;application</a><ul>
+<li class="toctree-l2"><a class="reference external" href="creating_application.html#mise-en-oeuvre-de-l-application">Mise en œuvre de l&#8217;application</a></li>
+<li class="toctree-l2"><a class="reference external" href="creating_application.html#etude-de-l-application">Etude de l&#8217;application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="customizing_application.html">Module 3 – Personnalisation de l&#8217;Application</a><ul>
+<li class="toctree-l2"><a class="reference external" href="customizing_application.html#adding-layers">Adding layers</a></li>
+<li class="toctree-l2"><a class="reference external" href="customizing_application.html#ajouter-des-outils">Ajouter des outils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="building_javascript.html">Module 4 - Construction de scripts JavaScript</a><ul>
+<li class="toctree-l2"><a class="reference external" href="building_javascript.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference external" href="building_javascript.html#conception-du-profile-de-compression">Conception du profile de compression</a></li>
+<li class="toctree-l2"><a class="reference external" href="building_javascript.html#construction">Construction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="creating_webservice.html">Module 5 – Création du service Web</a><ul>
+<li class="toctree-l2"><a class="reference external" href="creating_webservice.html#installation-des-donnees">Installation des données</a></li>
+<li class="toctree-l2"><a class="reference external" href="creating_webservice.html#connexion-a-la-base-de-donnees">Connexion à la base de données</a></li>
+<li class="toctree-l2"><a class="reference external" href="creating_webservice.html#creation-du-service-web">Création du service web</a></li>
+<li class="toctree-l2"><a class="reference external" href="creating_webservice.html#etudions-le-code-du-service-web">Etudions le code du service web</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="adding_search_functionality.html">Module 6 - Ajout de la fonctionnalité de recherche</a></li>
+<li class="toctree-l1"><a class="reference external" href="customizing_webservice.html">Module 7 - Personnalisation de services web</a></li>
+</ul>
+<div class="section" id="licence-et-limitation-de-garantie">
+<h2>Licence et limitation de garantie<a class="headerlink" href="#licence-et-limitation-de-garantie" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.camptocamp.com">Camptocamp</a> et les auteurs fournissent ces documents
+“TELS QUELs,” sans aucune garantie expresse ou implicite.</p>
+<p>Documents sous licence <a class="reference external" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Common License Attribution-Share Alike 2.5 Generic</a>.</p>
+<p>Authors: Éric Lemoine, François Van Der Biest, Antoine Abt</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="getting_started.html" title="Module 1 - Mise en place"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../en/customizing_webservice.html" title="Module 7 - Customizing the web service"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Éric Lemoine, Cédric Moullet, Claude Philipona.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

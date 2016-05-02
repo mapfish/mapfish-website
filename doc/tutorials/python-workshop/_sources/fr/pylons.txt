@@ -1,0 +1,407 @@
+*********************
+Pylons et SQLAlchemy
+*********************
+
+Dans ce module vous apprendrez à utiliser le framework Pylons et le toolkit de 
+base de données SQLAlchemy. Plus précisément vous apprendrez comment créer une 
+application  (ou projet) Pylons, et comment utiliser SQLAlchemy dans cette 
+application.
+
+.. note::
+
+    L'environnement virtuel doit être activé avant d'éxécuter les commandes 
+    listées dans ce module.
+
+Installer Pylons et SQLAlchemy
+===============================
+
+Vous allez démarrez par l'installation de Pylons 1.0 et de SQLAlchemy 0.6.1.
+
+Pour installer Pylons utilisez :
+
+::
+    
+    (vp) $ easy_install "Pylons==1.0"
+
+La commande ``easy_install`` télécharge les packages à partir du dépôt officiel 
+de packages Python (http://pypi.python.org) et les installe dans l'environnement 
+Python (ici l'environnement virtuel).
+
+Vous devez maintenant avoir Pylons d'installé. Vous pouvez vérifier cela en 
+utilisant cette commande :
+
+::
+    
+    (vp) $ paster create --list-templates
+
+Cette commande doit vous renvoyer ceci :
+
+::
+    
+    Available templates:
+    basic_package:   A basic setuptools-enabled package
+    paste_deploy:    A web application deployed through paste.deploy
+    pylons:          Pylons application template
+    pylons_minimal:  Pylons minimal application template
+
+.. note::
+
+    La commande ``paster`` est fournie avec ``Paste`` http://pythonpaste.org/.
+    ``Paste`` est un framework de bas niveau pour le développement web, Pylons 
+    se base fortement sur lui.
+
+Pour installer SQLAlchemy utilisez :
+
+::
+    
+    (vp) $ easy_install "SQLAlchemy==0.6.1"
+
+Vous utiliserez PostgreSQL comme système de base de données dans ce workshop, le 
+pilote python de PostgreSQL doit être installé également :
+
+::
+    
+    (vp) $ easy_install "psycopg2==2.0.14"
+
+Créer une application
+======================
+
+Vous pouvez maintenant créer l'application Pylons avec :
+
+::
+    
+    (vp) $ paster create -t pylons WorkshopApp
+
+``WorkshopApp`` est le nom de l'application Pylons, vous pouvez utiliser le nom 
+de votre choix, bien qu'il soit supposé que vous ayez choisie ``WorkshopApp`` 
+dans le reste du document.
+
+Lorsque le moteur de modèle à utiliser est demandé répondez ``mako``, qui est 
+celui par défaut. Lorsqu'il est demandé si la configuration de SQLAlchemy 0.5 
+doit être inclue, répondez ``True``, puisque votre application incluera des 
+services web se basant sur des tables de base de données.
+
+.. note::
+
+    Bien que Pylons suppose que SQLAlchemy 0.5 est utilisé, SQLAlchemy 0.6 et 
+    Pylons 1.0 sont totalement compatible.
+
+Vous devez maintenant avoir un répertoire nommé ``WorkshopApp``. Ce répertoire 
+contient les fichiers de votre application, principalement des fichiers Python.
+
+Maintenant il est temps de vérifier que votre application Pylons fonctionne. Pour 
+cela allez dans le répertoire ``WorkshopApp`` et lancez l'application :
+
+::
+    
+    (vp) $ cd WorkshopApp
+    (vp) $ paster serve development.ini
+
+Cette commande lance votre application dans le serveur web Paste. Paste est un 
+serveur web en Python, souvent utilisé pendant le développement.
+
+.. note::
+
+    Vous pouvez utiliser ``paster serve --reload development.ini`` afin que le 
+    serveur web Paste se relance de lui-même lorsque des fichiers sont modifiés 
+    dans votre application.
+
+Ouvrez http://localhost:5000 dans votre navigateur web, vous devez tomber sur la 
+page par défaut :
+
+.. image:: _static/pylons.png
+    :height: 400pt
+    :width: 500pt
+
+Étudier l'application
+=======================
+Les sous-sections suivantes vous donnent un rapide tour d'horizon à travers les 
+répertoires et les fichiers de votre application Pylons. Prenez le temps de 
+naviguer à travers ces répertoires et fichiers afin de bien comprendre comment 
+l'application est structurée.
+
+Le répertoire principal de l'application, ``WorkshopApp``, contient :
+
+``development.ini``
+    C'est le fichier de configuration de l'application. Ce fichier inclus des 
+    paramètres comme l'adresse IP et le port TCP que le serveur doit écouter, la 
+    chaîne de connexion de la base de données, etc.
+
+``setup.cfg`` et ``setup.py``
+    Ces fichiers contrôlent les différents aspects sur la manière dont votre 
+    application est packagée lors de sa distribution.
+
+``workshopapp``
+
+    C'est le répertoire principal de l'application, son nom dépend du nom de 
+    l'application donné en argument de la commande ``paster create``. Les 
+    sous-répertoires principaux de ce répertoire sont : ``controllers``, 
+    ``model``, ``lib``, ``config``, ``tests``, ``templates``, et ``public``.
+
+    ``controllers``
+        Le répertoire ``controllers`` contient les contrôleurs de l'application.
+        Les contrôleurs sont des composants qui prennent en charge les requêtes 
+        HTTP et renvoie des requêtes HTTP. Ils interagissent souvent avec le 
+        code des ``model`` et des ``templates``.
+
+    ``model``
+        Le répertoire ``model`` est l'endroit où est configuré le model de la 
+        base de données. C'est typiquement l'endroit où les tables et les 
+        relations sont définies.
+
+    ``lib``
+        Le répertoire ``lib`` inclus du code Python partagé par différent 
+        contrôleur et bibliothèque tierce.
+
+    ``config``
+        Le répertoire ``config`` inclus le code généré par le framework et 
+        exposé à l'application pour personnalisation.
+
+    ``tests``
+        Le répertoire ``tests`` est l'endroit où vous pouvez ajouter des tests 
+        Python automatisés pour l'application.
+
+    ``templates``
+        Le répertoire ``templates`` est l'endroit où les modèles de vues sont 
+        stockés. Notez que nous n'écrirons pas de modèle lors de ce workshop 
+        puisque le rendu HTML sera principalement réalisé côté client.
+
+    ``public``
+
+        Le répertoire ``public`` inclus les fichiers statiques de l'application, 
+        i.e. HTML, fichiers CSS, JavaScript, etc.
+
+Configurer l'application
+==========================
+
+Vous devez maintenant définir la localisation de la base de données dans la 
+configuration de l'application. Pour cela éditez le fichier ``development.ini`` 
+et changez la valeur de l'option ``sqlalchemy.url`` comme cela :
+
+::
+    
+    sqlalchemy.url = postgresql://www-data:www-data@localhost:5432/python_workshop
+
+Cette configuration suppose qu'une instance PostgreSQL existe sur la machine 
+locale, écoute sur le port 5432 et possède une base de données nommée 
+``python_workshop``, et dont l'utilisateur ``www-data`` peut y accéder avec le 
+mot de passe ``www-data``.
+
+.. note::
+
+    L'image Debian de VirtualBox contient un serveur PostgreSQL incluant la base 
+    de données ``python_workshop``, et le serveur PostgreSQL est démarré 
+    automatiquement au lancement du système.
+
+Créer le model SQLAlchemy
+==========================
+
+La base de données ``python_workshop`` inclus une table nommée ``summits``, qui 
+inclus des informations sur les sommets en France. Ici vous allez définir le 
+modèle SQLAlchemy pour cette table. Plus précisément vous allez définir une 
+classe dont les instances représenteront des sommets.
+
+Éditez le fichier ``workshopapp/model/__init__.py`` et changez le afin qu'il 
+ressemble à ceci :
+
+.. code-block:: python
+
+    """Les objets du modele de l'application"""
+    from workshopapp.model.meta import Session, Base
+
+
+    def init_model(engine):
+        """M'appelle avant d'utiliser n'importe quelle table ou classe dans le modele"""
+        Session.configure(bind=engine)
+
+        global Summit
+        class Summit(Base):
+            __tablename__ = 'summits'
+            __table_args__ = {
+                'autoload': True,
+                'autoload_with': engine
+                }
+
+Définir ``autoload`` à ``True`` dans l'argument de la table permet à SQLAlchemy
+de découvrir automatiquement le schéma de la table (et de charger des valeurs 
+pour chaque colonne de la table lors des requêtes).
+
+Vous pouvez maintenant relancer le serveur web Paste (s'il n'est pas déjà 
+démarré) et vous verrez les commandes SQL de SQLAlchemy envoyées vers PostgreSQL 
+pour découvrir les colonnes de la table :
+
+::
+    
+    (vp) $ paster serve --reload development.ini
+
+Créer un controlleur
+=====================
+Vous allez maintenant créer un service web afin que les informations sur les 
+sommets puissent être récupérées par HTTP. Pour cela un contrôleur lié à la table 
+``summits``, en fait la classe ``Summit``, sera créé.
+
+Pylons fournie une commande pour générer des contrôleurs. Vous pouvez l'utiliser 
+pour générer votre contrôleur ``summits`` :
+
+::
+    
+    (vp) $ paster controller summits
+
+Cette commande créée deux fichiers : ``workshopapp/controllers/summits.py``, qui 
+inclus le contrôleur lui-même, et ``workshopapp/tests/functional/test_summits.py``, 
+qui inclus des tests fonctionnels pour ce contrôleur. Ces fichiers sont seulement 
+des squelettes.
+
+Pour vérifier que votre contrôleur est fonctionnel vous pouvez maintenant ouvrir 
+http://localhost:5000/summits/index dans votre navigateur, vous devez obtenir une 
+page HTML ``Hello World``.
+
+Vous allez maintenant modifier le contrôleur ``summits`` afin qu'il renvoie une 
+réprésentation JSON des dix premiers sommets de la table. SQLAlchemy est 
+utilisé pour requêter la base de données, et une fonction décorateur spécifique 
+à Pylons (``jsonify``) est utilisé pour sérialiser les objets de la base de 
+données en JSON.
+
+Voici le code complet du contrôleur ``summits`` :
+
+.. code-block:: python
+
+    import logging
+
+    from pylons import request, response, session, tmpl_context as c, url
+    from pylons.controllers.util import abort, redirect
+    from pylons.decorators import jsonify
+    from workshopapp.model.meta import Session
+    from workshopapp.model import Summit
+
+    from workshopapp.lib.base import BaseController, render
+
+    log = logging.getLogger(__name__)
+
+    class SummitsController(BaseController):
+
+        @jsonify
+        def index(self):
+            summits = []
+            for summit in Session.query(Summit).limit(10):
+                summits.append({
+                    "name": summit.name,                                                            
+                    "elevation": summit.elevation
+                    })
+
+
+            return summits
+
+Créer de nouvelles tables
+==========================
+
+Cette section montre comment créer des tables dans la base de données lorsqu'une 
+application Pylons est configurée.
+
+Pour configurer le projet la commande ``paster setup-app`` est utilisée :
+
+::
+    
+    (vp) $ paster setup-app development.ini
+
+Cette commande éxécute la fonction ``setup_app`` définie dans le fichier 
+``workshopapp/websetup.py`` file.
+
+Par défaut la fonction ``setup_app`` appelle la fonction 
+``Base.metadata.create_all``. Cette fonction créé les tables définie dans le 
+model si elles n'existent pas dans la base de données.
+
+Pour créer les tables lors de la configuration vous devez simplement déclarer les 
+nouvelles tables dans le modèle.
+
+Déclarons une table ``areas`` dans le modèle. Pour cela éditez le fichier 
+``workshopapp/model/__init__.py`` et changez son contenu :
+
+.. code-block:: python
+
+    """The appplication's model objects"""
+    from sqlalchemy.schema import Column
+    from sqlalchemy.types import Integer, String
+    from workshopapp.model.meta import Session, Base
+
+    def init_model(engine):
+        """Call me before using any of the tables or classes in the model"""
+        Session.configure(bind=engine)
+
+        global Summit
+        class Summit(Base):
+            __tablename__ = 'summits'
+            __table_args__ = {
+                'autoload': True,
+                'autoload_with': engine
+                }
+
+    class Area(Base):
+        __tablename__ = 'areas'
+        id = Column(Integer, primary_key=True)
+        name = Column(String(50))
+
+Le code ci-dessus déclare une table nommée ``areas``. Cette table possède deux 
+colonnes, une colonne de type entier nommée ``id``, qui est la clé primaire, et 
+une colonne nommée ``name`` de type chaîne de caractère.
+
+Vous pouvez maintenant éxécuter la commande ``paster setup-app`` de nouveau. Une 
+fois éxécuté vous devez avoir la table ``areas`` dans la base PostgreSQL. Vous 
+pouvez utiliser ``pgAdmin`` ou n'importe quel client PostgreSQL pour vérifier 
+l'existence de cette table.
+
+Maintenant vous allez modifier la fonction ``setup_app`` pour insérer des 
+données dans la table ``areas`` au moment de la configuration (souvenez vous que 
+la fonction ``setup_app`` est définie dans le fichier 
+``workshopapp/websetup.py``) :
+
+.. code-block:: python
+
+    """Setup the WorkshopApp application"""
+    import logging
+
+    import pylons.test
+
+    from workshopapp.config.environment import load_environment
+    from workshopapp.model.meta import Session, Base
+    from workshopapp.model import Area
+
+    log = logging.getLogger(__name__)
+
+    def setup_app(command, conf, vars):
+        """Placez les commandes pour configurer workshopapp ici"""
+        # Ne recharge pas l'app si elle a ete chargee sous l'env. de test
+        if not pylons.test.pylonsapp:
+            load_environment(conf.global_conf, conf.local_conf)
+
+        # Creer les tables si elles n'existent pas
+        Base.metadata.create_all(bind=Session.bind)
+
+        log.info("Adding default area...")
+        default_area = Area()
+        default_area.name = u"Default area"
+        Session.add(default_area)
+        Session.commit()
+        log.info("Successfully set up.")
+
+Avec le code ci-dessus une surface est ajoutée à la table ``areas``. Éxécutez la 
+commande ``paster setup-app`` de nouveau et vérifiez que la surface a été 
+effectivement insérée (par exemple en utilisant encore ``pgAdmin``).
+
+.. note::
+
+    Ici chaque fois que ``paster setup-app`` est éxécutée une nouvelle surface 
+    avec le même nom est insérée. Chaque surface insérée possède un id différent, 
+    le champ id est autoincrémenté, grâce à la séquence SQLAlchemy créée dans la 
+    base de données.
+
+**Tâche en bonus 1**
+
+Créez un contrôleur ``areas``, similaire au contrôleur ``summits``, mais basé 
+sur la table ``areas``.
+
+**Tâche en bonus 2**
+
+Ajoutez une nouvelle action au contrôleur ``areas`` (par exemple nommée 
+``create``) pour insérer de nouvelles surfaces. Vous utiliserez ``Session.add`` 
+et ``Session.commit`` comme dans ``websetup.py`` pour cela.

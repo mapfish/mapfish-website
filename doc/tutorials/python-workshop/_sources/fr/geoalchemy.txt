@@ -1,0 +1,438 @@
+**********
+GeoAlchemy
+**********
+
+GeoAlchemy fournie des extensions à SQLAlchemy pour fonctionner avec des bases 
+de données spatiales. GeoAlchemy gère pour l'instant les bases PostGIS, MySQL, 
+Spatiallite, Oracle Locator et Microsoft SQL Server 2008.
+
+Dans ce module vous apprendrez comment utiliser GeoAlchemy pour interagir avec 
+PostGIS.
+
+Plus précisément, vous changerez la classe model ``Summit`` pour inclure la 
+colonne géométrie. Vous changerez également le contrôleur ``summits`` pour 
+renvoyer du WKT ou du GeoJSON, pour calculer des buffers et pour créer des 
+features dans la base de données.
+
+Vous utiliserez également les bibliothèques ``geojson`` et ``Shapely``.
+
+Installation
+==============
+
+Pour installer GeoAlchemy dans l'environnement virtuel Python, utilisez :
+
+::
+    
+    (vp) $ easy_install "GeoAlchemy==0.4.1"
+
+Changer le model
+=================
+
+Pour ajouter la gestion des colonnes géométriques dans votre model, vous devez la 
+déclarer dans la classe model. GeoAlchemy fournie une classe colonne spécifique 
+nommée ``GeometryColumn`` pour la déclaration des colonnes géométriques.
+
+Voici le code mis à jour :
+
+.. code-block:: python
+
+    """The application's model objects"""
+    from geoalchemy import GeometryColumn, Point
+    from workshopapp.model.meta import Session, Base
+
+
+    def init_model(engine):
+        """Call me before using any of the tables or classes in the model"""
+        Session.configure(bind=engine)
+
+        global Summit
+        class Summit(Base):
+            __tablename__ = 'summits'
+            __table_args__ = {
+                    'autoload': True,
+                    'autoload_with': engine
+                    }
+            geom = GeometryColumn(Point)
+
+Lors de la déclaration de la colonne géométrique le type géométrique doit être 
+définie (ici ``Point``). Cela est particulièrement utile lors de la liaison de 
+GeoAlchemy avec SQLAlchemy pour créer des tables géographiques.
+
+Changer le contrôlleur
+=======================
+
+Il est maintenant possible d'exporter les géométries en chaîne WKT dans le JSON.
+
+.. code-block:: python
+
+    import logging
+
+    from pylons import request, response, session, tmpl_context as c, url
+    from pylons.controllers.util import abort, redirect
+    from pylons.decorators import jsonify
+    from workshopapp.model.meta import Session
+    from workshopapp.model import Summit
+
+    from workshopapp.lib.base import BaseController, render
+
+    log = logging.getLogger(__name__)
+
+    class SummitsController(BaseController):
+
+        @jsonify
+        def index(self):
+            summits = []
+            for summit in Session.query(Summit).limit(10):
+                summits.append({
+                    "name": summit.name,
+                    "elevation": summit.elevation,
+                    "wkt": Session.scalar(summit.geom.wkt)
+                    })
+
+
+            return summits
+
+Ouvrez http://localhost:5000/summits/index dans votre navigateur pour voir la 
+chaîne JSON que le contrôleur ``summits`` retourne.
+
+Une chose à noter est que chaque éxécution de 
+``Session.scalar(summits.geom.wkt)`` génère une requête SQL. Cela est facilement 
+observable en regardant le retour de la commande ``paster server``.
+
+Pour éviter ces requêtes SQL additionnelles vous allez utiliser la bibliothèque 
+Shapely. Ainsi Shapely au lieu de PostGIS sera utilisé pour obtenir une 
+représentation WKT de la géométrie.
+
+D'abords installez Shapely (version 1.2) avec :
+
+::
+    
+    (vp) $ easy_install "Shapely==1.2"
+
+Vous pouvez maintenant mettre à jour le fichier 
+``workshopapp/controllers/summits.py`` avec le contenu suivant :
+
+.. code-block:: python
+
+    import logging
+    import binascii
+    from shapely.wkb import loads
+
+    from pylons import request, response, session, tmpl_context as c, url
+    from pylons.controllers.util import abort, redirect
+    from pylons.decorators import jsonify
+    from workshopapp.model.meta import Session
+    from workshopapp.model import Summit
+
+    from workshopapp.lib.base import BaseController, render
+
+    log = logging.getLogger(__name__)
+
+    class SummitsController(BaseController):
+
+        @jsonify
+        def index(self):
+            summits = []
+            for summit in Session.query(Summit).limit(10):
+                wkb = binascii.hexlify(summit.geom.geom_wkb).decode('hex')
+                summits.append({
+                    "name": summit.name,
+                    "elevation": summit.elevation,
+                    "wkt": loads(str(summit.geom.geom_wkb)).wkt
+                    })
+
+            return summits
+
+De nouveau vous pouvez ouvrir http://localhost:5000/summits/index dans le 
+navigateur et vérifiez la chaîne JSON. Elle doit être identique à la précédente.
+
+.. note::
+
+    Des tests de performances devraient montrer ici une amélioration lorsque 
+    Shapely est utilisé.
+
+Sortie GeoJSON
+==============
+
+Dans cette section vous allez encore modifier le contrôleur ``summits`` afin que 
+les objets géographiques renvoyés par le contrôleur soient représentés en utilisant 
+le format GeoJSON. La bibliothèque Python ``geojson`` sera utilisée.
+
+Commencez en installant la bibliothèque geojson (version 1.0.1) :
+
+::
+    
+    (vp) $ easy_install "geojson==1.0.1"
+
+Maintenant mettez à jour le fichier ``workshopapp/controllers/summits.py`` avec 
+ce contenu :
+
+.. code-block:: python
+
+    import logging
+    from shapely.wkb import loads
+    from geojson import Feature, FeatureCollection, dumps
+
+    from pylons import request, response, session, tmpl_context as c, url
+    from pylons.controllers.util import abort, redirect
+    from workshopapp.model.meta import Session
+    from workshopapp.model import Summit
+
+    from workshopapp.lib.base import BaseController, render
+
+    log = logging.getLogger(__name__)
+
+    class SummitsController(BaseController):
+
+        def index(self):
+            summits = []
+            for summit in Session.query(Summit).limit(10):
+                geometry = loads(str(summit.geom.geom_wkb))
+                feature = Feature(
+                        id=summit.id,
+                        geometry=geometry,
+                        properties={
+                            "name": summit.name,
+                            "elevation": summit.elevation
+                            })
+                summits.append(feature)
+
+            response.content_type = 'application/json'
+            return dumps(FeatureCollection(summits))
+
+Dans le code ci-dessus les features sont créé à partir des objets lu à partir de 
+la base de données. Une géométrie Shapely est passé au constructeur ``Feature``, 
+ce qui montre l'intégration entre les bibliothèques Shapely et geojson.
+
+Il est également intéressant de noter que le décorateur ``jsonify`` n'est plus 
+utilisé, la fonction ``dump`` de la bibliothèque geojson est utilisée à la place.
+
+Calcul du buffer
+================
+
+Ici vous allez étendre le serviec web ``summits`` afin qu'il puisse renvoyer le 
+buffer d'une feature donnée. L'URL sera ``/summits/buffer/<id>`` où
+``id`` est l'identifiant de la feature sur laquelle calculer le buffer.
+
+Pour implémenter cette fonctionnalité vous allez ajouter une action ``buffer`` 
+au contrôleur ``summits``. Cette action récupèrera la feature correspondant à 
+l'identifiant de la feature fournie, réalisera le calcul du buffer de la feature 
+dans PostGIS, encodera la géométrie résultante en GeoJSON et renverra la chaîne 
+GeoJSON.
+
+Vous pouvez mettre à jour le fichier ``workshopapp/controllers/summits.py`` avec 
+le contenu suivant :
+
+.. code-block:: python
+
+    import logging
+    from shapely.wkb import loads as wkbloads
+    from shapely.geometry import asShape
+    from geojson import GeoJSON, Feature, FeatureCollection, dumps, loads as geojsonloads
+    from geoalchemy import WKBSpatialElement, functions
+
+    from pylons import request, response, session, tmpl_context as c, url
+    from pylons.controllers.util import abort, redirect
+    from workshopapp.model.meta import Session
+    from workshopapp.model import Summit
+
+    from workshopapp.lib.base import BaseController, render
+
+    log = logging.getLogger(__name__)
+
+    class SummitsController(BaseController):
+
+        def index(self):
+            summits = []
+            for summit in Session.query(Summit).limit(10):
+                geometry = wkbloads(str(summit.geom.geom_wkb))
+                feature = Feature(
+                        id=summit.id,
+                        geometry=geometry,
+                        properties={
+                            "name": summit.name,
+                            "elevation": summit.elevation
+                            })
+                summits.append(feature)
+
+            response.content_type = 'application/json'
+            return dumps(FeatureCollection(summits))
+
+        def buffer(self, id):
+            buffer_geom = Session.query(
+                functions.wkb(Summit.geom.buffer(10))).filter(Summit.id==id).first()
+            if buffer_geom is None:
+                abort(404)
+            geometry = wkbloads(str(buffer_geom[0]))
+
+            response.content_type = 'application/json'
+            return dumps(geometry)
+
+Vous pouvez notez qu'un seul SELECT est réalisé sur la base de données avec le 
+code ci-dessus. La même méthode peut être appliquée à l'action ``index``.
+
+**Tâche bonus**
+
+Ajoutez une action nommée ``buffer_shapely`` qui se base sur Shapely au lieu de 
+GeoAlchemy et PostGIS pour le calcul du buffer. Et vous pouvez comparer les 
+performances obtenues lors de l'utilisation de Shapely ou de PostGIS.
+
+Créer des features
+===================
+
+Dans cette section vous allez créer un service web permettant d'ajouter des 
+sommets à la base de données.
+
+Pour cela vous ajouterez une action ``create`` au contrôleur ``summits`` qui 
+parsera la requête POST, chargera la feature GeoJSON, la convertira en WKB avec 
+Shapely puis créera la feature dans la base de données en utilisant GeoAlchemy.
+
+Vous pouvez maintenant mettre à jour le fichier 
+``workshopapp/controllers/summits.py`` avec le contenu suivant :
+
+.. code-block:: python
+
+    import logging
+    from shapely.wkb import loads as wkbloads
+    from shapely.geometry import asShape
+    from geojson import GeoJSON, Feature, FeatureCollection, dumps, loads as geojsonloads
+    from geoalchemy import WKBSpatialElement
+
+    from pylons import request, response, session, tmpl_context as c, url
+    from pylons.controllers.util import abort, redirect
+    from workshopapp.model.meta import Session
+    from workshopapp.model import Summit
+
+    from workshopapp.lib.base import BaseController, render
+
+    log = logging.getLogger(__name__)
+
+    class SummitsController(BaseController):
+
+        def index(self):
+            summits = []
+            for summit in Session.query(Summit).limit(10):
+                geometry = wkbloads(str(summit.geom.geom_wkb))
+                feature = Feature(
+                        id=summit.id,
+                        geometry=geometry,
+                        properties={
+                            "name": summit.name,
+                            "elevation": summit.elevation
+                            })
+                summits.append(feature)
+
+            response.content_type = 'application/json'
+            return dumps(FeatureCollection(summits))
+
+        def buffer(self, id):
+            buffer_geom = Session.query(
+                functions.wkb(Summit.geom.buffer(10))).filter(Summit.id==id).first()
+            if buffer_geom is None:
+                abort(404)
+            geometry = wkbloads(str(buffer_geom[0]))
+
+            response.content_type = 'application/json'
+            return dumps(geometry)
+
+        def create(self):
+            # read raw POST data
+            content = request.environ['wsgi.input'].read(int(request.environ['CONTENT_LENGTH']))
+            factory = lambda ob: GeoJSON.to_instance(ob)
+            feature = geojsonloads(content, object_hook=factory)
+            if not isinstance(feature, Feature):
+                abort(400)
+            shape = asShape(feature.geometry)
+            summit = Summit()
+            summit.geometry = WKBSpatialElement(buffer(shape.wkb))
+            summit.elevation = feature.properties['elevation']
+            summit.name = feature.properties['name']
+            Session.add(summit)
+            Session.commit()
+
+            response.status = 201
+            response.content_type = "application/json"
+            feature.id = summit.id
+            return dumps(feature)
+
+Vous pouvez alors faire un test pour requêter ce nouveau service en utilisant 
+``curl`` en ligne de commande :
+
+.. code-block:: bash
+
+    $ curl http://localhost:5000/summits/create -d \
+    '{"geometry": {"type": "Point", "coordinates": [5.8759399999999999, 45.333889999999997]},
+      "type": "Feature", "properties": {"elevation": 1876, "name": "Pas de Montbrun"}, "id": 2828}' \
+    -H 'Content-Type:"application/json"'
+
+Cette commande doit renvoyer :
+
+::
+    
+    {"geometry": {"type": "Point", "coordinates": [5.8759399999999999, 45.333889999999997]},
+    "type": "Feature", "properties": {"elevation": 1876, "name": "Pas de Montbrun"}, "id": 5133}
+
+Vous pouvez vérifier qu'un nouveau sommet a été créé dans la base de données, en 
+utilisant ``pgAdmin`` par exemple.
+
+Créer des tables géographiques
+===============================
+
+Dans le module précédent vous avez appris à créer des tables avec SQLAlchemy lors 
+de la configuration de l'application. GeoAlchemy permet de créer des tables 
+géographiques.
+
+Vous allez convertir la table ``areas`` en table géographique avec une colonne 
+géométrique de type polygone et créer cette table dans la base de données 
+GeoAlchemy.
+
+D'abord, supprimer la table ``areas`` de la base de données en utilisant pgAdmin 
+par exemple.
+
+Maintenant mettez à jour le fichier ``workshopapp/model/__init__.py`` avec ce 
+contenu :
+
+.. code-block:: python
+
+    """The application's model objects"""
+    from sqlalchemy.schema import Column
+    from sqlalchemy.types import Integer, String
+    from geoalchemy import GeometryColumn, GeometryDDL, Point, Polygon
+    from workshopapp.model.meta import Session, Base
+
+
+    def init_model(engine):
+        """Call me before using any of the tables or classes in the model"""
+        Session.configure(bind=engine)
+
+        global Summit
+        class Summit(Base):
+            __tablename__ = 'summits'
+            __table_args__ = {
+                    'autoload': True,
+                    'autoload_with': engine
+                    }
+            geom = GeometryColumn(Point)
+
+    class Area(Base):
+        __tablename__ = 'areas'
+        id = Column(Integer, primary_key=True)
+        name = Column(String(50))
+        geom = GeometryColumn(Polygon)
+
+    GeometryDDL(Area.__table__)
+
+Cette mise à jour implique :
+
+* d'importer ``GeometryDDL`` et ``Polyon`` de ``geoalchemy`` (en plus de 
+  ``GeometryColumn`` et ``Point``)
+* de déclarer une colonne géométrique de type ``Polygon`` dans la classe ``Area``
+* d'utiliser ``GeometryDDL(Area.__table__)`` pour permettre à GeoAlchemy de 
+  participer à la création et à la destruction de la table ``areas``
+
+Vous pouvez maintenant éxécuter la commande ``paster setup-app`` et vérifier que 
+la table ``areas`` et sa colonne géométrie ont été créées :
+
+::
+    
+    (vp) $ paster setup-app development.ini

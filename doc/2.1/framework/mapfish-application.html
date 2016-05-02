@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Setting up a MapFish application &mdash; MapFish v2.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.1 documentation" href="../index.html" />
+    <link rel="up" title="Framework" href="index.html" />
+    <link rel="next" title="Installing the JavaScript toolbox" href="javascript-toolbox.html" />
+    <link rel="prev" title="Framework" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="javascript-toolbox.html" title="Installing the JavaScript toolbox"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Framework"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Setting up a MapFish application</a><ul>
+<li><a class="reference internal" href="#creating-a-mapfish-application">Creating a MapFish application</a></li>
+<li><a class="reference internal" href="#serving-a-mapfish-application">Serving a MapFish application</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Framework</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="javascript-toolbox.html"
+                        title="next chapter">Installing the JavaScript toolbox</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/framework/mapfish-application.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="setting-up-a-mapfish-application">
+<h1>Setting up a MapFish application<a class="headerlink" href="#setting-up-a-mapfish-application" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="creating-a-mapfish-application">
+<h2>Creating a MapFish application<a class="headerlink" href="#creating-a-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>The MapFish framework provides a command for automatically generating MapFish
+applications. To create a MapFish application named <tt class="docutils literal"><span class="pre">HelloWorld</span></tt> use:</p>
+<div class="highlight-python"><pre>(venv) $ paster create -t mapfish HelloWorld</pre>
+</div>
+<p>Most people would use <a class="reference external" href="http://www.makotemplates.org/">Mako</a>  as the template
+engine, and <a class="reference external" href="http://www.sqlalchemy.org/">SQLAlchemy</a> as the Object Relational
+Mapper in their MapFish applications. So answer <tt class="docutils literal"><span class="pre">mako</span></tt> (the default) to the first
+question and <tt class="xref docutils literal"><span class="pre">True</span></tt> to the second question. To run the command in a
+non-interactive way you will use:</p>
+<div class="highlight-python"><pre>(venv) $ paster create --no-interactive -t mapfish HelloWorld sqlalchemy=True</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pure Pylons applications are created with the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">-t</span> <span class="pre">pylons</span></tt>
+command. When using <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">-t</span> <span class="pre">mapfish</span></tt> we tell <tt class="docutils literal"><span class="pre">paster</span></tt> to use
+<tt class="docutils literal"><span class="pre">mapfish</span></tt> as opposed to <tt class="docutils literal"><span class="pre">pylons</span></tt> as the application template. In practise
+the MapFish framework applies the <tt class="docutils literal"><span class="pre">pylons</span></tt> template before applying the
+<tt class="docutils literal"><span class="pre">mapfish</span></tt> template. This is why any MapFish application is also a Pylons
+application.</p>
+</div>
+<p>The main directories and files in the <tt class="docutils literal"><span class="pre">HelloWorld</span></tt> directory are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">development.ini</span></tt> and <tt class="docutils literal"><span class="pre">test.ini</span></tt></dt>
+<dd>The application&#8217;s main configuration files.</dd>
+<dt><tt class="docutils literal"><span class="pre">layers.ini</span></tt></dt>
+<dd>The configuration file where MapFish layers (web services) are configured.
+The usage of the file will be detailed in a further section (<a class="reference internal" href="webservice.html#layer-ini-2-0"><em>layer.ini</em></a>) of this
+documentation.</dd>
+<dt><tt class="docutils literal"><span class="pre">helloworld</span></tt></dt>
+<dd>The main application directory, its name depends on the application name
+you gave as the argument of the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span></tt> command.</dd>
+</dl>
+<p>Now let&#8217;s look at the main application directory (<tt class="docutils literal"><span class="pre">helloworld</span></tt>):</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">controllers</span></tt></dt>
+<dd>This directory is where controllers are written. Controllers typically
+handle HTTP requests, load or save the data from the model, and send
+back HTTP responses (to the browser).</dd>
+<dt><tt class="docutils literal"><span class="pre">model</span></tt></dt>
+<dd>This directory is where the model is defined. More specifically this is
+where the database objects are defined, using SQLAlchemy.</dd>
+<dt><tt class="docutils literal"><span class="pre">public</span></tt></dt>
+<dd>This directory includes the application&#8217;s static files, i.e. HTML, images,
+CSS, JavaScript, etc.</dd>
+<dt><tt class="docutils literal"><span class="pre">templates</span></tt></dt>
+<dd>This directory is where (Mako) templates are stored.</dd>
+<dt><tt class="docutils literal"><span class="pre">tests</span></tt></dt>
+<dd>This directory is where you can put automated tests for the application.</dd>
+<dt><tt class="docutils literal"><span class="pre">lib</span></tt></dt>
+<dd>This directory is where you can put code shared by mutiple controllers,
+third-party code, etc.</dd>
+</dl>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Recommended reading: <a class="reference external" href="http://pylonsbook.com/en/1.0/exploring-pylons.html">The Definitive Guide to Pylons - Chapter 3</a>.</p>
+</div>
+</div>
+<div class="section" id="serving-a-mapfish-application">
+<h2>Serving a MapFish application<a class="headerlink" href="#serving-a-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>You can use the Paste HTTP server to execute a MapFish application. For
+example, use the following to make the Paste HTTP server serve the
+<tt class="docutils literal"><span class="pre">HelloWorld</span></tt> application:</p>
+<div class="highlight-python"><pre>(venv) $ cd HelloWorld
+(venv) $ paster serve --reload development.ini</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">--reload</span></tt> option make the Paste server monitor all Python modules used
+by the <tt class="docutils literal"><span class="pre">HelloWorld</span></tt> application and reload itself automatically if any of them is
+modified. This is useful during development.</p>
+<p>By default MapFish (and Pylons) applications are served on port 5000. You can
+change by editing the <tt class="docutils literal"><span class="pre">development.ini</span></tt> configuration file.</p>
+<p>If you visit <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> in your web browser you should see the
+<cite>Welcome to Pylons</cite> page.</p>
+<p>To stop the Paste server, use Ctrl+C on Unix and Ctrl+D on Windows.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Recommended reading: <a class="reference external" href="http://pylonsbook.com/en/1.0/exploring-pylons.html">The Definitive Guide to Pylons - Chapter 3</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="javascript-toolbox.html" title="Installing the JavaScript toolbox"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Framework"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

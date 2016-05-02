@@ -1,96 +1,177 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>mapfish.sqlalchemygeom &mdash; MapFish</title>
-    
     <link rel="stylesheet" href="../../../_static/mapfish.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../../index.html" />
     <link rel="up" title="API References" href="index.html" />
     <link rel="next" title="mapfish.lib.protocol" href="protocol.html" />
     <link rel="prev" title="API References" href="index.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="../../../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="protocol.html" title="mapfish.lib.protocol"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="API References"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="index.html" accesskey="U">API References</a> &raquo;</li> 
+        <li><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">API References</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../../index.html">
               <img class="logo" src="../../../_static/mapfish_white.png" alt="Logo"/>
             </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">API References</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="protocol.html"
-                        title="next chapter">mapfish.lib.protocol</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../../_sources/doc/1.2/reference/sqlalchemygeom.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">API References</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="protocol.html"
+                                  title="next chapter">mapfish.lib.protocol</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../../../_sources/doc/1.2/reference/sqlalchemygeom.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
-  <div class="section" id="mapfish-sqlalchemygeom">
-<span id="mapfish-refdoc-1-2-reference-sqlalchemygeom"></span><h1>mapfish.sqlalchemygeom<a class="headerlink" href="#mapfish-sqlalchemygeom" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-mapfish.sqlalchemygeom">
+<span id="mapfish-refdoc-1-2-reference-sqlalchemygeom"></span><h1>mapfish.sqlalchemygeom<a class="headerlink" href="#module-mapfish.sqlalchemygeom" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="mapfish.sqlalchemygeom.Geometry">
+<em class="property">class </em><tt class="descclassname">mapfish.sqlalchemygeom.</tt><tt class="descname">Geometry</tt><big>(</big><em>srid=-1</em>, <em>dims=2</em><big>)</big><a class="headerlink" href="#mapfish.sqlalchemygeom.Geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>The SQLAlchemy Geometry type.</p>
+<p>Use a Geometry instance when defining a geometry column in an
+<tt class="docutils literal"><span class="pre">sqlalchemy.schema.Table</span></tt> object of the model.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">wifi_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s">&#39;wifi&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;gid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;the_geom&#39;</span><span class="p">,</span> <span class="n">Geometry</span><span class="p">(</span><span class="mi">4326</span><span class="p">))</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>srid</dt>
+<dd>The SRID of the geometry column, defaults to -1 (no SRID).</dd>
+<dt>dims</dt>
+<dd>The number of dimensions of the geometry column, defaults
+to 2.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="mapfish.sqlalchemygeom.GeometryTableMixIn">
+<em class="property">class </em><tt class="descclassname">mapfish.sqlalchemygeom.</tt><tt class="descname">GeometryTableMixIn</tt><a class="headerlink" href="#mapfish.sqlalchemygeom.GeometryTableMixIn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to be mixed in mapped classes.</p>
+<p>When used the mapped class exposes</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">geometry_column()</span></tt></dt>
+<dd>Class method returning the <tt class="docutils literal"><span class="pre">Column</span></tt> object corresponding to the
+geometry column.</dd>
+<dt><tt class="docutils literal"><span class="pre">primary_key_column()</span></tt></dt>
+<dd>Class method returning the <tt class="docutils literal"><span class="pre">Column</span></tt> object corresponding to the
+primary key.</dd>
+</dl>
+<p>When used the mapped object exposes</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">geometry</span></tt></dt>
+<dd>The Shapely geometry object representing the geometry value in the
+database.</dd>
+<dt><tt class="docutils literal"><span class="pre">fid</span></tt></dt>
+<dd>The value of the primary key.</dd>
+<dt><tt class="docutils literal"><span class="pre">toFeature()</span></tt></dt>
+<dd>Method returning a <tt class="docutils literal"><span class="pre">geojson.Feature</span></tt> object that corresponds to
+this object.</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">lines_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+    <span class="s">&quot;lines&quot;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;the_geom&#39;</span><span class="p">,</span> <span class="n">Geometry</span><span class="p">(</span><span class="mi">4326</span><span class="p">)),</span>
+    <span class="n">autoload</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoload_with</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Line</span><span class="p">(</span><span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="c"># for GeometryTableMixIn to do its job the __table__ property</span>
+    <span class="c"># must be set here</span>
+    <span class="n">__table__</span> <span class="o">=</span> <span class="n">lines_table</span>
+
+<span class="n">mapper</span><span class="p">(</span><span class="n">Line</span><span class="p">,</span> <span class="n">lines_table</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="mapfish.sqlalchemygeom.GeometryTableMixIn.fid">
+<tt class="descname">fid</tt><a class="headerlink" href="#mapfish.sqlalchemygeom.GeometryTableMixIn.fid" title="Permalink to this definition">¶</a></dt>
+<dd>The value of the primary key.</dd></dl>
+
+<dl class="attribute">
+<dt id="mapfish.sqlalchemygeom.GeometryTableMixIn.geometry">
+<tt class="descname">geometry</tt><a class="headerlink" href="#mapfish.sqlalchemygeom.GeometryTableMixIn.geometry" title="Permalink to this definition">¶</a></dt>
+<dd>The Shapely geometry object associated to the geometry value.</dd></dl>
+
+<dl class="classmethod">
+<dt id="mapfish.sqlalchemygeom.GeometryTableMixIn.geometry_column">
+<em class="property">classmethod </em><tt class="descname">geometry_column</tt><big>(</big><big>)</big><a class="headerlink" href="#mapfish.sqlalchemygeom.GeometryTableMixIn.geometry_column" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the table&#8217;s geometry column or None if the table has no geometry column.</dd></dl>
+
+<dl class="classmethod">
+<dt id="mapfish.sqlalchemygeom.GeometryTableMixIn.primary_key_column">
+<em class="property">classmethod </em><tt class="descname">primary_key_column</tt><big>(</big><big>)</big><a class="headerlink" href="#mapfish.sqlalchemygeom.GeometryTableMixIn.primary_key_column" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the table&#8217;s primary key column</dd></dl>
+
+<dl class="method">
+<dt id="mapfish.sqlalchemygeom.GeometryTableMixIn.toFeature">
+<tt class="descname">toFeature</tt><big>(</big><big>)</big><a class="headerlink" href="#mapfish.sqlalchemygeom.GeometryTableMixIn.toFeature" title="Permalink to this definition">¶</a></dt>
+<dd>Create and return a <tt class="docutils literal"><span class="pre">geojson.Feature</span></tt> object from this mapped object.</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -99,14 +180,14 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
+          <a href="../../../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="protocol.html" title="mapfish.lib.protocol"
@@ -114,15 +195,15 @@
         <li class="right" >
           <a href="index.html" title="API References"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="index.html" >API References</a> &raquo;</li> 
+        <li><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
+          <li><a href="index.html" >API References</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2009, Camptocamp.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    <div class="footer">
+      &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
     </div>
   </body>
 </html>

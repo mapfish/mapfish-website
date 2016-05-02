@@ -1,96 +1,125 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>mapfish.lib.filters &mdash; MapFish</title>
-    
     <link rel="stylesheet" href="../../../_static/mapfish.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../../index.html" />
     <link rel="up" title="API References" href="index.html" />
     <link rel="next" title="mapfish.lib.filters.comparison" href="filters.comparison.html" />
     <link rel="prev" title="mapfish.lib.protocol" href="protocol.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="../../../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="filters.comparison.html" title="mapfish.lib.filters.comparison"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="protocol.html" title="mapfish.lib.protocol"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="index.html" accesskey="U">API References</a> &raquo;</li> 
+        <li><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">API References</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../../index.html">
               <img class="logo" src="../../../_static/mapfish_white.png" alt="Logo"/>
             </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="protocol.html"
-                        title="previous chapter">mapfish.lib.protocol</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="filters.comparison.html"
-                        title="next chapter">mapfish.lib.filters.comparison</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../../_sources/doc/1.2/reference/filters.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="protocol.html"
+                                  title="previous chapter">mapfish.lib.protocol</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="filters.comparison.html"
+                                  title="next chapter">mapfish.lib.filters.comparison</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../../../_sources/doc/1.2/reference/filters.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
-  <div class="section" id="mapfish-lib-filters">
-<span id="mapfish-refdoc-1-2-reference-filters"></span><h1>mapfish.lib.filters<a class="headerlink" href="#mapfish-lib-filters" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-mapfish.lib.filters">
+<span id="mapfish-refdoc-1-2-reference-filters"></span><h1>mapfish.lib.filters<a class="headerlink" href="#module-mapfish.lib.filters" title="Permalink to this headline">¶</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">mapfish.lib.filters</span></tt> module. This module&#8217;s sub-modules include
+filter implementations.</p>
+<p>Filters are commonly created in the <tt class="docutils literal"><span class="pre">index()</span></tt> action of MapFish controllers
+and passed to the <tt class="docutils literal"><span class="pre">protocol</span></tt> instance through the <tt class="docutils literal"><span class="pre">filter</span></tt> positional
+argument of the protocol <tt class="docutils literal"><span class="pre">index()</span></tt> method.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CountriesController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">Country</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="c"># complement the MapFish default filter so only features</span>
+        <span class="c"># in the [5, 45, 6, 50] extent are returned</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">create_default_filter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">Country</span><span class="p">),</span>
+            <span class="n">Spatial</span><span class="p">(</span>
+                <span class="n">Spatial</span><span class="o">.</span><span class="n">BOX</span><span class="p">,</span>
+                <span class="n">Country</span><span class="o">.</span><span class="n">geometry_column</span><span class="p">(),</span>
+                <span class="n">box</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">Logical</span><span class="p">(</span><span class="n">Logical</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="mapfish.lib.filters.Filter">
+<em class="property">class </em><tt class="descclassname">mapfish.lib.filters.</tt><tt class="descname">Filter</tt><a class="headerlink" href="#mapfish.lib.filters.Filter" title="Permalink to this definition">¶</a></dt>
+<dd>Base filter classe. Filters implemented in submodules of the
+<tt class="docutils literal"><span class="pre">mapfish.lib.filters</span></tt> module inherit from this class. Filter subclasses
+implement the <tt class="docutils literal"><span class="pre">to_sql_expr()</span></tt> method, this method returns an SQLAlchemy
+filter expression.</dd></dl>
+
 </div>
 
 
@@ -99,14 +128,14 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
+          <a href="../../../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="filters.comparison.html" title="mapfish.lib.filters.comparison"
@@ -114,15 +143,15 @@
         <li class="right" >
           <a href="protocol.html" title="mapfish.lib.protocol"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="index.html" >API References</a> &raquo;</li> 
+        <li><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
+          <li><a href="index.html" >API References</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2009, Camptocamp.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    <div class="footer">
+      &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
     </div>
   </body>
 </html>

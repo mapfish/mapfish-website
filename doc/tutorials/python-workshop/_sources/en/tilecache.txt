@@ -1,0 +1,121 @@
+*********
+TileCache
+*********
+
+This module shows how to use TileCache in a Pylons application, i.e. how to
+access TileCache through a controller of the application.
+
+Doing this can be for example useful for securing access to TileCache, using
+the repoze.who/what security framework, or any other security framework that
+can be used in Pylons applications.
+
+Install
+=======
+
+To install TileCache in the virtual Python environment, use::
+
+    (vp) $ easy_install "TileCache==2.10"
+
+Create configuration
+====================
+
+First you'll need to define the TileCache configuration, i.e. where the cache
+is located on the file system, the layers to cache, etc. For that create a file
+name ``tilecache.cfg`` with the following content at the root of the
+application::
+
+    [cache]
+    type=Disk
+    base=/tmp/tilecache
+
+    [basic]
+    type=WMS
+    url=http://labs.metacarta.com/wms/vmap0
+    extension=png
+
+In the ``[cache]`` section are defined the type and the filesystem location of
+the cache. With the ``[basic]`` section a layer name named ``basic`` is
+defined, this layer relies on a WMS. See http://tilecache.org/readme.html for
+more information about the configuration of TileCache.
+
+Create controller
+=================
+
+To create the controller for TileCache create the file
+``workshopapp/controllers/tilecache.py`` with the following content:
+
+.. code-block:: python
+
+    from TileCache.Service import wsgiApp as TilecacheController
+
+.. note::
+
+    Integrating TileCache in the application is as easy as this thanks to the
+    WSGI interface TileCache implements (``wsgiApp``).
+
+To be able to use this controller a specific *route* must be created. This
+route will define the matching between a URL and the ``tilecache`` controller.
+Edit the ``workshopapp/config/routing.py`` file and add the following line
+right after the ``CUSTOM ROUTES HERE`` comment:
+
+.. code-block:: python
+
+    map.connect('/tilecache', controller='tilecache')
+
+You can now test your ``tilecache`` web service by opening the following
+URL in your browser::
+
+    http://localhost:5000/tilecache?LAYERS=basic&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1
+    &REQUEST=GetMap&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A4326
+    &BBOX=-11.25,33.75,0,45&WIDTH=256&HEIGHT=256
+
+You should obtain a 256x256 image representing Spain.
+
+View the map
+============
+
+For more fun you can also create a small OpenLayers (http://www.openlayers.org)
+application relying on your TileCache web service.
+
+Create ``workshopapp/public/tilecache.html`` with this content:
+
+.. code-block:: html
+
+    <head>
+    <style type="text/css">
+        body {
+            padding:0px;                                                                                                                                                 
+            margin:0px
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript">
+        var map, layer;
+
+        function init(){
+            map = new OpenLayers.Map('map', {'maxResolution': 360/512});
+            layer = new OpenLayers.Layer.WMS(
+                "Basic layer",
+                "tilecache?", // the URL to the TileCache web service
+                {layers: 'basic', format: 'image/png' }
+            );
+            map.addLayer(layer);
+            map.zoomToMaxExtent();
+        }
+    </script>
+    </head>
+    <body onload="init()">
+      <div id="map"></div>
+    </body>
+    </html>
+
+and open http://localhost:5000/tilecache.html in your browser.
+
+**Bonus task**
+
+Modify the ``tilecache`` controller in such a way that TileCache is executed in
+an action of the controller. You can look at http://pylonsbook.com/en/1.1/the-web-server-gateway-interface-wsgi.html#wsgi-in-pylons-controllers.

@@ -1,0 +1,119 @@
+***************
+Pour commencer
+***************
+
+Dans ce workshop vous apprendrez à utiliser plusieurs technologies pour 
+développer des applications de webmapping avec Python. Certaines 
+sont des technologies de développement web généralistes tandis que d'autres sont 
+spécifiques au monde géospatial. Voici ces technologies :
+
+* Pylons http://pylonshq.com - *Pylons est un framework web léger qui met 
+  l'accent sur la flexibilité et le développement rapide*
+* SQLAlchemy http://www.sqlalchemy.org - *Toolkit SQL et Object Relational 
+  Mapper en Python*
+* GeoAlchemy http://geoalchemy.org - *Utilise SQLAlchemy avec des bases de 
+  données spatiales*
+* Shapely http://trac.gispython.org/lab/wiki/Shapely - *Shapely vous permet de 
+  réaliser des requêtes à-la-PostGIS en dehors du contexte de base de données*
+* geojson http://trac.gispython.org/lab/wiki/GeoJSON - *Une implémentation de 
+  référence des spécifications GeoJSON*
+* TileCache http://tilecache.org - *Cache de tuile de carte sur le Web*
+* MapFish http://www.mapfish.org - *MapFish est un framework flexible et complet 
+  pour construire des applications riche de webmapping* 
+
+Démarrer la machine virtuelle
+==============================
+
+Pour ce workshop le système d'exploitation GNU/Linux Debian sera utilisé. Il sera 
+éxécuté dans une machine virtuelle Virtualbox. Pour démarrer le système Debian 
+lancez Virutalbox et démarrez le système nommé ``python_workshop``.
+
+.. note::
+
+    S'il n'y a pas de système nommé ``python_workshop`` vous devrez en créer un 
+    dans VirtualBox, en utilisant le fichier ``python_workshop.vdi`` comme disque
+    dur.
+
+Utilisez ``workshop`` comme identifiant et mot de passe pour vous identifier 
+dans le système.
+
+Lire la documentation
+========================
+
+Ce document (que vous lisez en ce moment) est disponible dans le système Debian 
+en HTML. Pour le visualiser, lancez Firefox et ouvrez l'url suivante : 
+http://localhost/python_workshop.
+
+Créer un répertoire pour le workshop
+====================================
+
+Ouvrez un terminal et créez un répertoire pour ce workshop :
+
+::
+
+    $ mkdir python_workshop
+
+Ce répertoire sera votre répertoire de travail pour ce workshop.
+
+Créer un environnement Python
+=============================
+
+Les différents packages Python que vous utiliserez dans ce workshop seront 
+installés dans un environnement Python virtuel.
+
+Un environnement Python virtuel est un environnement Python isolé de 
+l'environnement Python du système principal. Un environnement Python virtuel 
+permet, entre autre, d'installer des packages en tant que simple utilisateur 
+(sans privilèges administrateurs).
+
+Vous allez créer un environnement virtuel dans le répertoire 
+``python_workshop``, commencez par vous déplacer dans ce répertoire :
+
+::
+    
+    $ cd python_workshop
+
+Vous pouvez maintenant créer un environnement virtuel en utilisant la commande 
+``virtualenv``. Par exemple, pour créer un environnement virtuel nommé ``vp`` 
+utilisez cette commande :
+
+::
+    
+    $ virtualenv --no-site-packages vp
+
+L'option ``--no-site-packages`` est utilisé pour isoler totalement l'environnement 
+virtuel de l'environnement principal ; bien que non obligatoire cette option est 
+recommendée.
+
+La commande ``virtualenv`` doit avoir créée un répertoire nommé ``vp``, assurez-
+vous que cela est le cas.
+
+Activer l'environnement Python
+===============================
+
+Maintenant activez l'environnement virtuel avec :
+
+::
+    
+    $ source vp/bin/activate
+
+Votre prompt doit avoir changé, il ressemble maintenant à ceci :
+
+::
+    
+    (vp) $
+
+Lorsque l'environnement virtuel est activé si vous entrez ``python``, 
+l'interpréteur Python à partir de l'environnement virtuel sera éxécuté.
+
+Remarques diverses
+===================
+
+Vous utiliserez PostgreSQL dans ce workshop. Vous pouvez utiliser ``pgAdmin`` pour 
+vous connecter à la base de données et vérifier la création des tables, lignes, 
+etc. (``pgAdmin`` doit être installé dans l'image Debian, et un bouton pour le 
+lancer et probablement disponible dans le panneau du haut du bureau).
+
+Vous allez créer une application nommée ``WorkshopApp`` au cours de ce workshop, 
+la version finale de l'application est disponible dans le système Debian dans le 
+répertoire ``/usr/local/workshops/python_workshop/materials/WorkshopApp``.

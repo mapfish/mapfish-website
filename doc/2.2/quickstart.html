@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quickstart &mdash; MapFish v2.2 documentation</title>
+    <link rel="stylesheet" href="_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.2 documentation" href="index.html" />
+    <link rel="next" title="Framework" href="framework/index.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="framework/index.html" title="Framework"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">MapFish v2.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Quickstart</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#creating-the-application">Creating the application</a><ul>
+<li><a class="reference internal" href="#generating-the-base">Generating the base</a></li>
+<li><a class="reference internal" href="#installing-the-javascript-toolbox">Installing the JavaScript toolbox</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-a-web-service">Creating a web service</a></li>
+<li><a class="reference internal" href="#creating-search-functionality">Creating search functionality</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="framework/index.html"
+                        title="next chapter">Framework</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/quickstart.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="quickstart">
+<span id="quickstart-2-0"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>A 20-minute quickstart to get a good sense of what MapFish is and what MapFish
+provides.</p>
+<p>With this quickstart you&#8217;ll understand how to create a MapFish application, a
+basic user interface based on the JavaScript libraries provided by MapFish, and
+MapFish web services.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Follow the instructions of the <a class="reference external" href="installation.html">installation page</a> and
+come back here once done. Make sure the virtual Python environment is activated
+before you proceed with the next section.</p>
+</div>
+<div class="section" id="creating-the-application">
+<h2>Creating the application<a class="headerlink" href="#creating-the-application" title="Permalink to this headline">¶</a></h2>
+<p>Here you&#8217;re going to use the framework to create your first MapFish
+application.</p>
+<div class="section" id="generating-the-base">
+<h3>Generating the base<a class="headerlink" href="#generating-the-base" title="Permalink to this headline">¶</a></h3>
+<p>Use:</p>
+<div class="highlight-python"><pre>(env) $ paster create -t mapfish MapFishApp</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">MapFishApp</span></tt> is the name of the MapFish application you&#8217;re creating, you can
+pick any name of your choice. We&#8217;ll assume that you choose <tt class="docutils literal"><span class="pre">MapFishApp</span></tt> in
+the rest of this quickstart.</p>
+<p>When asked what template engine to use answer <tt class="docutils literal"><span class="pre">mako</span></tt>, which is the default.
+When asked if SQLAlchemy 0.6 configuration is to be included, answer <tt class="xref docutils literal"><span class="pre">True</span></tt>,
+as your MapFish application will include web services relying on database
+tables.</p>
+<p>You should now have a folder named <tt class="docutils literal"><span class="pre">MapFishApp</span></tt>. This folder contains your
+application files.</p>
+<p>Now check that your MapFish application works. For this go into the
+<tt class="docutils literal"><span class="pre">MapFishApp</span></tt> folder and start the application:</p>
+<div class="highlight-python"><pre>(env) $ cd MapFishApp
+(env) $ paster serve development.ini</pre>
+</div>
+<p>This command starts your application in the Paster web server, which is a
+pure-Python web server commonly used during development.</p>
+<p>Open <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> in your web browser, you should get the default
+page:</p>
+<img alt="_images/pylons.png" src="_images/pylons.png" style="width: 500pt; height: 300pt;" />
+</div>
+<div class="section" id="installing-the-javascript-toolbox">
+<h3>Installing the JavaScript toolbox<a class="headerlink" href="#installing-the-javascript-toolbox" title="Permalink to this headline">¶</a></h3>
+<p>You are now going to install the MapFish JavaScript toolbox in your
+application. This toolbox includes:</p>
+<ul class="simple">
+<li>the ExtJS, OpenLayers, GeoExt JavaScript libraries,</li>
+<li>a sample JavaScript application based on those libraries,</li>
+<li>a build profile for minifying the JavaScript code of this sample
+application,</li>
+<li>a JavaScript testing framework, with a test example</li>
+</ul>
+<p>Installing the JavaScript toolbox is done by applying the <tt class="docutils literal"><span class="pre">mapfish_client</span></tt>
+template.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Version 0.2 of <tt class="docutils literal"><span class="pre">mapfish.plugin.client</span></tt>, which is the Python package
+providing the <tt class="docutils literal"><span class="pre">mapfish_client</span></tt> template, includes versions of OpenLayers
+and GeoExt that don&#8217;t work with FireFox 4 and later when the JavaScript
+code is not built.</p>
+<p class="last">You can list the content of <tt class="docutils literal"><span class="pre">env/lib/python2.5/site-packages</span></tt> to know
+what version of <tt class="docutils literal"><span class="pre">mapfish.plugin.client</span></tt> is in use.</p>
+</div>
+<p>Enter <tt class="docutils literal"><span class="pre">Ctrl+C</span></tt> to stop the Paster server and proceed with these
+commands:</p>
+<div class="highlight-python"><pre>(env) $ cd ..
+(env) $ paster create -t mapfish_client MapFishApp</pre>
+</div>
+<p>When asked whether to overwrite <tt class="docutils literal"><span class="pre">index.html</span></tt> answer <tt class="docutils literal"><span class="pre">y</span></tt>. This will
+overwrite the <tt class="docutils literal"><span class="pre">index.html</span></tt> page you saw in the last section by the one
+provided by the <tt class="docutils literal"><span class="pre">mapfish_client</span></tt> template. When asked whether to overwrite
+<tt class="docutils literal"><span class="pre">favicon.png</span></tt> also answer <tt class="docutils literal"><span class="pre">y</span></tt>.</p>
+<p>Start the application again:</p>
+<div class="highlight-python"><pre>(env) $ cd MapFishApp
+(env) $ paster serve --reload development.ini</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note the use of the <tt class="docutils literal"><span class="pre">--reload</span></tt> switch. This switch makes the Paste server
+monitor all Python modules used by the <tt class="docutils literal"><span class="pre">MapFishApp</span></tt> application and
+reload itself automatically if any of them is modified or if new modules
+are created. This is especially useful during development.</p>
+</div>
+<p>Open or reload <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> in your web browser, you should now get
+the default user interface:</p>
+<img alt="_images/osm.png" src="_images/osm.png" style="width: 500pt; height: 300pt;" />
+<p>This default user interface is composed of: a map, a toolbar above the map with
+tools acting on the map, and a layer tree for controlling the visibility of
+layers. The map itself is composed of two <a class="reference external" href="http://openstreetmap.org">OpenStreetMap</a> layers.</p>
+<p>The default user interface is provided to the application developer as an
+example. The application developer is free to build on it, or delete it to
+write his own if he wants.</p>
+</div>
+</div>
+<div class="section" id="creating-a-web-service">
+<h2>Creating a web service<a class="headerlink" href="#creating-a-web-service" title="Permalink to this headline">¶</a></h2>
+<p>MapFish provides a command for generating web services implementing the
+<a class="reference external" href="protocol.html">MapFish Protocol</a>. A MapFish web service relies on
+geographic database table.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this tutorial PostgreSQL/PostGIS is used as database, but you can
+also use other database systems, see <a class="reference internal" href="framework/spatial-databases.html"><em>Using spatial databases with MapFish</em></a>
+for further information.</p>
+</div>
+<p>Before creating web services you need to set up the connection to the
+geographic database. For this quickstart an existing public database will be
+used, but you can also set up your own database (see <a class="reference internal" href="framework/spatial-databases.html"><em>Using spatial databases with MapFish</em></a>).
+In real-life scenarios, the database system and the MapFish application execute
+on the same host or on hosts of the same private network.</p>
+<p>To set up the database connection edit <tt class="docutils literal"><span class="pre">development.ini</span></tt> and replace the line</p>
+<div class="highlight-python"><pre>sqlalchemy.url = sqlite:///%(here)s/development.db</pre>
+</div>
+<p>by this one:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = postgresql://quickstart:quickstart@www.mapfish.org:5432/quickstart</pre>
+</div>
+<p>The connection string specifies that the <tt class="docutils literal"><span class="pre">postgresql</span></tt> driver must be used, the
+database system is located at <tt class="docutils literal"><span class="pre">www.mapfish.org</span></tt> on port <tt class="docutils literal"><span class="pre">5432</span></tt>, and the
+name of the database is <tt class="docutils literal"><span class="pre">quickstart</span></tt>.</p>
+<p>Now that the database connection is set up, you&#8217;re ready to create the web
+service. Creating a web service is done in three steps:</p>
+<ol class="arabic">
+<li><p class="first">create a layer configuration in the <tt class="docutils literal"><span class="pre">layers.ini</span></tt> file, in our case we&#8217;re
+going rely on the table named <tt class="docutils literal"><span class="pre">countries</span></tt> in the database, so the
+configuration is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">countries</span><span class="p">]</span>
+<span class="n">singular</span><span class="o">=</span><span class="n">country</span>
+<span class="n">plural</span><span class="o">=</span><span class="n">countries</span>
+<span class="n">table</span><span class="o">=</span><span class="n">countries</span>
+<span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span>
+<span class="n">geomcolumn</span><span class="o">=</span><span class="n">the_geom</span>
+<span class="n">geomtype</span><span class="o">=</span><span class="n">MultiPolygon</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">singular</span></tt> provides a <tt class="docutils literal"><span class="pre">singular</span></tt> name for the layer. <tt class="docutils literal"><span class="pre">plural</span></tt> provides
+a plural name for the layer. Both are used by the code generator when
+substituting variables. <tt class="docutils literal"><span class="pre">table</span></tt> provides the name of the database.
+<tt class="docutils literal"><span class="pre">epsg</span></tt> provides the coordinate system of the table data. <tt class="docutils literal"><span class="pre">geomcolumn</span></tt>
+provides the name of the geometry column and <tt class="docutils literal"><span class="pre">geomtype</span></tt> the geometry type.
+Further information about the <tt class="docutils literal"><span class="pre">layer.ini</span></tt> configuration can be found in the
+<a class="reference external" href="framework/webservice.html#layer-ini-2-0">framework documentation</a>.</p>
+</li>
+<li><p class="first">generate the web service code with the <tt class="docutils literal"><span class="pre">mf-layer</span></tt> command:</p>
+<div class="highlight-python"><pre>(env) $ paster mf-layer countries</pre>
+</div>
+</li>
+<li><p class="first">configure a route to the <tt class="docutils literal"><span class="pre">countries</span></tt> controller, this is done by adding
+the following lines after the &#8220;CUSTOM ROUTES HERE&#8221; comment in the
+<tt class="docutils literal"><span class="pre">mapfishapp/config/routing.py</span></tt> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;/countries/count&quot;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s">&quot;countries&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">)</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s">&quot;country&quot;</span><span class="p">,</span> <span class="s">&quot;countries&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Watch the indentation! 4 spaces are needed here.</p>
+<p>If you stopped <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">serve</span></tt> or if you did not add the <tt class="docutils literal"><span class="pre">--reload</span></tt> switch,
+restart <tt class="docutils literal"><span class="pre">MapFishApp</span></tt> with:</p>
+<div class="highlight-python"><pre>(env) $ paster serve --reload development.ini</pre>
+</div>
+<p>You can now open <a class="reference external" href="http://localhost:5000/countries?limit=1">http://localhost:5000/countries?limit=1</a> in your browser, you
+should see a <a class="reference external" href="http://geojson.org">GeoJSON</a> representation of the first object
+in the <tt class="docutils literal"><span class="pre">countries</span></tt> table:</p>
+<img alt="_images/geojson.png" src="_images/geojson.png" style="width: 500pt; height: 300pt;" />
+</div>
+<div class="section" id="creating-search-functionality">
+<h2>Creating search functionality<a class="headerlink" href="#creating-search-functionality" title="Permalink to this headline">¶</a></h2>
+<p>Now that the <tt class="docutils literal"><span class="pre">countries</span></tt> web service works, let&#8217;s create a search
+functionality based on that web service. This search functionality will involve
+displaying a popup containing information about the country that is clicked by
+the user.</p>
+<p>Edit the <tt class="docutils literal"><span class="pre">mapfishapp/public/app/lib/App/layout.js</span></tt> file, look up the
+<tt class="docutils literal"><span class="pre">createTbarItems()</span></tt> function, and insert a new <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt> to the array
+returned by the function by adding the following code to the function (If
+unsure, see this <a class="reference download internal" href="_downloads/layout.js"><tt class="xref download docutils literal"><span class="pre">file</span></tt></a>):</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">actions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+    <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;Query&quot;</span><span class="p">,</span>
+    <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+    <span class="nx">toggleGroup</span><span class="o">:</span> <span class="s2">&quot;tools&quot;</span><span class="p">,</span>
+    <span class="nx">allowDepress</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">GetFeature</span><span class="p">({</span>
+    <span class="nx">protocol</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Protocol</span><span class="p">.</span><span class="nx">HTTP</span><span class="p">({</span>
+        <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;countries&quot;</span><span class="p">,</span>
+        <span class="nx">params</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">epsg</span><span class="o">:</span> <span class="s2">&quot;900913&quot;</span><span class="p">,</span>
+            <span class="nx">attrs</span><span class="o">:</span> <span class="s2">&quot;pays,continent&quot;</span>
+        <span class="p">},</span>
+        <span class="nx">format</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Format</span><span class="p">.</span><span class="nx">GeoJSON</span><span class="p">()</span>
+    <span class="p">}),</span>
+    <span class="nx">eventListeners</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">featureselected</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">feature</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s2">&quot;&lt;p&gt;Country: &quot;</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">pays</span><span class="o">+</span><span class="s2">&quot;&lt;/p&gt;&quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;&lt;p&gt;Continent: &quot;</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">continent</span><span class="o">+</span><span class="s2">&quot;&lt;/p&gt;&quot;</span><span class="p">;</span>
+            <span class="nx">f</span><span class="p">.</span><span class="nx">geometry</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span>
+                <span class="nx">map</span><span class="p">.</span><span class="nx">displayProjection</span><span class="p">,</span> <span class="nx">map</span><span class="p">.</span><span class="nx">projection</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_popup</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_popup</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Popup</span><span class="p">({</span>
+                    <span class="nx">html</span><span class="o">:</span> <span class="nx">html</span><span class="p">,</span>
+                    <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+                    <span class="nx">closeAction</span><span class="o">:</span> <span class="s1">&#39;hide&#39;</span><span class="p">,</span>
+                    <span class="nx">unpinnable</span><span class="o">:</span> <span class="kc">false</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_popup</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_popup</span><span class="p">.</span><span class="nx">doLayout</span><span class="p">();</span>
+            <span class="p">}</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_popup</span><span class="p">.</span><span class="nx">feature</span> <span class="o">=</span> <span class="nx">f</span><span class="p">;</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_popup</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="p">})</span>
+<span class="p">}));</span>
+</pre></div>
+</div>
+<p>In the above code a <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt> configured with an
+<tt class="docutils literal"><span class="pre">OpenLayers.Control.GetFeature</span></tt> is added to the array of actions. The
+<tt class="docutils literal"><span class="pre">OpenLayers.Control.GetFeature</span></tt> object is connected to the <tt class="docutils literal"><span class="pre">countries</span></tt> web
+service through an <tt class="docutils literal"><span class="pre">OpenLayers.Protocol.HTTP</span></tt> object. In this example a
+<tt class="docutils literal"><span class="pre">GeoExt.Popup</span></tt> containing the name of the clicked country, and the name of
+the continent, is displayed.</p>
+<img alt="_images/query.png" src="_images/query.png" style="width: 500pt; height: 300pt;" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="framework/index.html" title="Framework"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             >previous</a> |</li>
+        <li><a href="index.html">MapFish v2.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

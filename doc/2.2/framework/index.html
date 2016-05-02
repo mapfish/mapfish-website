@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Framework &mdash; MapFish v2.2 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.2 documentation" href="../index.html" />
+    <link rel="next" title="Setting up a MapFish application" href="mapfish-application.html" />
+    <link rel="prev" title="Quickstart" href="../quickstart.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mapfish-application.html" title="Setting up a MapFish application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../quickstart.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Framework</a><ul>
+<li><a class="reference internal" href="#forewords">Forewords</a></li>
+<li><a class="reference internal" href="#table-of-contents">Table Of Contents:</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../quickstart.html"
+                        title="previous chapter">Quickstart</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mapfish-application.html"
+                        title="next chapter">Setting up a MapFish application</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/framework/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="framework">
+<h1>Framework<a class="headerlink" href="#framework" title="Permalink to this headline">¶</a></h1>
+<p>MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development.</p>
+<p>MapFish is based on the <a class="reference external" href="http://pylonshq.com">Pylons</a> Python web framework.
+MapFish extends Pylons with geospatial-specific functionality. For example
+MapFish provides specific tools for creating web services that allow querying
+and editing geographic objects.</p>
+<p>MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the <a class="reference external" href="http://extjs.com">Ext</a>, <a class="reference external" href="http://www.openlayers.org">OpenLayers</a> , <a class="reference external" href="http://www.geoext.org">GeoExt</a> JavaScript
+toolkits, and specific components for interacting with MapFish web services.</p>
+<div class="section" id="forewords">
+<h2>Forewords<a class="headerlink" href="#forewords" title="Permalink to this headline">¶</a></h2>
+<p>In the following sections we assume that the MapFish framework is installed in
+a virtual Python environment named <tt class="docutils literal"><span class="pre">venv</span></tt> and that this virtual environment
+is activated.  See the <a class="reference external" href="../installation.html">installation page</a> to know how to
+install MapFish and activate the virtual environment.</p>
+<p>This documentation provides links to chapters of the <a class="reference external" href="http://pylonsbook.com/en/1.0/index.html">The Definitive Guide To
+Pylons</a> book. Reading this book is
+highly recommended to anyone considering doing serious development with
+MapFish.</p>
+</div>
+<div class="section" id="table-of-contents">
+<h2>Table Of Contents:<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mapfish-application.html">Setting up a MapFish application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mapfish-application.html#creating-a-mapfish-application">Creating a MapFish application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapfish-application.html#serving-a-mapfish-application">Serving a MapFish application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="javascript-toolbox.html">Installing the JavaScript toolbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Creating MapFish Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing-webservices.html">Customizing Web Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="customizing-webservices.html#adding-filters">Adding filters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spatial-databases.html">Using spatial databases with MapFish</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spatial-databases.html#using-postgresql-postgis">Using PostgreSQL/PostGIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial-databases.html#using-mysql">Using MySQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial-databases.html#using-sqlite-spatialite">Using SQLite/Spatialite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial-databases.html#using-oracle">Using Oracle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial-databases.html#sperical-mercator-900913">Sperical Mercator (900913)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial-databases.html#table-mapping">Table mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial-databases.html#using-paster-setup-app-to-create-your-database-tables">Using &#8216;paster setup-app&#8217; to create your database tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">Upgrading</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="upgrading.html#pylons-1-0">Pylons 1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading.html#mapfish-2-x">MapFish 2.x</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<p><a class="reference external" href="../reference/index.html#server">API References</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mapfish-application.html" title="Setting up a MapFish application"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../quickstart.html" title="Quickstart"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Studying MapFishSample &mdash; MapFish In Production Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish In Production Workshop v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Securing MapFishSample" href="securing_mapfishsample.html" />
+    <link rel="prev" title="Installing and Running MapFishSample" href="installing_and_running_mapfishsample.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="securing_mapfishsample.html" title="Securing MapFishSample"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installing_and_running_mapfishsample.html" title="Installing and Running MapFishSample"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Studying MapFishSample</a><ul>
+<li><a class="reference external" href="#general-structure">General Structure</a></li>
+<li><a class="reference external" href="#source-code-organization">Source Code Organization</a></li>
+<li><a class="reference external" href="#modify-the-client-code">Modify The Client Code</a></li>
+<li><a class="reference external" href="#mapserver">MapServer</a></li>
+<li><a class="reference external" href="#print">Print</a></li>
+<li><a class="reference external" href="#tilecache">TileCache</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="installing_and_running_mapfishsample.html"
+                                  title="previous chapter">Installing and Running MapFishSample</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="securing_mapfishsample.html"
+                                  title="next chapter">Securing MapFishSample</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/studying_mapfishsample.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="studying-mapfishsample">
+<h1>Studying MapFishSample<a class="headerlink" href="#studying-mapfishsample" title="Permalink to this headline">¶</a></h1>
+<p>In the previous module we have seen how to build and deploy the MapFishSample
+application. More generally we have seen how to use Buildout to build and
+deploy MapFish applications.</p>
+<p>In this module we will study MapFishSample. We&#8217;ll see how MapFishSample is
+structured, and how its connections to external components, such as MapServer
+and MapFish Print, are organized.</p>
+<div class="section" id="general-structure">
+<h2>General Structure<a class="headerlink" href="#general-structure" title="Permalink to this headline">¶</a></h2>
+<p>MapFishSample is a MapFish application, i.e. an application created with the
+<tt class="docutils literal"><span class="pre">mapfish</span></tt> template, it is therefore structured like any MapFish application.</p>
+<p>At the root of MapFishSample we find these files and directories:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">apache</span></tt></dt>
+<dd>This directory includes the Apache configuration for the application and
+external components the application relies on (MapServer, MapFish Print).
+The content of this directory can be added to the Apache configuration
+using Apache&#8217;s <tt class="docutils literal"><span class="pre">Include</span></tt> directives.</dd>
+<dt><tt class="docutils literal"><span class="pre">buildout</span></tt></dt>
+<dd>This directory includes the Python environment created by Buildout. This is
+where Buildout adds the <tt class="docutils literal"><span class="pre">python</span></tt> interpreter, and installs the
+application and its dependencies. It is filled when the Buildout
+process is launched the first time.</dd>
+<dt><tt class="docutils literal"><span class="pre">buildout_*.cfg</span></tt></dt>
+<dd>These are Buildout configuration files. <tt class="docutils literal"><span class="pre">buildout.cfg</span></tt> is the main
+configuration file, it includes the common part. The other files extend
+<tt class="docutils literal"><span class="pre">buildout.cfg</span></tt>, to deal with specific execution environments.</dd>
+<dt><tt class="docutils literal"><span class="pre">mapfishsample</span></tt></dt>
+<dd>This directory includes the actual code of the MapFishSample application.</dd>
+<dt><tt class="docutils literal"><span class="pre">development.ini</span></tt> and <tt class="docutils literal"><span class="pre">production.ini</span></tt></dt>
+<dd><p class="first">These files include the configuration of MapFishSample itself.
+<tt class="docutils literal"><span class="pre">development.ini</span></tt> is to be used with the Paste HTTP Server during
+development, while <tt class="docutils literal"><span class="pre">production.ini</span></tt> is to be used with modwsgi, in
+production.</p>
+<p class="last">Both files are generated by Buildout (the <tt class="docutils literal"><span class="pre">template</span></tt> part) from their
+<tt class="docutils literal"><span class="pre">.ini</span></tt> counterpart. They are generated at deployment time because they
+include parameters, e.g. the database connection parameters, that are
+specific to the execution environment.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">jsbuild</span></tt></dt>
+<dd>This directory includes the build profile for the JavaScript code.
+The path to this build profile is given to the <tt class="docutils literal"><span class="pre">JSTools:buildjs</span></tt>
+Buildout recipe, through the <tt class="docutils literal"><span class="pre">config</span></tt> variable in the
+<tt class="docutils literal"><span class="pre">[jsbuild]</span></tt> section of <tt class="docutils literal"><span class="pre">buildout.cfg</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">mapserver</span></tt></dt>
+<dd>This directory includes the MapServer configuration, that is
+a mapfile, fonts and symbols.</dd>
+<dt><tt class="docutils literal"><span class="pre">print</span></tt></dt>
+<dd><p class="first">This directory includes the MapFish Print configuration, i.e. the YAML
+config file. It could also include images, and PDF files, that are to
+be bundled in the MapFish Print webapp.</p>
+<p class="last">The <tt class="docutils literal"><span class="pre">c2c.recipe.jarfile</span></tt> is responsible for bundling the YAML file and
+the resource files into the MapFish Print webapp.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">tilecache</span></tt></dt>
+<dd>This directory includes the TileCache configuration. MapFishSample does not
+actually use TileCache, so this directory currently serves no purpose in
+the case of MapFishSample.</dd>
+</dl>
+<div class="admonition-task-1 admonition ">
+<p class="first admonition-title">Task #1</p>
+<p class="last">Open <tt class="docutils literal"><span class="pre">apache/mapserver.conf.in</span></tt> and <tt class="docutils literal"><span class="pre">apache/mapserver.conf</span></tt>,
+and note how the mapfile is made available to MapServer.</p>
+</div>
+</div>
+<div class="section" id="source-code-organization">
+<h2>Source Code Organization<a class="headerlink" href="#source-code-organization" title="Permalink to this headline">¶</a></h2>
+<p>The actual code of MapFishSample is located in the <tt class="docutils literal"><span class="pre">mapfishsample</span></tt> directory.
+This directory includes several sub-directories, the most important ones are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">controllers</span></tt></dt>
+<dd><p class="first">This directory includes the controllers of the application. Controllers are
+written in Python. They contain the code that receive HTTP requests, take
+appropriate action, and send HTTP responses.</p>
+<p>The two main controllers in MapFishSample are <tt class="docutils literal"><span class="pre">entry.py</span></tt> and <tt class="docutils literal"><span class="pre">pois.py</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">entry.py</span></tt> defines the entry point of the application, it receives
+the very first request when the browser loads <a class="reference external" href="http://mapfish/">http://mapfish/</a>.</p>
+<p class="last"><tt class="docutils literal"><span class="pre">pois.py</span></tt> implements the MapFish web service for the <tt class="docutils literal"><span class="pre">poi_osm</span></tt> table.
+This is the web service used for the Query and Editing functionalities.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">templates</span></tt></dt>
+<dd><p class="first">This directory includes HTTP templates (as a matter of fact it also
+includes JavaScript templates). The <a class="reference external" href="http://www.makotemplates.org/">Mako</a>
+template engine is used for the processing of templates.</p>
+<p class="last">The main template is <tt class="docutils literal"><span class="pre">index.html</span></tt>, which is the HTML page displayed when
+<a class="reference external" href="http://mapfish/">http://mapfish/</a> is opened in the browser. This template is rendered when
+the <tt class="docutils literal"><span class="pre">index</span></tt> action of the <tt class="docutils literal"><span class="pre">entry.py</span></tt> controller is invoked.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">model</span></tt></dt>
+<dd>This directory includes the database model of MapFishSample. The main file
+of this directory is <tt class="docutils literal"><span class="pre">__init__.py</span></tt>, and this is where the model of the
+<tt class="docutils literal"><span class="pre">poi_osm</span></tt> table is defined.</dd>
+<dt><tt class="docutils literal"><span class="pre">public</span></tt></dt>
+<dd><p class="first">This directly includes the static content of MapFishSample, i.e.
+the JavaScript code, CSS, images, etc.</p>
+<p>The JavaScript code of the application, which controls the browser UI, is
+located in the <tt class="docutils literal"><span class="pre">app/lib/App</span></tt> directory.</p>
+<p class="last">The JavaScript toolkits - OpenLayers, ExtJS, and GeoExt - are located in
+the <tt class="docutils literal"><span class="pre">lib</span></tt> directory.</p>
+</dd>
+</dl>
+<div class="admonition-task-2 admonition ">
+<p class="first admonition-title">Task #2</p>
+<p>Open <a class="reference external" href="http://mapfish/?debug=true">http://mapfish/?debug=true</a> in the browser. Open FireBug with <tt class="docutils literal"><span class="pre">F12</span></tt>
+and go to the Net tab. Reload the page. The loading of the page should take
+longer than previously. And more JavaScript files should be downloaded.
+Setting <tt class="docutils literal"><span class="pre">debug</span></tt> in the URL indeed results in individually loading every
+JavaScript file composing the application. When <tt class="docutils literal"><span class="pre">debug</span></tt> is not set the
+<tt class="docutils literal"><span class="pre">app.js</span></tt> built file is loaded.</p>
+<p class="last">Open <tt class="docutils literal"><span class="pre">mapfishsample/controllers/entry.py</span></tt> and
+<tt class="docutils literal"><span class="pre">mapfishample/templates/index.html</span></tt> in the editor, and understand how
+this mechanism works (Hint: look up <tt class="docutils literal"><span class="pre">c.debug</span></tt>).</p>
+</div>
+</div>
+<div class="section" id="modify-the-client-code">
+<h2>Modify The Client Code<a class="headerlink" href="#modify-the-client-code" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned in the previous section the application-specific code is located
+in the <tt class="docutils literal"><span class="pre">mapfishsample/public/app/lib/App</span></tt> directory.</p>
+<p>The entry point of the JavaScript application is defined in the <tt class="docutils literal"><span class="pre">main.js</span></tt>
+file. This file defines the function called when the HTML page is loaded in the
+browser. This function starts by setting global variables, and then creates the
+map in the page.</p>
+<p>The map-related code is in the <tt class="docutils literal"><span class="pre">Map.js</span></tt> file. The <tt class="docutils literal"><span class="pre">App.Map</span></tt> function
+defined in this file basically creates the map, the layers, and the toolbar
+that contains the buttons to enable/disable the Query, Editing, Search and
+Printing functionalities. The toolbar-related code is itself located
+in the <tt class="docutils literal"><span class="pre">App.Tools</span></tt> function of the <tt class="docutils literal"><span class="pre">Tools.js</span></tt> file.</p>
+<div class="admonition-task-3 admonition ">
+<p class="first admonition-title">Task #3</p>
+<p>Open <tt class="docutils literal"><span class="pre">Tools.js</span></tt> in the editor. Take a look at the code, paying attention
+to the functions belonging to the <tt class="docutils literal"><span class="pre">App</span></tt> namespace, and attempt to open
+the relevant JavaScript files as you go through the code.</p>
+<p class="last">Hint: also pay attention to the <tt class="docutils literal"><span class="pre">&#64;include</span></tt> directives at the heads of
+files.</p>
+</div>
+<div class="admonition-task-4 admonition ">
+<p class="first admonition-title">Task #4</p>
+<p>In this task you&#8217;re going to modify the JavaScript code of the application.</p>
+<p>Start by opening <a class="reference external" href="http://mapfish/">http://mapfish/</a> in the browser. Active the Search
+functionality, select &#8220;Fastfood&#8221; in the &#8220;Type&#8221; select, and hit &#8220;Search&#8221;. In
+the popup use the left and right arrows to browse through the results, and
+observe that the map isn&#8217;t recentered when a result is selected. You&#8217;re
+going to change that!</p>
+<p>Open <tt class="docutils literal"><span class="pre">Search.js</span></tt> in the editor, and look up the <tt class="docutils literal"><span class="pre">featureselected</span></tt>
+listener. At the end of the function add the following code:</p>
+<div class="highlight-python"><pre>var ll = new OpenLayers.LonLat(
+    feature.geometry.x, feature.geometry.y);
+mapPanel.map.setCenter(ll);</pre>
+</div>
+<p>Reload the page in the browser, and check if the behavior has changed. It
+shouldn&#8217;t have, because the JavaScript hasn&#8217;t been rebuilt. If you open
+<a class="reference external" href="http://mapfish/?debug=true">http://mapfish/?debug=true</a> you should get the expected behavior though.</p>
+<p>To build the JavaScript code again, execute this command line at
+the root of MapFishSample:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/buildout -c buildout_mine.cfg install jsbuild</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">install</span></tt> argument allows targeting a specific part of the Buildout
+configuration. In that case only the <tt class="docutils literal"><span class="pre">jsbuild</span></tt> part is executed.</p>
+<p class="last">Now <a class="reference external" href="http://mapfish/">http://mapfish/</a> should behave as expected. Verify that.</p>
+</div>
+</div>
+<div class="section" id="mapserver">
+<h2>MapServer<a class="headerlink" href="#mapserver" title="Permalink to this headline">¶</a></h2>
+<p>MapFishSample relies on <a class="reference external" href="http://mapserver.org/">MapServer</a> for the display of
+POIs on the map. WMS is used for that (<a class="reference external" href="http://mapfish/mapfishsample/sample/mapserv?LAYERS=sustenance&amp;TRANSPARENT=TRUE&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;FORMAT=image%2Fpng&amp;SRS=EPSG%3A900913&amp;BBOX=659192.9326396,5710151.7610209,660415.92509199,5711374.7534733&amp;WIDTH=256&amp;HEIGHT=256">WMS request example</a>).
+MapServer is an external component of MapFishSample, it needs to be installed
+on the system for MapFishSample to work properly.</p>
+<p>Linking MapFishSample and MapServer together is done through multiple things:</p>
+<ol class="arabic simple">
+<li>The <tt class="docutils literal"><span class="pre">mapserver</span></tt> directory includes a MapServer mapfile. This mapfile
+represents the MapFishSample-specific MapServer configuration.</li>
+<li>The <tt class="docutils literal"><span class="pre">apache</span></tt> directory includes an Apache configuration file for
+MapServer: <tt class="docutils literal"><span class="pre">mapserver.conf</span></tt>. This configuration file defines the URL to
+access MapServer, and provides MapServer with the path to the mapfile
+(through the <tt class="docutils literal"><span class="pre">MS_MAPFILE</span></tt> environment variable).</li>
+<li>The URL to MapServer is made available to the JavaScript code through the
+<tt class="docutils literal"><span class="pre">App.mapservURL</span></tt> JavaScript variable. This variable is set in the
+<tt class="docutils literal"><span class="pre">mapfishsample/templates/global.js</span></tt> file, which is generated by Buildout
+from <tt class="docutils literal"><span class="pre">mapfishsample/templates/global.js.in</span></tt> and variables defined
+in the Buildout configuration.</li>
+</ol>
+<div class="admonition-task-5 admonition ">
+<p class="first admonition-title">Task #5</p>
+<p>In this task you&#8217;re going to modify the mapfile and see what must be done
+to make your modification effective.</p>
+<p>Edit <tt class="docutils literal"><span class="pre">mapserver/mapfishsample.map.in</span></tt>, look up the <tt class="docutils literal"><span class="pre">sustenance</span></tt> layer
+(this is the POI layer), and change the value of its <tt class="docutils literal"><span class="pre">LABELITEM</span></tt> property
+from <tt class="docutils literal"><span class="pre">&quot;name&quot;</span></tt> to <tt class="docutils literal"><span class="pre">&quot;type&quot;</span></tt>.</p>
+<p>You have modified a <tt class="docutils literal"><span class="pre">.in</span></tt> file so the <tt class="docutils literal"><span class="pre">template</span></tt> part of Buildout must
+be executed again:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/buildout -c buildout_mine.cfg install template</pre>
+</div>
+<p>You may have noticed when looking at <tt class="docutils literal"><span class="pre">apache/mapserver.conf</span></tt> that the
+FastCGI interface is used for MapServer. FastCGI is preferred to CGI
+because it leads to better performance, especially when MapServer
+reads data from PostgreSQL/PostGIS. One consequence of that is
+that Apache needs to be reloaded for changes to the mapfile
+to be effective:</p>
+<div class="highlight-python"><pre>$ sudo /etc/init.d/apache reload</pre>
+</div>
+<p class="last">Reload <a class="reference external" href="http://mapfish/">http://mapfish/</a> in the browser. The label under a POI symbol should
+now be the type of the POI, instead of its name. Verify that.</p>
+</div>
+</div>
+<div class="section" id="print">
+<h2>Print<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h2>
+<p>MapFishSample relies on <a class="reference external" href="http://mapfish.org/doc/print/index.html">MapFish Print</a> for the <em>Print</em> functionality. Here
+again MapFish Print is an external component of MapFishSample.</p>
+<p>In contrast to MapServer, MapFish Print is downloaded and installed by
+MapFishSample&#8217;s Buildout process. But MapFishSample requires that
+Apache Tomcat is up and running on the system.</p>
+<p>The following describes how MapFishSample and MapFish Print are
+linked together:</p>
+<ol class="arabic simple">
+<li>The <tt class="docutils literal"><span class="pre">print</span></tt> directory includes the YAML configuration file,
+<tt class="docutils literal"><span class="pre">config.yaml</span></tt>, for MapFish Print.</li>
+<li>The <tt class="docutils literal"><span class="pre">[print]</span></tt> Buildout part downloads the MapFish Print war file into the
+<tt class="docutils literal"><span class="pre">print</span></tt> directory.</li>
+<li>The <tt class="docutils literal"><span class="pre">[deploy-print]</span></tt> unpacks this war file, re-pack it together with the
+MapFish Print configuration file (<tt class="docutils literal"><span class="pre">config.yaml</span></tt>), and deploys it into
+Tomcat. The variable <tt class="docutils literal"><span class="pre">output</span></tt> of the <tt class="docutils literal"><span class="pre">[deploy-print]</span></tt> section in
+<tt class="docutils literal"><span class="pre">buildout.cfg</span></tt> specifies where the Tomcat webapps directory is.</li>
+<li>The <tt class="docutils literal"><span class="pre">apache</span></tt> directory includes an Apache configuration for
+MapFish Print: <tt class="docutils literal"><span class="pre">tomcat-print.conf</span></tt>. This file sets up a
+proxy to the MapFish Print webapp executed by Tomcat.</li>
+</ol>
+<p>At any time one can use the following command to redeploy the MapFish Print
+webapp into Tomcat:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/buildout -c buildout_mine.cfg install deploy-print</pre>
+</div>
+<div class="admonition-task-6 admonition ">
+<p class="first admonition-title">Task #6</p>
+<p>In a similar way to Task #5 you&#8217;re going to change the MapFish Print
+configuration in this task, and make your change effective.</p>
+<p>Edit <tt class="docutils literal"><span class="pre">print/config.yaml.in</span></tt> and make some changes of your choice (change
+the map size for example).</p>
+<p>Now re-generate <tt class="docutils literal"><span class="pre">print/config.yaml</span></tt> from <tt class="docutils literal"><span class="pre">print/config.yaml.in</span></tt>,
+and re-build and re-deploy the MapFish Print webapp using:</p>
+<div class="highlight-python"><pre>$ /buildout/bin/buildout -c buildout_mine.cfg install template deploy-print</pre>
+</div>
+<p class="last">Reload <a class="reference external" href="http://mapfish/">http://mapfish/</a> in the browser, print a map, and check that
+you get what you expect.</p>
+</div>
+</div>
+<div class="section" id="tilecache">
+<h2>TileCache<a class="headerlink" href="#tilecache" title="Permalink to this headline">¶</a></h2>
+<p>In its current form MapFishSample doesn&#8217;t use <a class="reference external" href="http://tilecache.org">TileCache</a> (mostly because MapFishSample uses an OSM layer as the
+map baselayer). But TileCache is set up in MapFishSample, so using TileCache in
+the future will be straightfoward.</p>
+<p>First of all TileCache is configured as a dependency of MapFishSample.
+Dependencies are expressed through the <tt class="docutils literal"><span class="pre">install_requires</span></tt> variable in
+<tt class="docutils literal"><span class="pre">setup.py</span></tt>. Because of this dependency TileCache was installed in the Python
+environment when Buildout was run for the first time.</p>
+<p>MapFishSample also includes a controller for TileCache. See
+<tt class="docutils literal"><span class="pre">mapfishsample/controller/tilecache.py</span></tt>. This controller is a wrapper for
+TileCache. Embedding TileCache within the application greatly simplifies the
+installation and deployment of TileCache. It also makes it possible to secure
+TileCache web services using Pylons-compatible security frameworks such as
+<a class="reference external" href="http://docs.repoze.org/who/">repoze.who</a>. We will talk about again that in
+the next module.</p>
+<div class="admonition-task-7 admonition ">
+<p class="first admonition-title">Task #7</p>
+<p>In this task you&#8217;re going to modify MapFishSample to go through
+TileCache instead of accessing MapServer directly.</p>
+<ol class="last arabic">
+<li><p class="first">The first thing to do is configure TileCache, i.e. define the
+TileCache layer and its connection to MapServer.</p>
+<p>Edit <tt class="docutils literal"><span class="pre">tilecache/tilecache.cfg.in</span></tt> and replace its content by this:</p>
+<div class="highlight-python"><pre>[cache]
+type = Disk
+base = /var/sig/tilecache/mapfishsample-${instanceid}_tilecache
+
+[DEFAULT]
+type = WMSLayer
+url = ${vars:mapserv_url}
+srs = EPSG:900913
+maxResolution = 156543.0339
+levels = 18
+bbox = -20037508.339200001,-20037508.339200001,20037508.339200001,20037508.339200001
+extension = png
+
+[sustenance]</pre>
+</div>
+<p>With this content a TileCache layer named <tt class="docutils literal"><span class="pre">sustenance</span></tt> is defined.
+This layer is mapped to the MapServer layer of the same name.</p>
+</li>
+<li><p class="first">To generate <tt class="docutils literal"><span class="pre">tilecache/tilecache.cfg</span></tt> execute the <tt class="docutils literal"><span class="pre">[template]</span></tt>
+Buildout part:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/buildout -c buildout_mine.cfg install template</pre>
+</div>
+</li>
+<li><p class="first">You now need to change the JavaScript code so it accesses TileCache
+instead of MapServer for the POI WMS layer. For that edit
+<tt class="docutils literal"><span class="pre">mapfishsample/public/app/lib/App/Map.js</span></tt>, look up the <tt class="docutils literal"><span class="pre">POIS</span></tt> layer,
+change its <tt class="docutils literal"><span class="pre">url</span></tt> from <tt class="docutils literal"><span class="pre">App.mapservURL</span></tt> to <tt class="docutils literal"><span class="pre">App.tilecacheURL</span></tt>, and
+its <tt class="docutils literal"><span class="pre">singleTile</span></tt> option from <tt class="docutils literal"><span class="pre">true</span></tt> to <tt class="docutils literal"><span class="pre">false</span></tt>. The definition of
+the WMS layer should now look like this:</p>
+<div class="highlight-python"><pre>poisLayer = new OpenLayers.Layer.WMS(
+    'POIS',
+    App.tilecacheURL,
+    {
+        layers: ['sustenance'],
+        transparent: true
+    },
+    {
+        singleTile: false
+    }
+);</pre>
+</div>
+</li>
+<li><p class="first">Build the JavaScript code again, by executing the <tt class="docutils literal"><span class="pre">[jsbuild]</span></tt>
+Buildout part:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/buildout -c buildout_mine.cfg install jsbuild</pre>
+</div>
+</li>
+<li><p class="first">Reload <a class="reference external" href="http://mapfish/">http://mapfish/</a> in the browser. The POIs layer should
+still be displayed.</p>
+<p>If you create a new POI using the Editing functionalilty you&#8217;ll observe
+that the new object won&#8217;t appear in the WMS layer. This is a cached
+layer!</p>
+</li>
+</ol>
+</div>
+<p>This section has shown how MapFishSample, and any MapFish application, can
+embed TileCache. It is interesting to note that any MapFish application can
+wrap any application implementing the <a class="reference external" href="http://wsgi.org/wsgi/">WSGI</a>
+interface. For example, embedding <a class="reference external" href="http://mapproxy.org/">MapProxy</a>, an
+alternative to TileCache, should be equally feasible.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="securing_mapfishsample.html" title="Securing MapFishSample"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installing_and_running_mapfishsample.html" title="Installing and Running MapFishSample"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

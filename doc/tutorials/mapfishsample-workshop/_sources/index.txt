@@ -1,0 +1,42 @@
+.. MapFish In Production Workshop documentation master file, created by
+   sphinx-quickstart on Wed Jun  9 10:18:52 2010.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+MapFish In Production Workshop
+==============================
+
+This document provides the written material of the "MapFish In Production"
+workshop, held at the `FOSS4G 2011 Conference <http://2011.foss4g.org/>`_.
+
+This workshop is a practical introduction to developing production-level
+MapFish applications. The practises presented in this workshop aren't the only
+way to develop MapFish applications, they just represent what we, at Camptocamp,
+use, and consider good practises, for our customer projects.
+
+In this workshop the official MapFish demo application, *MapFishSample*, is
+studied. Thus, this document provides a tutorial on how to use MapFish
+in production, as well as a guide to the MapFishSample application.
+
+The workshop is organized in several modules:
+
+.. toctree::
+    :maxdepth: 1
+
+    en/getting_started
+    en/understanding_mapfish
+    en/installing_and_running_mapfishsample
+    en/studying_mapfishsample
+    en/securing_mapfishsample
+    en/going_further_with_security
+
+Warranty disclaimer and license
+===============================
+
+`Camptocamp <http://www.camptocamp.com>`_ and authors provide these documents
+“AS IS,” without warranty of any kind either expressed or implied.
+
+Documents under `Creative Common License Attribution-Share Alike 2.5 Generic
+<http://creativecommons.org/licenses/by-sa/2.5/>`_.
+
+Authors: Éric Lemoine

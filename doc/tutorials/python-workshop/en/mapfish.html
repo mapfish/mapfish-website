@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MapFish &mdash; Python Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Python Workshop v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Welcome to Python Workshop’s documentation!" href="index.html" />
+    <link rel="next" title="Workshop Python (version française)" href="../fr/index.html" />
+    <link rel="prev" title="TileCache" href="tilecache.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../fr/index.html" title="Workshop Python (version française)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tilecache.html" title="TileCache"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Welcome to Python Workshop&#8217;s documentation!</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">MapFish</a><ul>
+<li><a class="reference external" href="#install">Install</a></li>
+<li><a class="reference external" href="#upgrade-application">Upgrade application</a></li>
+<li><a class="reference external" href="#create-a-mapfish-web-service">Create a MapFish web service</a></li>
+<li><a class="reference external" href="#play-with-the-mapfish-web-service">Play with the MapFish web service</a><ul>
+<li><a class="reference external" href="#read">Read</a></li>
+<li><a class="reference external" href="#create">Create</a></li>
+<li><a class="reference external" href="#update">Update</a></li>
+<li><a class="reference external" href="#delete">Delete</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tilecache.html"
+                                  title="previous chapter">TileCache</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../fr/index.html"
+                                  title="next chapter">Workshop Python (version française)</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/mapfish.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mapfish">
+<h1>MapFish<a class="headerlink" href="#mapfish" title="Permalink to this headline">¶</a></h1>
+<p><em>MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development.</em></p>
+<p>MapFish combines the power of Pylons, SQLAlchemy, GeoAlchemy, Shapely, and
+geojson.</p>
+<p>In this module you will learn about what the MapFish framework provides, and
+how it simplifies the development of web services for querying and editing
+geographic features.</p>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<p>To install MapFish in the virtual Python environment use:</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "MapFish==2.0"</pre>
+</div>
+<p>You should now have MapFish installed. You can check that using this command:</p>
+<div class="highlight-python"><pre>(vp) $ paster create --list-templates</pre>
+</div>
+<p>This command should output this:</p>
+<div class="highlight-python"><pre>Available templates:
+basic_package:   A basic setuptools-enabled package
+mapfish:         MapFish application template
+paste_deploy:    A web application deployed through paste.deploy
+pylons:          Pylons application template
+pylons_minimal:  Pylons minimal application template</pre>
+</div>
+<p>Note the <tt class="docutils literal"><span class="pre">mapfish</span></tt> line.</p>
+</div>
+<div class="section" id="upgrade-application">
+<h2>Upgrade application<a class="headerlink" href="#upgrade-application" title="Permalink to this headline">¶</a></h2>
+<p>In this section you&#8217;re going to convert your application from a Pylons
+application into a MapFish application. A MapFish application is a Pylons
+application with extra, MapFish-specific, features.</p>
+<p>Edit <tt class="docutils literal"><span class="pre">setup.py</span></tt> and add <tt class="docutils literal"><span class="pre">MapFish</span></tt> to the list of paster plugins:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">paster_plugins</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;MapFish&#39;</span><span class="p">,</span> <span class="s">&#39;PasteScript&#39;</span><span class="p">,</span> <span class="s">&#39;Pylons&#39;</span><span class="p">],</span>
+</pre></div>
+</div>
+<p>Now execute:</p>
+<div class="highlight-python"><pre>(vp) $ python setup.py egg_info</pre>
+</div>
+<p>This registers MapFish as a paster plugin, which will allow you to use
+MapFish-specific commands for the development of the application. You will
+learn more about that later in this module.</p>
+<p>You can check that your application is now a MapFish application by typing:</p>
+<div class="highlight-python"><pre>(vp) $ paster</pre>
+</div>
+<p>And verify that the output of the command includes the following block:</p>
+<div class="highlight-python"><pre>mapfish:
+  mf-controller   Create a MapFish controller and accompanying functional test
+  mf-layer        Create a MapFish layer (controller + model).
+  mf-model        Create a MapFish model</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">mf-controller</span></tt>, <tt class="docutils literal"><span class="pre">mf-layer</span></tt>, and <tt class="docutils literal"><span class="pre">mf-model</span></tt> are commands provided by the
+MapFish framework.</p>
+</div>
+<div class="section" id="create-a-mapfish-web-service">
+<h2>Create a MapFish web service<a class="headerlink" href="#create-a-mapfish-web-service" title="Permalink to this headline">¶</a></h2>
+<p>In this section you&#8217;re going to create a MapFish web service that relies on the
+<tt class="docutils literal"><span class="pre">summits</span></tt> table. You will thereby understand what MapFish actually brings to
+the developer.</p>
+<p>Create the file <tt class="docutils literal"><span class="pre">layers.ini</span></tt> at the root of your application, with this
+content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">mfsummits</span><span class="p">]</span>
+<span class="n">singular</span><span class="o">=</span><span class="n">mfsummit</span>
+<span class="n">plural</span><span class="o">=</span><span class="n">mfsummits</span>
+<span class="n">table</span><span class="o">=</span><span class="n">summits</span>
+<span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span>
+<span class="n">geomcolumn</span><span class="o">=</span><span class="n">geom</span>
+<span class="n">geomtype</span><span class="o">=</span><span class="n">Point</span>
+</pre></div>
+</div>
+<p>and execute this command:</p>
+<div class="highlight-python"><pre>(vp) $ paster mf-layer mfsummits
+
+
+Creating /home/python/python_workshop/WorkshopApp/workshopapp/controllers/mfsummits.py
+Creating /home/python/python_workshop/WorkshopApp/workshopapp/tests/functional/test_mfsummits.py
+
+To create the appropriate RESTful mapping, add a map statement to your
+config/routing.py file in the CUSTOM ROUTES section like this:
+
+map.resource("mfsummit", "mfsummits")
+
+Creating /home/python/python_workshop/WorkshopApp/workshopapp/model/mfsummits.py</pre>
+</div>
+<p>As indicated in the command ouput edit the <tt class="docutils literal"><span class="pre">workshopapp/config/routing.py</span></tt>
+file and add an appropriate route by inserting <tt class="docutils literal"><span class="pre">map.resource(&quot;mfsummit&quot;,</span>
+<span class="pre">&quot;mfsummits&quot;)</span></tt>. Insert this route before the default routes, for example right
+after the <tt class="docutils literal"><span class="pre">tilecache</span></tt> route.</p>
+<p>You can now verify that your MapFish web service functions properly. For
+example open <a class="reference external" href="http://localhost:5000/mfsummits?limit=2">http://localhost:5000/mfsummits?limit=2</a> in FireFox. But in fact,
+because a model class already exists for the table <tt class="docutils literal"><span class="pre">summits</span></tt>, SQLAlchemy will
+produce an error:</p>
+<img alt="../_images/summits_already_defined_error.png" src="../_images/summits_already_defined_error.png" style="width: 500pt; height: 380pt;" />
+<p>To correct the error edit <tt class="docutils literal"><span class="pre">workshopapp/model/mfsummits.py</span></tt> and add
+<tt class="docutils literal"><span class="pre">useexisting:</span> <span class="pre">True</span></tt> in the table arguments (<tt class="docutils literal"><span class="pre">__table_args__</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">types</span>
+
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">Point</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">GeometryTableMixIn</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">Base</span>
+
+<span class="k">class</span> <span class="nc">Mfsummit</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;summits&#39;</span>
+    <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;autoload&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&quot;autoload_with&quot;</span><span class="p">:</span> <span class="n">Session</span><span class="o">.</span><span class="n">bind</span><span class="p">,</span>
+        <span class="s">&quot;useexisting&quot;</span><span class="p">:</span> <span class="bp">True</span>
+    <span class="p">}</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="n">srid</span><span class="o">=</span><span class="mi">4326</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Open <a class="reference external" href="http://localhost:5000/mfsummits?limit=2">http://localhost:5000/mfsummits?limit=2</a> again in the browser.</p>
+</div>
+<div class="section" id="play-with-the-mapfish-web-service">
+<h2>Play with the MapFish web service<a class="headerlink" href="#play-with-the-mapfish-web-service" title="Permalink to this headline">¶</a></h2>
+<p>MapFish implements HTTP interfaces for querying and editing features. Any
+MapFish web service, i.e. any web service created with the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></tt>
+command implements these interfaces. These interfaces are documented in
+<a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol">http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol</a>.</p>
+<div class="section" id="read">
+<h3>Read<a class="headerlink" href="#read" title="Permalink to this headline">¶</a></h3>
+<p>Here are examples of queries that you can try in the browser:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://localhost:5000/mfsummits/1">http://localhost:5000/mfsummits/1</a></li>
+<li><a class="reference external" href="http://localhost:5000/mfsummits/1?no_geom=true">http://localhost:5000/mfsummits/1?no_geom=true</a></li>
+<li><a class="reference external" href="http://localhost:5000/mfsummits/1?no_geom=true&amp;attrs=elevation">http://localhost:5000/mfsummits/1?no_geom=true&amp;attrs=elevation</a></li>
+<li><a class="reference external" href="http://localhost:5000/mfsummits?limit=10&amp;offset=2">http://localhost:5000/mfsummits?limit=10&amp;offset=2</a></li>
+<li><a class="reference external" href="http://localhost:5000/mfsummits?limit=10&amp;order_by=elevation&amp;dir=DESC">http://localhost:5000/mfsummits?limit=10&amp;order_by=elevation&amp;dir=DESC</a></li>
+<li><a class="reference external" href="http://localhost:5000/mfsummits?lon=86.86&amp;lat=27.86&amp;tolerance=5">http://localhost:5000/mfsummits?lon=86.86&amp;lat=27.86&amp;tolerance=5</a></li>
+<li><a class="reference external" href="http://localhost:5000/mfsummits?bbox=85,26,87,28">http://localhost:5000/mfsummits?bbox=85,26,87,28</a></li>
+<li><a class="reference external" href="http://localhost:5000/mfsummits?limit=3&amp;queryable=name,elevation&amp;name__ilike=%col%&amp;elevation__gte=1800">http://localhost:5000/mfsummits?limit=3&amp;queryable=name,elevation&amp;name__ilike=%col%&amp;elevation__gte=1800</a></li>
+</ul>
+<p>The above queries use the HTTP <tt class="docutils literal"><span class="pre">GET</span></tt> method.</p>
+</div>
+<div class="section" id="create">
+<h3>Create<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h3>
+<p>To create new features the HTTP <tt class="docutils literal"><span class="pre">POST</span></tt> method is used. As an example you can
+enter the following <tt class="docutils literal"><span class="pre">curl</span></tt> command in your terminal:</p>
+<div class="highlight-python"><pre>curl http://localhost:5000/mfsummits -X POST -H 'Content-Type:"application/json"' \
+-d '{"type": "FeatureCollection",
+     "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [5.8, 45.3]}}]}'</pre>
+</div>
+<p>The command should output something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+ <span class="s">&quot;features&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Point&quot;</span><span class="p">,</span>
+                            <span class="s">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.7999999999999998</span><span class="p">,</span> <span class="mf">45.299999999999997</span><span class="p">]},</span>
+               <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="mi">5081</span><span class="p">,</span> <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Feature&quot;</span><span class="p">,</span>
+               <span class="s">&quot;bbox&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.7999999999999998</span><span class="p">,</span> <span class="mf">45.299999999999997</span><span class="p">,</span>
+                        <span class="mf">5.7999999999999998</span><span class="p">,</span> <span class="mf">45.299999999999997</span><span class="p">],</span>
+               <span class="s">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">}}]}</span>
+</pre></div>
+</div>
+<p>Note that GeoJSON response include the identifiers of the created features. In this example, one feature was created, its id is 5081.</p>
+<p>Now open <tt class="docutils literal"><span class="pre">http://localhost:5000/mfsummits/&lt;id&gt;</span></tt> in the browser to get a
+GeoJSON representation of the freshly created feature, and verify that it has
+indeed been inserted in the database. <tt class="docutils literal"><span class="pre">&lt;id&gt;</span></tt> is to be replaced with the
+actual feature identifier (5081 in this example).</p>
+</div>
+<div class="section" id="update">
+<h3>Update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h3>
+<p>To update a feature the HTTP <tt class="docutils literal"><span class="pre">PUT</span></tt> method is used. As an example use this
+<tt class="docutils literal"><span class="pre">curl</span></tt> command:</p>
+<div class="highlight-python"><pre>curl http://localhost:5000/mfsummits/&lt;id&gt; -X PUT -H 'Content-Type:"application/json"' \
+-d '{"type": "Feature", "geometry": {"type": "Point", "coordinates": [6.0, 46]},
+     "properties": {"name": "foo", "elevation": 1000}}'</pre>
+</div>
+<p>Again replace <tt class="docutils literal"><span class="pre">&lt;id&gt;</span></tt> by the actual feature identifier (5081 in the above example).</p>
+<p>The command should output something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Point&quot;</span><span class="p">,</span> <span class="s">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">46.0</span><span class="p">]},</span> <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="mi">5081</span><span class="p">,</span> <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Feature&quot;</span><span class="p">,</span>
+ <span class="s">&quot;bbox&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">46.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">46.0</span><span class="p">],</span> <span class="s">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;foo&quot;</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>Again you can open <tt class="docutils literal"><span class="pre">http://localhost:5000/mfsummits/&lt;id&gt;</span></tt> in the browser to verify
+that the feature has been updated as expected.</p>
+</div>
+<div class="section" id="delete">
+<h3>Delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h3>
+<p>To delete a feature the HTTP <tt class="docutils literal"><span class="pre">DELETE</span></tt> method is used. For example to delete with the
+<tt class="docutils literal"><span class="pre">curl</span></tt> command the feature whose id is 5081:</p>
+<div class="highlight-python"><pre>curl http://localhost:5000/mfsummits/&lt;id&gt; -X DELETE</pre>
+</div>
+<p>If you open <tt class="docutils literal"><span class="pre">http://localhost:5000/mfsummits/&lt;id&gt;</span></tt> in the browser you should
+now get a 404 error.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../fr/index.html" title="Workshop Python (version française)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tilecache.html" title="TileCache"
+             >previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Welcome to Python Workshop&#8217;s documentation!</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

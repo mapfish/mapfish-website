@@ -1,0 +1,65 @@
+***************
+Getting Started
+***************
+
+In this module you're going to spend a few minutes setting up your working
+environment for this workshop.
+
+.. note::
+
+    If you aren't following this document as a workshop attendee and want to
+    use your own system, as opposed to the Debian virtual machine provided for
+    the workshop, you can skip this module.
+
+Start the virtual machine
+=========================
+
+The Debian GNU/Linux operating system will be used. It will be executed in
+a VirtualBox virtual machine. To start the Debian operating system open
+VirtualBox and start the system named ``mapfish_workshop``.
+
+.. note::
+
+    If there's no system named ``mapfish_workshop`` you will have to create one
+    in VirtualBox, using the ``mapfish_workshop.vdi`` file as the Hard Disk.
+
+Use ``user`` as the username and password to log into the system.
+
+.. note::
+
+    The VM is downloadable at http://www.mapfish.org/downloads/mapfish_workshop.vdi.bz2.
+
+Open the documentation
+======================
+
+This document is available in the Debian system in HTML form. To view it launch
+the *Iceweasel* web browser and open http://mapfish/mapfish_workshop. Iceweasel
+should be available from the desktop's top panel.
+
+.. note::
+
+    `Iceweasel <http://en.wikipedia.org/wiki/Iceweasel>`_ is Mozilla FireFox
+    rebranded by Debian.
+
+Create a directory for the workshop
+===================================
+
+It is recommended to create a directory named ``mapfish_workshop``, which will
+be your working directory for this workshop.
+
+For that, open a terminal, create a directory named ``mapfish_workshop``,
+and change to it::
+
+    $ mkdir mapfish_workshop
+    $ cd mapfish_workshop
+
+
+Miscellaneous notes
+===================
+
+PostgreSQL will be used in this workshop. PostgreSQL should be up and running
+in the virtual machine. You can use ``pgAdmin`` to connect to PostgreSQL, which
+should be available from the desktop's top panel.
+
+To edit files you can use any editor of your choice. The ``gedit`` editor
+should be available from the desktop's top panel.

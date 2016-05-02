@@ -1,0 +1,100 @@
+***************
+Getting Started
+***************
+
+In this workshop you will learn about several technologies that can be used for
+developing web mapping applications with Python. Some of them are
+general-purpose web development technologies while other are
+geospatial-specific. Here are these technologies:
+
+* Pylons http://pylonshq.com - *Pylons is a lightweight web framework emphasizing flexibility and rapid development*
+* SQLAlchemy http://www.sqlalchemy.org - *The Python SQL Toolkit and Object Relational Mapper*
+* GeoAlchemy http://geoalchemy.org - *Using SQLAlchemy with Spatial Databases*
+* Shapely http://trac.gispython.org/lab/wiki/Shapely - *Shapely lets you do PostGIS-ish stuff outside the context of a database*
+* geojson http://trac.gispython.org/lab/wiki/GeoJSON - *A reference implementation of the GeoJSON specifications*
+* TileCache http://tilecache.org - *Web Map Tile Caching*
+* MapFish http://www.mapfish.org - *MapFish is a flexible and complete framework for building rich web-mapping applications* 
+
+Start the virtual machine
+=========================
+
+For this workshop the Debian GNU/Linux operating system will be used. It will
+be executed in a VirtualBox virtual machine. To start the Debian operating
+system open VirtualBox and start the system named ``python_workshop``.
+
+.. note::
+
+    If there's no system named ``python_workshop`` you will have to create one
+    in VirtualBox, using the ``python_workshop.vdi`` file as the Hard Disk.
+
+Use ``workshop`` as the username and password to log into the system.
+
+Open the documentation
+======================
+
+This document (the one you're reading right now) is available in the Debian
+system in HTML form. To view it launch FireFox and open
+http://localhost/python_workshop.
+
+Create a directory for the workshop
+===================================
+
+Open a terminal, and create a directory for this workshop::
+
+    $ mkdir python_workshop
+
+This directory will be your working directory for this workshop.
+
+Create the Python environment
+=============================
+
+The various Python packages that you will use in this workshop will be
+installed in a virtual Python environment.
+
+A virtual Python environment is a Python environment isolated from the main,
+system-wide Python environment. A virtual Python environment allows, among
+other things, to install Python packages as a regular user (with no admin
+priviledges).
+
+You're going to create the virtual environment in the ``python_workshop``
+directory so start by changing to this directory::
+
+    $ cd python_workshop
+
+You can now create the virtual environment using the ``virtualenv`` command.
+For example, to create a virtual environment named ``vp`` use this command::
+
+    $ virtualenv --no-site-packages vp
+
+The ``--no-site-packages`` option is used to fully isolate the virtual
+environment from the main environment; although not mandatory this option is
+recommended.
+
+The ``virtualenv`` command should have created a directory named ``vp``, make
+sure this is the case.
+
+Activate the Python environment
+===============================
+
+Now activate the virtual environment with::
+
+    $ source vp/bin/activate
+
+Your prompt should now be changed, it should look like this::
+
+    (vp) $
+
+With the virtual environment activated if you enter ``python`` the Python
+interpreter from the virtual environment will be executed.
+
+Miscellaneous notes
+===================
+
+You will use PostgreSQL in this workshop. You can use ``pgAdmin`` to connect to
+the PostgreSQL database and verify the creation of tables, rows, etc.
+(``pgAdmin`` should be installed in the Debian image, and a button
+to start it is probably available in the desktop's top panel.)
+
+You will create an application named ``WorkshopApp`` in this workshop, the
+final version of the application is available in the Debian system in
+``/usr/local/workshops/python_workshop/materials/WorkshopApp``.

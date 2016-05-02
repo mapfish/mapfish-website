@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 2 - Creating Application &mdash; MapFish Tutorial v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
+    <link rel="up" title="MapFish Tutorial" href="index.html" />
+    <link rel="next" title="Module 3 - Customizing the Application" href="customizing_application.html" />
+    <link rel="prev" title="Module 1 - Getting Started" href="getting_started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="customizing_application.html" title="Module 3 - Customizing the Application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Module 1 - Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Module 2 - Creating Application</a><ul>
+<li><a class="reference external" href="#generating-the-application">Generating the application</a><ul>
+<li><a class="reference external" href="#generating-the-base">Generating the base</a></li>
+<li><a class="reference external" href="#installing-the-mapfish-javascript-toolbox">Installing the MapFish JavaScript toolbox</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#studying-the-application">Studying the application</a><ul>
+<li><a class="reference external" href="#global-structure">Global structure</a></li>
+<li><a class="reference external" href="#user-interface">User interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="getting_started.html"
+                                  title="previous chapter">Module 1 - Getting Started</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="customizing_application.html"
+                                  title="next chapter">Module 3 - Customizing the Application</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/creating_application.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-2-creating-application">
+<h1>Module 2 - Creating Application<a class="headerlink" href="#module-2-creating-application" title="Permalink to this headline">¶</a></h1>
+<p>In this module you will learn how to create a MapFish application. You will
+study the structure of a MapFish application, and the code the MapFish
+framework generates for you when creating a MapFish application.</p>
+<div class="section" id="generating-the-application">
+<h2>Generating the application<a class="headerlink" href="#generating-the-application" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="generating-the-base">
+<h3>Generating the base<a class="headerlink" href="#generating-the-base" title="Permalink to this headline">¶</a></h3>
+<p>To create a MapFish application use:</p>
+<div class="highlight-python"><pre>$ paster create -t mapfish MapFishApp</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">MapFishApp</span></tt> is the name of the MapFish application you&#8217;re creating, you can
+pick any name of your choice. We&#8217;ll assume that you choose <tt class="docutils literal"><span class="pre">MapFishApp</span></tt> in
+the rest of the document.</p>
+<p>When asked what template engine to use answer <tt class="docutils literal"><span class="pre">mako</span></tt>, which is the default.
+When asked if SQLAlchemy 0.6 configuration is to be included, answer <tt class="xref docutils literal"><span class="pre">True</span></tt>,
+as your MapFish application will include web services relying on database
+tables.</p>
+<p>You should now have a folder named <tt class="docutils literal"><span class="pre">MapFishApp</span></tt>. This folder contains your
+application files, at this point mainly Python files.</p>
+<p>Now is the time to check that your MapFish application works. For this go into
+the <tt class="docutils literal"><span class="pre">MapFishApp</span></tt> folder and start the application:</p>
+<div class="highlight-python"><pre>$ cd MapFishApp
+$ paster serve development.ini</pre>
+</div>
+<p>This command starts your application in the Paster web server, which is a
+pure-Python web server, commonly used during development.</p>
+<p>Open <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> in your web browser, you should get the default
+page:</p>
+<img alt="../_images/pylons.png" src="../_images/pylons.png" style="width: 500pt; height: 300pt;" />
+</div>
+<div class="section" id="installing-the-mapfish-javascript-toolbox">
+<h3>Installing the MapFish JavaScript toolbox<a class="headerlink" href="#installing-the-mapfish-javascript-toolbox" title="Permalink to this headline">¶</a></h3>
+<p>You are now going to install the MapFish JavaScript toolbox in your
+application. This toolbox includes:</p>
+<ul class="simple">
+<li>the Ext, OpenLayers and GeoExt JavaScript libraries,</li>
+<li>a sample JavaScript application based on those libraries,</li>
+<li>a build profile for minifying the JavaScript code of this sample
+application,</li>
+<li>a JavaScript testing framework, with a test example</li>
+</ul>
+<p>Enter <tt class="docutils literal"><span class="pre">Ctrl+C</span></tt> to stop the Paster server and proceed with these
+commands:</p>
+<div class="highlight-python"><pre>$ cd ..
+$ paster create -t mapfish_client MapFishApp</pre>
+</div>
+<p>When asked whether to overwrite <tt class="docutils literal"><span class="pre">index.html</span></tt> answer <tt class="docutils literal"><span class="pre">y</span></tt>. This will
+overwrite the <tt class="docutils literal"><span class="pre">index.html</span></tt> page you saw in the last section by the one
+provided by the <tt class="docutils literal"><span class="pre">mapfish_client</span></tt> template.</p>
+<p>Start the application again:</p>
+<div class="highlight-python"><pre>$ cd MapFishApp
+$ paster serve --reload development.ini</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note the use of the <tt class="docutils literal"><span class="pre">--reload</span></tt> switch. This switch makes the Paste server
+monitor all Python modules used by the <tt class="docutils literal"><span class="pre">MapFishApp</span></tt> application and
+reload itself automatically if any of them is modified or if new modules
+are created. This is especially useful during development.</p>
+</div>
+<p>Open or reload <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> in your web browser, you should now get
+the default user interface:</p>
+<img alt="../_images/osm.png" src="../_images/osm.png" style="width: 500pt; height: 300pt;" />
+<p>This default user interface is composed of: a map, a toolbar above the map with
+tools acting on the map, and a layer tree for controlling the visibility of
+layers. The map itself is composed of two <a class="reference external" href="http://openstreetmap.org">OpenStreetMap</a> base layers (Mapnik and <a class="reference external" href="mailto:Tiles&#37;&#52;&#48;Home">Tiles<span>&#64;</span>Home</a>).</p>
+<p>The default user interface is provided to the application developer as an
+example. The application developer is free to build on it, or delete it to
+write his own if he wants.</p>
+<p>As mentioned at the begining of this section, the JavaScript toolbox installed
+in the MapFish application comes with a JavaScript testing framework. We
+clearly see one of the goals of MapFish here: freeing the Application developer
+from tedious tasks and making him more productive in the development of
+high-quality, tested code. A test example is provided, to execute it load
+<a class="reference external" href="http://localhost:5000/tests">http://localhost:5000/tests</a> in your browser.</p>
+</div>
+</div>
+<div class="section" id="studying-the-application">
+<h2>Studying the application<a class="headerlink" href="#studying-the-application" title="Permalink to this headline">¶</a></h2>
+<p>The following sub-sections give you a quick tour through the folders and files
+of your MapFish application. Take some time to browse those folders and files,
+so you get a sense of how the application is structured.</p>
+<div class="section" id="global-structure">
+<h3>Global structure<a class="headerlink" href="#global-structure" title="Permalink to this headline">¶</a></h3>
+<p>The application&#8217;s main folder, <tt class="docutils literal"><span class="pre">MapFishApp</span></tt>, contains:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">development.ini</span></tt></dt>
+<dd>This is the application&#8217;s configuration file. This file includes things
+like the IP address and TCP port the server should listen on, the database
+connection string, etc.</dd>
+<dt><tt class="docutils literal"><span class="pre">layers.ini</span></tt></dt>
+<dd>This is where the application developer gives information about web
+services to be generated by the framework. We&#8217;ll get back to this file in
+the <em>Creating Web Services</em> module later in the document.</dd>
+<dt><tt class="docutils literal"><span class="pre">jsbuild</span></tt></dt>
+<dd>This folder contains the JavaScript build profile for the default user
+interface. We&#8217;ll come back to that in the <em>Building JavaScript</em> module
+later in the document.</dd>
+<dt><tt class="docutils literal"><span class="pre">setup.cfg</span></tt> and <tt class="docutils literal"><span class="pre">setup.py</span></tt></dt>
+<dd>These files control various aspects of how the MapFish application is
+packaged when you distribute it.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">mapfishapp</span></tt></p>
+<blockquote>
+<p>This is the main application folder, its name depends on the application
+name given as the argument to the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span></tt> command. The main
+sub-folders of this folder are: <tt class="docutils literal"><span class="pre">controllers</span></tt>, <tt class="docutils literal"><span class="pre">model</span></tt>, <tt class="docutils literal"><span class="pre">lib</span></tt>,
+<tt class="docutils literal"><span class="pre">config</span></tt>, <tt class="docutils literal"><span class="pre">tests</span></tt>, <tt class="docutils literal"><span class="pre">templates</span></tt>, and <tt class="docutils literal"><span class="pre">public</span></tt>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">controllers</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">controllers</span></tt> folder contains the application controllers.  The
+controllers are the components that handle HTTP requests and send HTTP
+responses. They often interact with the <tt class="docutils literal"><span class="pre">model</span></tt> and <tt class="docutils literal"><span class="pre">templates</span></tt>
+code.</dd>
+<dt><tt class="docutils literal"><span class="pre">model</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">model</span></tt> folder is where the database model is configured. This
+is basically where tables and relations are defined.</dd>
+<dt><tt class="docutils literal"><span class="pre">lib</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">lib</span></tt> folder includes Python code shared by different
+controllers, and third-party code.</dd>
+<dt><tt class="docutils literal"><span class="pre">config</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">config</span></tt> folder includes Python code generated by the framework
+and exposed to the application for customization.</dd>
+<dt><tt class="docutils literal"><span class="pre">tests</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">tests</span></tt> folder is where you can add Python automated tests for
+the application.</dd>
+<dt><tt class="docutils literal"><span class="pre">templates</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">templates</span></tt> folder is where view templates are stored. Note that
+we won&#8217;t write templates as part of this workshop, as the HTML
+rendering will mostly be done client side.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">public</span></tt></p>
+<blockquote>
+<p>The <tt class="docutils literal"><span class="pre">public</span></tt> folder includes the application&#8217;s static files, i.e.
+HTML, CSS, JavaScript files, etc. Most of this folder was populated
+when you installed the JavaScript toolbox with <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">-t</span>
+<span class="pre">mapfish_client</span></tt>. The main files and folders inside this folder are:
+<tt class="docutils literal"><span class="pre">index.html</span></tt>, <tt class="docutils literal"><span class="pre">mfbase</span></tt>, <tt class="docutils literal"><span class="pre">app</span></tt>, and <tt class="docutils literal"><span class="pre">tests</span></tt>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">index.html</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">index.html</span></tt> file is the user interface&#8217;s HTML page. This is
+where the JavaScript code is loaded.</dd>
+<dt><tt class="docutils literal"><span class="pre">lib</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">lib</span></tt> folder contains the MapFish JavaScript toolbox
+librairies, namely Ext, OpenLayers, GeoExt and MapFish Client.</dd>
+<dt><tt class="docutils literal"><span class="pre">app</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">app</span></tt> folder contains application-specific files. It <tt class="docutils literal"><span class="pre">js/App</span></tt>
+sub-folder includes the JavaScript code of the default user
+interface.</dd>
+<dt><tt class="docutils literal"><span class="pre">tests</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">tests</span></tt> folder is where the application developer can put its
+JavaScript tests. The folder includes the JavaScript testing
+framework, <a class="reference external" href="http://www.openjsan.org/doc/a/ar/artemkhodush/">Test.AnotherWay</a> <a class="footnote-reference" href="#id8" id="id1">[1]</a>, and a test
+example.</dd>
+</dl>
+</blockquote>
+</blockquote>
+</div>
+<div class="section" id="user-interface">
+<h3>User interface<a class="headerlink" href="#user-interface" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s now review the various files that make up the default user interface
+(i.e. the web page with the OSM layers).</p>
+<p>Edit the <tt class="docutils literal"><span class="pre">index.html</span></tt> file and look up these lines:</p>
+<div class="highlight-python"><pre>&lt;script type="text/javascript" src="lib/ext/Ext/adapter/ext/ext-base.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="lib/ext/Ext/ext-all-debug.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="lib/openlayers/lib/OpenLayers.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="lib/geoext/lib/GeoExt.js"&gt;&lt;/script&gt;</pre>
+</div>
+<p>These <tt class="docutils literal"><span class="pre">&lt;script&gt;</span></tt> tags make the ExtJS, OpenLayers and GeoExtJavaScript
+libraries be loaded when the web page is openned in the browser. These are the
+versions of the libraries where the JavaScript code is not minified. Again,
+we&#8217;ll talk about JavaScript minification in the <em>Building JavaScript</em> module.</p>
+<p>The lines:</p>
+<div class="highlight-python"><pre>&lt;script type="text/javascript" src="app/lib/App/layout.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="app/lib/App/main.js"&gt;&lt;/script&gt;</pre>
+</div>
+<p>in the <tt class="docutils literal"><span class="pre">index.html</span></tt> take care of loading the application-specific JavaScript
+code. As you have noticed the JavaScript code of the default user interface is
+composed of two files. The application developer is free to add more files if
+needed.</p>
+<p>The <tt class="docutils literal"><span class="pre">main.js</span></tt> file represents the entry point.</p>
+<div class="highlight-python"><pre>/*
+ * @include App/layout.js
+ */
+
+Ext.namespace("App");
+
+(function() {
+
+    // global settings
+    OpenLayers.ImgPath = "lib/openlayers/img";
+    Ext.QuickTips.init();
+
+    // run App.layout.init() when the page
+    // is ready
+    Ext.onReady(function() {
+        App.layout.init()
+    });
+})();</pre>
+</div>
+<p>This file just creates the application namespace, and registers a callback to
+be run when the entire HTML page and its components are loaded. The callback is
+registered using the <tt class="docutils literal"><span class="pre">Ext.onReady</span></tt> function; we infer from the namespace of
+the function that the function is provided by the Ext library. Using
+<tt class="docutils literal"><span class="pre">Ext.onReady</span></tt> is typical in Ext-based applications.</p>
+<p>The <tt class="docutils literal"><span class="pre">layout.js</span></tt> file is where the page layout is defined. This
+file contains private functions, i.e. functions that cannot be called from
+outside the <tt class="docutils literal"><span class="pre">App.layout</span></tt> module, and the <tt class="docutils literal"><span class="pre">init</span></tt> public function,
+which is the function that was passed to the <tt class="docutils literal"><span class="pre">Ext.onReady</span></tt> function.</p>
+<p>Let&#8217;s review what the <tt class="docutils literal"><span class="pre">layout</span></tt> module&#8217;s functions do.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">createMap</span></tt></dt>
+<dd>This function creates the map, which is an instance of <tt class="docutils literal"><span class="pre">OpenLayers.Map</span></tt>.
+See the <a class="reference external" href="http://dev.openlayers.org/apidocs/files/OpenLayers/Map-js.html">OpenLayers.Map doc</a> <a class="footnote-reference" href="#id9" id="id2">[2]</a>.</dd>
+<dt><tt class="docutils literal"><span class="pre">createLayers</span></tt></dt>
+<dd>This function creates the OSM layers and return them.</dd>
+<dt><tt class="docutils literal"><span class="pre">createLayerStore</span></tt></dt>
+<dd>This function creates a <tt class="docutils literal"><span class="pre">GeoExt.data.LayerStore</span></tt> object with the <tt class="docutils literal"><span class="pre">map</span></tt>
+and <tt class="docutils literal"><span class="pre">layers</span></tt> passed as arguments. A <tt class="docutils literal"><span class="pre">GeoExt.data.LayerStore</span></tt> is
+necessary for creating a map panel. See the <a class="reference external" href="http://www.geoext.org/lib/GeoExt/data/LayerStore.html">GeoExt.data.LayerStore doc</a> <a class="footnote-reference" href="#id10" id="id3">[3]</a>.</dd>
+<dt><tt class="docutils literal"><span class="pre">createTbarItems</span></tt></dt>
+<dd>This function create and return toolbar items. Here the toolbar items are
+<tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt> objects. We&#8217;ll go back to <tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt> in the
+<em>Customize the Application</em> module.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">init</span></tt></p>
+<blockquote>
+<p>This function starts by calling the <tt class="docutils literal"><span class="pre">createMap</span></tt>, <tt class="docutils literal"><span class="pre">createLayers</span></tt>, and
+<tt class="docutils literal"><span class="pre">createLayerStore</span></tt> functions to actually create the map, layers, and
+layer store.</p>
+<p>It then creates an <tt class="docutils literal"><span class="pre">Ext.Viewport</span></tt>, which is a graphical component
+representing the entire browser viewport. The viewport contains other
+grahical components: its <tt class="docutils literal"><span class="pre">items</span></tt>. The viewport here contains two items, a
+map panel and a layer tree panel. See the <a class="reference external" href="http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.Viewport">Ext.Viewport doc</a> <a class="footnote-reference" href="#id11" id="id4">[4]</a>.</p>
+<p>The map panel, which is a GeoExt object, is configured with the map and the
+layer store objects. The map panel is also a container, with one item: the
+zoom slider. The map panel has a top toolbar, whose items are returned by the
+<tt class="docutils literal"><span class="pre">createTbarItems</span></tt> function. See the <a class="reference external" href="http://www.geoext.org/lib/GeoExt/widgets/MapPanel.html">GeoExt.MapPanel doc</a> <a class="footnote-reference" href="#id12" id="id5">[5]</a>.</p>
+<p>The layer tree is a regular <tt class="docutils literal"><span class="pre">Ext.tree.TreePanel</span></tt> with a
+<tt class="docutils literal"><span class="pre">GeoExt.tree.LayerContainer</span></tt> as its root node. See the
+<a class="reference external" href="http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.tree.TreePanel">Ext.tree.TreePanel doc</a>
+<a class="footnote-reference" href="#id13" id="id6">[6]</a>, and the <a class="reference external" href="http://www.geoext.org/lib/GeoExt/widgets/tree/LayerContainer.html">GeoExt.tree.LayerContainer doc</a> <a class="footnote-reference" href="#id14" id="id7">[7]</a>.</p>
+</blockquote>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://www.openjsan.org/doc/a/ar/artemkhodush/">http://www.openjsan.org/doc/a/ar/artemkhodush/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://dev.openlayers.org/apidocs/files/OpenLayers/Map-js.html">http://dev.openlayers.org/apidocs/files/OpenLayers/Map-js.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://www.geoext.org/lib/GeoExt/data/LayerStore.html">http://www.geoext.org/lib/GeoExt/data/LayerStore.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.Viewport">http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.Viewport</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="http://www.geoext.org/lib/GeoExt/widgets/MapPanel.html">http://www.geoext.org/lib/GeoExt/widgets/MapPanel.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td><a class="reference external" href="http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.tree.TreePanel">http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.tree.TreePanel</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td><a class="reference external" href="http://www.geoext.org/lib/GeoExt/widgets/tree/LayerContainer.html">http://www.geoext.org/lib/GeoExt/widgets/tree/LayerContainer.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="customizing_application.html" title="Module 3 - Customizing the Application"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Module 1 - Getting Started"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish Tutorial v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >MapFish Tutorial</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Éric Lemoine, Cédric Moullet, Claude Philipona.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

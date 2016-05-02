@@ -1,0 +1,256 @@
+*********************
+Understanding MapFish
+*********************
+
+MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development. 
+
+MapFish is based on the `Pylons <http://pylonshq.com>`_ Python web framework.
+MapFish extends Pylons with geospatial-specific functionality. For example
+MapFish provides specific tools for easily creating web services that allow
+querying and editing geographic objects.
+
+MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the `ExtJS <http://extjs.com>`_, `OpenLayers
+<http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
+toolkits.
+
+MapFish is open source, and distributed under the `BSD
+<http://www.opensource.org/licenses/bsd-license.php>`_ license.
+
+In this module, you're going to familiarize yourselves with
+the MapFish framework. More specifically, you're going to install MapFish,
+create a basic MapFish application, and generate a MapFish web service
+in this application.
+
+Install MapFish
+===============
+
+To be able to create a MapFish application, the MapFish framework must be
+installed.
+
+MapFish is typically installed in a *virtual Python environment*.
+
+.. note::
+
+    A virtual Python environment is a Python environment isolated from the
+    main, system-wide Python environment. A virtual Python environment allows
+    to install and uninstall Python packages as a regular user, i.e. with no
+    admin priviledges.
+
+There are multiple ways to install MapFish. The official and documented way
+involves downloading and executing the so-called `go
+<http://www.mapfish.org/downloads/go-mapfish-framework-2.2.py>`_ script.
+
+.. admonition:: Task #1
+
+    Open a terminal, change to ``mapfish_workshop`` directory, an install
+    MapFish using the following commands::
+
+        $ wget http://www.mapfish.org/downloads/go-mapfish-framework-2.2.py
+        $ python go-mapfish-framework-2.2.py --no-site-packages env
+
+    The last command line creates a directory named ``env`` in the current
+    directory (``mapfish_workshop``). The ``--no-site-packages`` switch
+    specifies that you want a virtual environment that is isolated from the
+    main, system-wide environment, which means that Python packages installed
+    in the main environment won't be available in the virtual environment.
+
+The ``go`` script creates a virtual Python environment, and install MapFish and
+its dependencies into it.
+
+.. admonition:: Task #2
+
+    You can verify that MapFish is correctly installed by entering this
+    command::
+
+        $ env/bin/paster create --list-templates
+
+    and verifying that you get this in the output::
+
+        Available templates:
+          basic_package:   A basic setuptools-enabled package
+          mapfish:         MapFish application template
+          mapfish_client:  MapFish client plugin template
+          paste_deploy:    A web application deployed through paste.deploy
+          pylons:          Pylons application template
+          pylons_minimal:  Pylons minimal application template
+
+    Make sure the *mapfish* and *mapfish_client* templates are listed. If so
+    then MapFish is correctly installed. Congrats!
+
+Create a MapFish application
+============================
+
+Creating a MapFish application involves applying the *mapfish* template, and
+optionally the *mapfish_client* template. The *mapfish* template creates
+the base, the *mapfish_client* template adds the JavaScript programming
+environment to the application.
+
+.. admonition:: Task #3
+
+    In the same terminal create a MapFish application named *MyApp* using
+    this command::
+
+        $ env/bin/paster create -t mapfish MyApp sqlalchemy=true template_engine=mako
+
+    This command creates a ``MyApp`` directory, containing the MyApp
+    application.
+    
+    ``sqlalchemy=true`` specifies that you want to use the SQLAlchemy database
+    toolkit, and ``template_engine=mako`` specifies that you want to use
+    Mako as the tempate engine. Both settings are typical when working with
+    MapFish.
+
+    Answer "yes" to all questions.
+
+A MapFish application is a Pylons application with specificities. One of these
+specificities is to be able to create REST web services for querying and
+editing geographic objects. You will create such a web service in the next
+section.
+
+At this point you haven't applied the *mapfish_client* template, so the
+*JavaScript toolbox*, composed of ExtJS, OpenLayers and GeoExt, isn't installed
+yet.
+
+.. admonition:: Task #4
+
+   Apply the *mapfish_client* template on the MyApp application and execute
+   the application using the Paste HTTP server::
+
+       $ cd ~/mapfish_workshop
+       $ env/bin/paster create -t mapfish_client MyApp
+       $ cd MyApp
+       $ ../env/bin/paster serve development.ini
+
+   Open http://locahost:5000 in Iceweasel.
+
+   Hit CTRL+C to shut down the server.
+
+The *mapfish_client* template installs ExtJS, OpenLayers, GeoExt, and a sample
+JavaScript application based on these librairies.
+
+.. admonition:: Task #5
+
+    Take some time to browse the application source tree, and view a few files.
+    In particular you can view ``myapp/public/app/lib/App/main.js`` and
+    ``myapp/public/app/lib/App/layout.js`` which contain the JavaScript making
+    up the web interface.
+
+Create a MapFish Web Service
+============================
+
+One of the things that MapFish adds to Pylons is the ability to easily create
+HTTP web services for querying and editing geographic objects stored in
+geospatial databases.
+
+To illustrate this we're going to create such a web service in this section.
+
+The Debian GNU/Linux system executes PostgreSQL 8.4 and PostGIS 1.5.
+
+A database named ``v2.2_mapfishsample`` is available, it includes a table named
+``poi_osm`` that contain POIs from the OSM dataset. The MapFish web service
+we're going to create will rely on this table. It will provide HTTP interfaces
+for creating, reading, updating, and deleting POIs.
+
+.. note::
+
+    The shapefile used to create the ``poi_osm`` table are available in
+    the MapFishSample SVN directory at
+    <http://svn.mapfish.org/svn/mapfish/sample/trunk/geodata/>.
+    
+    This directory also includes a shell script to import the shapefile into
+    a PostGIS table. This script is to be executed by the ``postgres`` user
+    with this command line::
+
+        $ ./create_database.bash -p
+
+    Again, users of the virtual machine don't need to execute this
+    script.
+
+.. note::
+
+    You can launch pgAdmin and use the ``localhost`` connection to connect to
+    the ``v2.2_mapfishsample`` database and view the ``poi_osm`` table.
+
+Creating a MapFish web service is a three-step process:
+
+1. Edit the ``layers.ini`` file, and add a section for the targeted database
+   table.
+2. Execute the ``paster mf-layer`` command, specifying the name of the
+   section created at the previous step.
+3. Add *routes* for the web service. Routes are rules matching URLs to
+   Python code.
+
+.. admonition:: Task #6
+
+    Edit the ``development.ini`` file and replace the ``sqlalchemy.url`` line
+    by this one::
+
+        sqlalchemy.url = postgresql://www-data:www-data@localhost/v2.2_mapfishsample
+
+    The ``sqlalchemy.url`` variable defines the connection to the PostgreSQL
+    database.
+
+.. admonition:: Task #7
+
+    In this task you're going to actually create a MapFish web service
+    for the ``poi_osm`` table.
+
+    1. Edit the ``layers.ini`` and add this content::
+
+            [pois]
+            singular=poi
+            plural=pois
+            table=poi_osm
+            epsg=900913
+            geomcolumn=the_geom
+            geomtype=Point
+
+    2. Run the ``paster mf-layer`` command::
+
+            $ ../env/bin/paster mf-layer pois
+
+    3. Edit ``myapp/config/routing.py`` and add the following two lines after
+       the ``# CUSTOM ROUTES HERE`` line::
+
+            map.connect("/pois/count", controller="pois", action="count")
+            map.resource("poi", "pois")
+
+       Watch the indentation! 4 spaces, no tabs
+
+    4. You can now run the Paste HTTP Serve again::
+
+        $ ../env/bin/paster serve development.ini
+
+       And open http://localhost:5000/pois?limit=1 to see the web service in
+       action.
+
+Understand the MapFish Protocol
+===============================
+
+MapFish web services implement the `MapFish Protocol
+<http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol>`_. The protocol
+defines APIs to create, read, update, and delete geographic objects.
+
+To read objects the HTTP verb ``GET`` is used. To create, update, and delete
+objects the verbs ``POST``, ``PUT``, and ``DELETE`` are used, respectively.
+`GeoJSON <http://geojson.org/>`_ is used as the representation format.
+
+.. admonition:: Task #7
+
+    Open http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol in one
+    tab of the browser.
+
+    In another tab find the URLs that correspond to the following queries:
+
+    1. The first POI in the table (This one is very easy, as the answer was
+       provided in the previous Task).
+    2. The second POI in the table.
+    3. POIs ordered by their ratings, from the highest to the lowest.
+    4. The POIs included in the bounding box defined by these coordinates:
+       ``658617.26544395,5711420.1369314,659047.223728,5711725.8850445``.
+    5. POIs that are restaurants.
+    6. The POI whose id is 6.
+    7. The total number of POIs in the table.

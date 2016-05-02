@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pour commencer &mdash; Python Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Python Workshop v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Workshop Python (version française)" href="index.html" />
+    <link rel="next" title="Pylons et SQLAlchemy" href="pylons.html" />
+    <link rel="prev" title="Workshop Python (version française)" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pylons.html" title="Pylons et SQLAlchemy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Workshop Python (version française)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Workshop Python (version française)</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Pour commencer</a><ul>
+<li><a class="reference external" href="#demarrer-la-machine-virtuelle">Démarrer la machine virtuelle</a></li>
+<li><a class="reference external" href="#lire-la-documentation">Lire la documentation</a></li>
+<li><a class="reference external" href="#creer-un-repertoire-pour-le-workshop">Créer un répertoire pour le workshop</a></li>
+<li><a class="reference external" href="#creer-un-environnement-python">Créer un environnement Python</a></li>
+<li><a class="reference external" href="#activer-l-environnement-python">Activer l&#8217;environnement Python</a></li>
+<li><a class="reference external" href="#remarques-diverses">Remarques diverses</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">Workshop Python (version française)</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="pylons.html"
+                                  title="next chapter">Pylons et SQLAlchemy</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/fr/getting_started.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pour-commencer">
+<h1>Pour commencer<a class="headerlink" href="#pour-commencer" title="Permalink to this headline">¶</a></h1>
+<p>Dans ce workshop vous apprendrez à utiliser plusieurs technologies pour
+développer des applications de webmapping avec Python. Certaines
+sont des technologies de développement web généralistes tandis que d&#8217;autres sont
+spécifiques au monde géospatial. Voici ces technologies :</p>
+<ul class="simple">
+<li>Pylons <a class="reference external" href="http://pylonshq.com">http://pylonshq.com</a> - <em>Pylons est un framework web léger qui met
+l&#8217;accent sur la flexibilité et le développement rapide</em></li>
+<li>SQLAlchemy <a class="reference external" href="http://www.sqlalchemy.org">http://www.sqlalchemy.org</a> - <em>Toolkit SQL et Object Relational
+Mapper en Python</em></li>
+<li>GeoAlchemy <a class="reference external" href="http://geoalchemy.org">http://geoalchemy.org</a> - <em>Utilise SQLAlchemy avec des bases de
+données spatiales</em></li>
+<li>Shapely <a class="reference external" href="http://trac.gispython.org/lab/wiki/Shapely">http://trac.gispython.org/lab/wiki/Shapely</a> - <em>Shapely vous permet de
+réaliser des requêtes à-la-PostGIS en dehors du contexte de base de données</em></li>
+<li>geojson <a class="reference external" href="http://trac.gispython.org/lab/wiki/GeoJSON">http://trac.gispython.org/lab/wiki/GeoJSON</a> - <em>Une implémentation de
+référence des spécifications GeoJSON</em></li>
+<li>TileCache <a class="reference external" href="http://tilecache.org">http://tilecache.org</a> - <em>Cache de tuile de carte sur le Web</em></li>
+<li>MapFish <a class="reference external" href="http://www.mapfish.org">http://www.mapfish.org</a> - <em>MapFish est un framework flexible et complet
+pour construire des applications riche de webmapping</em></li>
+</ul>
+<div class="section" id="demarrer-la-machine-virtuelle">
+<h2>Démarrer la machine virtuelle<a class="headerlink" href="#demarrer-la-machine-virtuelle" title="Permalink to this headline">¶</a></h2>
+<p>Pour ce workshop le système d&#8217;exploitation GNU/Linux Debian sera utilisé. Il sera
+éxécuté dans une machine virtuelle Virtualbox. Pour démarrer le système Debian
+lancez Virutalbox et démarrez le système nommé <tt class="docutils literal"><span class="pre">python_workshop</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">S&#8217;il n&#8217;y a pas de système nommé <tt class="docutils literal"><span class="pre">python_workshop</span></tt> vous devrez en créer un
+dans VirtualBox, en utilisant le fichier <tt class="docutils literal"><span class="pre">python_workshop.vdi</span></tt> comme disque
+dur.</p>
+</div>
+<p>Utilisez <tt class="docutils literal"><span class="pre">workshop</span></tt> comme identifiant et mot de passe pour vous identifier
+dans le système.</p>
+</div>
+<div class="section" id="lire-la-documentation">
+<h2>Lire la documentation<a class="headerlink" href="#lire-la-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Ce document (que vous lisez en ce moment) est disponible dans le système Debian
+en HTML. Pour le visualiser, lancez Firefox et ouvrez l&#8217;url suivante :
+<a class="reference external" href="http://localhost/python_workshop">http://localhost/python_workshop</a>.</p>
+</div>
+<div class="section" id="creer-un-repertoire-pour-le-workshop">
+<h2>Créer un répertoire pour le workshop<a class="headerlink" href="#creer-un-repertoire-pour-le-workshop" title="Permalink to this headline">¶</a></h2>
+<p>Ouvrez un terminal et créez un répertoire pour ce workshop :</p>
+<div class="highlight-python"><pre>$ mkdir python_workshop</pre>
+</div>
+<p>Ce répertoire sera votre répertoire de travail pour ce workshop.</p>
+</div>
+<div class="section" id="creer-un-environnement-python">
+<h2>Créer un environnement Python<a class="headerlink" href="#creer-un-environnement-python" title="Permalink to this headline">¶</a></h2>
+<p>Les différents packages Python que vous utiliserez dans ce workshop seront
+installés dans un environnement Python virtuel.</p>
+<p>Un environnement Python virtuel est un environnement Python isolé de
+l&#8217;environnement Python du système principal. Un environnement Python virtuel
+permet, entre autre, d&#8217;installer des packages en tant que simple utilisateur
+(sans privilèges administrateurs).</p>
+<p>Vous allez créer un environnement virtuel dans le répertoire
+<tt class="docutils literal"><span class="pre">python_workshop</span></tt>, commencez par vous déplacer dans ce répertoire :</p>
+<div class="highlight-python"><pre>$ cd python_workshop</pre>
+</div>
+<p>Vous pouvez maintenant créer un environnement virtuel en utilisant la commande
+<tt class="docutils literal"><span class="pre">virtualenv</span></tt>. Par exemple, pour créer un environnement virtuel nommé <tt class="docutils literal"><span class="pre">vp</span></tt>
+utilisez cette commande :</p>
+<div class="highlight-python"><pre>$ virtualenv --no-site-packages vp</pre>
+</div>
+<p>L&#8217;option <tt class="docutils literal"><span class="pre">--no-site-packages</span></tt> est utilisé pour isoler totalement l&#8217;environnement
+virtuel de l&#8217;environnement principal ; bien que non obligatoire cette option est
+recommendée.</p>
+<p>La commande <tt class="docutils literal"><span class="pre">virtualenv</span></tt> doit avoir créée un répertoire nommé <tt class="docutils literal"><span class="pre">vp</span></tt>, assurez-
+vous que cela est le cas.</p>
+</div>
+<div class="section" id="activer-l-environnement-python">
+<h2>Activer l&#8217;environnement Python<a class="headerlink" href="#activer-l-environnement-python" title="Permalink to this headline">¶</a></h2>
+<p>Maintenant activez l&#8217;environnement virtuel avec :</p>
+<div class="highlight-python"><pre>$ source vp/bin/activate</pre>
+</div>
+<p>Votre prompt doit avoir changé, il ressemble maintenant à ceci :</p>
+<div class="highlight-python"><pre>(vp) $</pre>
+</div>
+<p>Lorsque l&#8217;environnement virtuel est activé si vous entrez <tt class="docutils literal"><span class="pre">python</span></tt>,
+l&#8217;interpréteur Python à partir de l&#8217;environnement virtuel sera éxécuté.</p>
+</div>
+<div class="section" id="remarques-diverses">
+<h2>Remarques diverses<a class="headerlink" href="#remarques-diverses" title="Permalink to this headline">¶</a></h2>
+<p>Vous utiliserez PostgreSQL dans ce workshop. Vous pouvez utiliser <tt class="docutils literal"><span class="pre">pgAdmin</span></tt> pour
+vous connecter à la base de données et vérifier la création des tables, lignes,
+etc. (<tt class="docutils literal"><span class="pre">pgAdmin</span></tt> doit être installé dans l&#8217;image Debian, et un bouton pour le
+lancer et probablement disponible dans le panneau du haut du bureau).</p>
+<p>Vous allez créer une application nommée <tt class="docutils literal"><span class="pre">WorkshopApp</span></tt> au cours de ce workshop,
+la version finale de l&#8217;application est disponible dans le système Debian dans le
+répertoire <tt class="docutils literal"><span class="pre">/usr/local/workshops/python_workshop/materials/WorkshopApp</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pylons.html" title="Pylons et SQLAlchemy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Workshop Python (version française)"
+             >previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Workshop Python (version française)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

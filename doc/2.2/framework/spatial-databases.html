@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using spatial databases with MapFish &mdash; MapFish v2.2 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.2 documentation" href="../index.html" />
+    <link rel="up" title="Framework" href="index.html" />
+    <link rel="next" title="Upgrading" href="upgrading.html" />
+    <link rel="prev" title="Customizing Web Services" href="customizing-webservices.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="upgrading.html" title="Upgrading"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="customizing-webservices.html" title="Customizing Web Services"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.2 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using spatial databases with MapFish</a><ul>
+<li><a class="reference internal" href="#using-postgresql-postgis">Using PostgreSQL/PostGIS</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#setting-up-a-spatially-enabled-database">Setting up a spatially-enabled database</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-mysql">Using MySQL</a><ul>
+<li><a class="reference internal" href="#id1">Installation</a></li>
+<li><a class="reference internal" href="#id2">Setting up a spatially-enabled database</a></li>
+<li><a class="reference internal" href="#id3">Configuration</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-sqlite-spatialite">Using SQLite/Spatialite</a><ul>
+<li><a class="reference internal" href="#id4">Installation</a><ul>
+<li><a class="reference internal" href="#installation-of-spatialite">Installation of Spatialite</a></li>
+<li><a class="reference internal" href="#installation-of-pysqlite2">Installation of pysqlite2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">Setting up a spatially-enabled database</a></li>
+<li><a class="reference internal" href="#id7">Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-oracle">Using Oracle</a><ul>
+<li><a class="reference internal" href="#id8">Installation</a><ul>
+<li><a class="reference internal" href="#installation-of-oracle-instant-client">Installation of Oracle Instant Client</a></li>
+<li><a class="reference internal" href="#installation-of-cx-oracle">Installation of cx_Oracle</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9">Configuration</a></li>
+<li><a class="reference internal" href="#notes-about-the-oracle-dimension-information-array">Notes about the Oracle dimension information array</a></li>
+<li><a class="reference internal" href="#notes-about-using-a-tolerance-value-for-mapfish-web-services-in-oracle">Notes about using a tolerance value for MapFish Web Services in Oracle</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sperical-mercator-900913">Sperical Mercator (900913)</a></li>
+<li><a class="reference internal" href="#table-mapping">Table mapping</a><ul>
+<li><a class="reference internal" href="#declarative-and-non-declarative-mapping">Declarative and non-declarative mapping</a></li>
+<li><a class="reference internal" href="#geometry-column-properties">Geometry column properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-paster-setup-app-to-create-your-database-tables">Using &#8216;paster setup-app&#8217; to create your database tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="customizing-webservices.html"
+                        title="previous chapter">Customizing Web Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="upgrading.html"
+                        title="next chapter">Upgrading</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/framework/spatial-databases.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="using-spatial-databases-with-mapfish">
+<h1>Using spatial databases with MapFish<a class="headerlink" href="#using-spatial-databases-with-mapfish" title="Permalink to this headline">¶</a></h1>
+<p>Since release 2.0 MapFish uses the <a class="reference external" href="http://www.sqlalchemy.org/">SQLAlchemy</a> extension
+<a class="reference external" href="http://www.geoalchemy.org/">GeoAlchemy</a> that provides support for geospatial databases.
+By using GeoAlchemy, MapFish can also be used with all database systems supported by GeoAlchemy.</p>
+<p>The following document is going to describe how to set up the databases and how to
+use them.</p>
+<div class="section" id="using-postgresql-postgis">
+<h2>Using PostgreSQL/PostGIS<a class="headerlink" href="#using-postgresql-postgis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>If you followed the <a class="reference external" href="../installation.html">installation guide</a>, then you already
+have installed PostgreSQL/PostGIS and you can skip this section. If not, run the
+following command from a terminal to install <a class="reference external" href="http://www.postgresql.org/">PostgreSQL</a>,
+<a class="reference external" href="http://www.postgis.org/">PostGIS</a> and the required library <a class="reference external" href="http://trac.osgeo.org/geos/">GEOS</a>:</p>
+<div class="highlight-python"><pre>$ sudo apt-get install libgeos-3.0.0 postgresql postgis postgresql-8.3-postgis</pre>
+</div>
+<p>Further information about installing PostGIS can be found in the <a class="reference external" href="http://postgis.refractions.net/docs/ch02.html">PostGIS documentation</a>.</p>
+</div>
+<div class="section" id="setting-up-a-spatially-enabled-database">
+<h3>Setting up a spatially-enabled database<a class="headerlink" href="#setting-up-a-spatially-enabled-database" title="Permalink to this headline">¶</a></h3>
+<p>Creating a spatially-enabled database is slightly different from creating an ordinary database. Run
+the following commands to create the database <tt class="docutils literal"><span class="pre">gis</span></tt>:</p>
+<div class="highlight-python"><pre>sudo su postgres
+createdb -E UNICODE gis
+createlang plpgsql gis
+psql -d gis -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+psql -d gis -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql
+psql -d gis -c "SELECT postgis_full_version()"
+exit</pre>
+</div>
+<p>The last query will inform you about the version of your PostGIS installation.</p>
+<p>In most cases you do not want to access your database from a web application as <tt class="docutils literal"><span class="pre">root</span></tt>. The following
+commands create a user <tt class="docutils literal"><span class="pre">www-data</span></tt> and grant access rights to this user for the database <tt class="docutils literal"><span class="pre">gis</span></tt>:</p>
+<div class="highlight-python"><pre>sudo su postgres
+createuser -P www-data
+psql gis
+grant all on database gis to "www-data";
+grant select on spatial_ref_sys to "www-data";
+grant all on geometry_columns to "www-data";
+\q
+exit</pre>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Depending on if your user should be allowed to create tables, to insert/update rows or just
+to read, you may want to adjust the privileges (see the <a class="reference external" href="http://www.postgresql.org/docs/8.3/interactive/sql-grant.html">PostgreSQL documentation</a> for further
+information).</p>
+</div>
+<p>Now it is time to create tables in your database. You can either let SQLAlchemy/GeoAlchemy do
+that for you (see <a class="reference internal" href="#setup-app"><em>Using &#8216;paster setup-app&#8217; to create your database tables</em></a>) or you can manually create tables (see <a class="reference external" href="http://postgis.refractions.net/docs/ch04.html#Create_Spatial_Table">Creating a Spatial Table</a> in the PostGIS documentation).</p>
+<p>You can also use the tool <a class="reference external" href="http://postgis.refractions.net/docs/ch04.html#shp2pgsql_usage">shp2pgsql</a>
+to create a table from a Shapefile. For example to create the table for this countries Shapefile
+(<a class="reference download internal" href="../_downloads/countries.zip"><tt class="xref download docutils literal"><span class="pre">countries.zip</span></tt></a>), you would have to do this:</p>
+<div class="highlight-python"><pre>unzip countries.zip
+sudo su postgres
+shp2pgsql -W utf8 -s 4326 countries.shp  countries | psql -d gis
+exit</pre>
+</div>
+<p>And to check that everything is ok, we can query the row count. Additionally we need to grant
+the access to this table to user <tt class="docutils literal"><span class="pre">www-data</span></tt> in order to allow access from MapFish server in a web environment:</p>
+<div class="highlight-python"><pre>sudo su postgres
+psql gis
+\d
+select count(1) from countries;
+GRANT ALL ON countries TO "www-data";
+\q
+exit</pre>
+</div>
+</div>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>Once the database is set up, you only have to change the database connection string in the
+configuration file of your MapFish application. Open your configuration file, for example
+<tt class="docutils literal"><span class="pre">development.ini</span></tt>, and replace the line:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = sqlite:///%(here)s/development.db</pre>
+</div>
+<p>by this one:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = postgresql://www-data:www-data@localhost/gis</pre>
+</div>
+</div>
+</div>
+<div class="section" id="using-mysql">
+<h2>Using MySQL<a class="headerlink" href="#using-mysql" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>On Debian-based systems, MySQL can be installed with:</p>
+<div class="highlight-python"><pre>$ sudo apt-get install mysql-server mysql-client</pre>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">More information about installing MySQL can be found in the <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/installing.html">MySQL manual</a>.</p>
+</div>
+<p>You will also have to install a Python driver for MySQL. Run the following command
+inside the virtual environment to install the library <a class="reference external" href="http://pypi.python.org/pypi/MySQL-python/">mysql-python</a>:</p>
+<div class="highlight-python"><pre>(venv) $ easy_install mysql-python</pre>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Setting up a spatially-enabled database<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>For MySQL setting up a spatial database is the same as setting up an ordinary database:</p>
+<div class="highlight-python"><pre>mysql -u root -p
+create database gis;
+quit</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When creating a database, or directly when creating a table, you can specify the
+<a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/storage-engines.html">storage engine</a>
+(MyISAM/InnoDB/..) that should be used for the tables. Note that currently only
+MyISAM uses a <a class="reference external" href="http://en.wikipedia.org/wiki/R-tree">R-tree</a> for spatial indexes that
+optimize spatial queries (see <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/optimizing-spatial-analysis.html">Optimizing Spatial Analysis</a> in the MySQL
+manual).</p>
+</div>
+<p>To create a database user that can be used for accessing the database from a web
+application, execute the following statements:</p>
+<div class="highlight-python"><pre>mysql -u root -p
+create user 'www-data' identified by 'www-data';
+grant all on gis.* to 'www-data';
+quit</pre>
+</div>
+<p>Tables with geometry columns can be created like any other table using the <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/mysql-spatial-datatypes.html">geometry type</a> as column data type
+(see <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/creating-spatial-columns.html">Creating Spatial Columns</a>
+in the MySQL manual), for example:</p>
+<div class="highlight-python"><pre>mysql -u root -p
+use gis;
+CREATE TABLE points (id INTEGER AUTO_INCREMENT,
+        name VARCHAR(40),
+        geom POINT NOT NULL,
+        SPATIAL INDEX(geom),
+        PRIMARY KEY(id));
+quit</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you want to use a <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/creating-spatial-indexes.html">spatial index</a>
+for your geometry column, the column must be declared as <tt class="docutils literal"><span class="pre">NOT</span> <span class="pre">NULL</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Configuration<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Set the database connection string in the configuration file of your MapFish application
+(for example <tt class="docutils literal"><span class="pre">development.ini</span></tt>) by replacing the line:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = sqlite:///%(here)s/development.db</pre>
+</div>
+<p>by this one:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = mysql://www-data:www-data@localhost/gis</pre>
+</div>
+</div>
+<div class="section" id="limitations">
+<h3>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>MySQL does not support coordinate system transformations for geometries. All
+your spatial data must be in the same spatial reference system.</li>
+<li>Not all methods of the <em>OpenGIS® Simple Features Specifications For SQL</em> are supported by MySQL,
+for example <tt class="docutils literal"><span class="pre">distance()</span></tt> or <tt class="docutils literal"><span class="pre">buffer()</span></tt> are not part of the stable release. A list of these functions can be found
+<a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/functions-that-create-new-geometries-from-existing-ones.html#spatial-operators">here</a>.
+Other functions only operate on the minimum bounding rectangle (MBR) of the geometries, a list of
+these functions can be found in <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/functions-that-test-spatial-relationships-between-geometries.html">the MySQL manual</a>.
+Because of that, features queried through the <a class="reference external" href="../protocol.html">MapFish Protocol</a>
+are also selected using the MBR.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="using-sqlite-spatialite">
+<h2>Using SQLite/Spatialite<a class="headerlink" href="#using-sqlite-spatialite" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Installation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="installation-of-spatialite">
+<h4>Installation of Spatialite<a class="headerlink" href="#installation-of-spatialite" title="Permalink to this headline">¶</a></h4>
+<p>Spatialite requires the libraries <a class="reference external" href="http://trac.osgeo.org/geos/">GEOS</a> and <a class="reference external" href="http://proj.osgeo.org/">PROJ4</a>, which in most cases you will have already installed
+together with PostGIS:</p>
+<div class="highlight-python"><pre>$ sudo apt-get install libgeos-c1 proj</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Spatialite expects libgeos 3.1.1, but it can also be used with any 3.0.x release. You just have to
+create a symbolic link:</p>
+<div class="last highlight-python"><pre>sudo ln /usr/lib/libgeos-3.0.0.so /usr/lib/libgeos-3.1.1.so</pre>
+</div>
+</div>
+<p>Now download the precompiled Spatialite library <tt class="docutils literal"><span class="pre">libspatialite</span></tt> from the <a class="reference external" href="http://www.gaia-gis.it/spatialite/binaries.html">Spatialite download page</a> and unzip the archive to <tt class="docutils literal"><span class="pre">/usr/local/lib/libspatialite</span></tt> or
+into a folder of your convenience:</p>
+<div class="highlight-python"><pre>wget http://www.gaia-gis.it/spatialite/libspatialite-linux-x86-2.3.1.tar.gz
+sudo tar -xvf libspatialite-linux-x86-2.3.1.tar.gz -C /usr/local/lib/
+sudo mv /usr/local/lib/libspatialite-* /usr/local/lib/libspatialite</pre>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">On Ubuntu 9.10+ you can install the Spatialite library as package <tt class="docutils literal"><span class="pre">libspatialite2</span></tt> directly
+from the repositories.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The precompiled libraries for Spatialite only work on 32-bit systems, if you are using a 64-bit system
+you will have to compile by yourself. To do so, download the source code for <tt class="docutils literal"><span class="pre">libspatialite-amalgamation</span></tt>
+from the <a class="reference external" href="http://www.gaia-gis.it/spatialite/sources.html">Spatialite website</a>. Make sure that you
+also have installed the package <tt class="docutils literal"><span class="pre">libgeos-dev</span></tt>. Unzip the source archive and compile by using the following commands
+(you may want to change the <tt class="docutils literal"><span class="pre">prefix</span></tt> path, the compiled library will be copied there):</p>
+<div class="highlight-python"><pre>./configure --prefix=/home/c2c/libspatialite --with-geos-lib=/usr/lib --with-proj-lib=/usr/lib
+make install</pre>
+</div>
+<p>If you are receiving the error message <tt class="docutils literal"><span class="pre">cannot</span> <span class="pre">find</span> <span class="pre">-lstdc++</span></tt>, you may have to create a
+symbolic link for this library:</p>
+<div class="highlight-python"><pre>sudo ln /usr/lib/libstdc++.so.6 /usr/lib/libstdc++.so</pre>
+</div>
+<p class="last">Further information about compiling <tt class="docutils literal"><span class="pre">libspatialite</span></tt> can be found here:
+<a class="reference external" href="http://www.gaia-gis.it/spatialite/how_to_build_libspatialite.html">How to build libspatialite</a>.</p>
+</div>
+</div>
+<div class="section" id="installation-of-pysqlite2">
+<h4>Installation of pysqlite2<a class="headerlink" href="#installation-of-pysqlite2" title="Permalink to this headline">¶</a></h4>
+<p>Even though Python 2.5+ contains the SQLite driver <a class="reference external" href="http://trac.edgewall.org/wiki/PySqlite">pysqlite2</a>,
+you have to compile it by yourself. The Spatialite library is used in SQLite as extension, and by default
+loading external extensions is disabled in <em>pysqlite2</em>.</p>
+<p>To compile <em>pysqlite2</em> you will have to install the SQLite header files:</p>
+<div class="highlight-python"><pre>sudo apt-get install libsqlite3-dev</pre>
+</div>
+<p>Download the <em>pysqlite2</em> source code from <a class="reference external" href="http://code.google.com/p/pysqlite/downloads/list?can=3&amp;q=*.tar.gz">pysqlite2 - Downloads</a> and unzip it into your
+MapFish virtual environment.</p>
+<p>Then open the file <tt class="docutils literal"><span class="pre">setup.cfg</span></tt> and comment out the line <tt class="docutils literal"><span class="pre">define=SQLITE_OMIT_LOAD_EXTENSION</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">build_ext</span><span class="p">]</span>
+<span class="c">#define=</span>
+<span class="c">#include_dirs=/usr/local/include</span>
+<span class="c">#library_dirs=/usr/local/lib</span>
+<span class="n">libraries</span><span class="o">=</span><span class="n">sqlite3</span>
+<span class="c">#define=SQLITE_OMIT_LOAD_EXTENSION</span>
+</pre></div>
+</div>
+<p>Now you can compile and setup <em>pysqlite2</em> with:</p>
+<div class="highlight-python"><pre>(venv) $ python setup.py install</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you are running into <tt class="docutils literal"><span class="pre">Segmentation</span> <span class="pre">Fault</span></tt> errors using this build, you can try to do
+a <tt class="docutils literal"><span class="pre">static</span> <span class="pre">build</span></tt>. This will download the latest SQLite3 amalgation file and link it
+internally:</p>
+<div class="last highlight-python"><pre>(venv) $ python setup.py build_static install</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>Setting up a spatially-enabled database<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Creating a database can be done using <tt class="docutils literal"><span class="pre">spatialite-gui</span></tt> or by using the CLI client <tt class="docutils literal"><span class="pre">spatialite</span></tt>. In
+the following we will use <tt class="docutils literal"><span class="pre">spatialite</span></tt>, but you can also use <tt class="docutils literal"><span class="pre">spatialite-gui</span></tt> to execute the commands.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">You can get <tt class="docutils literal"><span class="pre">spatialite-gui</span></tt> from <a class="reference external" href="http://www.gaia-gis.it/spatialite/binaries.html">the Spatialite website</a>,
+also take a look at the <a class="reference external" href="http://www.gaia-gis.it/spatialite/spatialite-gui-notes.pdf">Quickguide for spatialite-gui</a> (PDF).</p>
+</div>
+<p>First you have to download the package <tt class="docutils literal"><span class="pre">spatialite-tools</span></tt> from <a class="reference external" href="http://www.gaia-gis.it/spatialite/binaries.html">Spatialite Downloads</a> and
+the script <tt class="docutils literal"><span class="pre">init_spatialite-2.3.sql</span></tt> from <a class="reference external" href="http://www.gaia-gis.it/spatialite/resources.html">Spatialite Ressources</a>. The scripts creates the <tt class="docutils literal"><span class="pre">geometry_columns</span></tt> and
+<tt class="docutils literal"><span class="pre">spatial_ref_sys</span></tt> metadata tables and also inserts a collection of spatial reference systems.</p>
+<p>Start the Spatialite client by calling:</p>
+<div class="highlight-python"><pre>spatialite gis.sqlite</pre>
+</div>
+<p>This will create the file <tt class="docutils literal"><span class="pre">gis.sqlite</span></tt>, if it does not exist already. Then execute the script
+<tt class="docutils literal"><span class="pre">init_spatialite-2.3.sql</span></tt>:</p>
+<div class="highlight-python"><pre>.read init_spatialite-2.3.sql ASCII</pre>
+</div>
+<p>Now you can create a table with a geometry column.  This is done in two steps: First we create a plain SQLite
+table without the geometry column, and then we add the geometry column using the function
+<a class="reference external" href="http://www.gaia-gis.it/spatialite-2.3.0/spatialite-sql-2.3.0.html#p16">AddGeometryColumn()</a>:</p>
+<div class="highlight-python"><pre>CREATE TABLE points (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(40));
+SELECT AddGeometryColumn('points', 'geom', 4326, 'POINT', 2);</pre>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>You can also create a table from a Shapefile with <tt class="docutils literal"><span class="pre">.loadshp</span></tt> (see also
+<a class="reference external" href="http://www.gaia-gis.it/spatialite/spatialite-tutorial-2.3.1.html#t3.2">Creating a new SpatiaLite db and populating it</a>):</p>
+<div class="highlight-python"><pre>.loadshp countries Countries utf-8</pre>
+</div>
+<p>And you can even execute queries directly on Shapefiles without copying the data into a table
+(see also <a class="reference external" href="http://www.gaia-gis.it/spatialite/spatialite-tutorial-2.3.1.html#t6">Performing SQL queries directly on shapefiles</a>):</p>
+<div class="highlight-python"><pre>CREATE VIRTUAL TABLE virtual_countries USING VirtualShape('/home/c2c/data/countries', utf-8, 4326);
+select count(*) from virtual_countries where
+        MBRWithin(Geometry, GeomFromText('POLYGON((0 0, 40 0, 40 40, 0 40, 0 0))', 4326));</pre>
+</div>
+<p class="last">Currently only read operations are supported, but still <tt class="docutils literal"><span class="pre">virtual</span> <span class="pre">tables</span></tt> are a good option
+to publish a Shapefile with MapFish.</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>Configuration<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>When using <tt class="docutils literal"><span class="pre">spatialite-gui</span></tt> and <tt class="docutils literal"><span class="pre">spatialite</span></tt> the Spatialite library is automatically
+loaded as extension. But when connecting to a Spatialite database using a ordinary SQLite driver,
+you have to load the Spatialite library manually.</p>
+<p>In MapFish, database connections are managed by SQLAlchemy. Every time SQLAlchemy opens a new
+connection to a Spatalite database, the Spatialite library must be loaded. This can be done by
+setting up a <a class="reference external" href="http://www.sqlalchemy.org/docs/reference/sqlalchemy/interfaces.html#sqlalchemy.interfaces.PoolListener">PoolListener</a>.</p>
+<p>Open the file <tt class="docutils literal"><span class="pre">model/__init__.py</span></tt> and modify the method <tt class="docutils literal"><span class="pre">init_model(engine)</span></tt>, so that
+it looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># ...</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy.dialects.sqlite.base</span> <span class="kn">import</span> <span class="n">SQLiteDialect</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.interfaces</span> <span class="kn">import</span> <span class="n">PoolListener</span>
+
+<span class="c"># ...</span>
+
+<span class="k">def</span> <span class="nf">init_model</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="n">sm</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">sessionmaker</span><span class="p">(</span><span class="n">autoflush</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autocommit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+    <span class="n">meta</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
+    <span class="n">meta</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">dialect</span><span class="p">,</span> <span class="n">SQLiteDialect</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">SpatialiteConnectionListener</span><span class="p">(</span><span class="n">PoolListener</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbapi_con</span><span class="p">,</span> <span class="n">con_record</span><span class="p">):</span>
+                <span class="n">dbapi_con</span><span class="o">.</span><span class="n">enable_load_extension</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">dbapi_con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;select load_extension(&#39;/usr/local/lib/libspatialite/lib/libspatialite.so&#39;)&quot;</span><span class="p">)</span>
+                <span class="n">dbapi_con</span><span class="o">.</span><span class="n">enable_load_extension</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="n">engine</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">SpatialiteConnectionListener</span><span class="p">())</span>
+
+        <span class="c"># ...</span>
+</pre></div>
+</div>
+<p>Now you just have to set the database connection string in the configuration file of your MapFish application
+(for example <tt class="docutils literal"><span class="pre">development.ini</span></tt>) by replacing the line:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = sqlite:///%(here)s/development.db</pre>
+</div>
+<p>by this one:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = sqlite:////home/c2c/data/gis.sqlite</pre>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The number of slashs to the right of <tt class="docutils literal"><span class="pre">sqlite:</span></tt> depends on if you are using a relative or
+absolute path, see also <a class="reference external" href="http://www.sqlalchemy.org/docs/reference/dialects/sqlite.html#connect-strings">SQLite: Connect Strings</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="using-oracle">
+<h2>Using Oracle<a class="headerlink" href="#using-oracle" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>Installation<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>The Python driver <a class="reference external" href="http://cx-oracle.sourceforge.net/">cx_Oracle</a> requires an Oracle client or
+server installation. If your MapFish application is running on the same system as your
+Oracle database, you can skip the section <a class="reference internal" href="#instant-client"><em>Installation of Oracle Instant Client</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The installation of Oracle database server software is not covered in this tutorial,
+please refer to the <a class="reference external" href="http://www.oracle.com/pls/db112/portal.portal_db?selected=11&amp;frame=">Oracle Database Documentation</a>.</p>
+<p>For guidance on installing Oracle on Debian based systems, take a look at these two tutorials:</p>
+<ul class="last simple">
+<li><a class="reference external" href="http://mikesmithers.wordpress.com/2010/03/14/installing-oracle-11gr2-on-ubuntu-9-10/">Installing Oracle 11gR2 on Ubuntu 9.10</a></li>
+<li><a class="reference external" href="http://www.pythian.com/news/1355/installing-oracle-11gr1-on-ubuntu-810-intrepid-ibex/">Installing Oracle 11gR1 on Ubuntu 8.10 Intrepid Ibex</a></li>
+</ul>
+</div>
+<div class="section" id="installation-of-oracle-instant-client">
+<span id="instant-client"></span><h4>Installation of Oracle Instant Client<a class="headerlink" href="#installation-of-oracle-instant-client" title="Permalink to this headline">¶</a></h4>
+<p>The easiest way to get an Oracle Client is installing <em>Oracle Instant Client</em>. Download the following
+two packages for your operating system from <a class="reference external" href="http://www.oracle.com/technology/software/tech/oci/instantclient/index.html">Instant Client Downloads</a>:</p>
+<ul class="simple">
+<li>Instant Client Package - Basic</li>
+<li>Instant Client Package - SDK</li>
+</ul>
+<p>In the following we are using RPM files for an installation on a Debian based system.</p>
+<p>First install the required packages <tt class="docutils literal"><span class="pre">alien</span></tt> and <tt class="docutils literal"><span class="pre">libaio1</span></tt>:</p>
+<div class="highlight-python"><pre>sudo apt-get install alien libaio1</pre>
+</div>
+<p>Install the two RPM packages:</p>
+<div class="highlight-python"><pre>sudo alien -i oracle-instantclient11.2-basic-11.2.0.1.0-1.i386.rpm
+sudo alien -i oracle-instantclient11.2-devel-11.2.0.1.0-1.i386.rpm</pre>
+</div>
+<p>To add the installed libraries to the system search path, create the file
+<tt class="docutils literal"><span class="pre">/etc/ld.so.conf.d/oracle.conf</span></tt> and insert the path to your installation, for example:</p>
+<div class="highlight-python"><pre>/usr/lib/oracle/11.2/client/lib/</pre>
+</div>
+<p>Then run <tt class="docutils literal"><span class="pre">ldconfig</span></tt> to update the library cache:</p>
+<div class="highlight-python"><pre>sudo ldconfig
+ldconfig -p | grep oracle</pre>
+</div>
+<p>The last command should print out the Oracle library files.</p>
+</div>
+<div class="section" id="installation-of-cx-oracle">
+<h4>Installation of cx_Oracle<a class="headerlink" href="#installation-of-cx-oracle" title="Permalink to this headline">¶</a></h4>
+<p>Installer files for various operating systems and Oracle versions can be found on the <a class="reference external" href="http://cx-oracle.sourceforge.net/">cx_Oracle website</a>. In the following we are building cx_Oracle from source. To do so, download
+the source code archive from <a class="reference external" href="http://sourceforge.net/projects/cx-oracle/files/">cx_Oracle - Files</a>.</p>
+<p>Before building cx_Oracle three environment variables have to be set:</p>
+<div class="highlight-python"><pre>export ORACLE_HOME=/usr/lib/oracle/11.2/client/
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+export PATH=$ORACLE_HOME/bin:$PATH</pre>
+</div>
+<p>Then start the setup inside your virtual environment:</p>
+<div class="highlight-python"><pre>(venv) $ python setup.py install</pre>
+</div>
+<p>To test if the installation was succesfull, start a Python interpreter and try to
+import the cx_Oracle module:</p>
+<div class="highlight-python"><pre>(venv) $ python -i
+&gt;&gt;&gt; import cx_Oracle
+&gt;&gt;&gt;</pre>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">If you are using <a class="reference external" href="http://www.buildout.org/">Buildout</a> you may want to take a look at
+the recipe <a class="reference external" href="http://pypi.python.org/pypi/gocept.cxoracle">gocept.cxoracle</a>, which automatically
+installs cx_Oracle and Oracle Instant Client.</p>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>Configuration<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>When using cx_Oracle inside MapFish, the environment variables <tt class="docutils literal"><span class="pre">ORACLE_HOME</span></tt> and <tt class="docutils literal"><span class="pre">LD_LIBRARY</span></tt> have to be set
+before the cx_Oracle module is used from SQLAlchemy. You can do this in the file <tt class="docutils literal"><span class="pre">config/environment.py</span></tt> before
+the SQLAlchemy <tt class="docutils literal"><span class="pre">engine</span></tt> is created from the configuration:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_environment</span><span class="p">(</span><span class="n">global_conf</span><span class="p">,</span> <span class="n">app_conf</span><span class="p">):</span>
+
+   <span class="c"># ...</span>
+
+   <span class="c"># Set the evironment variables required for cx_Oracle</span>
+   <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;ORACLE_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;/usr/lib/oracle/11.2/client/&#39;</span>
+   <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;LD_LIBRARY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;/usr/lib/oracle/11.2/client/lib&#39;</span>
+
+   <span class="c"># Setup the SQLAlchemy database engine</span>
+   <span class="n">engine</span> <span class="o">=</span> <span class="n">engine_from_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s">&#39;sqlalchemy.&#39;</span><span class="p">)</span>
+   <span class="n">init_model</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then set the database connection string in your Pylons configuration file <tt class="docutils literal"><span class="pre">development.ini</span></tt>:</p>
+<div class="highlight-python"><pre>sqlalchemy.url = oracle://www-data:www-data@localhost:1521/gis</pre>
+</div>
+</div>
+<div class="section" id="notes-about-the-oracle-dimension-information-array">
+<h3>Notes about the Oracle dimension information array<a class="headerlink" href="#notes-about-the-oracle-dimension-information-array" title="Permalink to this headline">¶</a></h3>
+<p>Oracle requires a <em>Dimension Information Array (DIMINFO)</em> in its geometry metadata table
+for every spatial column (see <a class="reference external" href="http://download.oracle.com/docs/cd/B12037_01/appdev.101/b10826/sdo_objrelschema.htm#i1001937">Oracle® Spatial User&#8217;s Guide and Reference: Geometry Metadata Views</a>).</p>
+<p>If you are creating your tables with SQLAlchemy/GeoAlchemy (see <a class="reference internal" href="#setup-app"><em>Using &#8216;paster setup-app&#8217; to create your database tables</em></a>), you will have to
+specify a DIMINFO in your model files. GeoAlchemy then will make an entry in the view
+<tt class="docutils literal"><span class="pre">USER_SDO_GEOM_METADATA</span></tt> (see also <a class="reference external" href="http://download.oracle.com/docs/cd/B12037_01/appdev.101/b10826/sdo_objrelschema.htm#i1010905">Oracle® Spatial User&#8217;s Guide and Reference: DIMINFO</a>).</p>
+<p>Example definition (<tt class="docutils literal"><span class="pre">model/places.py</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">types</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.schema</span> <span class="kn">import</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">GeometryDDL</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">GeometryTableMixIn</span>
+<span class="kn">from</span> <span class="nn">mapfishsample.model.meta</span> <span class="kn">import</span> <span class="n">engine</span><span class="p">,</span> <span class="n">Base</span>
+
+<span class="n">diminfo</span> <span class="o">=</span> <span class="s">&quot;MDSYS.SDO_DIM_ARRAY(&quot;</span>\
+            <span class="s">&quot;MDSYS.SDO_DIM_ELEMENT(&#39;LONGITUDE&#39;, -180, 180, 0.000000005),&quot;</span>\
+            <span class="s">&quot;MDSYS.SDO_DIM_ELEMENT(&#39;LATITUDE&#39;, -90, 90, 0.000000005)&quot;</span>\
+            <span class="s">&quot;)&quot;</span>
+
+<span class="k">class</span> <span class="nc">Place</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;places&#39;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">(</span><span class="s">&#39;place_id_seq&#39;</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">40</span><span class="p">))</span>
+
+    <span class="n">the_geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">srid</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span> <span class="n">diminfo</span><span class="o">=</span><span class="n">diminfo</span><span class="p">))</span>
+
+<span class="n">GeometryDDL</span><span class="p">(</span><span class="n">Place</span><span class="o">.</span><span class="n">__table__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For Oracle MapFish in general uses the operator <tt class="docutils literal"><span class="pre">SDO_WITHIN_DISTANCE</span></tt> for spatial filter queries.
+If the filter geometry (Lat/Lon, BBox or arbitrary geometry) uses a different SRID, the geometry column
+has to be reprojected to this SRID. In this case the Oracle function <tt class="docutils literal"><span class="pre">SDO_GEOM.WITHIN_DISTANCE</span></tt> has to be
+used which either requires dimension information arrays or a tolerance value. These parameters have to be
+set on custom filters for the method <tt class="docutils literal"><span class="pre">index()</span></tt> inside the controller classes.</p>
+<p>Example (<tt class="docutils literal"><span class="pre">controllers/places.py</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PlacesController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="c"># ..</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /: return all features.&quot;&quot;&quot;</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">create_default_filter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">Place</span><span class="p">,</span> <span class="n">additional_params</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;tol&#39;</span><span class="p">:</span> <span class="s">&#39;0.005&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+    <span class="c"># ..</span>
+</pre></div>
+</div>
+<p>The tolerance value will be passed to <tt class="docutils literal"><span class="pre">SDO_GEOM.WITHIN_DISTANCE</span></tt>. Alternatively you can set
+a DIMINFO for the reprojected geometry column and the filter query using the keywords <tt class="docutils literal"><span class="pre">dim1</span></tt> and
+<tt class="docutils literal"><span class="pre">dim2</span></tt>.</p>
+<p>Note that this tolerance is not the one used in the <a class="reference external" href="../protocol.html">MapFish Protocol</a> to specify a distance in which features should be queried.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">More information about using Oracle can be found in the <a class="reference external" href="http://geoalchemy.org/usagenotes.html#notes-for-oracle">GeoAlchemy documentation</a>.</p>
+</div>
+</div>
+<div class="section" id="notes-about-using-a-tolerance-value-for-mapfish-web-services-in-oracle">
+<h3>Notes about using a tolerance value for MapFish Web Services in Oracle<a class="headerlink" href="#notes-about-using-a-tolerance-value-for-mapfish-web-services-in-oracle" title="Permalink to this headline">¶</a></h3>
+<p>Requests to a MapFish web service can contain a tolerance parameter, which specifies within which distance
+features should be queried. Usually the unit of this value is the unit associated with the coordinate system
+in use (for example degree for <tt class="docutils literal"><span class="pre">EPSG:4326</span></tt>). But for geodetic coordinate systems (like <tt class="docutils literal"><span class="pre">EPSG:4326</span></tt>)
+Oracle uses meter as unit. You have to keep this in mind when developing applications for Oracle.</p>
+<p>If you want to use a different unit, you can set it as parameter in your controller files. This
+parameter is passed to the database function call without further checks.</p>
+<p>Example (<tt class="docutils literal"><span class="pre">controllers/places.py</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># ..</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;GET /: return all features.&quot;&quot;&quot;</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">create_default_filter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">Place</span><span class="p">,</span> <span class="n">additional_params</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;params&#39;</span><span class="p">:</span> <span class="s">&#39;unit=KM&#39;</span><span class="p">})</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+
+<span class="c"># ..</span>
+</pre></div>
+</div>
+<p>Valid units are listed in the view <tt class="docutils literal"><span class="pre">SDO_DIST_UNITS</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="sperical-mercator-900913">
+<h2>Sperical Mercator (900913)<a class="headerlink" href="#sperical-mercator-900913" title="Permalink to this headline">¶</a></h2>
+<p>For many map tiles (including OpenStreetMap and Google Maps) <a class="reference external" href="http://docs.openlayers.org/library/spherical_mercator.html">Sperical Mercator</a> (EPSG: 900913) is used as projection. For Spatialite and PostGIS
+in releases prior to PostGIS 1.4, <em>Sperical Mercator</em> is not supported by default and you will receive
+an error message like the following, when you try to work with geometries using <em>Sperical Mercator</em> as
+spatial reference system (SRS):</p>
+<div class="highlight-python"><pre>(InternalError) AddToPROJ4SRSCache: Cannot find SRID (900913) in spatial_ref_sys [..]</pre>
+</div>
+<p>To enable support for <em>Sperical Mercator</em>, you first will have to update the library <tt class="docutils literal"><span class="pre">proj</span></tt>, because on Ubuntu <tt class="docutils literal"><span class="pre">proj</span></tt> comes without datum shifting
+files which are required for transformations with the <em>Sperical Mercator</em> projection. Run the following commands
+to update your installation (see also <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#id43">Notes on proj</a>):</p>
+<div class="highlight-python"><pre>wget http://download.osgeo.org/proj/proj-datumgrid-1.4.tar.gz
+mkdir nad
+cd nad
+tar xzf ../proj-datumgrid-1.4.tar.gz
+nad2bin null &lt; null.lla
+sudo cp null /usr/share/proj</pre>
+</div>
+<p>Then for <strong>PostGIS</strong> run the following statements to insert the reference definition in PostGIS&#8217; <tt class="docutils literal"><span class="pre">spatial_ref_sys</span></tt> table:</p>
+<div class="highlight-python"><pre>sudo su postgres
+psql gis
+INSERT INTO spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) VALUES (900913, 'EPSG', 900913, 'PROJCS["unnamed",GEOGCS["unnamed ellipse",DATUM["unknown",SPHEROID["unnamed",6378137,0]], PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]], PROJECTION["Mercator_2SP"],PARAMETER["standard_parallel_1",0],PARAMETER["central_meridian",0],PARAMETER["false_easting",0], PARAMETER["false_northing",0],UNIT["Meter",1],EXTENSION["PROJ4","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"]]', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs');
+\q
+exit</pre>
+</div>
+<p>The same can be done for <strong>Spatialite</strong>:</p>
+<div class="highlight-python"><pre>spatialite gis.sqlite
+INSERT INTO spatial_ref_sys (srid, auth_name, auth_srid, ref_sys_name, proj4text) VALUES (900913, 'EPSG', 900913, 'Google Sperical Mercator', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs');
+.quit</pre>
+</div>
+</div>
+<div class="section" id="table-mapping">
+<h2>Table mapping<a class="headerlink" href="#table-mapping" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="declarative-and-non-declarative-mapping">
+<h3>Declarative and non-declarative mapping<a class="headerlink" href="#declarative-and-non-declarative-mapping" title="Permalink to this headline">¶</a></h3>
+<p>With SQLAlchemy table mappings can be configured either by defining a table and a class
+separetly (non-declarative) or by doing this at once (declarative). MapFish supports both ways.
+The following two examples show the mapping for a table <tt class="docutils literal"><span class="pre">spots</span></tt>, one time as non-declarative and
+one time as declarative mapping.</p>
+<p><strong>Non-declarative mapping</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">Numeric</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">mapper</span>
+
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Geometry</span><span class="p">,</span> <span class="n">GeometryColumn</span><span class="p">,</span>
+<span class="n">GeometryDDL</span><span class="p">,</span> <span class="n">GeometryExtensionColumn</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">GeometryTableMixIn</span>
+
+<span class="kn">from</span> <span class="nn">mapfishsample.model.meta</span> <span class="kn">import</span> <span class="n">metadata</span>
+
+<span class="c"># table definition</span>
+<span class="n">spots_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s">&#39;spots&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">Column</span><span class="p">(</span><span class="s">&#39;spot_id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="n">Column</span><span class="p">(</span><span class="s">&#39;spot_height&#39;</span><span class="p">,</span> <span class="n">Numeric</span><span class="p">(</span><span class="n">asdecimal</span><span class="o">=</span><span class="bp">False</span><span class="p">)),</span>
+        <span class="n">GeometryExtensionColumn</span><span class="p">(</span><span class="s">&#39;spot_location&#39;</span><span class="p">,</span> <span class="n">Geometry</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+
+<span class="c"># class definition</span>
+<span class="k">class</span> <span class="nc">Spot</span><span class="p">(</span><span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="n">__table__</span> <span class="o">=</span> <span class="n">spots_table</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spot_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">spot_height</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">spot_location</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spot_id</span> <span class="o">=</span> <span class="n">spot_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spot_height</span> <span class="o">=</span> <span class="n">spot_height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spot_location</span> <span class="o">=</span> <span class="n">spot_location</span>
+
+<span class="c"># set up the mapping between table and class</span>
+<span class="n">mapper</span><span class="p">(</span><span class="n">Spot</span><span class="p">,</span> <span class="n">spots_table</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">&#39;spot_location&#39;</span><span class="p">:</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">spots_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">spot_location</span><span class="p">,</span>
+                                            <span class="n">comparator</span><span class="o">=</span><span class="n">PGComparator</span><span class="p">)})</span>
+
+<span class="c"># register table for DDL extension, so that it can be created from SQLAlchemy</span>
+<span class="n">GeometryDDL</span><span class="p">(</span><span class="n">spots_table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Declarative mapping</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">types</span>
+
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">Geometry</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">GeometryTableMixIn</span>
+<span class="kn">from</span> <span class="nn">mapfishsample.model.meta</span> <span class="kn">import</span> <span class="n">engine</span><span class="p">,</span> <span class="n">Base</span>
+
+<span class="k">class</span> <span class="nc">Spot</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;spots&#39;</span>
+
+    <span class="n">spot_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">spot_height</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Numeric</span><span class="p">(</span><span class="n">asdecimal</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="n">spot_location</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">comparator</span><span class="o">=</span><span class="n">PGComparator</span><span class="p">)</span>
+
+<span class="n">GeometryDDL</span><span class="p">(</span><span class="n">Spot</span><span class="o">.</span><span class="n">__table__</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">See also <a class="reference external" href="http://www.sqlalchemy.org/docs/ormtutorial.html#creating-table-class-and-mapper-all-at-once-declaratively">Creating Table, Class and Mapper All at Once Declaratively</a>.</p>
+</div>
+</div>
+<div class="section" id="geometry-column-properties">
+<h3>Geometry column properties<a class="headerlink" href="#geometry-column-properties" title="Permalink to this headline">¶</a></h3>
+<p>When using <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></tt> or <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-model</span></tt>, MapFish creates a default configuration
+for the geometry column of your table. You may want to customize this configuration to your needs.</p>
+<p><strong>Example configuration for</strong> <tt class="docutils literal"><span class="pre">model/spots.py</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># [..]</span>
+<span class="n">spot_location</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span>
+        <span class="n">Point</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">srid</span><span class="o">=</span><span class="mi">4326</span><span class="p">,</span> <span class="n">spatial_index</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="n">comparator</span><span class="o">=</span><span class="n">PGComparator</span><span class="p">,</span>
+        <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="c"># [..]</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">dimension=2</span></tt></p>
+<p>The dimension of the geometry (default: 2).</p>
+<p><tt class="docutils literal"><span class="pre">srid=4326</span></tt></p>
+<p>The spatial reference system (SRS) of the geometry column as EPSG code (default: 4326).</p>
+<p><tt class="docutils literal"><span class="pre">spatial_index=True</span></tt></p>
+<p>Indicates if a <em>spatial index</em> is created for the geometry column (default: True).</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Spatialite does not automatically make use of the spatial index when executing queries, you
+explicitly have to access the spatial index in your queries, see  <a class="reference external" href="http://www.gaia-gis.it/spatialite/spatialite-tutorial-2.3.1.html#t8">Spatial Index: using SQLite&#8217;s R*Tree</a>.</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">comparator=PGComparator</span></tt></p>
+<p>You only have to set this option, when you want to use a database specific function (like <cite>AsKML</cite> in PostGIS) on
+a geometry column in a SQLAlchemy query (for example <tt class="docutils literal"><span class="pre">session.query(Spot).filter(Spot.geom.kml</span> <span class="pre">==</span> <span class="pre">'..'</span></tt>). Following
+comparators are available:</p>
+<ul class="simple">
+<li>PostGIS: <em>geoalchemy.postgis.PGComparator</em></li>
+<li>MySQL: <em>geoalchemy.mysql.MySQLComparator</em></li>
+<li>Spatialite: <em>geoalchemy.spatialite.SQLiteComparator</em></li>
+<li>Oracle: <em>geoalchemy.oracle.OracleComparator</em></li>
+</ul>
+<p><tt class="docutils literal"><span class="pre">nullable=False</span></tt></p>
+<p>Indicates if <tt class="docutils literal"><span class="pre">null</span></tt> values can be inserted into the geometry column (default: True).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When using MySQL with a spatial index, the parameter <tt class="docutils literal"><span class="pre">nullable</span></tt> is ignored, because MySQL
+requires a <tt class="docutils literal"><span class="pre">NOT</span> <span class="pre">NULL</span></tt> constraint for spatial indexed columns.</p>
+</div>
+</div>
+</div>
+<div class="section" id="using-paster-setup-app-to-create-your-database-tables">
+<span id="setup-app"></span><h2>Using &#8216;paster setup-app&#8217; to create your database tables<a class="headerlink" href="#using-paster-setup-app-to-create-your-database-tables" title="Permalink to this headline">¶</a></h2>
+<p>When setting up a Pylons application, you often have to create database tables to run the
+application. SQLAlchemy/GeoAlchemy can take over that task for you, so that all your tables
+are created just by calling <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span> <span class="pre">config.ini</span></tt>.</p>
+<p>The following steps describe how to configure your application.</p>
+<ol class="arabic">
+<li><p class="first"><strong>Table mapping</strong></p>
+<p>All columns that you want to be created for a table, must be enlisted in the table
+definition.</p>
+<p><em>Example:</em> <tt class="docutils literal"><span class="pre">model/Point.py</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">types</span>
+
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">GeometryDDL</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">GeometryTableMixIn</span>
+<span class="kn">from</span> <span class="nn">mapfishsample.model.meta</span> <span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">Base</span>
+
+
+<span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;points&#39;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">default</span> <span class="o">=</span> <span class="s">&#39;foo&#39;</span><span class="p">)</span>
+    <span class="n">the_geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">srid</span><span class="o">=</span><span class="mi">4326</span><span class="p">))</span>
+
+<span class="n">GeometryDDL</span><span class="p">(</span><span class="n">Point</span><span class="o">.</span><span class="n">__table__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note the last line <tt class="docutils literal"><span class="pre">GeometryDDL(Point.__table__)</span></tt>, this makes sure that
+GeoAlchemy creates the geometry field of the table.</p>
+</li>
+<li><p class="first"><strong>websetup.py</strong></p>
+<p>When calling <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span> <span class="pre">config.ini</span></tt>, the method <tt class="docutils literal"><span class="pre">setup_app()</span></tt> inside the
+file <tt class="docutils literal"><span class="pre">[your_app]/websetup.py</span></tt> is executed. By default the method <tt class="docutils literal"><span class="pre">setup_app()</span></tt>
+already contains the command <tt class="docutils literal"><span class="pre">metadata.create_all()</span></tt> that creates the tables. You
+just have to import your model classes.</p>
+<p><em>Example:</em>  <tt class="docutils literal"><span class="pre">websetup.py</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;Setup the MapFishSample application&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">mapfishsample.config.environment</span> <span class="kn">import</span> <span class="n">load_environment</span>
+<span class="kn">from</span> <span class="nn">mapfishsample.model</span> <span class="kn">import</span> <span class="n">meta</span>
+
+<span class="c"># Import the model classes you want to create the tables for</span>
+<span class="kn">from</span> <span class="nn">mapfishsample.model</span> <span class="kn">import</span> <span class="n">points</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">setup_app</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="nb">vars</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Place any commands to setup mapfishsample here&quot;&quot;&quot;</span>
+    <span class="n">load_environment</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">global_conf</span><span class="p">,</span> <span class="n">conf</span><span class="o">.</span><span class="n">local_conf</span><span class="p">)</span>
+
+    <span class="c"># Create the tables if they don&#39;t already exist</span>
+    <span class="n">meta</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>paster setup-app</strong></p>
+<blockquote>
+<div><p>Finally to setup your application, run the following command inside the virtual environment:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">(</span>venv<span class="o">)</span> <span class="nv">$ </span>paster setup-app <span class="o">[</span>your_config<span class="o">]</span>.ini
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="upgrading.html" title="Upgrading"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="customizing-webservices.html" title="Customizing Web Services"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.2 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

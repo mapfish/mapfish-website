@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>TileCache &mdash; Python Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Python Workshop v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Workshop Python (version française)" href="index.html" />
+    <link rel="next" title="MapFish" href="mapfish.html" />
+    <link rel="prev" title="GeoAlchemy" href="geoalchemy.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="mapfish.html" title="MapFish"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="geoalchemy.html" title="GeoAlchemy"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Workshop Python (version française)</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">TileCache</a><ul>
+<li><a class="reference external" href="#installation">Installation</a></li>
+<li><a class="reference external" href="#creer-la-configuration">Créer la configuration</a></li>
+<li><a class="reference external" href="#creer-un-controlleur">Créer un controlleur</a></li>
+<li><a class="reference external" href="#visualiser-la-carte">Visualiser la carte</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="geoalchemy.html"
+                                  title="previous chapter">GeoAlchemy</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="mapfish.html"
+                                  title="next chapter">MapFish</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/fr/tilecache.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tilecache">
+<h1>TileCache<a class="headerlink" href="#tilecache" title="Permalink to this headline">¶</a></h1>
+<p>Ce module montre comment utiliser TileCache dans une application Pylons, i.e.
+comment accéder à TileCache à travers un contrôleur de l&#8217;application.</p>
+<p>Cela peut être utile par exemple pour sécuriser l&#8217;accès à TileCache, en utilisant
+le framework de sécurité repoze.who/what, ou n&#8217;importe quel framework de sécurité
+qui peut être utilisé dans les applications Pylons.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Pour installer TileCache dans l&#8217;environnement virtuel Python, utilisez :</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "TileCache==2.10"</pre>
+</div>
+</div>
+<div class="section" id="creer-la-configuration">
+<h2>Créer la configuration<a class="headerlink" href="#creer-la-configuration" title="Permalink to this headline">¶</a></h2>
+<p>D&#8217;abord vous devrez définir la configuration de TileCache, i.e. où le cache est
+localisé dans le système de fichier, les couches à mettre en cache, etc. Pour
+cela créez un fichier nommé <tt class="docutils literal"><span class="pre">tilecache.cfg</span></tt> avec le contenu suivant à la racine
+de l&#8217;application :</p>
+<div class="highlight-python"><pre>[cache]
+type=Disk
+base=/tmp/tilecache
+
+[basic]
+type=WMS
+url=http://labs.metacarta.com/wms/vmap0
+extension=png</pre>
+</div>
+<p>Dans la section <tt class="docutils literal"><span class="pre">[cache]</span></tt> sont définie le type et la localisation du cache,
+avec la section <tt class="docutils literal"><span class="pre">[basic]</span></tt> une couche nommée <tt class="docutils literal"><span class="pre">basic</span></tt> a été définie, cette
+couche se base sur un WMS. Lisez la page <a class="reference external" href="http://tilecache.org/readme.html">http://tilecache.org/readme.html</a> pour
+plus d&#8217;information sur la configuration de TileCache.</p>
+</div>
+<div class="section" id="creer-un-controlleur">
+<h2>Créer un controlleur<a class="headerlink" href="#creer-un-controlleur" title="Permalink to this headline">¶</a></h2>
+<p>Pour créer le contrôleur pour TileCache créez le fichier
+<tt class="docutils literal"><span class="pre">workshopapp/controllers/tilecache.py</span></tt> avec le contenu suivant :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">TileCache.Service</span> <span class="kn">import</span> <span class="n">wsgiApp</span> <span class="k">as</span> <span class="n">TilecacheController</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Intégrer TileCache dans une application est aussi facile que cela grâce à
+l&#8217;interface WSGI que TileCache implémente (<tt class="docutils literal"><span class="pre">wsgiApp</span></tt>).</p>
+</div>
+<p>Pour être capable d&#8217;utiliser ce contrôleur une <em>route</em> spécifique doit être
+créée. Cette route définira la correspondance entre une URL est le contrôleur
+<tt class="docutils literal"><span class="pre">tilecache</span></tt>. Éditez le fichier <tt class="docutils literal"><span class="pre">workshopapp/config/routing.py</span></tt> et ajoutez la
+ligne suivante après le commentaire <tt class="docutils literal"><span class="pre">CUSTOM</span> <span class="pre">ROUTES</span> <span class="pre">HERE</span></tt> :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/tilecache&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s">&#39;tilecache&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Vous pouvez maintenant tester votre service web <tt class="docutils literal"><span class="pre">tilecache</span></tt> en ouvrant l&#8217;URL
+suivant dans votre navigateur :</p>
+<div class="highlight-python"><pre>http://localhost:5000/tilecache?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1
+&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326
+&amp;BBOX=-11.25,33.75,0,45&amp;WIDTH=256&amp;HEIGHT=256</pre>
+</div>
+<p>Vous devez obtenir une image de 256x256 pixels représentant l&#8217;Espagne.</p>
+</div>
+<div class="section" id="visualiser-la-carte">
+<h2>Visualiser la carte<a class="headerlink" href="#visualiser-la-carte" title="Permalink to this headline">¶</a></h2>
+<p>Pour vous amuser, vous pouvez également créer une petit application OpenLayers
+(<a class="reference external" href="http://www.openlayers.org">http://www.openlayers.org</a>) basée sur un service web de TileCace.</p>
+<p>Créez le fichier <tt class="docutils literal"><span class="pre">workshopapp/public/tilecache.html</span></tt> avec ce contenu :</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">body</span> <span class="p">{</span>
+        <span class="k">padding</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span>
+        <span class="k">margin</span><span class="o">:</span><span class="m">0px</span>
+    <span class="p">}</span>
+    <span class="nf">#map</span> <span class="p">{</span>
+        <span class="k">width</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+        <span class="k">height</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://openlayers.org/api/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+    <span class="kd">var</span> <span class="nx">map</span><span class="p">,</span> <span class="nx">layer</span><span class="p">;</span>
+
+    <span class="kd">function</span> <span class="nx">init</span><span class="p">(){</span>
+        <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">(</span><span class="s1">&#39;map&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;maxResolution&#39;</span><span class="o">:</span> <span class="mi">360</span><span class="o">/</span><span class="mi">512</span><span class="p">});</span>
+        <span class="nx">layer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span>
+            <span class="s2">&quot;Basic layer&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tilecache?&quot;</span><span class="p">,</span> <span class="c1">// the URL to the TileCache web service</span>
+            <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s1">&#39;basic&#39;</span><span class="p">,</span> <span class="nx">format</span><span class="o">:</span> <span class="s1">&#39;image/png&#39;</span> <span class="p">}</span>
+        <span class="p">);</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">addLayer</span><span class="p">(</span><span class="nx">layer</span><span class="p">);</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">zoomToMaxExtent</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;init()&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>et ouvrez <a class="reference external" href="http://localhost:5000/tilecache.html">http://localhost:5000/tilecache.html</a> dans votre navigateur.</p>
+<p><strong>Tâche bonus</strong></p>
+<p>Modifier le contrôleur <tt class="docutils literal"><span class="pre">tilecache</span></tt> afin que TileCache soit éxécuté dans une
+action du contrôleur. Vous pouvez regarder sur
+<a class="reference external" href="http://pylonsbook.com/en/1.1/the-web-server-gateway-interface-wsgi.html#wsgi-in-pylons-controllers">http://pylonsbook.com/en/1.1/the-web-server-gateway-interface-wsgi.html#wsgi-in-pylons-controllers</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="mapfish.html" title="MapFish"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="geoalchemy.html" title="GeoAlchemy"
+             >previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Workshop Python (version française)</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

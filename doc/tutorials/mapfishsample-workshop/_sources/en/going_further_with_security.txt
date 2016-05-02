@@ -1,0 +1,179 @@
+***************************
+Going Further With Security
+***************************
+
+In this module we're going to extend the access-control mechanisms implemented
+previously. More specifically we're going to modify MapFishSample so users can
+only edit POIs that are within specific areas.
+
+The goal of this module is to demonstrate the great flexibility of the tools
+provided by MapFish.
+
+`GeoAlchemy <http://geoalchemy.org>`_ will be used in this module.
+
+Extend User Model
+=================
+
+First we're going to extend the user model, by adding a geometry column
+named ``area`` to our ``user`` table. We will rely on ``
+
+.. admonition:: Task #1
+    
+    Edit ``mapfishsample/model/__init__.py``, and do the following steps:
+    
+    1. Add the following import statement somewhere near the head of the file::
+
+        from geoalchemy import GeometryColumn, Polygon, GeometryDDL
+
+       Importing ``GeometryColumn``, ``Polygon`` and ``GeometryDDL`` from the
+       ``geoalchemy`` module is necessary for the following two steps.
+
+    2. Add a ``GeometryColumn`` property to the ``User`` class::
+
+        class User(Base):
+            __tablename__ = 'user'
+
+            id = Column(types.Integer, primary_key=True)
+            name = Column(types.Unicode)
+            login = Column(types.Unicode)
+            password = Column(types.Unicode)
+            editor = Column(types.Boolean)
+            area = GeometryColumn(Polygon(2))
+
+            def validate_password(self, password):
+                return self.password == password
+
+       The ``area`` property corresponds to the ``area`` geometry column we
+       want to add to the ``user`` table. This column will be automatically
+       created by GeoAlchemy when running the ``paster setup-app`` command.
+
+    3. Right after the definition of the ``User`` class add the following
+       statement::
+
+        GeometryDDL(User.__table__)
+
+       Calling ``GeometryDDL`` tells GeoAlchemy to participate in the creation
+       of the ``user`` table, for the creating of the geometry column (which,
+       for PostGIS, involves calling ``AddGeometryColum``).
+
+At this point our new data model is ready, but our ``user`` table in the
+database still has no geometry column. We're going to change that in the next
+task.
+
+
+.. admonition:: Task #2
+
+    First of all and edit ``mapfishsample/websetup.py``, and insert the following
+    lines into the ``setup_app`` function::
+
+            # Drop the user table
+            from mapfishsample.model import User
+            User.__table__.drop()
+
+    Insert these three lines right before the call to
+    ``Base.metadata.create_all``.
+
+    With these lines, each time the ``paster setup-app`` command is run, the
+    ``user`` table is dropped before being created again by ``create_all``.
+
+    The entire ``setup_app`` function should now look like this::
+
+            def setup_app(command, conf, vars):
+                ""Place any commands to setup mapfishsample here"""
+                # Don't reload the app if it was loaded under the testing environment
+                if not pylons.test.pylonsapp:
+                    load_environment(conf.global_conf, conf.local_conf)
+
+                # Drop the user table
+                from mapfishsample.model import User
+                User.__table__.drop()
+
+                # Create the tables if they don't already exist
+                Base.metadata.create_all(bind=Session.bind)
+
+                from mapfishsample.model import User
+
+                # create user "Johane"
+                u1 = User()
+                u1.name = "Johane"
+                u1.login = "johane"
+                u1.password = "johane"
+                u1.editor = True
+
+                # create user "Alix"
+                u2 = User()
+                u2.name = "Alix"
+                u2.login = "alix"
+                u2.password = "alix"
+                u2.editor = False
+
+                # add them to the database
+                Session.add_all([u1, u2])
+                Session.commit()
+
+    You can now run ``paster setup-app`` again to recreate the ``user``
+    table in the database::
+
+        $ ./buildout/bin/paster setup-app development.ini
+
+    The ``user`` table should now include a geometry column named ``area``. You
+    can verify that using pgAdmin.
+
+Our ``user`` table now has a geometry column, but we have no data for this
+column yet. The following task involves modifying ``websetup.py`` to assign
+give "Johane" an area (user "Alix" isn't an editor, so it makes no sense to
+give her an area).
+
+.. admonition:: Task #3
+
+    Edit ``mapfishsample/websetup.py`` again, and insert the following three
+    lines after ``u1.editor = True``::
+
+            from geoalchemy import WKTSpatialElement
+            u1.area = WKTSpatialElement('POLYGON((657053 5711411,658006 5711411,658006 5711854,657053 5711854,657053 5711411))')
+
+    Run ``paster setup-app`` again::
+
+        $ ./buildout/bin/paster setup-app development.ini
+
+    Use pgAdmin to verify that an area has been assigned to "Johane".
+
+Secure POI Web Service
+======================
+
+Now that our data model is ready, we can go ahead and add more security
+restrictions to the POI web service.
+
+.. admonition:: Task #4
+
+    Edit ``mapfishsample/pois.py`` and modify the ``update`` method so a 403
+    response is returned if the user's area doesn't contain the targeted POI::
+
+        def update(self, id):
+            """PUT /id: Update an existing feature."""
+            if c.user.editor == False:
+                abort(403)
+            poi = Session.query(Poi).get(id)
+            if poi is None:
+                abort(404)
+            poi_wkt =  Session.scalar(poi.the_geom.wkt)
+            if not Session.scalar(c.user.area.gcontains(poi_wkt)):
+                abort(403)
+            return self.protocol.update(request, response, id)
+
+    We heavily rely on the capabilities of GeoAlchemy here. To better
+    understand the added code you can refer to the GeoAlchemy documention on
+    http://www.geoalchemy.org.
+
+    Open or reload http://mapfish in the browser, log in with
+    ``johane/johane``, and verify in the FireBug console that you get ``403``
+    errors when attempting to update POIs that are outside the user's area.
+
+.. admonition:: Task #5
+
+    As an exercice you can modify the ``delete`` and ``create`` actions of the
+    POI controller to implement the same kind access-control as for the
+    ``update`` action.
+
+    Note that the ``create`` action will require more code, as WKT strings will
+    need to be created from the GeoJSON representations of the geometries.

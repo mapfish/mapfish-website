@@ -1,0 +1,239 @@
+Upgrading
+---------
+
+This section provides information for upgrading a MapFish application from
+MapFish 1.2 to MapFish 2.x.
+
+Pylons 1.0
+~~~~~~~~~~
+
+MapFish 1.2 is based on Pylons 0.9.7, and MapFish 2.x is based on Pylons 1.0.
+So to upgrade an application from MapFish 1.2 to MapFish 2.x it is first needed
+to upgrade that application from Pylons 0.9.7 to Pylons 1.0. For this refer to
+the `Pylons 1.0 Upgrading page <http://pylonshq.com/docs/en/1.0/upgrading/>`_,
+and follow the provided indications.
+
+.. note:
+    MapFish 2.x depending on Pylons 1.0, you will run into dependency issues if
+    you attempt to upgrade to Pylons 0.10. So it is recommended not to attempt
+    it.
+
+The Pylons 1.0 Uprading page doesn't include information for upgrading
+the model and base controller. Here's additional information:
+
+* The ``model.meta`` module no longer stores reference to the ``engine`` and
+  ``metadata`` objects. Edit ``model/meta.py`` and remove these files::
+  
+      from sqlalchemy import MetaData
+      engine = None
+      metadata = MetaData()
+
+* The ``model.meta`` module now creates the ``scoped session`` and the
+  SQLAlchemy ``declarative base`` class. Edit ``model/meta.py``, replace the
+  ``Session = None`` line with::
+    
+      Session = scoped_session(sessionmaker())
+
+  and add the following line at the end of the file::
+
+      Base = declarative_base()
+
+* The ``init_model`` function of the ``model`` module is no longer responsible
+  for creating the ``Session``. Edit ``model/__init__.py`` and remove these
+  three lines from the body of the ``init_model`` function::
+
+      sm = orm.sessionmaker(bind=engine)
+      meta.engine = engine
+      meta.Session = orm.scoped_session(sm)
+
+  The ``init_model`` function now just configures the (already-created)
+  Session. Add the following statement to the body of ``init_model``::
+
+      Session.configure(bind=engine)
+
+The application should now be upgraded to Pylons 1.0, and it is now time to do
+MapFish-specific adjusments.
+
+MapFish 2.x
+~~~~~~~~~~~
+
+GeoAlchemy
+^^^^^^^^^^
+
+MapFish 2.x is based on `GeoAlchemy <http://geoalchemy.org>`_. GeoAlchemy
+provides extensions to SQLAlchemy for use with spatial databases. MapFish 2.x
+no longer defines the ``Geometry`` type, the one defined by GeoAlchemy is to be
+used instead.
+
+With MapFish 1.2 the ``paster mf-layer`` command generated model files that
+looked like this::
+
+    from sqlalchemy import Column, Table, types
+    from sqlalchemy.orm import mapper
+
+    from mapfish.sqlalchemygeom import Geometry
+    from mapfish.sqlalchemygeom import GeometryTableMixIn
+
+    from blonay.model.meta import metadata, engine
+
+    users_table = Table(
+        'users', metadata,
+        Column('the_geom', Geometry(4326)),
+        schema='my_schema',
+        autoload=True, autoload_with=engine)
+
+    class User(GeometryTableMixIn):
+        # for GeometryTableMixIn to do its job the __table__ property
+        # must be set here
+        __table__ = users_table
+
+    mapper(User, users_table)
+
+With MapFish 2.x the same ``user`` model looks like this::
+
+    from sqlalchemy import Column, types
+
+    from geoalchemy import GeometryColumn, Point
+
+    from mapfish.sqlalchemygeom import GeometryTableMixIn
+    from sample.model.meta import Session, Base
+
+    class User(Base, GeometryTableMixIn):
+        __tablename__ = 'users'
+        __table_args__ = {
+            "schema": 'my_schema',
+            "autoload": True,
+            "autoload_with": Session.bind
+        }
+        the_geom = GeometryColumn(Point(srid=4326))
+
+Filters
+^^^^^^^
+
+The ``Filter`` abstraction is no longer. With MapFish 2.x only SQLAlchemy
+filters (``ClauseElement``) are manipulated.
+
+The `create_default_filter()
+<../reference/protocol.html#creating-protocol-filter>`_, `create_attr_filter()
+<../reference/protocol.html#creating-protocol-filter>`_, and
+`create_geom_filter() <../reference/protocol.html#creating-protocol-filter>`_
+functions all return SQLAlchemy ``ClauseElement`` objects.
+
+Concretely it means that you change your code not to rely on ``Spatial``,
+``Comparison``, ``Logical`` and ``FeatureId`` filters but on regular SQLAlchemy
+``ClauseElement`` objects. For example you would use ``and_`` instead of
+``Logical``, etc.
+
+Protocol
+^^^^^^^^
+
+With the removal of the ``Filter`` abstraction the ``lib`` module is entirely
+gone, and the ``protocol`` module is now located in ``mapfish``. This means
+your files that import ``protocol``, typically controllers, should be changed.
+Typical controllers must be changed from::
+
+    from mapfish.lib.protocol import Protocol, create_default_filter
+
+to::
+
+    from mapfish.protocol import Protocol, create_default_filter
+
+geojsonify
+^^^^^^^^^^
+
+MapFish 2.x introduces the ``geojsonify`` decorator for generating GeoJSON.
+
+With MapFish 1.2 the ``paster mf-layer`` command generated controller files
+that looked like this::
+
+    from pylons import request, response, session, tmpl_context as c
+    from pylons.controllers.util import abort, redirect_to
+
+    from myproject.lib.base import BaseController
+    from myproject.model.users import User
+    from myproject.model.meta import Session
+    from myproject.lib.decorators import geojsonify
+
+    from mapfish.protocol import Protocol, create_default_filter
+
+    class UsersController(BaseController):
+        readonly = False # if set to True, only GET is supported
+
+        def __init__(self):
+            self.protocol = Protocol(Session, User, self.readonly)
+
+        def index(self, format='json'):
+            """GET /: return all features."""
+            return self.protocol.index(request, response, format=format)
+
+        def show(self, id, format='json'):
+            """GET /id: Show a specific feature."""
+            return self.protocol.show(request, response, id)
+
+        def create(self):
+            """POST /: Create a new feature."""
+            return self.protocol.create(request, response)
+
+        def update(self, id):
+            """PUT /id: Update an existing feature."""
+            return self.protocol.update(request, response, id)
+
+        def delete(self, id):
+            """DELETE /id: Delete an existing feature."""
+            return self.protocol.delete(request, response, id)
+
+With MapFish 2.x the same ``user`` controller looks like this::
+
+    from pylons import request, response, session, tmpl_context as c
+    from pylons.controllers.util import abort, redirect
+
+    from test.lib.base import BaseController
+    from test.model.users import User
+    from test.model.meta import Session
+
+    from mapfish.protocol import Protocol, create_default_filter
+    from mapfish.decorators import geojsonify
+
+    class UsersController(BaseController):
+        readonly = False # if set to True, only GET is supported
+
+        def __init__(self):
+            self.protocol = Protocol(Session, User, self.readonly)
+
+        @geojsonify
+        def index(self, format='json'):
+            """GET /: return all features."""
+            if format != 'json':
+                abort(404)
+            return self.protocol.read(request)
+
+        @geojsonify
+        def show(self, id, format='json'):
+            """GET /id: Show a specific feature."""
+            if format != 'json':
+                abort(404)
+            return self.protocol.read(request, response, id=id)
+
+        @geojsonify
+        def create(self):
+            """POST /: Create a new feature."""
+            return self.protocol.create(request, response)
+
+        @geojsonify
+        def update(self, id):
+            """PUT /id: Update an existing feature."""
+            return self.protocol.update(request, response, id)
+
+        def delete(self, id):
+            """DELETE /id: Delete an existing feature."""
+            return self.protocol.delete(request, response, id)
+
+Several things to note here:
+
+* Protocols no longer expose ``index`` and ``show`` methods. They expose a
+  single method for reading features: ``read``. So ``read`` is to be used
+  from both the ``index`` and ``show`` actions.
+* The ``index``, ``show``, ``create``, and ``update`` methods no longer
+  return GeoJSON strings. Instead they return objects that can be
+  serialized into GeoJSON strings. This serialization is taken
+  care of by the ``geojsonify`` decorator.

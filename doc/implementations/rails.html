@@ -1,104 +1,98 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Developer Guide - Ruby on Rails Server &mdash; MapFish</title>
-    
     <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
         VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../index.html" />
     <link rel="up" title="Implementations" href="index.html" />
     <link rel="next" title="MapFishAPI" href="../contribs/mapfishapi.html" />
     <link rel="prev" title="Implementations" href="index.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="../../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="../contribs/mapfishapi.html" title="MapFishAPI"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Implementations"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Implementations</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Implementations</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../index.html">
               <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
             </a></p>
-  <h3><a href="../../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Developer Guide - Ruby on Rails Server</a><ul>
-<li><a class="reference internal" href="#create-a-mapfish-project">Create a MapFish project</a></li>
-<li><a class="reference internal" href="#set-up-the-postgis-database">Set up the PostGIS database</a></li>
-<li><a class="reference internal" href="#set-up-layers">Set up layers</a></li>
-<li><a class="reference internal" href="#starting-the-web-server">Starting the web server</a></li>
-<li><a class="reference internal" href="#using-the-print-module">Using the print module</a></li>
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Developer Guide - Ruby on Rails Server</a><ul>
+<li><a class="reference external" href="#create-a-mapfish-project">Create a MapFish project</a></li>
+<li><a class="reference external" href="#set-up-the-postgis-database">Set up the PostGIS database</a></li>
+<li><a class="reference external" href="#set-up-layers">Set up layers</a></li>
+<li><a class="reference external" href="#starting-the-web-server">Starting the web server</a></li>
+<li><a class="reference external" href="#using-the-print-module">Using the print module</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Implementations</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../contribs/mapfishapi.html"
-                        title="next chapter">MapFishAPI</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/doc/implementations/rails.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">Implementations</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../contribs/mapfishapi.html"
+                                  title="next chapter">MapFishAPI</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../../_sources/doc/implementations/rails.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="developer-guide-ruby-on-rails-server">
 <span id="mapfish-implementations-rails"></span><h1>Developer Guide - Ruby on Rails Server<a class="headerlink" href="#developer-guide-ruby-on-rails-server" title="Permalink to this headline">¶</a></h1>
@@ -108,116 +102,100 @@
 <div class="section" id="create-a-mapfish-project">
 <h2>Create a MapFish project<a class="headerlink" href="#create-a-mapfish-project" title="Permalink to this headline">¶</a></h2>
 <p>Create a new Rails project:</p>
-<div class="highlight-python"><div class="highlight"><pre>rails --database=postgresql MyMapFishProject
-cd MyMapFishProject
-</pre></div>
+<div class="highlight-python"><pre>rails --database=postgresql MyMapFishProject
+cd MyMapFishProject</pre>
 </div>
 <p>Install the latest version of the Mapfish plugin:</p>
-<div class="highlight-python"><div class="highlight"><pre>./script/plugin install http://www.mapfish.org/svn/mapfish/implementations/rails-plugin/mapfish/trunk
-</pre></div>
+<div class="highlight-python"><pre>./script/plugin install http://www.mapfish.org/svn/mapfish/implementations/rails-plugin/mapfish/trunk</pre>
 </div>
 <p>Install the latest version of the Mapfish client libraries:</p>
-<div class="highlight-python"><div class="highlight"><pre>rake mapfish:install_client
-</pre></div>
+<div class="highlight-python"><pre>rake mapfish:install_client</pre>
 </div>
 <p>Install the required plugins and gems:</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo gem install GeoRuby
+<div class="highlight-python"><pre>sudo gem install GeoRuby
 ./script/plugin install git://github.com/fragility/spatial_adapter.git
-sudo gem install POpen4 --source http://gemcutter.org
-</pre></div>
+sudo gem install POpen4 --source http://gemcutter.org</pre>
 </div>
 </div>
 <div class="section" id="set-up-the-postgis-database">
 <h2>Set up the PostGIS database<a class="headerlink" href="#set-up-the-postgis-database" title="Permalink to this headline">¶</a></h2>
 <p>If you don&#8217;t have PostGIS database template yet, create one:</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo su - postgres
+<div class="highlight-python"><pre>sudo su - postgres
 createdb -E UTF8 template_postgis # Create the template spatial database.
 createlang -d template_postgis plpgsql # Adding PLPGSQL language support.
 psql -d template_postgis -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
 psql -d template_postgis -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql
 cat &lt;&lt;EOS | psql -d template_postgis
-UPDATE pg_database SET datistemplate = TRUE WHERE datname = &#39;template_postgis&#39;;
+UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template_postgis';
 REVOKE ALL ON SCHEMA public FROM public;
 GRANT USAGE ON SCHEMA public TO public;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.geometry_columns TO PUBLIC;
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE public.spatial_ref_sys TO PUBLIC;
 VACUUM FULL FREEZE;
-EOS
-</pre></div>
+EOS</pre>
 </div>
-<p>Change the connection properties in <code class="docutils literal"><span class="pre">config/database.yml</span></code>.
-Add a line <code class="docutils literal"><span class="pre">template:</span> <span class="pre">template_postgis</span></code> for each environment.</p>
+<p>Change the connection properties in <tt class="docutils literal"><span class="pre">config/database.yml</span></tt>.
+Add a line <tt class="docutils literal"><span class="pre">template:</span> <span class="pre">template_postgis</span></tt> for each environment.</p>
 <p>Create the development database, if it does not exist:</p>
-<div class="highlight-python"><div class="highlight"><pre>rake db:create
-</pre></div>
+<div class="highlight-python"><pre>rake db:create</pre>
 </div>
 </div>
 <div class="section" id="set-up-layers">
 <h2>Set up layers<a class="headerlink" href="#set-up-layers" title="Permalink to this headline">¶</a></h2>
 <p>You now need to create layers. In effect, a layer corresponds to a PostGIS table.</p>
 <p>Create a resource (model and controller):</p>
-<div class="highlight-python"><div class="highlight"><pre>./script/generate mapfish_resource --skip-timestamps WeatherStation name:string geom:point
-rake db:migrate
-</pre></div>
+<div class="highlight-python"><pre>./script/generate mapfish_resource --skip-timestamps WeatherStation name:string geom:point
+rake db:migrate</pre>
 </div>
 <p>Import some data:</p>
-<div class="highlight-python"><div class="highlight"><pre>./script/runner &quot;Geonames::Weather.weather(:north =&gt; 44.1, :south =&gt; -9.9, :east =&gt; -22.4, :west =&gt; 55.2).each { |st| WeatherStation.create(:name =&gt; st.stationName, :geom =&gt; Point.from_x_y(st.lng, st.lat)) }&quot;
-</pre></div>
+<div class="highlight-python"><pre>./script/runner "Geonames::Weather.weather(:north =&gt; 44.1, :south =&gt; -9.9, :east =&gt; -22.4, :west =&gt; 55.2).each { |st| WeatherStation.create(:name =&gt; st.stationName, :geom =&gt; Point.from_x_y(st.lng, st.lat)) }"</pre>
 </div>
 <p>(needs lib/geonames.rb from <a class="reference external" href="http://github.com/pka/map_layers/tree">http://github.com/pka/map_layers/tree</a> in lib/)</p>
 <p>Create a resource for an existing table from the <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/HowToInstallMapFishSample#Data">MapFishSample data set</a>:</p>
-<div class="highlight-python"><div class="highlight"><pre>./script/generate mapfish_resource --skip-migration Country
-</pre></div>
+<div class="highlight-python"><pre>./script/generate mapfish_resource --skip-migration Country</pre>
 </div>
-<p>Insert table name and custom id in <code class="docutils literal"><span class="pre">app/models/country.rb</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>set_table_name &quot;world_factbk_simplified&quot;
-set_primary_key &quot;gid&quot;
-</pre></div>
+<p>Insert table name and custom id in <tt class="docutils literal"><span class="pre">app/models/country.rb</span></tt>:</p>
+<div class="highlight-python"><pre>set_table_name "world_factbk_simplified"
+set_primary_key "gid"</pre>
 </div>
 </div>
 <div class="section" id="starting-the-web-server">
 <h2>Starting the web server<a class="headerlink" href="#starting-the-web-server" title="Permalink to this headline">¶</a></h2>
 <p>You should be all set now. Try starting the web server:</p>
-<div class="highlight-python"><div class="highlight"><pre>./script/server
-</pre></div>
+<div class="highlight-python"><pre>./script/server</pre>
 </div>
-<p>and checkout <code class="docutils literal"><span class="pre">http://localhost:3000/countries?maxfeatures=10</span></code></p>
+<p>and checkout <tt class="docutils literal"><span class="pre">http://localhost:3000/countries?maxfeatures=10</span></tt></p>
 <p>Your browser should be displaying a nice GeoJSON object!</p>
-<p>You can now go back to your webpage and configure MapFish widgets to access your layer through the URL <code class="docutils literal"><span class="pre">http://localhost:3000/countries</span></code>.</p>
+<p>You can now go back to your webpage and configure MapFish widgets to access your layer through the URL <tt class="docutils literal"><span class="pre">http://localhost:3000/countries</span></tt>.</p>
 <p>For running in production mode you should build and install the compressed runtime libraries:</p>
-<div class="highlight-python"><div class="highlight"><pre>rake mapfish:build_scripts
-rake mapfish:copy_scripts
-</pre></div>
+<div class="highlight-python"><pre>rake mapfish:build_scripts
+rake mapfish:copy_scripts</pre>
 </div>
 <p>The development libraries in public/mfbase are not needed in a production deployment and the
 CSS and Javascript files can be included from public/javascripts:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;javascripts/ext/resources/css/ext-all.css&quot; /&gt;
-&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;javascripts/mapfish/mapfish.css&quot; /&gt;
+<div class="highlight-python"><pre>&lt;link rel="stylesheet" type="text/css" href="javascripts/ext/resources/css/ext-all.css" /&gt;
+&lt;link rel="stylesheet" type="text/css" href="javascripts/mapfish/mapfish.css" /&gt;
 
-&lt;script type=&quot;text/javascript&quot; src=&quot;javascripts/ext/adapter/ext/ext-base.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;javascripts/ext/ext-all.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;javascripts/mapfish/MapFish.js&quot;&gt;&lt;/script&gt;
-</pre></div>
+&lt;script type="text/javascript" src="javascripts/ext/adapter/ext/ext-base.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="javascripts/ext/ext-all.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="javascripts/mapfish/MapFish.js"&gt;&lt;/script&gt;</pre>
 </div>
 <p>The mapfish examples are working without any changes:</p>
-<div class="highlight-python"><div class="highlight"><pre>svn export --force http://www.mapfish.org/svn/mapfish/sample/trunk/mapfishsample/public
-svn export --force http://www.mapfish.org/svn/mapfish/framework/client/trunk/examples public/examples
-</pre></div>
+<div class="highlight-python"><pre>svn export --force http://www.mapfish.org/svn/mapfish/sample/trunk/mapfishsample/public
+svn export --force http://www.mapfish.org/svn/mapfish/framework/client/trunk/examples public/examples</pre>
 </div>
-<p>and start on <code class="docutils literal"><span class="pre">http://localhost:3000/</span></code></p>
+<p>and start on <tt class="docutils literal"><span class="pre">http://localhost:3000/</span></tt></p>
 </div>
 <div class="section" id="using-the-print-module">
 <h2>Using the print module<a class="headerlink" href="#using-the-print-module" title="Permalink to this headline">¶</a></h2>
 <p>The Rails MapFish plugin can generate a controller for the <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/PrintModuleDoc#Protocol">MapFish print protocol</a>, to produce PDF outputs of your maps (see <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/PrintModuleDoc">MapFish PrintModuleDoc</a>):</p>
-<div class="highlight-python"><div class="highlight"><pre>./script/generate print_controller Print
-</pre></div>
+<div class="highlight-python"><pre>./script/generate print_controller Print</pre>
 </div>
 <p>Add the following routes to config/routes.rb:</p>
-<div class="highlight-python"><div class="highlight"><pre>map.connect &#39;print/info.:format&#39;,   :controller=&gt;&#39;print&#39;, :action=&gt;&#39;info&#39;,   :method=&gt;:get
-map.connect &#39;print/create.:format&#39;, :controller=&gt;&#39;print&#39;, :action=&gt;&#39;create&#39;, :method=&gt;:post
-map.connect &#39;print/:id.:format&#39;,    :controller=&gt;&#39;print&#39;, :action=&gt;&#39;show&#39;,   :method=&gt;:get
-</pre></div>
+<div class="highlight-python"><pre>map.connect 'print/info.:format',   :controller=&gt;'print', :action=&gt;'info',   :method=&gt;:get
+map.connect 'print/create.:format', :controller=&gt;'print', :action=&gt;'create', :method=&gt;:post
+map.connect 'print/:id.:format',    :controller=&gt;'print', :action=&gt;'show',   :method=&gt;:get</pre>
 </div>
 <p>You&#8217;ll need to have <a class="reference external" href="http://www.java.com/download/">Sun&#8217;s JRE</a> installed to make this working.</p>
 <ul class="simple">
@@ -236,14 +214,14 @@ If you&#8217;re getting errors, check your log file to get debug information.</l
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
+          <a href="../../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="../contribs/mapfishapi.html" title="MapFishAPI"
@@ -251,14 +229,14 @@ If you&#8217;re getting errors, check your log file to get debug information.</l
         <li class="right" >
           <a href="index.html" title="Implementations"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Implementations</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Implementations</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2009, Camptocamp.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    <div class="footer">
+      &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
     </div>
   </body>
 </html>

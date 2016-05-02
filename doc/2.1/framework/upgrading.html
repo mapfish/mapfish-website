@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Upgrading &mdash; MapFish v2.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.1 documentation" href="../index.html" />
+    <link rel="up" title="Framework" href="index.html" />
+    <link rel="next" title="MapFish Protocol" href="../protocol.html" />
+    <link rel="prev" title="Using spatial databases with MapFish" href="spatial-databases.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../protocol.html" title="MapFish Protocol"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="spatial-databases.html" title="Using spatial databases with MapFish"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Upgrading</a><ul>
+<li><a class="reference internal" href="#pylons-1-0">Pylons 1.0</a></li>
+<li><a class="reference internal" href="#mapfish-2-x">MapFish 2.x</a><ul>
+<li><a class="reference internal" href="#geoalchemy">GeoAlchemy</a></li>
+<li><a class="reference internal" href="#filters">Filters</a></li>
+<li><a class="reference internal" href="#protocol">Protocol</a></li>
+<li><a class="reference internal" href="#geojsonify">geojsonify</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="spatial-databases.html"
+                        title="previous chapter">Using spatial databases with MapFish</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../protocol.html"
+                        title="next chapter">MapFish Protocol</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/framework/upgrading.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="upgrading">
+<h1>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this headline">¶</a></h1>
+<p>This section provides information for upgrading a MapFish application from
+MapFish 1.2 to MapFish 2.x.</p>
+<div class="section" id="pylons-1-0">
+<h2>Pylons 1.0<a class="headerlink" href="#pylons-1-0" title="Permalink to this headline">¶</a></h2>
+<p>MapFish 1.2 is based on Pylons 0.9.7, and MapFish 2.x is based on Pylons 1.0.
+So to upgrade an application from MapFish 1.2 to MapFish 2.x it is first needed
+to upgrade that application from Pylons 0.9.7 to Pylons 1.0. For this refer to
+the <a class="reference external" href="http://pylonshq.com/docs/en/1.0/upgrading/">Pylons 1.0 Upgrading page</a>,
+and follow the provided indications.</p>
+<p>The Pylons 1.0 Uprading page doesn&#8217;t include information for upgrading
+the model and base controller. Here&#8217;s additional information:</p>
+<ul>
+<li><p class="first">The <tt class="docutils literal"><span class="pre">model.meta</span></tt> module no longer stores reference to the <tt class="docutils literal"><span class="pre">engine</span></tt> and
+<tt class="docutils literal"><span class="pre">metadata</span></tt> objects. Edit <tt class="docutils literal"><span class="pre">model/meta.py</span></tt> and remove these files:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">MetaData</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The <tt class="docutils literal"><span class="pre">model.meta</span></tt> module now creates the <tt class="docutils literal"><span class="pre">scoped</span> <span class="pre">session</span></tt> and the
+SQLAlchemy <tt class="docutils literal"><span class="pre">declarative</span> <span class="pre">base</span></tt> class. Edit <tt class="docutils literal"><span class="pre">model/meta.py</span></tt>, replace the
+<tt class="docutils literal"><span class="pre">Session</span> <span class="pre">=</span> <span class="pre">None</span></tt> line with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Session</span> <span class="o">=</span> <span class="n">scoped_session</span><span class="p">(</span><span class="n">sessionmaker</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>and add the following line at the end of the file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The <tt class="docutils literal"><span class="pre">init_model</span></tt> function of the <tt class="docutils literal"><span class="pre">model</span></tt> module is no longer responsible
+for creating the <tt class="docutils literal"><span class="pre">Session</span></tt>. Edit <tt class="docutils literal"><span class="pre">model/__init__.py</span></tt> and remove these
+three lines from the body of the <tt class="docutils literal"><span class="pre">init_model</span></tt> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sm</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">init_model</span></tt> function now just configures the (already-created)
+Session. Add the following statement to the body of <tt class="docutils literal"><span class="pre">init_model</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Session</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The application should now be upgraded to Pylons 1.0, and it is now time to do
+MapFish-specific adjusments.</p>
+</div>
+<div class="section" id="mapfish-2-x">
+<h2>MapFish 2.x<a class="headerlink" href="#mapfish-2-x" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="geoalchemy">
+<h3>GeoAlchemy<a class="headerlink" href="#geoalchemy" title="Permalink to this headline">¶</a></h3>
+<p>MapFish 2.x is based on <a class="reference external" href="http://geoalchemy.org">GeoAlchemy</a>. GeoAlchemy
+provides extensions to SQLAlchemy for use with spatial databases. MapFish 2.x
+no longer defines the <tt class="docutils literal"><span class="pre">Geometry</span></tt> type, the one defined by GeoAlchemy is to be
+used instead.</p>
+<p>With MapFish 1.2 the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></tt> command generated model files that
+looked like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">types</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">mapper</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">Geometry</span>
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">GeometryTableMixIn</span>
+
+<span class="kn">from</span> <span class="nn">blonay.model.meta</span> <span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">engine</span>
+
+<span class="n">users_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+    <span class="s">&#39;users&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;the_geom&#39;</span><span class="p">,</span> <span class="n">Geometry</span><span class="p">(</span><span class="mi">4326</span><span class="p">)),</span>
+    <span class="n">schema</span><span class="o">=</span><span class="s">&#39;my_schema&#39;</span><span class="p">,</span>
+    <span class="n">autoload</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoload_with</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="c"># for GeometryTableMixIn to do its job the __table__ property</span>
+    <span class="c"># must be set here</span>
+    <span class="n">__table__</span> <span class="o">=</span> <span class="n">users_table</span>
+
+<span class="n">mapper</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">users_table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With MapFish 2.x the same <tt class="docutils literal"><span class="pre">user</span></tt> model looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">types</span>
+
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">Point</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.sqlalchemygeom</span> <span class="kn">import</span> <span class="n">GeometryTableMixIn</span>
+<span class="kn">from</span> <span class="nn">sample.model.meta</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">Base</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">GeometryTableMixIn</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;users&#39;</span>
+    <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;schema&quot;</span><span class="p">:</span> <span class="s">&#39;my_schema&#39;</span><span class="p">,</span>
+        <span class="s">&quot;autoload&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&quot;autoload_with&quot;</span><span class="p">:</span> <span class="n">Session</span><span class="o">.</span><span class="n">bind</span>
+    <span class="p">}</span>
+    <span class="n">the_geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="n">srid</span><span class="o">=</span><span class="mi">4326</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filters">
+<h3>Filters<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">Filter</span></tt> abstraction is no longer. With MapFish 2.x only SQLAlchemy
+filters (<tt class="docutils literal"><span class="pre">ClauseElement</span></tt>) are manipulated.</p>
+<p>The <a class="reference external" href="../reference/protocol.html#creating-protocol-filter">create_default_filter()</a>, <a class="reference external" href="../reference/protocol.html#creating-protocol-filter">create_attr_filter()</a>, and
+<a class="reference external" href="../reference/protocol.html#creating-protocol-filter">create_geom_filter()</a>
+functions all return SQLAlchemy <tt class="docutils literal"><span class="pre">ClauseElement</span></tt> objects.</p>
+<p>Concretely it means that you change your code not to rely on <tt class="docutils literal"><span class="pre">Spatial</span></tt>,
+<tt class="docutils literal"><span class="pre">Comparison</span></tt>, <tt class="docutils literal"><span class="pre">Logical</span></tt> and <tt class="docutils literal"><span class="pre">FeatureId</span></tt> filters but on regular SQLAlchemy
+<tt class="docutils literal"><span class="pre">ClauseElement</span></tt> objects. For example you would use <tt class="docutils literal"><span class="pre">and_</span></tt> instead of
+<tt class="docutils literal"><span class="pre">Logical</span></tt>, etc.</p>
+</div>
+<div class="section" id="protocol">
+<h3>Protocol<a class="headerlink" href="#protocol" title="Permalink to this headline">¶</a></h3>
+<p>With the removal of the <tt class="docutils literal"><span class="pre">Filter</span></tt> abstraction the <tt class="docutils literal"><span class="pre">lib</span></tt> module is entirely
+gone, and the <tt class="docutils literal"><span class="pre">protocol</span></tt> module is now located in <tt class="docutils literal"><span class="pre">mapfish</span></tt>. This means
+your files that import <tt class="docutils literal"><span class="pre">protocol</span></tt>, typically controllers, should be changed.
+Typical controllers must be changed from:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">mapfish.lib.protocol</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">create_default_filter</span>
+</pre></div>
+</div>
+<p>to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">mapfish.protocol</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">create_default_filter</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geojsonify">
+<h3>geojsonify<a class="headerlink" href="#geojsonify" title="Permalink to this headline">¶</a></h3>
+<p>MapFish 2.x introduces the <tt class="docutils literal"><span class="pre">geojsonify</span></tt> decorator for generating GeoJSON.</p>
+<p>With MapFish 1.2 the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></tt> command generated controller files
+that looked like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect_to</span>
+
+<span class="kn">from</span> <span class="nn">myproject.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span>
+<span class="kn">from</span> <span class="nn">myproject.model.users</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">myproject.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">myproject.lib.decorators</span> <span class="kn">import</span> <span class="n">geojsonify</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.protocol</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">create_default_filter</span>
+
+<span class="k">class</span> <span class="nc">UsersController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /: return all features.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /id: Show a specific feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;POST /: Create a new feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;PUT /id: Update an existing feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;DELETE /id: Delete an existing feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With MapFish 2.x the same <tt class="docutils literal"><span class="pre">user</span></tt> controller looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect</span>
+
+<span class="kn">from</span> <span class="nn">test.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span>
+<span class="kn">from</span> <span class="nn">test.model.users</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">test.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+
+<span class="kn">from</span> <span class="nn">mapfish.protocol</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">create_default_filter</span>
+<span class="kn">from</span> <span class="nn">mapfish.decorators</span> <span class="kn">import</span> <span class="n">geojsonify</span>
+
+<span class="k">class</span> <span class="nc">UsersController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /: return all features.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">format</span> <span class="o">!=</span> <span class="s">&#39;json&#39;</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GET /id: Show a specific feature.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">format</span> <span class="o">!=</span> <span class="s">&#39;json&#39;</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;POST /: Create a new feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+    <span class="nd">@geojsonify</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;PUT /id: Update an existing feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;DELETE /id: Delete an existing feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Several things to note here:</p>
+<ul class="simple">
+<li>Protocols no longer expose <tt class="docutils literal"><span class="pre">index</span></tt> and <tt class="docutils literal"><span class="pre">show</span></tt> methods. They expose a
+single method for reading features: <tt class="docutils literal"><span class="pre">read</span></tt>. So <tt class="docutils literal"><span class="pre">read</span></tt> is to be used
+from both the <tt class="docutils literal"><span class="pre">index</span></tt> and <tt class="docutils literal"><span class="pre">show</span></tt> actions.</li>
+<li>The <tt class="docutils literal"><span class="pre">index</span></tt>, <tt class="docutils literal"><span class="pre">show</span></tt>, <tt class="docutils literal"><span class="pre">create</span></tt>, and <tt class="docutils literal"><span class="pre">update</span></tt> methods no longer
+return GeoJSON strings. Instead they return objects that can be
+serialized into GeoJSON strings. This serialization is taken
+care of by the <tt class="docutils literal"><span class="pre">geojsonify</span></tt> decorator.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../protocol.html" title="MapFish Protocol"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="spatial-databases.html" title="Using spatial databases with MapFish"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Framework</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,338 @@
+Module 2 – Création de l'application
+====================================
+Au sein de ce module vous apprendrez à créer une application MapFish. Vous en
+étudierez sa structure ainsi que le code et la structure MapFish généré lors de
+la création de l'application.
+
+Mise en œuvre de l'application 
+------------------------------
+
+Mise en œuvre de la base 
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pour concevoir l'application MapFish utilisez :
+
+::
+    
+    $ paster create -t mapfish MapFishApp
+
+``MapFishApp`` est le nom de l'application Mapfish en cours d'installation, vous
+pouvez bien évidemment modifier son nom à votre convenance. Nous assumons que vous 
+avez choisi ``MapFishApp`` dans le reste de ce document.
+
+Lorsque le programme vous demande quel template doit être employé, choisissez la
+valeur par défaut ``mako``.
+Lorsqu'on vous demande si la cojfiguration de SQLAlchemy 0.6 doit être incluse, 
+répondez ``True``, puisque vous application MapFish incluera des services web se 
+basant sur une base de données.
+
+Vous devez maintenant avoir un dossier nommé ``MapFishApp``. Ce dernier contient
+les fichiers de votre application, principalement des fichiers Python à ce stade
+de l'installation.
+
+L'heure est venue de vérifier que l'application MapFish fonctionne correctement.
+Pour cela, dirigez vous au sein du répertoire 
+``MapFishApp`` et lancez l'application :
+
+::
+    
+    $ cd MapFishApp
+    $ paster serve development.ini
+
+Cette ligne de commande lance l'application dans le serveur web Paster,
+couramment employé par les développements employant le langage Python.
+
+Ouvrez maintenant l'adresse suivante http://localhost:5000 au sein de votre
+navigateur web, vous devriez être dirigés vers la page par défaut suivante :
+
+.. image:: ../_static/pylons.png
+    :height: 300pt
+    :width: 500pt
+
+Installation de la boite à outils Javascript pour MapFish
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Vous allez maintenant installer la boite à outils Javascript au sein de votre
+application. Celle ci comprend :
+
+* Ext, OpenLayers, GeoExt ainsi que la librairie JavaScript de MapFish,
+* un échantillon d'application JavaScript basée sur ces librairies,
+* un profil existant pour optimiser et minimiser  le code JavaScript de cet
+    échantillon d'application,
+* un framework de test JavaScript, avec un exemple de test
+
+Entrez ``Ctrl+C`` pour stopper le serveur Paster puis continuez avec ces deux
+lignes de commandes :
+
+::
+    $ cd ..
+    $ paster create -t mapfish_client MapFishApp
+
+Lorsque le programme vous demande de remplacer ``index.html`` répondez ``y``.
+Cette commande écrasera la page ``index.html`` aperçue dans la section
+précédente par celle proposée par l'échantillon ``mapfish_client``.
+
+Redémarrez l'application :
+
+::
+    
+    $ cd MapFishApp
+    $ paster serve --reload development.ini
+
+.. note::
+    Notez l'utilité de la commande ``--reload`` . Celle ci permet au serveur
+    Paster de contrôler l'ensemble des modules Python utilisés par l'application
+    ``MapFishApp`` et de se recharger automatiquement lorsqu'un des modules est
+    modifié ou lorsque de nouveaux sont créés. Cette particularité est très utile
+    lors du développement.
+
+Ouvrez ou rechargez http://localhost:5000 au sein de votre navigateur, vous
+devriez maintenant obtenir l'interface utilisateur par défaut que voici :
+
+.. image:: ../_static/osm.png
+    :height: 300pt
+    :width: 500pt
+
+Cette interface par défaut est composée d'une carte, d'une boîte à outils au
+dessus de celle-ci avec les commande nécessaires à l'utilisation de la carte, et
+finalement de l'arborescence des couches permettant de contrôler la visibilité des
+différentes informations géographiques à disposition. La carte en elle-même est 
+composée de deux couches de bases `OpenStreetMap <http://openstreetmap.org>`_ 
+(Mapnik et Tiles@Home).
+
+L'interface utilisateur par défaut est mise à disposition du développeur de
+l'application comme exemple. Ce dernier est libre de développer à partir de cet
+échantillon ou bien de le supprimer et le remplacer par un autre.
+
+Comme mentionné au début de ce chapitre, la boite à outils JavaScript installée
+au sein de l'application MapFish est livrée avec un Framework de test
+JavaScript. Nous voyons clairement ci que l''un des objectifs de MapFish est ici 
+de libérer le développeur des tâches fastidieuses et ainsi le rendre plus 
+productif dans le développement d'un code de haute qualité, stable et testé. Un 
+exemple de test vous est proposé, pour l'exécuter chargez
+http://localhost:5000/tests dans votre navigateur.
+
+Etude de l'application 
+----------------------
+
+La sous-partie suivante vous donnera un aperçu d'ensemble des différents
+dossiers et fichiers de votre application MapFish. Prenez le temps de parcourir
+ce répertoire afin vous donner une idée sur la structuration de l'application.
+
+Structure Globale 
+~~~~~~~~~~~~~~~~~
+
+Le dossier principal de l'application, ``MapFishApp``, contient :
+
+``development.ini``
+    Il s'agit du fichier de configuration de l'application. Il comprend les
+    éléments de l'adresse IP et du port TCP que le serveur devra utiliser, les
+    éléments de connexion à la base de données, etc.
+
+``layers.ini``
+    C'est ici que le développeur de l'application définira les informations sur
+    les services web générés par le Framework. Nous reviendrons plus tard sur ce
+    fichier lors du module *Création du service Web* figurant plus loin dans le
+    document.
+
+``jsbuild``
+    Ce dossier contient le code JavaScript permettant de construire l'interface
+    utilisateur par défaut. Nous reviendrons sur cet élément plus tard au sein du
+    module *Construction de scripts JavaScript* figurant plus loin dans le document.
+
+``setup.cfg`` and ``setup.py``
+    Ces deux fichiers contrôlent les divers aspects de la façon dont
+    l'application MapFish est assemblée lors de sa distribution.
+
+``mapfishapp``
+
+    Il s'agit du dossier principal de l'application, son nom dépend de celui
+    donné à l'application et donc de l'argument donné lors de l'utilisation de la
+    commande ``paster create``. Les sous-dossiers les plus important du répertoire
+    sont: ``controllers``, ``model``, ``lib``, 
+    ``config``, ``tests``, ``templates``, and ``public``.
+
+    ``controllers``
+        Le dossier ``controllers`` contient les contrôleurs de l'application.
+        Les contrôleurs sont les composants qui gèrent les requêtes HTTP et envoient les
+        réponses http. Ils interagissent souvent avec le code présent dans les dossiers
+        suivants ``model`` et ``templates``.
+
+    ``model``
+        Le dossier ``model`` comprend les éléments de définition et de
+        configuration de la base données. C'est ici que les différentes tables et
+        relations sont définies.
+
+    ``lib``
+        Le dossier ``lib`` comprend le code Python partagé par les différents
+        contrôleurs, ainsi que le tiers du code.
+
+    ``config``
+        Le dossier ``config`` comprend le code Python généré par le Framework et
+        celui nécessaire à l'optimisation de l'application. 
+
+    ``tests``
+        Le dossier ``tests`` vous permet d'intégrer vos propres test Python afin
+        de contrôler automatiquement votre application.
+
+    ``templates``
+        Le dossier ``templates`` vous permet de visualiser les différents
+        modèles enregistrés. Le rendu HTML étant surtout élaboré côté client, nous
+        n'allons pas écrire de modèles dans le cadre de cet atelier. 
+
+    ``public``
+
+        Le dossier ``public`` comprend les fichiers dits statiques de l'application
+        comme par exemple les fichiers de type HTML, CSS, JavaScript, etc. La plupart
+        des éléments de ce dossier ont étés générés lors de l'installation de la boite à
+        outils JavaScript via le ``paster create –tmapfish_client``. Les principaux
+        éléments de ce dossier sont les fichiers et ou dossiers ``index.html``,
+        ``mfbase``, ``app``, et ``tests``.
+
+        ``index.html``
+            Le fichier ``index.html`` correspond à la page d'accueil HTML de
+            l'utilisateur. C'est dans ce dernier que le code JavaScript est chargé.
+
+        ``lib``
+            Le dossier ``lib`` contient les librairies de la boite à outils 
+            JavaScript de MapFish, respectivement nommées Ext, OpenLayers, 
+            GeoExt ainsi que le Client MapFish.
+
+        ``app``
+            Le dossier ``app`` contient les fichiers spécifiques à l'application.
+            Son sous dossier nommé ``js/App`` comprend le code JavaScript de l'interface
+            utilisateur par défaut.
+
+        ``tests``
+            Le dossier ``tests`` permet au développeur de l'application de déposer
+            ces tests JavaScripts. Ce dossier comprend aussi le Framework de test
+            JavaScript, `Test.AnotherWay <http://www.openjsan.org/doc/a/ar/artemkhodush/>`_
+            [#]_, ainsi qu'un exemple de test.
+
+Interface Utilisateur 
+~~~~~~~~~~~~~~~~~~~~~
+
+Parcourons maintenant les fichiers prenant part à la construction de l'interface
+utilisateur (i.e. la page web avec les couches OSM).
+
+Editez le fichier ``index.html`` et portez votre attention sur ces quelques
+lignes :
+
+::
+    
+    <script type="text/javascript" src="lib/ext/Ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="lib/ext/Ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="lib/openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="lib/geoext/lib/GeoExt.js"></script>
+
+
+Ces balises ``<script>`` activent les librairies JavaScript d'ExtJS,
+d'OpenLayers, de GeoExt lorsque la page web est ouverte par le navigateur. Ce 
+sont des versions de librairies où le code JavaScripts n'est pas minimisé. Nous 
+parlerons de l'optimisation et de la minification du code JavaScript dans le 
+module *Construction de scripts JavaScript*.
+
+Les lignes :
+
+::
+    
+    <script type="text/javascript" src="app/lib/App/layout.js"></script>
+    <script type="text/javascript" src="app/lib/App/main.js"></script>
+
+du fichier ``index.html`` prennent en charge le chargement du code JavaScript
+spécifique à l'application. Comme vous avez pu le constater, le code JavaScript
+de l'interface utilisateur par défaut est composé de deux fichiers. Le
+développeur est cependant libre d'implémenter de nouveau fichiers si
+nécessaires.
+
+Le fichier ``main.js`` représente le point d'entrée. 
+
+::
+    
+    /*
+     * @include App/layout.js
+     */
+
+    Ext.namespace("App");
+
+    (function() {
+
+        // global settings
+        OpenLayers.ImgPath = "lib/openlayers/img";
+        Ext.QuickTips.init();
+
+        // run App.layout.init() when the page
+        // is ready
+        Ext.onReady(function() {
+	    App.layout.init()
+        });
+    })();
+
+Le fichier vient juste de créer le namespace de l'application, et d'enregistrer
+un callback devant être exécuté lorsque la page HTML et ses composants sont
+entièrement chargés. Le callback est enregistré en utilisant la fonction 
+``Ext.onReady`` ; nous déduisons à partir du namespace de la fonction que la 
+fonction est mise à disposition par la librairie Ext. Utiliser ``Ext.onReady`` 
+est commun d'une application basée sur la librairie Ext.
+
+Le fichier ``layout.js`` est l'emplacement où la composition est définie. Ce 
+fichier contient des fonctions privées, ex. une fonction qui ne peut être appelée 
+depuis un environnement extérieur au module ``App.layout``,
+et de la fonction publique ``init``, qui est une fonction elle même passée par
+la fonction ``Ext.onReady``.
+
+Reprenons ce que les fonctions du module ``layout`` font.
+
+``createMap``
+    Cette fonction crée une carte, instance d'``OpenLayers.Map``. Pour plus de
+    détail regardez le document suivant `doc OpenLayers.Map
+    <http://dev.openlayers.org/apidocs/files/OpenLayers/Map-js.html>`_ [#]_.
+
+``createLayers``
+    Cette fonction crée les couches d'OSM et les retournes.
+
+``createLayerStore``
+    Cette fonction crée un objet ``GeoExt.data.LayerStore`` en passant ``map``
+    et ``layers`` comme arguments. Un ``GeoExt.data.LayerStore`` est nécessaire pour
+    la création d'un map panel. Pour plus de détail regardez le document suivant
+    `doc GeoExt.data.LayerStore
+    <http://www.geoext.org/lib/GeoExt/data/LayerStore.html>`_ [#]_.
+
+``createTbarItems``
+    Cette fonction crée et retourne la barre d'outils. Cette dernière est
+    composée d'objets de type ``GeoExt.Action``. Nous rentrerons plus en détail sur
+    ``GeoExt.Action`` dans le module *Personnalisation de l'Application*.
+
+``init``
+    Cette fonction initie, en les appelant, les fonctions ``createMap``,
+    ``createLayers``, et ``createLayerStore`` afin de créer la carte,
+    ses couches ainsi que le layer store.
+    
+    Elle crée ensuite un composant graphique ``Ext.Viewport``, représentant la
+    fenêtre du navigateur. Cette dernière contient d'autres composants graphiques:
+    ses ``items``. La fenêtre contient deux éléments, une carte ainsi qu'une
+    arborescence des couches. Pour plus de détail regardez le document suivant
+    <http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.Viewport>`_ [#]_.
+
+    Le Map Panel, objet de type GeoExt, est configurée avec les objets map  et layer
+    store. Il contient la barre de zoom ainsi qu'une barre d'outils dont les
+    éléments sont retournés par la fonction ``createTbarItems``. Pour plus de détail
+    regardez le document suivant `GeoExt.MapPanel doc
+    <http://www.geoext.org/lib/GeoExt/widgets/MapPanel.html>`_ [#]_.
+
+    L'arborescence des couches est conforme au ``Ext.tree.TreePanel`` avec un
+    ``GeoExt.tree.LayerContainer`` original. Pour plus de détail regardez les
+    documents suivants `Ext.tree.TreePanel
+    <http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.tree.TreePanel>`_
+    [#]_, and the `GeoExt.tree.LayerContainer doc
+    <http://www.geoext.org/lib/GeoExt/widgets/tree/LayerContainer.html>`_ [#]_.
+
+
+
+.. [#] http://www.openjsan.org/doc/a/ar/artemkhodush/
+.. [#] http://dev.openlayers.org/apidocs/files/OpenLayers/Map-js.html
+.. [#] http://www.geoext.org/lib/GeoExt/data/LayerStore.html
+.. [#] http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.Viewport
+.. [#] http://www.geoext.org/lib/GeoExt/widgets/MapPanel.html
+.. [#] http://www.extjs.com/deploy/ext-2.2.1/docs/?class=Ext.tree.TreePanel
+.. [#] http://www.geoext.org/lib/GeoExt/widgets/tree/LayerContainer.html

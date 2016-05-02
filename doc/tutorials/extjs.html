@@ -1,138 +1,132 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>ExtJS tutorial &mdash; MapFish</title>
-    
     <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
         VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../index.html" />
     <link rel="up" title="Tutorials" href="index.html" />
     <link rel="next" title="OGRS 2009 - State of the art of the creation of GIS rich internet application" href="ogrs2009_lab.html" />
     <link rel="prev" title="8 hours introduction to MapFish Framework 1.2" href="introduction/introduction.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="../../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="ogrs2009_lab.html" title="OGRS 2009 - State of the art of the creation of GIS rich internet application"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="introduction/introduction.html" title="8 hours introduction to MapFish Framework 1.2"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../index.html">
               <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
             </a></p>
-  <h3><a href="../../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">ExtJS tutorial</a><ul>
-<li><a class="reference internal" href="#get-prepared-with-extjs">Get Prepared with ExtJS</a><ul>
-<li><a class="reference internal" href="#download-extjs">Download ExtJS</a></li>
-<li><a class="reference internal" href="#empty-html">Empty HTML</a></li>
-<li><a class="reference internal" href="#head-section">Head Section</a></li>
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">ExtJS tutorial</a><ul>
+<li><a class="reference external" href="#get-prepared-with-extjs">Get Prepared with ExtJS</a><ul>
+<li><a class="reference external" href="#download-extjs">Download ExtJS</a></li>
+<li><a class="reference external" href="#empty-html">Empty HTML</a></li>
+<li><a class="reference external" href="#head-section">Head Section</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#element-the-heart-of-ext">Element: The Heart of Ext</a></li>
-<li><a class="reference internal" href="#domquery-selecting-dom-nodes">DomQuery: Selecting DOM Nodes</a></li>
-<li><a class="reference internal" href="#domhelper-manipulating-the-dom">DomHelper: Manipulating the DOM</a><ul>
-<li><a class="reference internal" href="#simple-example">Simple example</a></li>
-<li><a class="reference internal" href="#using-templates">Using templates</a></li>
-<li><a class="reference internal" href="#compiling-templates">Compiling templates</a></li>
+<li><a class="reference external" href="#element-the-heart-of-ext">Element: The Heart of Ext</a></li>
+<li><a class="reference external" href="#domquery-selecting-dom-nodes">DomQuery: Selecting DOM Nodes</a></li>
+<li><a class="reference external" href="#domhelper-manipulating-the-dom">DomHelper: Manipulating the DOM</a><ul>
+<li><a class="reference external" href="#simple-example">Simple example</a></li>
+<li><a class="reference external" href="#using-templates">Using templates</a></li>
+<li><a class="reference external" href="#compiling-templates">Compiling templates</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#events">Events</a><ul>
-<li><a class="reference internal" href="#definition">Definition</a></li>
-<li><a class="reference internal" href="#events-in-ext">Events in Ext</a></li>
-<li><a class="reference internal" href="#dom-events">DOM Events</a></li>
-<li><a class="reference internal" href="#javascript-events">JavaScript Events</a></li>
-<li><a class="reference internal" href="#how-do-i-listen-to-events">How do I listen to events?</a></li>
-<li><a class="reference internal" href="#attaching-multiple-handlers">Attaching multiple handlers</a></li>
-<li><a class="reference internal" href="#how-do-i-create-event-source">How do I create event source?</a></li>
-<li><a class="reference internal" href="#custom-events">Custom Events</a></li>
-<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference external" href="#events">Events</a><ul>
+<li><a class="reference external" href="#definition">Definition</a></li>
+<li><a class="reference external" href="#events-in-ext">Events in Ext</a></li>
+<li><a class="reference external" href="#dom-events">DOM Events</a></li>
+<li><a class="reference external" href="#javascript-events">JavaScript Events</a></li>
+<li><a class="reference external" href="#how-do-i-listen-to-events">How do I listen to events?</a></li>
+<li><a class="reference external" href="#attaching-multiple-handlers">Attaching multiple handlers</a></li>
+<li><a class="reference external" href="#how-do-i-create-event-source">How do I create event source?</a></li>
+<li><a class="reference external" href="#custom-events">Custom Events</a></li>
+<li><a class="reference external" href="#summary">Summary</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#components">Components</a><ul>
-<li><a class="reference internal" href="#messagebox">MessageBox</a></li>
-<li><a class="reference internal" href="#gridpanel">GridPanel</a></li>
-<li><a class="reference internal" href="#and-many-more">And Many More...</a></li>
+<li><a class="reference external" href="#components">Components</a><ul>
+<li><a class="reference external" href="#messagebox">MessageBox</a></li>
+<li><a class="reference external" href="#gridpanel">GridPanel</a></li>
+<li><a class="reference external" href="#and-many-more">And Many More...</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#layouts">Layouts</a><ul>
-<li><a class="reference internal" href="#tabs">Tabs</a></li>
-<li><a class="reference internal" href="#viewport-and-border-layout">ViewPort and Border Layout</a></li>
-<li><a class="reference internal" href="#accordion-layout">Accordion Layout</a></li>
-<li><a class="reference internal" href="#id1">And Many More...</a></li>
+<li><a class="reference external" href="#layouts">Layouts</a><ul>
+<li><a class="reference external" href="#tabs">Tabs</a></li>
+<li><a class="reference external" href="#viewport-and-border-layout">ViewPort and Border Layout</a></li>
+<li><a class="reference external" href="#accordion-layout">Accordion Layout</a></li>
+<li><a class="reference external" href="#id1">And Many More...</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="introduction/introduction.html"
-                        title="previous chapter">8 hours introduction to MapFish Framework 1.2</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="ogrs2009_lab.html"
-                        title="next chapter">OGRS 2009 - State of the art of the creation of GIS rich internet application</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/doc/tutorials/extjs.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="introduction/introduction.html"
+                                  title="previous chapter">8 hours introduction to MapFish Framework 1.2</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="ogrs2009_lab.html"
+                                  title="next chapter">OGRS 2009 - State of the art of the creation of GIS rich internet application</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../../_sources/doc/tutorials/extjs.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="extjs-tutorial">
 <span id="mapfish-tutorials-extjs"></span><h1>ExtJS tutorial<a class="headerlink" href="#extjs-tutorial" title="Permalink to this headline">¶</a></h1>
@@ -148,11 +142,11 @@ This part is based on <a class="reference external" href="http://extjs.com/learn
 <p>If you haven&#8217;t done so already, you&#8217;ll first want to download the most current
 Ext release which can always be found here: <a class="reference external" href="http://extjs.com/products/extjs/download.php">http://extjs.com/products/extjs/download.php</a>.</p>
 <blockquote>
-<div><div class="admonition note">
+<div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">You can unzip these files in a web published webserver folder.</p>
 </div>
-</div></blockquote>
+</blockquote>
 </div>
 <div class="section" id="empty-html">
 <h3>Empty HTML<a class="headerlink" href="#empty-html" title="Permalink to this headline">¶</a></h3>
@@ -210,27 +204,27 @@ Ext release which can always be found here: <a class="reference external" href="
 <p>We&#8217;ve basically just set up placeholders for our various resources.
 What we&#8217;ve done now is:</p>
 <blockquote>
-<div><ul class="simple">
-<li>include <code class="docutils literal"><span class="pre">ext-all.css</span></code>. The file for css styles.</li>
-<li>include <code class="docutils literal"><span class="pre">ext-base.js</span></code>. The base file for ExtJs.</li>
-<li>include <code class="docutils literal"><span class="pre">ext-all-debug.js</span></code>. The kitchen sink for all ExtJs splendor.</li>
-<li>specified a link to a local <code class="docutils literal"><span class="pre">s.gif</span></code> file so the Ext library isn&#8217;t looking back at <a class="reference external" href="http://www.extjs.com">http://www.extjs.com</a></li>
-<li>threw in a <code class="docutils literal"><span class="pre">alert</span></code> statement into an onReady block. This is just a test to see if we have our page set up correctly.</li>
+<ul class="simple">
+<li>include <tt class="docutils literal"><span class="pre">ext-all.css</span></tt>. The file for css styles.</li>
+<li>include <tt class="docutils literal"><span class="pre">ext-base.js</span></tt>. The base file for ExtJs.</li>
+<li>include <tt class="docutils literal"><span class="pre">ext-all-debug.js</span></tt>. The kitchen sink for all ExtJs splendor.</li>
+<li>specified a link to a local <tt class="docutils literal"><span class="pre">s.gif</span></tt> file so the Ext library isn&#8217;t looking back at <a class="reference external" href="http://www.extjs.com">http://www.extjs.com</a></li>
+<li>threw in a <tt class="docutils literal"><span class="pre">alert</span></tt> statement into an onReady block. This is just a test to see if we have our page set up correctly.</li>
 </ul>
-</div></blockquote>
-<p>You can put this code in an html file (<code class="docutils literal"><span class="pre">index.html</span></code> for example) and you can test it in your favorite browser. Firefox with firebug is prefered.</p>
+</blockquote>
+<p>You can put this code in an html file (<tt class="docutils literal"><span class="pre">index.html</span></tt> for example) and you can test it in your favorite browser. Firefox with firebug is prefered.</p>
 <blockquote>
-<div><div class="admonition note">
+<div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Firebug is a Firefox extension, that need to be installed, which provides debugging capabilities.</p>
 </div>
-</div></blockquote>
+</blockquote>
 </div>
 </div>
 <div class="section" id="element-the-heart-of-ext">
 <h2>Element: The Heart of Ext<a class="headerlink" href="#element-the-heart-of-ext" title="Permalink to this headline">¶</a></h2>
 <p>Now that you know how to install / load ExtJS, let&#8217;s clean our code.
-Move the javascript code (blank image, and onReady block), in a specific file called <code class="docutils literal"><span class="pre">ExtStart.js</span></code>. Add the newly
+Move the javascript code (blank image, and onReady block), in a specific file called <tt class="docutils literal"><span class="pre">ExtStart.js</span></tt>. Add the newly
 required link to the javascript file in your html header section (order matters!).</p>
 <p>Finally, add the following code in your body section</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;myDiv&quot;</span><span class="nt">&gt;</span>This is a test div.<span class="nt">&lt;/div&gt;</span>
@@ -244,7 +238,7 @@ required link to the javascript file in your html header section (order matters!
 <p>This is not really convenient and everything you do with this has to be cross-browser. It&#8217;s really painful and unproductive.
 ExtJS is really helpful on this point. With the <strong>Ext.Element object</strong>, it offers a very convenient way to access to Elements
 and perform actions on them in an easier way.</p>
-<p>If you&#8217;ve already added <code class="docutils literal"><span class="pre">div#myDiv</span></code> element in your html code, you can change some code in <code class="docutils literal"><span class="pre">ExtStart.js</span></code> so it looks like
+<p>If you&#8217;ve already added <tt class="docutils literal"><span class="pre">div#myDiv</span></tt> element in your html code, you can change some code in <tt class="docutils literal"><span class="pre">ExtStart.js</span></tt> so it looks like
 the following</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">myDiv</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">);</span>
@@ -252,7 +246,7 @@ the following</p>
 </pre></div>
 </div>
 <p>With this you now can manipulate your elements and perform the most common actions you&#8217;d perform on DOM nodes.
-Go ahead and try adding some of these to <code class="docutils literal"><span class="pre">ExtStart.js</span></code> after the the previous line we got the <code class="docutils literal"><span class="pre">myDiv</span></code> Element</p>
+Go ahead and try adding some of these to <tt class="docutils literal"><span class="pre">ExtStart.js</span></tt> after the the previous line we got the <tt class="docutils literal"><span class="pre">myDiv</span></tt> Element</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">myDiv</span><span class="p">.</span><span class="nx">highlight</span><span class="p">();</span>      <span class="c1">// The element&#39;s background will highlight to yellow then fade back</span>
 <span class="nx">myDiv</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>  <span class="c1">// Add a custom CSS class (defined in ExtStart.css)</span>
 <span class="nx">myDiv</span><span class="p">.</span><span class="nx">center</span><span class="p">();</span>         <span class="c1">// Center the element in the viewport</span>
@@ -360,7 +354,7 @@ You&#8217;ve probably faced cross-browser problems and performance issues.</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;myDiv&quot;</span> <span class="na">onclick=</span><span class="s">&quot;alert(&#39;You clicked me&#39;)&quot;</span><span class="nt">&gt;</span>Click me!<span class="nt">&lt;/div&gt;</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">Ext.Element</span></code> wraps DOM elements together with their events so now we install the same event handlers this way</p>
+<p><tt class="docutils literal"><span class="pre">Ext.Element</span></tt> wraps DOM elements together with their events so now we install the same event handlers this way</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;You clicked me&#39;</span><span class="p">);});</span>
 </pre></div>
 </div>
@@ -402,7 +396,7 @@ You&#8217;ve probably faced cross-browser problems and performance issues.</p>
 <span class="p">});</span>
 </pre></div>
 </div>
-<p>From this point on, whenever the panel <code class="docutils literal"><span class="pre">myPanel</span></code> is resized your function is called so you can do your actions.</p>
+<p>From this point on, whenever the panel <tt class="docutils literal"><span class="pre">myPanel</span></tt> is resized your function is called so you can do your actions.</p>
 </div>
 <div class="section" id="attaching-multiple-handlers">
 <h3>Attaching multiple handlers<a class="headerlink" href="#attaching-multiple-handlers" title="Permalink to this headline">¶</a></h3>
@@ -463,22 +457,22 @@ You&#8217;ve probably faced cross-browser problems and performance issues.</p>
 <span class="p">});</span>
 </pre></div>
 </div>
-<p>In the <code class="docutils literal"><span class="pre">initComponent</span></code> function we inform <em>Observable</em> class that we are going to fire our new events so it can do all necessary setup.</p>
+<p>In the <tt class="docutils literal"><span class="pre">initComponent</span></tt> function we inform <em>Observable</em> class that we are going to fire our new events so it can do all necessary setup.</p>
 <p>Note: We do not extend Observable directly here but <em>Panel</em>, what we extend, does. <em>Panel</em> ’s inheritance chain is: <em>Observable</em> -&gt; <em>Component</em> -&gt; <em>BoxComponent</em> -&gt; <em>Container</em> -&gt; <em>Panel</em>.</p>
-<p>And in <code class="docutils literal"><span class="pre">assign</span></code> and <code class="docutils literal"><span class="pre">dismiss</span></code> functions we fire our events after all assign/dismiss job has been done with signature (arguments) of our choice.</p>
-<p>When we <code class="docutils literal"><span class="pre">fireEvent</span></code>, <em>Observable</em> looks if there are some listeners to this event and calls all listeners with arguments we supplied in <code class="docutils literal"><span class="pre">fireEvent</span></code> call. If there is no listener it just does nothing.</p>
+<p>And in <tt class="docutils literal"><span class="pre">assign</span></tt> and <tt class="docutils literal"><span class="pre">dismiss</span></tt> functions we fire our events after all assign/dismiss job has been done with signature (arguments) of our choice.</p>
+<p>When we <tt class="docutils literal"><span class="pre">fireEvent</span></tt>, <em>Observable</em> looks if there are some listeners to this event and calls all listeners with arguments we supplied in <tt class="docutils literal"><span class="pre">fireEvent</span></tt> call. If there is no listener it just does nothing.</p>
 </div>
 <div class="section" id="summary">
 <h3>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>event is a message sent (fired) by an event source to inform listeners that something happened</li>
 <li>event source is an object that can fire events</li>
 <li>event listener is a function that is called when event source fires an event</li>
 <li>to listen to events we use <strong>on</strong> function to install an event listener</li>
 <li>to create an event source we extend <strong>Observable</strong> class, <strong>addEvents</strong> and <strong>fireEvent</strong></li>
 </ul>
-</div></blockquote>
+</blockquote>
 </div>
 </div>
 <div class="section" id="components">
@@ -508,7 +502,7 @@ You&#8217;ve probably faced cross-browser problems and performance issues.</p>
 </div>
 <div class="section" id="gridpanel">
 <h3>GridPanel<a class="headerlink" href="#gridpanel" title="Permalink to this headline">¶</a></h3>
-<p>The grid is one of the most popular widgets in Ext, and usually the first one that people want to see, so let&#8217;s take a look at how easy it is to get a basic grid up and running. Replace any existing code you have in <code class="docutils literal"><span class="pre">ExtStart.js</span></code> so that it looks like this</p>
+<p>The grid is one of the most popular widgets in Ext, and usually the first one that people want to see, so let&#8217;s take a look at how easy it is to get a basic grid up and running. Replace any existing code you have in <tt class="docutils literal"><span class="pre">ExtStart.js</span></tt> so that it looks like this</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">myData</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">[</span><span class="s1">&#39;Apple&#39;</span><span class="p">,</span><span class="mf">29.89</span><span class="p">,</span><span class="mf">0.24</span><span class="p">,</span><span class="mf">0.81</span><span class="p">,</span><span class="s1">&#39;9/1 12:00am&#39;</span><span class="p">],</span>
@@ -547,13 +541,13 @@ You&#8217;ve probably faced cross-browser problems and performance issues.</p>
 </div>
 <p>While this looks like a lot, it is really only seven lines of code in total!</p>
 <blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>The first line of code creates an array of data to be displayed in the grid. In real projects, you would likely load this data from some dynamic source like a database or web service.</li>
 <li>Next, we create and load a data store, which will tell the underlying Ext library how to read and format the data.</li>
 <li>Next, we define our column model which simply allows us to set up configuration options for each column of the grid.</li>
 <li>Lastly, we create the grid widget, passing in the data store and column model, render it and select the first row.</li>
 </ul>
-</div></blockquote>
+</blockquote>
 </div>
 <div class="section" id="and-many-more">
 <h3>And Many More...<a class="headerlink" href="#and-many-more" title="Permalink to this headline">¶</a></h3>
@@ -588,7 +582,7 @@ You&#8217;ve probably faced cross-browser problems and performance issues.</p>
 <div class="section" id="viewport-and-border-layout">
 <h3>ViewPort and Border Layout<a class="headerlink" href="#viewport-and-border-layout" title="Permalink to this headline">¶</a></h3>
 <p>Because the ViewPort container is a bit specific as it represents the viewable application area (ie. the browser viewport), we&#8217;ll start with a cleaned code.
-Let&#8217;s save a copy of our <code class="docutils literal"><span class="pre">ExtStart.js</span></code>, and remove everything in the <code class="docutils literal"><span class="pre">onReady</span></code> method.</p>
+Let&#8217;s save a copy of our <tt class="docutils literal"><span class="pre">ExtStart.js</span></tt>, and remove everything in the <tt class="docutils literal"><span class="pre">onReady</span></tt> method.</p>
 <p>The Viewport renders itself to the document body, and automatically sizes itself to the size of the browser viewport and manages window resizing.</p>
 <p>Though it&#8217;s not required, people usually uses the <strong>BorderLayout</strong> as the layout of the ViewPort.</p>
 <p>Copy and paste the following code in your onReady method</p>
@@ -644,14 +638,14 @@ Let&#8217;s save a copy of our <code class="docutils literal"><span class="pre">
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
+          <a href="../../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="ogrs2009_lab.html" title="OGRS 2009 - State of the art of the creation of GIS rich internet application"
@@ -659,14 +653,14 @@ Let&#8217;s save a copy of our <code class="docutils literal"><span class="pre">
         <li class="right" >
           <a href="introduction/introduction.html" title="8 hours introduction to MapFish Framework 1.2"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Tutorials</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Tutorials</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2009, Camptocamp.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    <div class="footer">
+      &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
     </div>
   </body>
 </html>

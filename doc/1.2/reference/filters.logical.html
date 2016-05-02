@@ -1,96 +1,110 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>mapfish.lib.filters.logical &mdash; MapFish</title>
-    
     <link rel="stylesheet" href="../../../_static/mapfish.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../../index.html" />
     <link rel="up" title="API References" href="index.html" />
     <link rel="next" title="mapfish.lib.filters.spatial" href="filters.spatial.html" />
     <link rel="prev" title="mapfish.lib.filters.featureid" href="filters.featureid.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="../../../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="filters.spatial.html" title="mapfish.lib.filters.spatial"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="filters.featureid.html" title="mapfish.lib.filters.featureid"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="index.html" accesskey="U">API References</a> &raquo;</li> 
+        <li><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">API References</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../../index.html">
               <img class="logo" src="../../../_static/mapfish_white.png" alt="Logo"/>
             </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="filters.featureid.html"
-                        title="previous chapter">mapfish.lib.filters.featureid</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="filters.spatial.html"
-                        title="next chapter">mapfish.lib.filters.spatial</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../../_sources/doc/1.2/reference/filters.logical.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="filters.featureid.html"
+                                  title="previous chapter">mapfish.lib.filters.featureid</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="filters.spatial.html"
+                                  title="next chapter">mapfish.lib.filters.spatial</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../../../_sources/doc/1.2/reference/filters.logical.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
-  <div class="section" id="mapfish-lib-filters-logical">
-<span id="mapfish-refdoc-1-2-reference-filterslogical"></span><h1>mapfish.lib.filters.logical<a class="headerlink" href="#mapfish-lib-filters-logical" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-mapfish.lib.filters.logical">
+<span id="mapfish-refdoc-1-2-reference-filterslogical"></span><h1>mapfish.lib.filters.logical<a class="headerlink" href="#module-mapfish.lib.filters.logical" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="mapfish.lib.filters.logical.Logical">
+<em class="property">class </em><tt class="descclassname">mapfish.lib.filters.logical.</tt><tt class="descname">Logical</tt><big>(</big><em>type</em>, <em>filters=None</em><big>)</big><a class="headerlink" href="#mapfish.lib.filters.logical.Logical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical filter.</p>
+<dl class="docutils">
+<dt>type</dt>
+<dd>the type of filter to create. Possible values are Logical.NOT,
+Logical.AND or Logical.OR.</dd>
+<dt>filters=None</dt>
+<dd>a list of filters this filter will create logical expressions
+with. filters can also be added after the creation of the 
+logical filter, using logical_filter.filters.append(filter).</dd>
+</dl>
+<dl class="method">
+<dt id="mapfish.lib.filters.logical.Logical.to_sql_expr">
+<tt class="descname">to_sql_expr</tt><big>(</big><big>)</big><a class="headerlink" href="#mapfish.lib.filters.logical.Logical.to_sql_expr" title="Permalink to this definition">¶</a></dt>
+<dd>Return the SQLAlchemy SQL expression corresponding to that filter.</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -99,14 +113,14 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
+          <a href="../../../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="filters.spatial.html" title="mapfish.lib.filters.spatial"
@@ -114,15 +128,15 @@
         <li class="right" >
           <a href="filters.featureid.html" title="mapfish.lib.filters.featureid"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="index.html" >API References</a> &raquo;</li> 
+        <li><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation MapFish 1.2</a> &raquo;</li>
+          <li><a href="index.html" >API References</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2009, Camptocamp.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    <div class="footer">
+      &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
     </div>
   </body>
 </html>

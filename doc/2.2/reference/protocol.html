@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>mapfish.protocol &mdash; MapFish v2.2 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish v2.2 documentation" href="../index.html" />
+    <link rel="up" title="API References" href="index.html" />
+    <link rel="prev" title="mapfish.sqlalchemygeom" href="sqlalchemygeom.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sqlalchemygeom.html" title="mapfish.sqlalchemygeom"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.2 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">API References</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">mapfish.protocol</a><ul>
+<li><a class="reference internal" href="#protocol-implementation">Protocol implementation</a></li>
+<li><a class="reference internal" href="#creating-protocol-filter">Creating protocol filter</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sqlalchemygeom.html"
+                        title="previous chapter">mapfish.sqlalchemygeom</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/reference/protocol.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-mapfish.protocol">
+<span id="mapfish-protocol"></span><h1>mapfish.protocol<a class="headerlink" href="#module-mapfish.protocol" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="protocol-implementation">
+<h2>Protocol implementation<a class="headerlink" href="#protocol-implementation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mapfish.protocol.Protocol">
+<em class="property">class </em><tt class="descclassname">mapfish.protocol.</tt><tt class="descname">Protocol</tt><big>(</big><em>Session</em>, <em>mapped_class</em>, <em>readonly=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mapfish.protocol.Protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Protocol class.</p>
+<dl class="docutils">
+<dt>Session</dt>
+<dd>the SQLAlchemy session.</dd>
+<dt>mapped_class</dt>
+<dd>the class mapped to a database table in the ORM.</dd>
+<dt>readonly</dt>
+<dd><tt class="xref docutils literal"><span class="pre">True</span></tt> if this protocol is read-only, <tt class="xref docutils literal"><span class="pre">False</span></tt> otherwise. If
+<tt class="xref docutils literal"><span class="pre">True</span></tt>, the methods <tt class="docutils literal"><span class="pre">create()</span></tt>, <tt class="docutils literal"><span class="pre">update()</span></tt> and  <tt class="docutils literal"><span class="pre">delete()</span></tt>
+will set 403 as the response status and return right away.</dd>
+<dt>**kwargs</dt>
+<dd><dl class="first last docutils">
+<dt>before_create</dt>
+<dd>a callback function called before a feature is inserted
+in the database table, the function receives the request,
+the feature read from the GeoJSON document sent in the
+request, and the database object to be updated. The
+latter is None if this is is an actual insertion.</dd>
+<dt>before_update</dt>
+<dd>a callback function called before a feature is updated
+in the database table, the function receives the request,
+the feature read from the GeoJSON document sent in the
+request, and the database object to be updated.</dd>
+<dt>before_delete</dt>
+<dd>a callback function called before a feature is deleted
+in the database table, the function receives the request
+and the database object about to be deleted.</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="mapfish.protocol.Protocol.count">
+<tt class="descname">count</tt><big>(</big><em>request</em>, <em>filter=None</em><big>)</big><a class="headerlink" href="#mapfish.protocol.Protocol.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of records matching the given filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mapfish.protocol.Protocol.create">
+<tt class="descname">create</tt><big>(</big><em>request</em>, <em>response</em>, <em>execute=True</em><big>)</big><a class="headerlink" href="#mapfish.protocol.Protocol.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the GeoJSON feature collection from the request body and
+create new objects in the database.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mapfish.protocol.Protocol.delete">
+<tt class="descname">delete</tt><big>(</big><em>request</em>, <em>response</em>, <em>id</em><big>)</big><a class="headerlink" href="#mapfish.protocol.Protocol.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the targetted feature from the database</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mapfish.protocol.Protocol.read">
+<tt class="descname">read</tt><big>(</big><em>request</em>, <em>filter=None</em>, <em>id=None</em><big>)</big><a class="headerlink" href="#mapfish.protocol.Protocol.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a query based on the filter or the idenfier, send the query
+to the database, and return a Feature or a FeatureCollection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mapfish.protocol.Protocol.update">
+<tt class="descname">update</tt><big>(</big><em>request</em>, <em>response</em>, <em>id</em><big>)</big><a class="headerlink" href="#mapfish.protocol.Protocol.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the GeoJSON feature from the request body and update the
+corresponding object in the database.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="creating-protocol-filter">
+<h2>Creating protocol filter<a class="headerlink" href="#creating-protocol-filter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="mapfish.protocol.create_default_filter">
+<tt class="descclassname">mapfish.protocol.</tt><tt class="descname">create_default_filter</tt><big>(</big><em>request</em>, <em>mapped_class</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mapfish.protocol.create_default_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create MapFish default filter based on the request params. Additional
+named arguments are passed to the spatial filter.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mapfish.protocol.create_attr_filter">
+<tt class="descclassname">mapfish.protocol.</tt><tt class="descname">create_attr_filter</tt><big>(</big><em>request</em>, <em>mapped_class</em><big>)</big><a class="headerlink" href="#mapfish.protocol.create_attr_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an <tt class="docutils literal"><span class="pre">and_</span></tt> SQLAlchemy filter (a ClauseList object) based
+on the request params (<tt class="docutils literal"><span class="pre">queryable</span></tt>, <tt class="docutils literal"><span class="pre">eq</span></tt>, <tt class="docutils literal"><span class="pre">ne</span></tt>, ...).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mapfish.protocol.create_geom_filter">
+<tt class="descclassname">mapfish.protocol.</tt><tt class="descname">create_geom_filter</tt><big>(</big><em>request</em>, <em>mapped_class</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mapfish.protocol.create_geom_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create MapFish geometry filter based on the request params. Either
+a box or within or geometry filter, depending on the request params.
+Additional named arguments are passed to the spatial filter.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sqlalchemygeom.html" title="mapfish.sqlalchemygeom"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish v2.2 documentation</a> &raquo;</li>
+          <li><a href="index.html" >API References</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

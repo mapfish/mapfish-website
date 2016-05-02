@@ -1,0 +1,503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GeoAlchemy &mdash; Python Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Python Workshop v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Welcome to Python Workshop’s documentation!" href="index.html" />
+    <link rel="next" title="TileCache" href="tilecache.html" />
+    <link rel="prev" title="Pylons and SQLAlchemy" href="pylons.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tilecache.html" title="TileCache"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pylons.html" title="Pylons and SQLAlchemy"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Welcome to Python Workshop&#8217;s documentation!</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">GeoAlchemy</a><ul>
+<li><a class="reference external" href="#install">Install</a></li>
+<li><a class="reference external" href="#change-the-model">Change the model</a></li>
+<li><a class="reference external" href="#change-the-controller">Change the controller</a></li>
+<li><a class="reference external" href="#output-geojson">Output GeoJSON</a></li>
+<li><a class="reference external" href="#calculate-buffer">Calculate buffer</a></li>
+<li><a class="reference external" href="#create-features">Create features</a></li>
+<li><a class="reference external" href="#create-geographic-tables">Create geographic tables</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="pylons.html"
+                                  title="previous chapter">Pylons and SQLAlchemy</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tilecache.html"
+                                  title="next chapter">TileCache</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/geoalchemy.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="geoalchemy">
+<h1>GeoAlchemy<a class="headerlink" href="#geoalchemy" title="Permalink to this headline">¶</a></h1>
+<p>GeoAlchemy provides extensions to SQLAlchemy to work with spatial databases.
+GeoAlchemy currently supports PostGIS, MySQL, Spatialite, Oracle Locator, and
+Microsoft SQL Server 2008.</p>
+<p>In this module you will learn how to use GeoAlchemy to interact with PostGIS.</p>
+<p>More specifically, you will change the <tt class="docutils literal"><span class="pre">Summit</span></tt> model class to include the
+geometry column. You will also change the <tt class="docutils literal"><span class="pre">summits</span></tt> controller to return WKT
+or GeoJSON, to calculate buffers, and to create features in the database.</p>
+<p>You&#8217;ll also use the <tt class="docutils literal"><span class="pre">geojson</span></tt> and <tt class="docutils literal"><span class="pre">Shapely</span></tt> librairies.</p>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<p>To install GeoAlchemy in the virtual Python environment, use:</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "GeoAlchemy==0.4.1"</pre>
+</div>
+</div>
+<div class="section" id="change-the-model">
+<h2>Change the model<a class="headerlink" href="#change-the-model" title="Permalink to this headline">¶</a></h2>
+<p>To add support for the geometry column in your model, you need to declare it in
+the model class. GeoAlchemy provides a specific column class named
+<tt class="docutils literal"><span class="pre">GeometryColumn</span></tt> for the declaration of geometry colums.</p>
+<p>Here is the updated code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;The application&#39;s model objects&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">Base</span>
+
+
+<span class="k">def</span> <span class="nf">init_model</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Call me before using any of the tables or classes in the model&quot;&quot;&quot;</span>
+    <span class="n">Session</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">Summit</span>
+    <span class="k">class</span> <span class="nc">Summit</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;summits&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;autoload&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;autoload_with&#39;</span><span class="p">:</span> <span class="n">engine</span>
+                <span class="p">}</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Point</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When declaring the geometry column the geometry type must be set (<tt class="docutils literal"><span class="pre">Point</span></tt>
+here). This is particularly useful when relying on GeoAlchemy and SQLAlchemy
+for creating geographic tables.</p>
+</div>
+<div class="section" id="change-the-controller">
+<h2>Change the controller<a class="headerlink" href="#change-the-controller" title="Permalink to this headline">¶</a></h2>
+<p>It is now possible to export the geometries as WKT strings in the JSON.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">pylons.decorators</span> <span class="kn">import</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model</span> <span class="kn">import</span> <span class="n">Summit</span>
+
+<span class="kn">from</span> <span class="nn">workshopapp.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SummitsController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="nd">@jsonify</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">summits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">summit</span> <span class="ow">in</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Summit</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">summits</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span>
+                <span class="s">&quot;wkt&quot;</span><span class="p">:</span> <span class="n">Session</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
+                <span class="p">})</span>
+
+
+        <span class="k">return</span> <span class="n">summits</span>
+</pre></div>
+</div>
+<p>Open <a class="reference external" href="http://localhost:5000/summits/index">http://localhost:5000/summits/index</a> in your browser to see the JSON string
+that the <tt class="docutils literal"><span class="pre">summits</span></tt> controller now returns.</p>
+<p>One thing to note is that each execution of
+<tt class="docutils literal"><span class="pre">Session.scalar(summits.geom.wkt)</span></tt> generates an SQL query. This is easily
+observable looking at the output of the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">server</span></tt> command.</p>
+<p>To avoid these additional SQL queries you&#8217;re going to use the Shapely library.
+So Shapely instead of PostGIS will be used to get a WKT representation of the
+geometry.</p>
+<p>First install Shapely (version 1.2) with:</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "Shapely==1.2"</pre>
+</div>
+<p>You can now update the <tt class="docutils literal"><span class="pre">workshopapp/controllers/summits.py</span></tt> file with the
+following content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">from</span> <span class="nn">shapely.wkb</span> <span class="kn">import</span> <span class="n">loads</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">pylons.decorators</span> <span class="kn">import</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model</span> <span class="kn">import</span> <span class="n">Summit</span>
+
+<span class="kn">from</span> <span class="nn">workshopapp.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SummitsController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="nd">@jsonify</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">summits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">summit</span> <span class="ow">in</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Summit</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">wkb</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">geom_wkb</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;hex&#39;</span><span class="p">)</span>
+            <span class="n">summits</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span>
+                <span class="s">&quot;wkt&quot;</span><span class="p">:</span> <span class="n">loads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">geom_wkb</span><span class="p">))</span><span class="o">.</span><span class="n">wkt</span>
+                <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">summits</span>
+</pre></div>
+</div>
+<p>Again you can open <a class="reference external" href="http://localhost:5000/summits/index">http://localhost:5000/summits/index</a> in the browser and check
+the JSON string. It should be the same as previously.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Doing performance tests here should show better performance when Shapely is
+used.</p>
+</div>
+</div>
+<div class="section" id="output-geojson">
+<h2>Output GeoJSON<a class="headerlink" href="#output-geojson" title="Permalink to this headline">¶</a></h2>
+<p>In this section you&#8217;re going to modify the <tt class="docutils literal"><span class="pre">summits</span></tt> controller again so the
+geographic objects returned by the controller are represented using the GeoJSON
+format. The <tt class="docutils literal"><span class="pre">geojson</span></tt> Python library will be used.</p>
+<p>Start by installing the geojson library (version 1.0.1):</p>
+<div class="highlight-python"><pre>(vp) $ easy_install "geojson==1.0.1"</pre>
+</div>
+<p>Now modify update the <tt class="docutils literal"><span class="pre">workshopapp/controllers/summits.py</span></tt> file with this
+content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">shapely.wkb</span> <span class="kn">import</span> <span class="n">loads</span>
+<span class="kn">from</span> <span class="nn">geojson</span> <span class="kn">import</span> <span class="n">Feature</span><span class="p">,</span> <span class="n">FeatureCollection</span><span class="p">,</span> <span class="n">dumps</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model</span> <span class="kn">import</span> <span class="n">Summit</span>
+
+<span class="kn">from</span> <span class="nn">workshopapp.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SummitsController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">summits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">summit</span> <span class="ow">in</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Summit</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">geometry</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">geom_wkb</span><span class="p">))</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="n">Feature</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">summit</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">elevation</span>
+                        <span class="p">})</span>
+            <span class="n">summits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s">&#39;application/json&#39;</span>
+        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">summits</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In the above code features are created from the objects read from the database.
+The <tt class="docutils literal"><span class="pre">Feature</span></tt> constructor is passed a Shapely geometry, which shows the
+integration between the Shapely and geojson libraries.</p>
+<p>It is also interested to note that the <tt class="docutils literal"><span class="pre">jsonify</span></tt> decorator is no longer used,
+the <tt class="docutils literal"><span class="pre">dumps</span></tt> function from the geojson library is used instead.</p>
+</div>
+<div class="section" id="calculate-buffer">
+<h2>Calculate buffer<a class="headerlink" href="#calculate-buffer" title="Permalink to this headline">¶</a></h2>
+<p>Here you are going to extend the <tt class="docutils literal"><span class="pre">summits</span></tt> web service so it can return the
+buffer of a given feature. The URL will be <tt class="docutils literal"><span class="pre">/summits/buffer/&lt;id&gt;</span></tt> where
+<tt class="docutils literal"><span class="pre">id</span></tt> is the identifier of the feature for which the buffer is to be
+calculated.</p>
+<p>To implement that you will add a <tt class="docutils literal"><span class="pre">buffer</span></tt> action to the <tt class="docutils literal"><span class="pre">summits</span></tt>
+controller. This action will retrieve the feature corresponding to the provided
+feature identifier, have PostGIS calculate the buffer of the feature, encode
+the resulting geometry in GeoJSON, and return the GeoJSON string.</p>
+<p>You can now update the <tt class="docutils literal"><span class="pre">workshopapp/controllers/summits.py</span></tt> file
+with the following content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">shapely.wkb</span> <span class="kn">import</span> <span class="n">loads</span> <span class="k">as</span> <span class="n">wkbloads</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">asShape</span>
+<span class="kn">from</span> <span class="nn">geojson</span> <span class="kn">import</span> <span class="n">GeoJSON</span><span class="p">,</span> <span class="n">Feature</span><span class="p">,</span> <span class="n">FeatureCollection</span><span class="p">,</span> <span class="n">dumps</span><span class="p">,</span> <span class="n">loads</span> <span class="k">as</span> <span class="n">geojsonloads</span>
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">WKBSpatialElement</span><span class="p">,</span> <span class="n">functions</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model</span> <span class="kn">import</span> <span class="n">Summit</span>
+
+<span class="kn">from</span> <span class="nn">workshopapp.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SummitsController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">summits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">summit</span> <span class="ow">in</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Summit</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">geometry</span> <span class="o">=</span> <span class="n">wkbloads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">geom_wkb</span><span class="p">))</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="n">Feature</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">summit</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">elevation</span>
+                        <span class="p">})</span>
+            <span class="n">summits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s">&#39;application/json&#39;</span>
+        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">summits</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="n">buffer_geom</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="n">functions</span><span class="o">.</span><span class="n">wkb</span><span class="p">(</span><span class="n">Summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Summit</span><span class="o">.</span><span class="n">id</span><span class="o">==</span><span class="nb">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">buffer_geom</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+        <span class="n">geometry</span> <span class="o">=</span> <span class="n">wkbloads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">buffer_geom</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s">&#39;application/json&#39;</span>
+        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can note that only one SELECT is done to the database with the above code.
+The same method could be applied to the <tt class="docutils literal"><span class="pre">index</span></tt> action.</p>
+<p><strong>Bonus task</strong></p>
+<p>Add an action named <tt class="docutils literal"><span class="pre">buffer_shapely</span></tt> that relies on Shapely instead of
+GeoAlchemy and PostGIS for the buffer calculation. And you can compare the
+performance obtained when using Shapely and when using PostGIS.</p>
+</div>
+<div class="section" id="create-features">
+<h2>Create features<a class="headerlink" href="#create-features" title="Permalink to this headline">¶</a></h2>
+<p>In this section you are going to create a web service allowing to add summits
+to the database.</p>
+<p>For that you&#8217;ll add a <tt class="docutils literal"><span class="pre">create</span></tt> action to the <tt class="docutils literal"><span class="pre">summits</span></tt> controller, which
+will parse the POST request, loads the GeoJSON feature, convert it to WKB
+with Shapely, and then create the feature in database using GeoAlchemy.</p>
+<p>You can now update the <tt class="docutils literal"><span class="pre">workshopapp/controllers/summits.py</span></tt> file with the
+following content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">shapely.wkb</span> <span class="kn">import</span> <span class="n">loads</span> <span class="k">as</span> <span class="n">wkbloads</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">asShape</span>
+<span class="kn">from</span> <span class="nn">geojson</span> <span class="kn">import</span> <span class="n">GeoJSON</span><span class="p">,</span> <span class="n">Feature</span><span class="p">,</span> <span class="n">FeatureCollection</span><span class="p">,</span> <span class="n">dumps</span><span class="p">,</span> <span class="n">loads</span> <span class="k">as</span> <span class="n">geojsonloads</span>
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">WKBSpatialElement</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model</span> <span class="kn">import</span> <span class="n">Summit</span>
+
+<span class="kn">from</span> <span class="nn">workshopapp.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SummitsController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">summits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">summit</span> <span class="ow">in</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Summit</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">geometry</span> <span class="o">=</span> <span class="n">wkbloads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">geom_wkb</span><span class="p">))</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="n">Feature</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">summit</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">summit</span><span class="o">.</span><span class="n">elevation</span>
+                        <span class="p">})</span>
+            <span class="n">summits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s">&#39;application/json&#39;</span>
+        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">summits</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="n">buffer_geom</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="n">functions</span><span class="o">.</span><span class="n">wkb</span><span class="p">(</span><span class="n">Summit</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Summit</span><span class="o">.</span><span class="n">id</span><span class="o">==</span><span class="nb">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">buffer_geom</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+        <span class="n">geometry</span> <span class="o">=</span> <span class="n">wkbloads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">buffer_geom</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s">&#39;application/json&#39;</span>
+        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># read raw POST data</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;wsgi.input&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;CONTENT_LENGTH&#39;</span><span class="p">]))</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ob</span><span class="p">:</span> <span class="n">GeoJSON</span><span class="o">.</span><span class="n">to_instance</span><span class="p">(</span><span class="n">ob</span><span class="p">)</span>
+        <span class="n">feature</span> <span class="o">=</span> <span class="n">geojsonloads</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">factory</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">Feature</span><span class="p">):</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">asShape</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
+        <span class="n">summit</span> <span class="o">=</span> <span class="n">Summit</span><span class="p">()</span>
+        <span class="n">summit</span><span class="o">.</span><span class="n">geom</span> <span class="o">=</span> <span class="n">WKBSpatialElement</span><span class="p">(</span><span class="nb">buffer</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">wkb</span><span class="p">))</span>
+        <span class="n">summit</span><span class="o">.</span><span class="n">elevation</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s">&#39;elevation&#39;</span><span class="p">]</span>
+        <span class="n">summit</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">summit</span><span class="p">)</span>
+        <span class="n">Session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="mi">201</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">=</span> <span class="s">&quot;application/json&quot;</span>
+        <span class="n">feature</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">summit</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then you can make a test query to this new service using <tt class="docutils literal"><span class="pre">curl</span></tt> on the
+commandline:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>curl http://localhost:5000/summits/create -d <span class="se">\</span>
+<span class="s1">&#39;{&quot;geometry&quot;: {&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [5.8759399999999999, 45.333889999999997]},</span>
+<span class="s1">  &quot;type&quot;: &quot;Feature&quot;, &quot;properties&quot;: {&quot;elevation&quot;: 1876, &quot;name&quot;: &quot;Pas de Montbrun&quot;}, &quot;id&quot;: 2828}&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Content-Type:&quot;application/json&quot;&#39;</span>
+</pre></div>
+</div>
+<p>This command should output:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Point&quot;</span><span class="p">,</span> <span class="s">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.8759399999999999</span><span class="p">,</span> <span class="mf">45.333889999999997</span><span class="p">]},</span>
+<span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Feature&quot;</span><span class="p">,</span> <span class="s">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;elevation&quot;</span><span class="p">:</span> <span class="mi">1876</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Pas de Montbrun&quot;</span><span class="p">},</span> <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="mi">5133</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>You can check that a new summit has been created in database, using <tt class="docutils literal"><span class="pre">pgAdmin</span></tt>
+for example.</p>
+</div>
+<div class="section" id="create-geographic-tables">
+<h2>Create geographic tables<a class="headerlink" href="#create-geographic-tables" title="Permalink to this headline">¶</a></h2>
+<p>In the previous module you learned how to create tables with SQLAlchemy when
+setting up the application. GeoAlchemy makes it possible to create geographic
+tables.</p>
+<p>You&#8217;re going to convert the <tt class="docutils literal"><span class="pre">areas</span></tt> table into a geographic table, with
+a geometry column of type polygon, and have GeoAlchemy create that table
+in the database.</p>
+<p>First, drop the <tt class="docutils literal"><span class="pre">areas</span></tt> table from the database, using pgAdmin for example.</p>
+<p>Now update the <tt class="docutils literal"><span class="pre">workshopapp/model/__init__.py</span></tt> with this content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;The application&#39;s model objects&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.schema</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.types</span> <span class="kn">import</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">geoalchemy</span> <span class="kn">import</span> <span class="n">GeometryColumn</span><span class="p">,</span> <span class="n">GeometryDDL</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="kn">from</span> <span class="nn">workshopapp.model.meta</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">Base</span>
+
+
+<span class="k">def</span> <span class="nf">init_model</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Call me before using any of the tables or classes in the model&quot;&quot;&quot;</span>
+    <span class="n">Session</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">Summit</span>
+    <span class="k">class</span> <span class="nc">Summit</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;summits&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;autoload&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;autoload_with&#39;</span><span class="p">:</span> <span class="n">engine</span>
+                <span class="p">}</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Point</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Area</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;areas&#39;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">GeometryColumn</span><span class="p">(</span><span class="n">Polygon</span><span class="p">)</span>
+
+<span class="n">GeometryDDL</span><span class="p">(</span><span class="n">Area</span><span class="o">.</span><span class="n">__table__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This update implies:</p>
+<ul class="simple">
+<li>importing <tt class="docutils literal"><span class="pre">GeometryDDL</span></tt> and <tt class="docutils literal"><span class="pre">Polyon</span></tt> from <tt class="docutils literal"><span class="pre">geoalchemy</span></tt> (in addition to
+<tt class="docutils literal"><span class="pre">GeometryColumn</span></tt> and <tt class="docutils literal"><span class="pre">Point</span></tt>)</li>
+<li>declaring a geometry column of type <tt class="docutils literal"><span class="pre">Polygon</span></tt> in the <tt class="docutils literal"><span class="pre">Area</span></tt> class</li>
+<li>using <tt class="docutils literal"><span class="pre">GeometryDDL(Area.__table__)</span></tt> to make GeoAlchemy participate in
+the creation and destruction of the <tt class="docutils literal"><span class="pre">areas</span></tt> table</li>
+</ul>
+<p>You can now execute the <tt class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></tt> command and verify that the
+<tt class="docutils literal"><span class="pre">areas</span></tt> table and its geometry column are created:</p>
+<div class="highlight-python"><pre>(vp) $ paster setup-app development.ini</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tilecache.html" title="TileCache"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pylons.html" title="Pylons and SQLAlchemy"
+             >previous</a> |</li>
+        <li><a href="../index.html">Python Workshop v0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Welcome to Python Workshop&#8217;s documentation!</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

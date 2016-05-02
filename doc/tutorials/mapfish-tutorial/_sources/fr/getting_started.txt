@@ -1,0 +1,44 @@
+Module 1 - Mise en place
+==========================
+
+Installer MapFish
+------------------
+
+Ouvrez une console et suivez ces étapes :
+
+::
+
+    $ wget http://www.mapfish.org/downloads/go-mapfish-framework-2.0.py
+    $ python go-mapfish-framework-2.0.py env
+
+Ces commandes créent un environnement virtuel Python nommé ``env`` et installent
+MapFish et ses dépendences à l'intérieur.
+
+Maintenant activez l'environnement virtuel avec :
+
+::
+
+    $ source env/bin/activate
+
+Votre ligne de commande doit ressembler à ceci :
+
+::
+
+    (env) user@host $
+
+Pour vérifier que MapFish est correctement installé, entrez :
+
+::
+
+    $ paster create --list-templates
+
+et vérifiez que ceci s'affiche :
+
+::
+    Available templates:
+    basic_package:   A basic setuptools-enabled package
+    mapfish:         MapFish application template
+    mapfish_client:  MapFish client plugin template
+    paste_deploy:    A web application deployed through paste.deploy
+    pylons:          Pylons application template
+    pylons_minimal:  Pylons minimal application template

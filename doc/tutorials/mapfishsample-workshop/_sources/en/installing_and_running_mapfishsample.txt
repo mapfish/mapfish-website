@@ -1,0 +1,267 @@
+************************************
+Installing and Running MapFishSample
+************************************
+
+In this workshop we will use the official MapFish demo application,
+*MapFishSample*, as the base for discussion.
+
+In this module you're going to install, set up, and run the MapFishSample
+application. You're also going to learn about `Buildout
+<http://www.buildout.org/>`_, the tool used to build and deploy MapFishSample.
+
+As a reference you can view the official demo at
+http://demo.mapfish.org/mapfishsample/2.2.
+
+Download MapFishSample
+======================
+
+The MapFishSample application is available in the MapFish SVN repository.  To
+install it you first need to check out its source code from SVN.
+
+.. admonition:: Task #1
+
+    Open a terminal, change to the ``mapfish_workshop`` directory, and
+    check out MapFishSample::
+
+        $ cd ~/mapfish_workshop
+        $ svn co http://svn.mapfish.org/svn/mapfish/sample/tags/2.2 MapFishSample
+
+    The ``mapfish_workshop`` directory should now include a directory named
+    ``MapFishSample``.
+
+You can observe that the structure of MapFishSample is similar to that of the
+MyApp application that you created previously. MapFishSample is a MapFish
+application!
+
+Yet, you should notice differences. Among other things, MapFishSample has
+a directory named ``buildout``, which the MyApp application created earlier
+doesn't have. This directory is where Buildout will set up the Python
+environment for the MapFishSample application.
+
+Build and Deploy MapFishSample
+==============================
+
+Building and deploying MapFishSample is done using `Buildout
+<http://www.buildout.org/>`_.
+
+"Buildout is a Python-based build system for
+creating, assembling and deploying applications from multiple parts, some of
+which may be non-Python-based. It lets you create a buildout configuration and
+reproduce the same software later."
+
+To use Buildout a Buildout configuration file must be written. MapFishSample
+includes multiple Buildout configuration files: ``buildout.cfg``
+contains the common part of the Buildout configuration, it is extended by other
+files, such as ``buildout_demo-mapfish-org.cfg``, which include specificities.
+
+.. note::
+
+    ``buildout_demo-mapfish-org.cfg`` is the Buildout configuration file used
+    for deploying MapFishSample on demo.mapfish.org.
+
+.. admonition:: Task #2
+
+    Edit ``buildout.cfg`` and study it.
+
+    A Buildout configuration file is composed of sections named ``parts``, and
+    each part is associated to a ``recipe``. Here is an example of a part::
+
+        [modwsgi]
+        recipe = collective.recipe.modwsgi
+        eggs = MapfishSample
+        config-file = ${buildout:directory}/production.ini
+
+    The ``modwsgi`` part is associated to the ``collective.recipe.modwsgi``
+    recipe. A recipe is a Python package, typically distributed from the
+    `Python Package Index <http://pypi.python.org/pypi>`_. You can look at the
+    `Buildout documentation <http://pypi.python.org/pypi/zc.buildout/1.5.2>`_
+    for more information.
+
+MapFishSample uses Buildout for multiple things:
+
+1. Create an isolated Python environment, and install MapFishSample and
+   its dependencies into it - the ``[eggs]`` part.
+2. Adapt the application to the execution environment, i.e. the database, the
+   location of Tomcat, etc. For that Buildout creates files from ``.in``
+   files, substituting variables as appropriate - the ``[template]`` part.
+3. Download the MapFish Print webapp, bundle the application-specific
+   print configuration and resources into it, and deploy it into Tomcat - the
+   ``[print]`` and ``[deploy-print]`` parts.
+4. Create a Python script to run MapFishSample in Apache modwsgi (production
+   mode) - the ``[modwsgi]`` parts.
+5. Build and compress the JavaScript code - the ``[jsbuild]`` part.
+6. Build and compress the CSS code - the ``[cssbuild]`` part.
+7. Build the language files for the internationalization (MapFishSample isn't
+   internationalized yet, but the i18n environment is in place) - the
+   ``[po2mo]`` parts.
+
+The first three items pertain to the deployment of MapFishSample,
+while the last three items pertain to the building of MapFishSample.
+
+
+Bootstrap Buildout
+------------------
+
+MapFishSample comes with a ``bootstrap.py`` script. This script is to be used
+to bootstrap Buildout, i.e. download and install Buildout in the ``buildout``
+directory.
+
+.. admonition:: Task #3
+
+    Change directory to MapFishSample and bootstrap Buildout using this
+    command::
+
+        $ cd ~/mapfish_workshop/MapFishSample
+        $ python bootstrap.py --distribute --version 1.5.2
+
+    The ``--distribute`` switch tells Buildout to rely on `Distribute
+    <http://packages.python.org/distribute/>`_ for installing Python packages
+    (Distribute is a fork of Setuptools). Setting ``--version`` to ``1.5.2``
+    specifies that Buildout version 1.5.2 is to be installed and used. This
+    version is known to work with MapFishSample.
+
+Run Buildout
+------------
+
+MapFishSample comes with a sample Buildout configuration file,
+``buildout_sample.cfg``, which one can use as a base for one's own Buildout
+configuration file.
+
+.. admonition:: Task #4
+
+    Open ``buildout_sample.cfg`` in an editor and notice that it extends
+    ``buildout.cfg``.
+
+To create a Buildout configuration file you can copy ``buildout_sample.cfg``,
+say to ``buildout_mine.cfg``, and adapt it as necessary.
+
+.. admonition:: Task #5
+
+    Copy ``buildout_sample.cfg`` to a new file named ``buildout_mine.cfg``::
+
+        $ cp buildout_sample.cfg buildout_mine.cfg
+
+    Adapt ``buildout_mine.cfg`` as you see fit (no modification should be
+    required).
+
+    Run Buildout::
+
+        $ ./buildout/bin/buildout -c buildout_mine.cfg
+
+    The ``-c`` specificies the Buildout configuration file to use. If none is
+    specified ``buildout.cfg`` is assumed.
+
+    The Buildout process should take some time, it should end with
+    the following output::
+
+        *************** PICKED VERSIONS ****************
+        [versions]
+
+        *************** /PICKED VERSIONS ***************
+
+After running Buildout MapFishSample is built, deployed, and ready to run.
+
+Run MapFishSample
+=================
+
+For development or a quick test MapFishSample can be run in the Paste HTTP
+Server, which is installed by Buildout in the Python environment as a MapFish
+dependency.
+
+.. admonition:: Task #6
+
+    Run MapFishSample using the Paste HTTP Server::
+
+        $ ./buildout/bin/paster serve development.ini
+
+    Open http://localhost:5000 in the browser.
+
+    Use CTRL+C to stop the server.
+
+    During development one can use the ``--reload`` switch to make
+    the Paste HTTP Server reload the application when Python files
+    are modified::
+        
+        $ ./buildout/bin/paster serve --reload development.ini
+
+For production MapFishSample is run under `Apache modwsgi
+<http://code.google.com/p/modwsgi/>`_. Using modwsgi has several advantages
+over using the Paste server:
+
+* Performance - modwsgi is written in C and has a small overhead.
+* Deployment ease - modwsgi can run on Linux and Windows, it is packaged in
+  most Linux distributions, it runs in Apache so there's no need for
+  custom start/stop scripts.
+* Robustness - modwsgi processes can run in isolation from the other
+  Apache processes, and modwsgi processes are automatically restarted
+  in cases of crashes.
+* Great documentation and support.
+
+Using modwsgi requires writing a so-called modwsgi script. The Buildout
+``[modwsgi]`` part takes care of creating that script, it creates it in
+``buildout/parts/modwsgi/wsgi``.
+
+Using modwsgi also requires adding modwsgi-specific directives to the Apache
+configuration. MapFishSample comes with a default Apache configuration. That
+configuration can be included from the main Apache configuration with
+a statement like this::
+
+    Include /home/user/mapfish_workshop/MapFishSample/apache/*.conf
+
+.. admonition:: Task #7
+
+    Edit ``apache/wsgi.conf`` and pay attention to the WSGI-specific
+    directives.  Notice also that the static content of MapFishSample is
+    directly served by Apache.
+
+.. admonition:: Task #8
+
+    Edit /var/www/mapfish/conf/mapfishsample.conf, uncomment the ``Include``
+    line, and verify that it's correct::
+
+        Include /home/user/mapfish_workshop/MapFishSample/apache/*.conf
+
+    Reload Apache::
+
+        $ sudo /etc/init.d/apache2 reload
+
+    Open http://mapfish/ in the browser.
+
+    "mapfish" is the server name of the Apache VirtualHost. See
+    ``/etc/apache2/sites-enabled/mapfish``.
+
+    You can verify that the modwsgi process is running by using the ``ps``
+    command::
+
+        $ ps aux | grep wsgi
+        user     16152  0.0  3.5 248312 36288 ?        Sl   16:23   0:00 (wsgi:mapfishsamp -k start
+
+Play with MapFishSample
+=======================
+
+MapFishSample has the following features:
+
+* **Query** This is activated by pressing the *info* button in the toolbar. Once
+  activated you can click and draw boxes to get information about POIs. Results
+  are displayed in a popup window.
+* **Editing** This is activated by pressing the *editing* button in the toolbar.
+  Once activated you can create, modify and delete POIs.
+* **Search** This is activated by pressing the *search* button in the toolbar.
+  Once activated a search form is displayed, where you can enter
+  criteria for a filtered search.
+* **Print** This is activated by pressing the *printing* button in the toolbar.
+  Once activated a form, a *Print* button, and a box on the map are displayed.
+  Through the form and the box the user can control what will be printed. The
+  box can be dragged, resized, and rotated.
+
+.. admonition:: Task #9
+
+    Open http://mapfish/ in the browser. Hit ``F12`` to open FireBug, and open
+    the FireBug console.
+
+    1. Activate Query and observe the HTTP requests that are sent, and the HTTP
+       responses that are received, when doing queries by clicking and drawing
+       boxes.
+
+    2. Activate Editing and make similar observations when creating, updating
+       and deleting features.

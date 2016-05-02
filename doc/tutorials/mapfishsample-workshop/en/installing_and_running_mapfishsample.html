@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing and Running MapFishSample &mdash; MapFish In Production Workshop v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapFish In Production Workshop v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Studying MapFishSample" href="studying_mapfishsample.html" />
+    <link rel="prev" title="Understanding MapFish" href="understanding_mapfish.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="studying_mapfishsample.html" title="Studying MapFishSample"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="understanding_mapfish.html" title="Understanding MapFish"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Installing and Running MapFishSample</a><ul>
+<li><a class="reference external" href="#download-mapfishsample">Download MapFishSample</a></li>
+<li><a class="reference external" href="#build-and-deploy-mapfishsample">Build and Deploy MapFishSample</a><ul>
+<li><a class="reference external" href="#bootstrap-buildout">Bootstrap Buildout</a></li>
+<li><a class="reference external" href="#run-buildout">Run Buildout</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#run-mapfishsample">Run MapFishSample</a></li>
+<li><a class="reference external" href="#play-with-mapfishsample">Play with MapFishSample</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="understanding_mapfish.html"
+                                  title="previous chapter">Understanding MapFish</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="studying_mapfishsample.html"
+                                  title="next chapter">Studying MapFishSample</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/en/installing_and_running_mapfishsample.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-and-running-mapfishsample">
+<h1>Installing and Running MapFishSample<a class="headerlink" href="#installing-and-running-mapfishsample" title="Permalink to this headline">¶</a></h1>
+<p>In this workshop we will use the official MapFish demo application,
+<em>MapFishSample</em>, as the base for discussion.</p>
+<p>In this module you&#8217;re going to install, set up, and run the MapFishSample
+application. You&#8217;re also going to learn about <a class="reference external" href="http://www.buildout.org/">Buildout</a>, the tool used to build and deploy MapFishSample.</p>
+<p>As a reference you can view the official demo at
+<a class="reference external" href="http://demo.mapfish.org/mapfishsample/2.2">http://demo.mapfish.org/mapfishsample/2.2</a>.</p>
+<div class="section" id="download-mapfishsample">
+<h2>Download MapFishSample<a class="headerlink" href="#download-mapfishsample" title="Permalink to this headline">¶</a></h2>
+<p>The MapFishSample application is available in the MapFish SVN repository.  To
+install it you first need to check out its source code from SVN.</p>
+<div class="admonition-task-1 admonition ">
+<p class="first admonition-title">Task #1</p>
+<p>Open a terminal, change to the <tt class="docutils literal"><span class="pre">mapfish_workshop</span></tt> directory, and
+check out MapFishSample:</p>
+<div class="highlight-python"><pre>$ cd ~/mapfish_workshop
+$ svn co http://svn.mapfish.org/svn/mapfish/sample/tags/2.2 MapFishSample</pre>
+</div>
+<p class="last">The <tt class="docutils literal"><span class="pre">mapfish_workshop</span></tt> directory should now include a directory named
+<tt class="docutils literal"><span class="pre">MapFishSample</span></tt>.</p>
+</div>
+<p>You can observe that the structure of MapFishSample is similar to that of the
+MyApp application that you created previously. MapFishSample is a MapFish
+application!</p>
+<p>Yet, you should notice differences. Among other things, MapFishSample has
+a directory named <tt class="docutils literal"><span class="pre">buildout</span></tt>, which the MyApp application created earlier
+doesn&#8217;t have. This directory is where Buildout will set up the Python
+environment for the MapFishSample application.</p>
+</div>
+<div class="section" id="build-and-deploy-mapfishsample">
+<h2>Build and Deploy MapFishSample<a class="headerlink" href="#build-and-deploy-mapfishsample" title="Permalink to this headline">¶</a></h2>
+<p>Building and deploying MapFishSample is done using <a class="reference external" href="http://www.buildout.org/">Buildout</a>.</p>
+<p>&#8220;Buildout is a Python-based build system for
+creating, assembling and deploying applications from multiple parts, some of
+which may be non-Python-based. It lets you create a buildout configuration and
+reproduce the same software later.&#8221;</p>
+<p>To use Buildout a Buildout configuration file must be written. MapFishSample
+includes multiple Buildout configuration files: <tt class="docutils literal"><span class="pre">buildout.cfg</span></tt>
+contains the common part of the Buildout configuration, it is extended by other
+files, such as <tt class="docutils literal"><span class="pre">buildout_demo-mapfish-org.cfg</span></tt>, which include specificities.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">buildout_demo-mapfish-org.cfg</span></tt> is the Buildout configuration file used
+for deploying MapFishSample on demo.mapfish.org.</p>
+</div>
+<div class="admonition-task-2 admonition ">
+<p class="first admonition-title">Task #2</p>
+<p>Edit <tt class="docutils literal"><span class="pre">buildout.cfg</span></tt> and study it.</p>
+<p>A Buildout configuration file is composed of sections named <tt class="docutils literal"><span class="pre">parts</span></tt>, and
+each part is associated to a <tt class="docutils literal"><span class="pre">recipe</span></tt>. Here is an example of a part:</p>
+<div class="highlight-python"><pre>[modwsgi]
+recipe = collective.recipe.modwsgi
+eggs = MapfishSample
+config-file = ${buildout:directory}/production.ini</pre>
+</div>
+<p class="last">The <tt class="docutils literal"><span class="pre">modwsgi</span></tt> part is associated to the <tt class="docutils literal"><span class="pre">collective.recipe.modwsgi</span></tt>
+recipe. A recipe is a Python package, typically distributed from the
+<a class="reference external" href="http://pypi.python.org/pypi">Python Package Index</a>. You can look at the
+<a class="reference external" href="http://pypi.python.org/pypi/zc.buildout/1.5.2">Buildout documentation</a>
+for more information.</p>
+</div>
+<p>MapFishSample uses Buildout for multiple things:</p>
+<ol class="arabic simple">
+<li>Create an isolated Python environment, and install MapFishSample and
+its dependencies into it - the <tt class="docutils literal"><span class="pre">[eggs]</span></tt> part.</li>
+<li>Adapt the application to the execution environment, i.e. the database, the
+location of Tomcat, etc. For that Buildout creates files from <tt class="docutils literal"><span class="pre">.in</span></tt>
+files, substituting variables as appropriate - the <tt class="docutils literal"><span class="pre">[template]</span></tt> part.</li>
+<li>Download the MapFish Print webapp, bundle the application-specific
+print configuration and resources into it, and deploy it into Tomcat - the
+<tt class="docutils literal"><span class="pre">[print]</span></tt> and <tt class="docutils literal"><span class="pre">[deploy-print]</span></tt> parts.</li>
+<li>Create a Python script to run MapFishSample in Apache modwsgi (production
+mode) - the <tt class="docutils literal"><span class="pre">[modwsgi]</span></tt> parts.</li>
+<li>Build and compress the JavaScript code - the <tt class="docutils literal"><span class="pre">[jsbuild]</span></tt> part.</li>
+<li>Build and compress the CSS code - the <tt class="docutils literal"><span class="pre">[cssbuild]</span></tt> part.</li>
+<li>Build the language files for the internationalization (MapFishSample isn&#8217;t
+internationalized yet, but the i18n environment is in place) - the
+<tt class="docutils literal"><span class="pre">[po2mo]</span></tt> parts.</li>
+</ol>
+<p>The first three items pertain to the deployment of MapFishSample,
+while the last three items pertain to the building of MapFishSample.</p>
+<div class="section" id="bootstrap-buildout">
+<h3>Bootstrap Buildout<a class="headerlink" href="#bootstrap-buildout" title="Permalink to this headline">¶</a></h3>
+<p>MapFishSample comes with a <tt class="docutils literal"><span class="pre">bootstrap.py</span></tt> script. This script is to be used
+to bootstrap Buildout, i.e. download and install Buildout in the <tt class="docutils literal"><span class="pre">buildout</span></tt>
+directory.</p>
+<div class="admonition-task-3 admonition ">
+<p class="first admonition-title">Task #3</p>
+<p>Change directory to MapFishSample and bootstrap Buildout using this
+command:</p>
+<div class="highlight-python"><pre>$ cd ~/mapfish_workshop/MapFishSample
+$ python bootstrap.py --distribute --version 1.5.2</pre>
+</div>
+<p class="last">The <tt class="docutils literal"><span class="pre">--distribute</span></tt> switch tells Buildout to rely on <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> for installing Python packages
+(Distribute is a fork of Setuptools). Setting <tt class="docutils literal"><span class="pre">--version</span></tt> to <tt class="docutils literal"><span class="pre">1.5.2</span></tt>
+specifies that Buildout version 1.5.2 is to be installed and used. This
+version is known to work with MapFishSample.</p>
+</div>
+</div>
+<div class="section" id="run-buildout">
+<h3>Run Buildout<a class="headerlink" href="#run-buildout" title="Permalink to this headline">¶</a></h3>
+<p>MapFishSample comes with a sample Buildout configuration file,
+<tt class="docutils literal"><span class="pre">buildout_sample.cfg</span></tt>, which one can use as a base for one&#8217;s own Buildout
+configuration file.</p>
+<div class="admonition-task-4 admonition ">
+<p class="first admonition-title">Task #4</p>
+<p class="last">Open <tt class="docutils literal"><span class="pre">buildout_sample.cfg</span></tt> in an editor and notice that it extends
+<tt class="docutils literal"><span class="pre">buildout.cfg</span></tt>.</p>
+</div>
+<p>To create a Buildout configuration file you can copy <tt class="docutils literal"><span class="pre">buildout_sample.cfg</span></tt>,
+say to <tt class="docutils literal"><span class="pre">buildout_mine.cfg</span></tt>, and adapt it as necessary.</p>
+<div class="admonition-task-5 admonition ">
+<p class="first admonition-title">Task #5</p>
+<p>Copy <tt class="docutils literal"><span class="pre">buildout_sample.cfg</span></tt> to a new file named <tt class="docutils literal"><span class="pre">buildout_mine.cfg</span></tt>:</p>
+<div class="highlight-python"><pre>$ cp buildout_sample.cfg buildout_mine.cfg</pre>
+</div>
+<p>Adapt <tt class="docutils literal"><span class="pre">buildout_mine.cfg</span></tt> as you see fit (no modification should be
+required).</p>
+<p>Run Buildout:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/buildout -c buildout_mine.cfg</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">-c</span></tt> specificies the Buildout configuration file to use. If none is
+specified <tt class="docutils literal"><span class="pre">buildout.cfg</span></tt> is assumed.</p>
+<p>The Buildout process should take some time, it should end with
+the following output:</p>
+<div class="last highlight-python"><pre>*************** PICKED VERSIONS ****************
+[versions]
+
+*************** /PICKED VERSIONS ***************</pre>
+</div>
+</div>
+<p>After running Buildout MapFishSample is built, deployed, and ready to run.</p>
+</div>
+</div>
+<div class="section" id="run-mapfishsample">
+<h2>Run MapFishSample<a class="headerlink" href="#run-mapfishsample" title="Permalink to this headline">¶</a></h2>
+<p>For development or a quick test MapFishSample can be run in the Paste HTTP
+Server, which is installed by Buildout in the Python environment as a MapFish
+dependency.</p>
+<div class="admonition-task-6 admonition ">
+<p class="first admonition-title">Task #6</p>
+<p>Run MapFishSample using the Paste HTTP Server:</p>
+<div class="highlight-python"><pre>$ ./buildout/bin/paster serve development.ini</pre>
+</div>
+<p>Open <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> in the browser.</p>
+<p>Use CTRL+C to stop the server.</p>
+<p>During development one can use the <tt class="docutils literal"><span class="pre">--reload</span></tt> switch to make
+the Paste HTTP Server reload the application when Python files
+are modified:</p>
+<div class="last highlight-python"><pre>$ ./buildout/bin/paster serve --reload development.ini</pre>
+</div>
+</div>
+<p>For production MapFishSample is run under <a class="reference external" href="http://code.google.com/p/modwsgi/">Apache modwsgi</a>. Using modwsgi has several advantages
+over using the Paste server:</p>
+<ul class="simple">
+<li>Performance - modwsgi is written in C and has a small overhead.</li>
+<li>Deployment ease - modwsgi can run on Linux and Windows, it is packaged in
+most Linux distributions, it runs in Apache so there&#8217;s no need for
+custom start/stop scripts.</li>
+<li>Robustness - modwsgi processes can run in isolation from the other
+Apache processes, and modwsgi processes are automatically restarted
+in cases of crashes.</li>
+<li>Great documentation and support.</li>
+</ul>
+<p>Using modwsgi requires writing a so-called modwsgi script. The Buildout
+<tt class="docutils literal"><span class="pre">[modwsgi]</span></tt> part takes care of creating that script, it creates it in
+<tt class="docutils literal"><span class="pre">buildout/parts/modwsgi/wsgi</span></tt>.</p>
+<p>Using modwsgi also requires adding modwsgi-specific directives to the Apache
+configuration. MapFishSample comes with a default Apache configuration. That
+configuration can be included from the main Apache configuration with
+a statement like this:</p>
+<div class="highlight-python"><pre>Include /home/user/mapfish_workshop/MapFishSample/apache/*.conf</pre>
+</div>
+<div class="admonition-task-7 admonition ">
+<p class="first admonition-title">Task #7</p>
+<p class="last">Edit <tt class="docutils literal"><span class="pre">apache/wsgi.conf</span></tt> and pay attention to the WSGI-specific
+directives.  Notice also that the static content of MapFishSample is
+directly served by Apache.</p>
+</div>
+<div class="admonition-task-8 admonition ">
+<p class="first admonition-title">Task #8</p>
+<p>Edit /var/www/mapfish/conf/mapfishsample.conf, uncomment the <tt class="docutils literal"><span class="pre">Include</span></tt>
+line, and verify that it&#8217;s correct:</p>
+<div class="highlight-python"><pre>Include /home/user/mapfish_workshop/MapFishSample/apache/*.conf</pre>
+</div>
+<p>Reload Apache:</p>
+<div class="highlight-python"><pre>$ sudo /etc/init.d/apache2 reload</pre>
+</div>
+<p>Open <a class="reference external" href="http://mapfish/">http://mapfish/</a> in the browser.</p>
+<p>&#8220;mapfish&#8221; is the server name of the Apache VirtualHost. See
+<tt class="docutils literal"><span class="pre">/etc/apache2/sites-enabled/mapfish</span></tt>.</p>
+<p>You can verify that the modwsgi process is running by using the <tt class="docutils literal"><span class="pre">ps</span></tt>
+command:</p>
+<div class="last highlight-python"><pre>$ ps aux | grep wsgi
+user     16152  0.0  3.5 248312 36288 ?        Sl   16:23   0:00 (wsgi:mapfishsamp -k start</pre>
+</div>
+</div>
+</div>
+<div class="section" id="play-with-mapfishsample">
+<h2>Play with MapFishSample<a class="headerlink" href="#play-with-mapfishsample" title="Permalink to this headline">¶</a></h2>
+<p>MapFishSample has the following features:</p>
+<ul class="simple">
+<li><strong>Query</strong> This is activated by pressing the <em>info</em> button in the toolbar. Once
+activated you can click and draw boxes to get information about POIs. Results
+are displayed in a popup window.</li>
+<li><strong>Editing</strong> This is activated by pressing the <em>editing</em> button in the toolbar.
+Once activated you can create, modify and delete POIs.</li>
+<li><strong>Search</strong> This is activated by pressing the <em>search</em> button in the toolbar.
+Once activated a search form is displayed, where you can enter
+criteria for a filtered search.</li>
+<li><strong>Print</strong> This is activated by pressing the <em>printing</em> button in the toolbar.
+Once activated a form, a <em>Print</em> button, and a box on the map are displayed.
+Through the form and the box the user can control what will be printed. The
+box can be dragged, resized, and rotated.</li>
+</ul>
+<div class="admonition-task-9 admonition ">
+<p class="first admonition-title">Task #9</p>
+<p>Open <a class="reference external" href="http://mapfish/">http://mapfish/</a> in the browser. Hit <tt class="docutils literal"><span class="pre">F12</span></tt> to open FireBug, and open
+the FireBug console.</p>
+<ol class="last arabic simple">
+<li>Activate Query and observe the HTTP requests that are sent, and the HTTP
+responses that are received, when doing queries by clicking and drawing
+boxes.</li>
+<li>Activate Editing and make similar observations when creating, updating
+and deleting features.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="studying_mapfishsample.html" title="Studying MapFishSample"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="understanding_mapfish.html" title="Understanding MapFish"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapFish In Production Workshop v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,253 @@
+*******
+MapFish
+*******
+
+*MapFish est un framework complet et flexible pour construire des applications 
+riche de webmapping. Il est met l'accent sur le développement productif et de 
+qualité.*
+
+MapFish combine la puissance de Pylons, SQLAlchemy, GeoAlchemy, Shapely, et
+geojson.
+
+Dans ce module vous apprendrez ce que fournie le framework MapFish, et comment il 
+simplifie le développement de services web pour le requêtage et l'édition de 
+features géographiques.
+
+Installation
+=============
+
+Pour installer MapFish dans l'environnement virtuel Python utilisez :
+
+::
+    
+    (vp) $ easy_install "MapFish==2.0"
+
+Vous devez avoir maintenant MapFish d'installé. Vous pouvez vérifier cela en 
+utilisant cette commande :
+
+::
+    
+    (vp) $ paster create --list-templates
+
+Cette commande doit vous renvoyer cela :
+
+::
+    
+    Available templates:
+    basic_package:   A basic setuptools-enabled package
+    mapfish:         MapFish application template
+    paste_deploy:    A web application deployed through paste.deploy
+    pylons:          Pylons application template
+    pylons_minimal:  Pylons minimal application template
+
+Notez la ligne ``mapfish``.
+
+Mettre à jour l'application
+==============================
+
+Dans cette section vous allez convertir votre application à partir d'une 
+application Pylons dans une application MapFish. Une application MapFish est une 
+application Pylons avec des fonctionnalités supplémentaires, spécifique à 
+MapFish.
+
+Éditez ``setup.py`` et ajoutez ``MapFish`` à la liste des plugins paster :
+
+::
+    
+    paster_plugins=['MapFish', 'PasteScript', 'Pylons'],
+
+Maintenant éxécutez :
+
+::
+    
+    (vp) $ python setup.py egg_info
+
+Cela enregistre MapFish comme plugin paster, et vous permet d'utiliser les 
+commandes spécifiques à MapFish pour le développement de l'application. Vous en 
+apprendrez plus à ce sujet un peu plus tard dans ce module.
+
+Vous pouvez vérifier que votre application est maintenant une application 
+MapFish en tapant :
+
+::
+    
+    (vp) $ paster
+
+Et vérifiez que la sortie de la commande inclus le bloc suivante :
+
+::
+    
+    mapfish:
+      mf-controller   Create a MapFish controller and accompanying functional test
+      mf-layer        Create a MapFish layer (controller + model).
+      mf-model        Create a MapFish model
+
+``mf-controller``, ``mf-layer``, et ``mf-model`` sont les commandes fournies par 
+le framework MapFish.
+
+Créer un service web MapFish
+============================
+
+Dans cette section vous allez créer un service web MapFish qui se base sur la 
+table ``summits``. Vous allez comprendre ce que MapFish apporte réellement au 
+développeur.
+
+Créez le fichier ``layers.ini`` à la racine de votre application, avec ce contenu :
+
+::
+    
+    [mfsummits]
+    singular=mfsummit
+    plural=mfsummits
+    table=summits
+    epsg=4326
+    geomcolumn=geom
+    geomtype=Point
+
+et éxécutez cette commande :
+
+::
+    
+    (vp) $ paster mf-layer mfsummits
+
+
+    Creating /home/python/python_workshop/WorkshopApp/workshopapp/controllers/mfsummits.py
+    Creating /home/python/python_workshop/WorkshopApp/workshopapp/tests/functional/test_mfsummits.py
+
+    To create the appropriate RESTful mapping, add a map statement to your
+    config/routing.py file in the CUSTOM ROUTES section like this:
+
+    map.resource("mfsummit", "mfsummits")
+
+    Creating /home/python/python_workshop/WorkshopApp/workshopapp/model/mfsummits.py
+
+Comme indiqué dans la sortie de la commande éditez le fichier 
+``workshopapp/config/routing.py`` et ajoutez la route appropriée en insérant 
+``map.resource("mfsummit","mfsummits")``. Insérez cette route avant les routes 
+par défaut, par exemple juste après la route de ``tilecache``.
+
+Vous pouvez maintenant vérifier que votre service web fonctionne correctement. 
+Par exemple ouvrez http://localhost:5000/mfsummits?limit=2 dans Firefox. Mais en 
+fait, puisqu'une classe modèle existe déjà pour la table ``summits``, SQLAlchemy 
+renverra une erreur :
+
+.. image:: _static/summits_already_defined_error.png
+    :height: 380pt
+    :width: 500pt
+
+Pour corriger cette erreur éditez ``workshopapp/model/mfsummits.py`` et ajoutez 
+``useexisting: True`` dans les arguments de la table (``__table_args__``) :
+
+.. code-block:: python
+
+    from sqlalchemy import Column, types
+
+    from geoalchemy import GeometryColumn, Point
+
+    from mapfish.sqlalchemygeom import GeometryTableMixIn
+    from workshopapp.model.meta import Session, Base
+
+    class Mfsummit(Base, GeometryTableMixIn):
+        __tablename__ = 'summits'
+        __table_args__ = {
+            "autoload": True,
+            "autoload_with": Session.bind,                                                                                                                     
+            "useexisting": True
+        }
+        geom = GeometryColumn(Point(srid=4326))
+
+Ouvrez http://localhost:5000/mfsummits?limit=2 de nouveau dans un navigateur.
+
+Jouer avec les services web MapFish
+===================================
+
+MapFish implémente des interfaces HTTP pour le requêtage et l'édition de 
+features. N'importe quel service web MapFish, i.e. n'importe quel service web 
+créé avec la commande ``paster mf-layer``, implémente ces interfaces. Ces 
+interfaces sont documentées dans http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol.
+
+Lecture
+--------
+
+Voici quelques exemples de requêtes que vous pouvez essayer dans le navigateur :
+
+* http://localhost:5000/mfsummits/1
+* http://localhost:5000/mfsummits/1?no_geom=true
+* http://localhost:5000/mfsummits/1?no_geom=true&attrs=elevation
+* http://localhost:5000/mfsummits?limit=10&offset=2
+* http://localhost:5000/mfsummits?limit=10&order_by=elevation&dir=DESC
+* http://localhost:5000/mfsummits?lon=86.86&lat=27.86&tolerance=5
+* http://localhost:5000/mfsummits?bbox=85,26,87,28
+* http://localhost:5000/mfsummits?limit=3&queryable=name,elevation&name__ilike=%col%&elevation__gte=1800
+
+Les requêtes ci-dessus utilisent la méthode ``GET`` de HTTP.
+
+Écriture
+---------
+
+Pour créer de nouvelles features la méthode ``POST`` de HTTP est utilisé. Comme 
+exemple vous pouvez entrer la commande ``curl`` suivante dans votre terminal :
+
+::
+    
+    curl http://localhost:5000/mfsummits -X POST -H 'Content-Type:"application/json"' \
+    -d '{"type": "FeatureCollection",
+         "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [5.8, 45.3]}}]}'
+
+La commande doit renvoyer quelque chose comme cela :
+
+::
+    
+    {"type": "FeatureCollection",
+     "features": [{"geometry": {"type": "Point",
+                                "coordinates": [5.7999999999999998, 45.299999999999997]},
+                   "id": 5081, "type": "Feature",
+                   "bbox": [5.7999999999999998, 45.299999999999997,
+                            5.7999999999999998, 45.299999999999997],
+                   "properties": {"elevation": null, "name": null}}]}
+
+Notez que la réponse GeoJSON inclue les identifiant des features créés. Dans cet 
+exemple, une feature a été créée, son id est 5081.
+
+Maintenant ouvrez ``http://localhost:5000/mfsummits/<id>`` dans le navigateur 
+pour obtenir une représentation GeoJSON d'une feature fraîchement créée et 
+vérifiez qu'elle a été bien insérée dans la base de données. ``<id>`` doit être 
+remplacé avec l'identifiant réel de la feature (5081 dans cet exemple).
+
+Mise à jour
+-------------
+
+Pour mettre à jour une feature, la méthode ``PUT`` de HTTP est utilisée. Comme 
+exemple utilisez cette commande ``curl``:
+
+::
+    
+    curl http://localhost:5000/mfsummits/<id> -X PUT -H 'Content-Type:"application/json"' \
+    -d '{"type": "Feature", "geometry": {"type": "Point", "coordinates": [6.0, 46]},
+         "properties": {"name": "foo", "elevation": 1000}}'
+
+De nouveau remplacez ``<id>`` par l'identifiant réel de la feature (5081 dans 
+notre exemple).
+
+La commande doit renvoyer quelque chose comme cela :
+
+::
+    
+    {"geometry": {"type": "Point", "coordinates": [6.0, 46.0]}, "id": 5081, "type": "Feature",
+     "bbox": [6.0, 46.0, 6.0, 46.0], "properties": {"elevation": 1000, "name": "foo"}}
+
+De nouveau vous pouvez ouvrir ``http://localhost:5000/mfsummits/<id>`` dans le 
+navigateur pour vérifier que les features ont été mises à jour comme attendue.
+
+Suppression
+-------------
+
+Pour supprimer une feature la méthode ``DELETE`` de HTTP est utilisée. Par 
+exemple pour suppimer avec la commande ``curl`` la feature dont l'id est 5081 :
+
+::
+    
+    curl http://localhost:5000/mfsummits/<id> -X DELETE
+
+Si vous ouvrez ``http://localhost:5000/mfsummits/<id>`` dans le navigateur vous 
+devez avoir une erreur 404.

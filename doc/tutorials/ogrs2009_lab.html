@@ -1,160 +1,154 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>OGRS 2009 - State of the art of the creation of GIS rich internet application &mdash; MapFish</title>
-    
     <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
         VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../index.html" />
     <link rel="up" title="Tutorials" href="index.html" />
     <link rel="next" title="Pylons tutorial" href="pylons.html" />
     <link rel="prev" title="ExtJS tutorial" href="extjs.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="../../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="pylons.html" title="Pylons tutorial"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="extjs.html" title="ExtJS tutorial"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../index.html">
               <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
             </a></p>
-  <h3><a href="../../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">OGRS 2009 - State of the art of the creation of GIS rich internet application</a><ul>
-<li><a class="reference internal" href="#general-information">General information</a></li>
-<li><a class="reference internal" href="#lab-1-create-a-wms-service">Lab 1: Create a WMS Service</a><ul>
-<li><a class="reference internal" href="#check-the-wms-service">Check the WMS Service</a></li>
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">OGRS 2009 - State of the art of the creation of GIS rich internet application</a><ul>
+<li><a class="reference external" href="#general-information">General information</a></li>
+<li><a class="reference external" href="#lab-1-create-a-wms-service">Lab 1: Create a WMS Service</a><ul>
+<li><a class="reference external" href="#check-the-wms-service">Check the WMS Service</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#lab-2-create-a-map-viewer">Lab 2: Create a Map Viewer</a></li>
-<li><a class="reference internal" href="#lab-3-create-a-mapfish-application">Lab 3: Create a MapFish application</a></li>
-<li><a class="reference internal" href="#lab-4-test-openscales-capabilities">Lab 4: Test OpenScales capabilities</a></li>
+<li><a class="reference external" href="#lab-2-create-a-map-viewer">Lab 2: Create a Map Viewer</a></li>
+<li><a class="reference external" href="#lab-3-create-a-mapfish-application">Lab 3: Create a MapFish application</a></li>
+<li><a class="reference external" href="#lab-4-test-openscales-capabilities">Lab 4: Test OpenScales capabilities</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="extjs.html"
-                        title="previous chapter">ExtJS tutorial</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="pylons.html"
-                        title="next chapter">Pylons tutorial</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/doc/tutorials/ogrs2009_lab.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="extjs.html"
+                                  title="previous chapter">ExtJS tutorial</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="pylons.html"
+                                  title="next chapter">Pylons tutorial</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../../_sources/doc/tutorials/ogrs2009_lab.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="ogrs-2009-state-of-the-art-of-the-creation-of-gis-rich-internet-application">
 <span id="mapfish-tutorials-ogrs2009"></span><h1>OGRS 2009 - State of the art of the creation of GIS rich internet application<a class="headerlink" href="#ogrs-2009-state-of-the-art-of-the-creation-of-gis-rich-internet-application" title="Permalink to this headline">¶</a></h1>
-<p>This document provides information necessary to follow the lab provided during <a class="reference external" href="http://www.ogrs2009.org">OGR 2009</a>. Here is the <a class="reference download internal" href="../../_downloads/OGRS2009.pdf"><code class="xref download docutils literal"><span class="pre">associated</span> <span class="pre">presentation</span></code></a>.eric</p>
+<p>This document provides information necessary to follow the lab provided during <a class="reference external" href="http://www.ogrs2009.org">OGR 2009</a>. Here is the <a href="../../_downloads/OGRS2009.pdf"><strong class="xref">associated presentation</strong></a>.eric</p>
 <div class="section" id="general-information">
 <h2>General information<a class="headerlink" href="#general-information" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>Link to Studio instance: <a class="reference external" href="http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com:5000">Instance 1</a></li>
-<li>Detailed studio documentation: <span class="xref std std-ref">mapfish.tutorials.studio_user_guide.work_with_studio</span></li>
+<li>Detailed studio documentation: <em class="xref">mapfish.tutorials.studio_user_guide.work_with_studio</em></li>
 </ul>
-</div></blockquote>
+</blockquote>
 </div>
 <div class="section" id="lab-1-create-a-wms-service">
 <h2>Lab 1: Create a WMS Service<a class="headerlink" href="#lab-1-create-a-wms-service" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>Create your own account with the register function</li>
 <li>Login in Studio with this new account</li>
 <li>In the MapFiles tab, create your own Mapfile</li>
-<li>Add the layer &#8220;countries&#8221; (data <a class="reference download internal" href="../../_downloads/countries2.zip"><code class="xref download docutils literal"><span class="pre">countries.zip</span></code></a> were uploaded previously through the &#8220;data&#8221; tab)</li>
+<li>Add the layer &#8220;countries&#8221; (data <a href="../../_downloads/countries2.zip"><strong class="xref">countries.zip</strong></a> were uploaded previously through the &#8220;data&#8221; tab)</li>
 <li>Define your own symbology</li>
 <li>When it&#8217;s ready, you can come back to the MapFile list and download the MapFile generated by Studio</li>
 </ul>
-</div></blockquote>
+</blockquote>
 <div class="section" id="check-the-wms-service">
 <h3>Check the WMS Service<a class="headerlink" href="#check-the-wms-service" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><div class="admonition note">
+<div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Studio takes care of the management of the OGC Webservices. So, this step is only done for the purpose of this lab.</p>
 </div>
-</div></blockquote>
+</blockquote>
 <p>The name of the mapfile indicates the path where it is stored on the server. You have to replace the &#8220;_&#8221; by &#8220;/&#8221; in order to know the correct path:</p>
 <blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>Example of MapFile name:  _var_www_studio_private_studio_Studio_data_mapfiles_RTnEfxcc.map</li>
 <li>Corresponding path:  /var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map</li>
 </ul>
-</div></blockquote>
+</blockquote>
 <p>With this information, you can check your newly created WMS by calling the GetCapabilities request:</p>
 <blockquote>
-<div><a class="reference external" href="http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities">http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities</a>
+<a class="reference external" href="http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities">http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities</a>
 or
-<a class="reference external" href="view-source:http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities">view-source:http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities</a></div></blockquote>
+<a class="reference external" href="view-source:http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities">view-source:http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities</a></blockquote>
 <p>And, of course, you can use the GetMap request:</p>
 <blockquote>
-<div><a class="reference external" href="http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=countries&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png">http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=countries&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png</a></div></blockquote>
+<a class="reference external" href="http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=countries&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png">http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cgi-bin/mapserv?map=/var/www/studio/private/studio/Studio/data/mapfiles/RTnEfxcc.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=countries&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png</a></blockquote>
 </div>
 </div>
 <div class="section" id="lab-2-create-a-map-viewer">
 <h2>Lab 2: Create a Map Viewer<a class="headerlink" href="#lab-2-create-a-map-viewer" title="Permalink to this headline">¶</a></h2>
-<p>Use your favourite text editor to create an <a class="reference download internal" href="../../_downloads/tilecache.html"><code class="xref download docutils literal"><span class="pre">HTML</span> <span class="pre">page</span></code></a>:</p>
+<p>Use your favourite text editor to create an <a href="../../_downloads/tilecache.html"><strong class="xref">HTML page</strong></a>:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://openlayers.org/api/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -193,24 +187,24 @@ or
 <p>Using a WMS layer implies several query to MapServer per Zoom or Pan. This is not particularly performant. We recommend to use a pure tilecache layer (OpenLayers.Layer.TileCache), with pregenerated tiles.</p>
 <p>In this lab, you have seen three ways of getting maps:</p>
 <blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>from a WMS server</li>
 <li>from a Tilecache server. The tilecache server is able to understand a WMS query and to transfer the tiles</li>
 <li>from a pregenerated tile repository</li>
 </ul>
-</div></blockquote>
+</blockquote>
 </div>
 <div class="section" id="lab-3-create-a-mapfish-application">
 <h2>Lab 3: Create a MapFish application<a class="headerlink" href="#lab-3-create-a-mapfish-application" title="Permalink to this headline">¶</a></h2>
 <p>In the &#8220;MapFish&#8221; tab of Studio, you can create a new MapFish applications with the following settings:</p>
 <blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>Configure layer by adding the countries layer and a remote WMS layer</li>
 <li>Configure the data source to provide a tooltip on a countries layer</li>
 <li>Configure the print module</li>
 <li>... and start the server to see your newly created MapFish</li>
 </ul>
-</div></blockquote>
+</blockquote>
 <p>You can observe with Firebug the client server communication (for a tooltip, for example). You will see the MapFish REST protocol in action.</p>
 <p>It is also possible to have a look at file mapfish.js which contains the generated Javascript code. You can download it from the MapFish list.</p>
 </div>
@@ -227,14 +221,14 @@ or
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
+          <a href="../../modindex.html" title="Global Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="pylons.html" title="Pylons tutorial"
@@ -242,14 +236,14 @@ or
         <li class="right" >
           <a href="extjs.html" title="ExtJS tutorial"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="index.html" >Tutorials</a> &raquo;</li> 
+        <li><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li><a href="index.html" >Tutorials</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2009, Camptocamp.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    <div class="footer">
+      &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
     </div>
   </body>
 </html>
