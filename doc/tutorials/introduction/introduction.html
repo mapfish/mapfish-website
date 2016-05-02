@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>8 hours introduction to MapFish Framework 1.2 &mdash; MapFish</title>
-    <link rel="stylesheet" href="../../../_static/mapfish.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
@@ -17,8 +17,8 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../../index.html" />
     <link rel="up" title="Tutorials" href="../index.html" />
     <link rel="next" title="ExtJS tutorial" href="../extjs.html" />
@@ -48,7 +48,7 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../../index.html">
-              <img class="logo" src="../../../_static/mapfish_white.png" alt="Logo"/>
+              <img class="logo" src="../../../static/mapfish_white.png" alt="Logo"/>
             </a></p>
             <h3><a href="../../../index.html">Table Of Contents</a></h3>
             <ul>
@@ -232,7 +232,7 @@ function showdiv(div, showDiv, hideDiv) {
 <p>The main goal of the MapFish Framework is to simplfiy the developer&#8217;s life when building MapFish applications.
 The following schema describes the general architecture of MapFish applications:</p>
 <blockquote>
-<img alt="../../../_images/mapfish_architecture_en.png" src="../../../_images/mapfish_architecture_en.png" />
+<img alt="../../../images/mapfish_architecture_en.png" src="../../../images/mapfish_architecture_en.png" />
 </blockquote>
 <p>On the <strong>server side</strong>, the data can be managed inside a <strong>database</strong> or as <strong>files</strong>. From these data, in order to improve the application performance, a <strong>tile generator</strong> can be used to cache the geographic content. The tile generation process is based on a cartographic server that is able to serve the tiles or on files (images, for example). The <strong>MapFish application server</strong> provides services like search, print or edit. Complex and custom data analysis can be developed with the technology provided by the MapFish framework.</p>
 <div class="admonition note">
@@ -263,7 +263,7 @@ From these bricks, there are two main ways to create custom MapFish applications
 <h5>Application from scratch<a class="headerlink" href="#application-from-scratch" title="Permalink to this headline">¶</a></h5>
 <p>In this case, the bricks of the framework are used to create a custom application.</p>
 <blockquote>
-<img alt="../../../_images/mapfish_custom.png" src="../../../_images/mapfish_custom.png" />
+<img alt="../../../images/mapfish_custom.png" src="../../../images/mapfish_custom.png" />
 </blockquote>
 </div>
 <div class="section" id="application-from-template">
@@ -273,7 +273,7 @@ The template can contain for example the general layout of the application or so
 This template can be used several times to create custom applications.
 And, of course, custom code can be done for the specific applications.</p>
 <blockquote>
-<img alt="../../../_images/mapfish_template.png" src="../../../_images/mapfish_template.png" />
+<img alt="../../../images/mapfish_template.png" src="../../../images/mapfish_template.png" />
 </blockquote>
 </div>
 </div>
@@ -418,7 +418,7 @@ If you open it in a browser, you should get a message &#8220;Hello World!  You h
 <h5>Ext.grid.GridPanel<a class="headerlink" href="#ext-grid-gridpanel" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="http://map.globe.admin.ch">Globe application</a> uses a <a class="reference external" href="http://extjs.com/deploy/dev/docs/?class=Ext.grid.GridPanel">grid panel</a>:</p>
 <blockquote>
-<img alt="../../../_images/mapfish_globe.png" src="../../../_images/mapfish_globe.png" />
+<img alt="../../../images/mapfish_globe.png" src="../../../images/mapfish_globe.png" />
 </blockquote>
 </div>
 </div>
@@ -469,7 +469,7 @@ If you open it in a browser, you should get a message &#8220;Hello World!  You h
 </div></div>
 <div class="section" id="editing-toolbar">
 <h5>Editing Toolbar<a class="headerlink" href="#editing-toolbar" title="Permalink to this headline">¶</a></h5>
-<p><a class="reference external" href="http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/_staticOpenLayers/Control/EditingToolbar-js.html">Editing Toolbar</a></p>
+<p><a class="reference external" href="http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/staticOpenLayers/Control/EditingToolbar-js.html">Editing Toolbar</a></p>
 <p>To test: <a href="../../../_downloads/openlayers_editing_toolbar.html"><strong class="xref">openlayers_editing_toolbar.html</strong></a></p>
 <a id="showRef5" href="javascript:showdiv('codeBlock5','showRef5','hideRef5')">Show code</a>
 <a id="hideRef5" href="javascript:hidediv('codeBlock5','showRef5','hideRef5')" style="display: none; visibility: hidden">Hide code</a>
@@ -515,7 +515,7 @@ If you open it in a browser, you should get a message &#8220;Hello World!  You h
 <h5>Popup<a class="headerlink" href="#popup" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="http://www.swissrivers.ch">Swissrivers.ch application</a> uses <a class="reference external" href="http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/files/OpenLayers/Popup-js.html">OpenLayers popups</a> to present hydrogramms.</p>
 <blockquote>
-<img alt="../../../_images/mapfish_swissrivers.png" src="../../../_images/mapfish_swissrivers.png" />
+<img alt="../../../images/mapfish_swissrivers.png" src="../../../images/mapfish_swissrivers.png" />
 </blockquote>
 </div>
 </div>
@@ -1316,7 +1316,7 @@ view-source:http://localhost:5000/countries/1</pre>
 <h5>Example: MapFish edition and authentication<a class="headerlink" href="#example-mapfish-edition-and-authentication" title="Permalink to this headline">¶</a></h5>
 <p><a class="reference external" href="http://map.globe.admin.ch">Globe application</a> uses the MapFish protocol to allow edition and have authentication capabilities.</p>
 <blockquote>
-<img alt="../../../_images/mapfish_globe.png" src="../../../_images/mapfish_globe.png" />
+<img alt="../../../images/mapfish_globe.png" src="../../../images/mapfish_globe.png" />
 </blockquote>
 </div>
 </div>
@@ -1365,7 +1365,7 @@ view-source:http://localhost:5000/countries/1</pre>
 </ul>
 </li>
 </ul>
-<img alt="../../../_images/studio_full_view.png" src="../../../_images/studio_full_view.png" />
+<img alt="../../../images/studio_full_view.png" src="../../../images/studio_full_view.png" />
 <p>More information: <em class="xref">mapfish.tutorials.studio_user_guide.work_with_studio</em>.</p>
 <p>Studio uses a Pylon template to create the MapFish applications. This template can be customized.</p>
 </div>

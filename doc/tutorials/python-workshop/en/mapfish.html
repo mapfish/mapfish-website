@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>MapFish &mdash; Python Workshop v0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -17,8 +17,8 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
     <link rel="top" title="Python Workshop v0.1 documentation" href="../index.html" />
     <link rel="up" title="Welcome to Python Workshop’s documentation!" href="index.html" />
     <link rel="next" title="Workshop Python (version française)" href="../fr/index.html" />
@@ -44,7 +44,7 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+              <img class="logo" src="../static/mapfish_white.png" alt="Logo"/>
             </a></p>
             <h3><a href="../index.html">Table Of Contents</a></h3>
             <ul>
@@ -187,7 +187,7 @@ after the <tt class="docutils literal"><span class="pre">tilecache</span></tt> r
 example open <a class="reference external" href="http://localhost:5000/mfsummits?limit=2">http://localhost:5000/mfsummits?limit=2</a> in FireFox. But in fact,
 because a model class already exists for the table <tt class="docutils literal"><span class="pre">summits</span></tt>, SQLAlchemy will
 produce an error:</p>
-<img alt="../_images/summits_already_defined_error.png" src="../_images/summits_already_defined_error.png" style="width: 500pt; height: 380pt;" />
+<img alt="../images/summits_already_defined_error.png" src="../images/summits_already_defined_error.png" style="width: 500pt; height: 380pt;" />
 <p>To correct the error edit <tt class="docutils literal"><span class="pre">workshopapp/model/mfsummits.py</span></tt> and add
 <tt class="docutils literal"><span class="pre">useexisting:</span> <span class="pre">True</span></tt> in the table arguments (<tt class="docutils literal"><span class="pre">__table_args__</span></tt>):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">types</span>

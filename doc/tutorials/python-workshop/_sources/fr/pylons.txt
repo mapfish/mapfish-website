@@ -109,7 +109,7 @@ serveur web en Python, souvent utilisé pendant le développement.
 Ouvrez http://localhost:5000 dans votre navigateur web, vous devez tomber sur la 
 page par défaut :
 
-.. image:: _static/pylons.png
+.. image:: static/pylons.png
     :height: 400pt
     :width: 500pt
 

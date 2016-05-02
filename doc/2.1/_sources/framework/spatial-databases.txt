@@ -65,7 +65,7 @@ that for you (see :ref:`setup-app`) or you can manually create tables (see `Crea
 
 You can also use the tool `shp2pgsql <http://postgis.refractions.net/docs/ch04.html#shp2pgsql_usage>`_
 to create a table from a Shapefile. For example to create the table for this countries Shapefile 
-(:download:`countries.zip <_static/countries.zip>`), you would have to do this::
+(:download:`countries.zip <static/countries.zip>`), you would have to do this::
 
 	unzip countries.zip
 	sudo su postgres
@@ -275,7 +275,7 @@ Now you can compile and setup *pysqlite2* with::
     a ``static build``. This will download the latest SQLite3 amalgation file and link it 
     internally::
 
-        (venv) $ python setup.py build_static install
+        (venv) $ python setup.py buildstatic install
 
 Setting up a spatially-enabled database
 ----------------------------------------

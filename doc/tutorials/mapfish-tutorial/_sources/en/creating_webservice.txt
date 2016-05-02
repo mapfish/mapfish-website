@@ -133,7 +133,7 @@ You can now open http://localhost:5000/countries?limit=1 in your browser, you
 should see a `GeoJSON <http://geojson.org>`_ representation of the first object
 in the ``countries`` table:
 
-.. image:: ../_static/geojson.png
+.. image:: ../static/geojson.png
     :height: 300pt
     :width: 500pt
 

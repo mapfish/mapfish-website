@@ -48,7 +48,7 @@ document classe `OpenLayers.Layer.WMS
 Après avoir rechargé l'application au sein de votre navigateur, vous devriez
 obtenir ceci :
 
-.. image:: ../_static/c2corg.png
+.. image:: ../static/c2corg.png
     :height: 300pt
     :width: 500pt
 
@@ -60,7 +60,7 @@ Le code que vous venez d'intégrer ne fait appel qu'à  la librairie d'OpenLayer
 aucun code de type GeoExt ou MapFish n'a été écris ou utilisé jusqu'à
 maintenant.
 
-[`Correction here <../_static/mapfishapp_layout_module3_addwms.js>`_]
+[`Correction here <../static/mapfishapp_layout_module3_addwms.js>`_]
 
 
 Ajouter des outils 
@@ -114,7 +114,7 @@ Nous avons aussi besoin de CSS dans le fichier
 Après avoir rechargé l'application au sein de votre navigateur, vous devriez
 obtenir ceci :
 
-.. image:: ../_static/zoomout.png
+.. image:: ../static/zoomout.png
     :height: 300pt
     :width: 500pt
 
@@ -122,7 +122,7 @@ Dans ce module vous avez appris à utiliser les objets ``GeoExt.Action`` en
 association avec les objets ``OpenLayers.Control`` afin d'ajouter une
 fonctionalité au sein de la barre d'outil.
 
-[`Retrouvez ici la correction <../_static/mapfishapp_layout_module3_addzoomout.js>`_]
+[`Retrouvez ici la correction <../static/mapfishapp_layout_module3_addzoomout.js>`_]
 
 **Bonus**
 

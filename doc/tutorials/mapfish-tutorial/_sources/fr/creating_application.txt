@@ -45,7 +45,7 @@ couramment employé par les développements employant le langage Python.
 Ouvrez maintenant l'adresse suivante http://localhost:5000 au sein de votre
 navigateur web, vous devriez être dirigés vers la page par défaut suivante :
 
-.. image:: ../_static/pylons.png
+.. image:: ../static/pylons.png
     :height: 300pt
     :width: 500pt
 
@@ -89,7 +89,7 @@ Redémarrez l'application :
 Ouvrez ou rechargez http://localhost:5000 au sein de votre navigateur, vous
 devriez maintenant obtenir l'interface utilisateur par défaut que voici :
 
-.. image:: ../_static/osm.png
+.. image:: ../static/osm.png
     :height: 300pt
     :width: 500pt
 

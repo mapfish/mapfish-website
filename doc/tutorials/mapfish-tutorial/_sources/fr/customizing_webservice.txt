@@ -24,4 +24,4 @@ Cela est réalisé en ajoutant au code l'action ``index`` (fonction) de
                       Country.continent == "Africa")
         return self.protocol.read(request, filter=filter)
 
-[`Ici pour la correction (controller/countries.py) <_static/controller_countries_module7.py>`_]
+[`Ici pour la correction (controller/countries.py) <static/controller_countries_module7.py>`_]

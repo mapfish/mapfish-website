@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Tiling &mdash; MapFish</title>
-    <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -17,8 +17,8 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
     <link rel="top" title="MapFish" href="../../index.html" />
     <link rel="up" title="Tutorials" href="index.html" />
     <link rel="prev" title="SQLAlchemy tutorial" href="sqlalchemy.html" /> 
@@ -44,7 +44,7 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../index.html">
-              <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
+              <img class="logo" src="../../static/mapfish_white.png" alt="Logo"/>
             </a></p>
             <h3><a href="../../index.html">Table Of Contents</a></h3>
             <ul>
@@ -107,7 +107,7 @@
 <li>For application with a lot of layers, a strategy is needed to present more than 6-8 layers. In this case, JavaScript libraries are not very performant for handling 500+ of tiles. The solution is to merge tiles on server side:</li>
 </ul>
 <blockquote>
-<img alt="../../_images/mapfish_tiling_merge.png" src="../../_images/mapfish_tiling_merge.png" />
+<img alt="../../images/mapfish_tiling_merge.png" src="../../images/mapfish_tiling_merge.png" />
 <p>On the server side, if two layers are requested by the client, the tiles of the two layers will be merged (this implies transparency) and only one tile will be sent to the client.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>

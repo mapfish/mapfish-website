@@ -131,7 +131,7 @@ Par exemple ouvrez http://localhost:5000/mfsummits?limit=2 dans Firefox. Mais en
 fait, puisqu'une classe modèle existe déjà pour la table ``summits``, SQLAlchemy 
 renverra une erreur :
 
-.. image:: _static/summits_already_defined_error.png
+.. image:: static/summits_already_defined_error.png
     :height: 380pt
     :width: 500pt
 

@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Configuration &mdash; MapFish Print v2.0-SNAPSHOT documentation</title>
-    <link rel="stylesheet" href="_static/mapfish.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '#',
@@ -17,8 +17,8 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="top" title="MapFish Print v2.0-SNAPSHOT documentation" href="index.html" />
     <link rel="next" title="Protocol" href="protocol.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
@@ -549,7 +549,7 @@ to know how to specify the <strong>config</strong> field.</p>
 <li>bar: A thick bar with a suite of color and barBgColor blocks.</li>
 <li>bar_sub: Like bar, but with little lines for labels.</li>
 </ul>
-<img alt="_images/scalebarTypes.png" src="_images/scalebarTypes.png" />
+<img alt="images/scalebarTypes.png" src="images/scalebarTypes.png" />
 <p>The bar and/or text orientation can be set to &#8220;up&#8221;, &#8220;down&#8221;, &#8220;left&#8221; or &#8220;right&#8221;.</p>
 <p>The <cite>align</cite> attribute is for placing the whole scalebar withing the surrounding column or page. The <cite>vertAlign</cite> attribute is used only when placed in a column.</p>
 <p>Labels are always centered on the graduation, at a distance specified by labelDistance.</p>
@@ -713,7 +713,7 @@ more precisely the legends should be present in the print.pdf JSON request.</p>
 </ul>
 <p>Every matching overrides is applied in order and will override the values defined in the previous ones.</p>
 <p>For example, if you want to draw an attribute block like that:</p>
-<img alt="_images/tableConfig.png" src="_images/tableConfig.png" />
+<img alt="images/tableConfig.png" src="images/tableConfig.png" />
 <p>You define that:</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="p-Indicator">-</span> <span class="kt">!attributes</span>
   <span class="l-Scalar-Plain">tableConfig</span><span class="p-Indicator">:</span>

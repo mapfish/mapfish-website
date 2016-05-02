@@ -76,11 +76,11 @@ et un lien vers le CDD de ``GeoExt.Popup`` dans le fichier  ``mapfishapp/public/
 Lorsque vous cliquez sur un pays vous devriez obtenir une popup ressemblant à 
 ceci :
 
-.. image:: ../_static/popup.png
+.. image:: ../static/popup.png
     :height: 300pt
     :width: 500pt
 
-[`Cliquez ici pour voir la correction <../_static/layout.js>`_]
+[`Cliquez ici pour voir la correction <../static/layout.js>`_]
 
 Notez que les réponses AJAX peuvent indiquer que la base de données se plaint 
 que le code EPSG:900913 ne soit pas connu. Dans ce cas, vous devriez lancer la 

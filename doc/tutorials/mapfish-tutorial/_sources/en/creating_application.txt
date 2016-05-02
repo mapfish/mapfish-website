@@ -39,7 +39,7 @@ pure-Python web server, commonly used during development.
 Open http://localhost:5000 in your web browser, you should get the default
 page:
 
-.. image:: ../_static/pylons.png
+.. image:: ../static/pylons.png
     :height: 300pt
     :width: 500pt
 
@@ -79,7 +79,7 @@ Start the application again::
 Open or reload http://localhost:5000 in your web browser, you should now get
 the default user interface:
 
-.. image:: ../_static/osm.png
+.. image:: ../static/osm.png
     :height: 300pt
     :width: 500pt
 

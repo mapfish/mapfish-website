@@ -165,7 +165,7 @@ Vous pouvez à présent ouvrir  http://localhost:5000/countries?limit=1 avec vot
 navigateur, vous devriez apercevoir une représentation `GeoJSON
 <http://geojson.org>`_  du premier objet de la table ``countries`` :
 
-.. image:: ../_static/geojson.png
+.. image:: ../static/geojson.png
     :height: 300pt
     :width: 500pt
 

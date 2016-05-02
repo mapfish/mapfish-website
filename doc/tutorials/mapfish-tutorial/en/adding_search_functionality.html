@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Module 6 - Adding search functionality &mdash; MapFish Tutorial v0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/mapfish.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -17,8 +17,8 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
     <link rel="top" title="MapFish Tutorial v0.1 documentation" href="../index.html" />
     <link rel="up" title="MapFish Tutorial" href="index.html" />
     <link rel="next" title="Module 7 - Customizing the web service" href="customizing_webservice.html" />
@@ -44,7 +44,7 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/mapfish_white.png" alt="Logo"/>
+              <img class="logo" src="../static/mapfish_white.png" alt="Logo"/>
             </a></p>
             <h4>Previous topic</h4>
             <p class="topless"><a href="creating_webservice.html"
@@ -136,8 +136,8 @@ feature, displaying in it attributes of the the feature:</p>
 <div class="highlight-python"><pre>&lt;link rel="stylesheet" type="text/css" href="lib/geoext/resources/css/popup.css" /&gt;</pre>
 </div>
 <p>When clicking on a country you should get a popup looking like this:</p>
-<img alt="../_images/popup.png" src="../_images/popup.png" style="width: 500pt; height: 300pt;" />
-<p>[<a class="reference external" href="../_static/layout.js">Correction here</a>]</p>
+<img alt="../images/popup.png" src="../images/popup.png" style="width: 500pt; height: 300pt;" />
+<p>[<a class="reference external" href="../static/layout.js">Correction here</a>]</p>
 <p>Note that the AJAX responses may show that the database complains about EPSG:900913 code not being known.
 In that case, you may run the following INSERT statement in your database:</p>
 <div class="highlight-python"><pre>INSERT INTO spatial_ref_sys (srid,auth_name,auth_srid,srtext,proj4text) VALUES

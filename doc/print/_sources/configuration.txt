@@ -494,7 +494,7 @@ The type can be:
 * bar: A thick bar with a suite of color and barBgColor blocks.
 * bar_sub: Like bar, but with little lines for labels.
 
-.. image:: _static/scalebarTypes.png
+.. image:: static/scalebarTypes.png
 
 The bar and/or text orientation can be set to "up", "down", "left" or "right".
 
@@ -704,7 +704,7 @@ Every matching overrides is applied in order and will override the values define
 
 For example, if you want to draw an attribute block like that:
 
-.. image:: _static/tableConfig.png
+.. image:: static/tableConfig.png
 
 You define that:
 

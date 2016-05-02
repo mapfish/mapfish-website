@@ -66,11 +66,11 @@ and a link to the ``GeoExt.Popup``'s CSS in ``mapfishapp/public/index.html``::
 
 When clicking on a country you should get a popup looking like this:
 
-.. image:: ../_static/popup.png
+.. image:: ../static/popup.png
     :height: 300pt
     :width: 500pt
 
-[`Correction here <../_static/layout.js>`_]
+[`Correction here <../static/layout.js>`_]
 
 Note that the AJAX responses may show that the database complains about EPSG:900913 code not being known.
 In that case, you may run the following INSERT statement in your database::

@@ -41,7 +41,7 @@ know more about the ``OpenLayers.Layers.WMS`` class.
    
 After reloading the application in the browser you should get this:
 
-.. image:: ../_static/c2corg.png
+.. image:: ../static/c2corg.png
     :height: 300pt
     :width: 500pt
 
@@ -51,7 +51,7 @@ routes, huts, parkings and climbing sites added to your map of Espagna :-)
 The code you added here makes use of the OpenLayers library only, you haven't
 written any GeoExt and MapFish code at this point.
 
-[`Correction here <../_static/mapfishapp_layout_module3_addwms.js>`_]
+[`Correction here <../static/mapfishapp_layout_module3_addwms.js>`_]
 
 
 Adding tools
@@ -98,14 +98,14 @@ We also need some CSS in ``mapfishapp/public/app/css/main.css``::
 
 After reloading the application in the browser you should get this:
 
-.. image:: ../_static/zoomout.png
+.. image:: ../static/zoomout.png
     :height: 300pt
     :width: 500pt
 
 In this section you have learned how to use ``GeoExt.Action`` objects together
 with ``OpenLayers.Control`` objects to add map tools in a tool bar.
 
-[`Correction there <../_static/mapfishapp_layout_module3_addzoomout.js>`_]
+[`Correction there <../static/mapfishapp_layout_module3_addzoomout.js>`_]
 
 **Bonus task**
 
