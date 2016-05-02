@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Name=MapFish
+Comment=Start MapFish server and view minimal MapFish application in browser
+Categories=Application;Geography;Geoscience;Education;
+Exec=/usr/lib/mapfish/start_in_browser.sh
+Icon=/usr/lib/mapfish/mapfish.png
+Terminal=false
+StartupNotify=false

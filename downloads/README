@@ -1,0 +1,10 @@
+Install a new package:
+  copy files from http://pylonshq.com/download (no .exe !) to all/
+  run: cd all/ && rm -fr pkg && python ../makeindex.py *
+
+Build a package for amd64:
+  mkdir dist_amd64
+  virtualenv venv
+  source venv/bin/activate
+  easy_install -zmaxd dist_amd64 /path/to/Studio
+

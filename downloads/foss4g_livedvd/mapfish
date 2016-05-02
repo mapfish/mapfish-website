@@ -1,0 +1,49 @@
+#!/bin/sh
+
+TMP_DIR="/tmp"
+MAPFISH_TMP_DIR="$TMP_DIR/mapfish"
+
+CONF_DIR="/etc"
+MAPFISH_CONF_DIR="$CONF_DIR/mapfish"
+
+INSTALL_DIR="/usr/lib"
+MAPFISH_INSTALL_DIR="$INSTALL_DIR/mapfish"
+MAPFISH_VENV_DIR="$MAPFISH_INSTALL_DIR/mapfish-venv"
+MAPFISH_CMD="$MAPFISH_VENV_DIR/bin/paster serve --daemon --pid-file $MAPFISH_TMP_DIR/paster.pid --log-file $MAPFISH_TMP_DIR/paster.log $MAPFISH_CONF_DIR/minimal.ini"
+
+if [ ! -d $MAPFISH_TMP_DIR ]
+then
+    echo "Create $MAPFISH_TMP_DIR directory"
+    mkdir $MAPFISH_TMP_DIR
+fi
+
+error=0
+case "$1" in
+start)
+    echo "Starting mapfish server..."
+    $MAPFISH_CMD start
+    error=$?
+    ;;
+stop)
+    echo "Stopping mapfish server..."
+    $MAPFISH_CMD stop
+    error=$?
+    ;;
+restart)
+    echo "Restarting mapfish server..."
+    $MAPFISH_CMD restart
+    error=$?
+    ;;
+status)
+    echo "Status for mapfish server:"
+    $MAPFISH_CMD status
+    error=$?
+    ;;
+*)
+    echo "Usage: /usr/bin/mapfish {start|stop|restart|status}"
+    error=1
+    ;;
+esac
+
+exit $error
+
