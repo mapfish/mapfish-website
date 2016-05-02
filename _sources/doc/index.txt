@@ -1,0 +1,117 @@
+Documentation
+*************
+
+Reference docs
+--------------
+
+* `Release 2.2 <2.2/index.html>`_
+
+  * `2.2 Installation <2.2/installation.html>`_
+  * `2.2 Quickstart <2.2/quickstart.html>`_
+  * `2.2 Framework <2.2/framework/index.html>`_
+  * `2.2 Protocol <2.2/protocol.html>`_
+  * `2.2 API References <2.2/reference/index.html>`_
+
+Previous releases
+~~~~~~~~~~~~~~~~~
+
+* `Release 2.1 <2.1/index.html>`_
+
+  * `2.1 Installation <2.1/installation.html>`_
+  * `2.1 Quickstart <2.1/quickstart.html>`_
+  * `2.1 Framework <2.1/framework/index.html>`_
+  * `2.1 Protocol <2.1/protocol.html>`_
+  * `2.1 API References <2.1/reference/index.html>`_
+
+* `Release 1.2 <1.2/index.html>`_
+
+  .. toctree::
+     :maxdepth: 1
+  
+     1.2/installation
+     1.2/quickstart
+     1.2/framework
+     1.2/protocol
+     1.2/reference/index
+
+  * `Demos <http://demo.mapfish.org/mapfishsample/1.2>`_
+
+Tutorials and workshops
+-----------------------
+
+* `The MapFish In Production Workshop <http://www.mapfish.org/doc/tutorials/mapfishsample-workshop/index.html>`_
+
+  Presented at FOSS4G 2011. This workshop shows the tools and practices the
+  Camptocamp teams use for developing, deploying, and running MapFish
+  applications. This workshop is a also a guide to MapFishSample, the official
+  MapFish demo application.
+
+* `The MapFish tutorial <http://www.mapfish.org/doc/tutorials/mapfish-tutorial/en/index.html>`_ (`Version française du tutorial <http://www.mapfish.org/doc/tutorials/mapfish-tutorial/fr/index.html>`_)
+
+  Presented at FOSS4G 2010. This tutorial provides an overview of the
+  MapFish framework.
+
+
+* `The Python Workshop <http://www.mapfish.org/doc/tutorials/python-workshop/en/index.html>`_ (`Version française du workshop <http://www.mapfish.org/doc/tutorials/python-workshop/fr/index.html>`_)
+
+  Presented at FOSS4G 2010. This workshop teaches the basics of Pylons,
+  SQLAlchemy, GeoAlchemy, Shapely, geojson, and MapFish.
+
+.. toctree::
+   :maxdepth: 1
+
+   tutorials/sqlalchemy
+   tutorials/pylons
+   tutorials/secure_tilecache
+   tutorials/extjs
+
+Related projects
+----------------
+
+MapFish hosts various related projects:
+
+* `MapFish Print Module <print/index.html>`_
+
+.. toctree::
+   :maxdepth: 1
+
+   implementations/index
+   contribs/mapfishapi
+
+* `Studio <http://camptocamp.github.com/Studio/>`_
+
+Other docs
+----------
+
+These docs are unofficial and might be outdated.
+
+.. toctree::
+   :maxdepth: 1
+
+   tutorials/tiling
+   tutorials/ogrs2009_lab
+   tutorials/introduction/introduction
+   tutorials/howto_app_development/howto_app_development
+
+.. cssclass:: navigation_links
+
+ `Documentation <index.html>`_ |
+ `Demo <http://demo.mapfish.org/mapfishsample/2.0/>`_ |
+ `Wiki/Trac <http://trac.mapfish.org/>`_
+
+.. toctree::
+   :hidden:
+
+   1.2/index
+   tutorials/index
+
+Warranty disclaimer and license
+-------------------------------
+
+The authors provide these documents "AS-IS", without warranty of any kind
+either expressed or implied.
+
+Document under `Creative Common License Attribution-Share Alike 2.5 Generic
+<http://creativecommons.org/licenses/by-sa/2.5/>`_.
+
+Authors: MapFish developers.

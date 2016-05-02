@@ -1,0 +1,656 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Secure TileCache Tutorial &mdash; MapFish</title>
+    
+    <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapFish" href="../../index.html" />
+    <link rel="up" title="Tutorials" href="index.html" />
+    <link rel="next" title="SQLAlchemy tutorial" href="sqlalchemy.html" />
+    <link rel="prev" title="Pylons tutorial" href="pylons.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sqlalchemy.html" title="SQLAlchemy tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pylons.html" title="Pylons tutorial"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Secure TileCache Tutorial</a><ul>
+<li><a class="reference internal" href="#install-pylons">Install Pylons</a></li>
+<li><a class="reference internal" href="#create-application">Create Application</a></li>
+<li><a class="reference internal" href="#set-up-application-dependencies">Set Up Application Dependencies</a></li>
+<li><a class="reference internal" href="#plug-tilecache-in">Plug TileCache In</a></li>
+<li><a class="reference internal" href="#create-database-model">Create Database Model</a></li>
+<li><a class="reference internal" href="#populate-the-database">Populate the Database</a></li>
+<li><a class="reference internal" href="#configure-authentication-and-authorization">Configure Authentication and Authorization</a></li>
+<li><a class="reference internal" href="#secure-tilecache">Secure TileCache</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pylons.html"
+                        title="previous chapter">Pylons tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sqlalchemy.html"
+                        title="next chapter">SQLAlchemy tutorial</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/doc/tutorials/secure_tilecache.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="secure-tilecache-tutorial">
+<span id="mapfish-tutorials-secure-tilecache"></span><h1>Secure TileCache Tutorial<a class="headerlink" href="#secure-tilecache-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial shows how to use <a class="reference external" href="http://pylonshq.com">Pylons</a> and <a class="reference external" href="http://docs.repoze.org/what">repoze.what</a> to secure <a class="reference external" href="http://tilecache.org">TileCache</a>.
+More specifically, it shows how to restrict access to TileCache layers based on
+user permissions.</p>
+<p>You don&#8217;t need to know Pylons and repoze.what to follow this tutorial.</p>
+<div class="section" id="install-pylons">
+<h2>Install Pylons<a class="headerlink" href="#install-pylons" title="Permalink to this headline">¶</a></h2>
+<p>To install Pylons download the <a class="reference external" href="http://www.pylonshq.com/download/0.9.7/go-pylons.py">go-pylons.py</a> and execute it with:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python go-pylons.py --no-site-packages env
+</pre></div>
+</div>
+<p>This commands creates a virtual Python environment named <code class="docutils literal"><span class="pre">env</span></code> and installs
+Pylons and its dependencies into it.</p>
+<p>Now activate the virtual environment:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ source env/bin/activate
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-application">
+<h2>Create Application<a class="headerlink" href="#create-application" title="Permalink to this headline">¶</a></h2>
+<p>TileCache will run in a Pylons application. Let&#8217;s create that application and
+name it <code class="docutils literal"><span class="pre">SecureTileCache</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ paster create -t pylons SecureTileCache
+</pre></div>
+</div>
+<p>Your application will use Mako and SQLAlchemy, so answer <code class="docutils literal"><span class="pre">mako</span></code> (the default)
+when asked about the template language to use, and answer <code class="docutils literal"><span class="pre">True</span></code> when asked
+about whether to use SQLAlchemy.</p>
+</div>
+<div class="section" id="set-up-application-dependencies">
+<h2>Set Up Application Dependencies<a class="headerlink" href="#set-up-application-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Here you&#8217;re going to set up your application&#8217;s dependencies, and install these
+dependencies in the virtual environment Pylons has been installed in.</p>
+<p>To set up the application&#8217;s dependencies edit the <code class="docutils literal"><span class="pre">setup.py</span></code> file, which is
+located in the application&#8217;s root directory (<code class="docutils literal"><span class="pre">SecureTileCache</span></code>), and change
+the value of the <code class="docutils literal"><span class="pre">install_requires</span></code> argument from:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+    <span class="s">&quot;Pylons&gt;=0.9.7&quot;</span><span class="p">,</span>
+    <span class="s">&quot;SQLAlchemy&gt;=0.5&quot;</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+    <span class="s">&quot;Pylons&gt;=0.9.7&quot;</span><span class="p">,</span>
+    <span class="s">&quot;SQLAlchemy&gt;=0.5&quot;</span><span class="p">,</span>
+    <span class="s">&quot;repoze.what-quickstart&gt;=1.0.3,&lt;=1.0.99&quot;</span><span class="p">,</span>
+    <span class="s">&quot;repoze.what-pylons&gt;=1.0,&lt;=1.0.99&quot;</span><span class="p">,</span>
+    <span class="s">&quot;TileCache&gt;=2.10,&lt;=2.10.99&quot;</span><span class="p">,</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>With this, installing the <code class="docutils literal"><span class="pre">SecureTileCache</span></code> application (in the virtual
+environment) will also install Pylons, SQLAlchemy, repoze.what-quickstart,
+repoze.what-pylons, and TileCache. Let&#8217;s do it:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python setup.py develop
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Lauch the command again if you get an error saying that repoze.who couldn&#8217;t
+be found.</p>
+</div>
+</div>
+<div class="section" id="plug-tilecache-in">
+<h2>Plug TileCache In<a class="headerlink" href="#plug-tilecache-in" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial&#8217;s objective is to run TileCache from within the Pylons
+application, and secure it using repoze.what.  So let&#8217;s see how to run
+TileCache from within your <code class="docutils literal"><span class="pre">SecureTileCache</span></code> Pylons application.</p>
+<p>First, create in the <code class="docutils literal"><span class="pre">SecureTileCache</span></code> directory a TileCache configuration
+file named <code class="docutils literal"><span class="pre">tilecache.cfg</span></code> with this content:</p>
+<div class="highlight-python"><div class="highlight"><pre>[cache]
+type=Disk
+base=/tmp/tilecache
+
+[basic]
+type=WMS
+url=http://labs.metacarta.com/wms/vmap0
+extension=png
+
+[coastline_01]
+type=WMS
+url=http://labs.metacarta.com/wms/vmap0
+extension=jpeg
+
+[coastline_02]
+type=WMS
+url=http://labs.metacarta.com/wms/vmap0
+extension=jpeg
+</pre></div>
+</div>
+<p>This TileCache configuration defines three WMS layers, <cite>basic</cite>, <cite>coastline_01</cite>,
+and <cite>coastline_02</cite>. It also defines <code class="docutils literal"><span class="pre">/tmp/tilecache</span></code> as the directory where
+tiles are cached.</p>
+<p>Now you need to create a controller. This controller will be responsible for
+receiving HTTP requests and handing them to TileCache. In the
+<code class="docutils literal"><span class="pre">securetilecache/controllers/</span></code> directory create a file named <code class="docutils literal"><span class="pre">tilecache.py</span></code>
+with this content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect_to</span>
+
+<span class="kn">from</span> <span class="nn">securetilecache.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="kn">from</span> <span class="nn">TileCache.Service</span> <span class="kn">import</span> <span class="n">wsgiApp</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TilecacheController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">basic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wsgiApp</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">coastline_01</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wsgiApp</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">coastline_02</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wsgiApp</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The TileCache controller is composed of three actions (methods), one per layer.
+Note that, at this point, it isn&#8217;t necessary to define per-layer actions. This
+is done like this in preparation for the layer-based security you will set
+up further in the tutorial.</p>
+<p>The last thing is define the mapping between URLs and the <code class="docutils literal"><span class="pre">TileCache</span></code>
+controller and its actions. The mapping is this: requests sent to
+<code class="docutils literal"><span class="pre">/tilecache</span></code> are directed to the <code class="docutils literal"><span class="pre">TileCache</span></code> controller, and the action is
+chosen based on the layer name specified in the <code class="docutils literal"><span class="pre">LAYERS</span></code> parameter of the
+query string. To set up this mapping, edit the
+<code class="docutils literal"><span class="pre">securetilecache/config/routing.py</span></code> file and add the following code
+afer the <code class="docutils literal"><span class="pre">#</span> <span class="pre">CUSTOM</span> <span class="pre">ROUTES</span> <span class="pre">HERE</span></code> line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layer_to_action</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+    <span class="n">parsed</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s">&quot;paste.parsed_dict_querystring&quot;</span><span class="p">]</span>
+    <span class="n">result</span><span class="p">[</span><span class="s">&quot;action&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parsed</span><span class="p">[</span><span class="s">&quot;LAYERS&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="bp">True</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/tilecache&#39;</span><span class="p">,</span>
+            <span class="n">controller</span><span class="o">=</span><span class="s">&#39;tilecache&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;{action}&#39;</span><span class="p">,</span>
+            <span class="n">conditions</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">layer_to_action</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now start the <code class="docutils literal"><span class="pre">SecureTileCache</span></code> application with:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ paster serve development.ini
+</pre></div>
+</div>
+<p>and test the following URLs in your browser: <a class="reference external" href="http://localhost:5000/tilecache?LAYERS=basic&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application/vnd.ogc.se_inimage&amp;FORMAT=image/jpeg&amp;SRS=EPSG:4326&amp;BBOX=-180,0,-90,90&amp;WIDTH=256&amp;HEIGHT=256">basic</a>,
+<a class="reference external" href="http://localhost:5000/tilecache?LAYERS=coastline_01&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application/vnd.ogc.se_inimage&amp;FORMAT=image/jpeg&amp;SRS=EPSG:4326&amp;BBOX=-180,0,-90,90&amp;WIDTH=256&amp;HEIGHT=256">coastline_01</a>,
+and <a class="reference external" href="http://localhost:5000/tilecache?LAYERS=coastline_02&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application/vnd.ogc.se_inimage&amp;FORMAT=image/jpeg&amp;SRS=EPSG:4326&amp;BBOX=-180,0,-90,90&amp;WIDTH=256&amp;HEIGHT=256">coastline_02</a>.
+You should see 256x256 pixels images.</p>
+</div>
+<div class="section" id="create-database-model">
+<h2>Create Database Model<a class="headerlink" href="#create-database-model" title="Permalink to this headline">¶</a></h2>
+<p>The users, groups, and permissions will be stored in an SQLite database. The
+database and its schema will be created on application setup, i.e. upon
+entering <code class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span> <span class="pre">development.ini</span></code>.</p>
+<p>For this you first need to define the database model, i.e. define the tables
+and the relations between those tables. This is done in the
+<code class="docutils literal"><span class="pre">securetilecache/model/__init__.py</span></code> file using SQLAlchemy.</p>
+<p>Edit the <code class="docutils literal"><span class="pre">securetilecache/model/__init__.py</span></code>, add</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">sha1</span>
+</pre></div>
+</div>
+<p>at the very beginning of the file (right after the <code class="docutils literal"><span class="pre">&quot;&quot;&quot;The</span> <span class="pre">application's</span> <span class="pre">model</span>
+<span class="pre">objects&quot;&quot;&quot;</span></code> line), and add the following at the end of the file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="n">DeclarativeBase</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+
+<span class="n">group_permission_table</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;group_permission&#39;</span><span class="p">,</span> <span class="n">meta</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+    <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;group_id&#39;</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;group.group_id&#39;</span><span class="p">,</span>
+        <span class="n">onupdate</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">)),</span>
+    <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;permission_id&#39;</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;permission.permission_id&#39;</span><span class="p">,</span>
+        <span class="n">onupdate</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+
+
+<span class="n">user_group_table</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;user_group&#39;</span><span class="p">,</span> <span class="n">meta</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+    <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;user_id&#39;</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;user.user_id&#39;</span><span class="p">,</span>
+        <span class="n">onupdate</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">)),</span>
+    <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;group_id&#39;</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;group.group_id&#39;</span><span class="p">,</span>
+        <span class="n">onupdate</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s">&quot;CASCADE&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Group</span><span class="p">(</span><span class="n">DeclarativeBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An ultra-simple group definition.&quot;&quot;&quot;</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;group&#39;</span>
+
+    <span class="n">group_id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">group_name</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">relation</span><span class="p">(</span><span class="s">&#39;User&#39;</span><span class="p">,</span> <span class="n">secondary</span><span class="o">=</span><span class="n">user_group_table</span><span class="p">,</span> <span class="n">backref</span><span class="o">=</span><span class="s">&#39;groups&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">DeclarativeBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reasonably basic User definition. Probably would want additional</span>
+<span class="sd">    attributes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;user&#39;</span>
+
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">user_name</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">_password</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">80</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_set_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hash password on the fly.&quot;&quot;&quot;</span>
+        <span class="n">hashed_password</span> <span class="o">=</span> <span class="n">password</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">):</span>
+            <span class="n">password_8bit</span> <span class="o">=</span> <span class="n">password</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;UTF-8&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">password_8bit</span> <span class="o">=</span> <span class="n">password</span>
+
+        <span class="n">salt</span> <span class="o">=</span> <span class="n">sha1</span><span class="p">()</span>
+        <span class="n">salt</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
+        <span class="nb">hash</span> <span class="o">=</span> <span class="n">sha1</span><span class="p">()</span>
+        <span class="nb">hash</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">password_8bit</span> <span class="o">+</span> <span class="n">salt</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
+        <span class="n">hashed_password</span> <span class="o">=</span> <span class="n">salt</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span> <span class="o">+</span> <span class="nb">hash</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+        <span class="c"># Make sure the hased password is an UTF-8 object at the end of the</span>
+        <span class="c"># process because SQLAlchemy _wants_ a unicode object for Unicode</span>
+        <span class="c"># fields</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hashed_password</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">):</span>
+            <span class="n">hashed_password</span> <span class="o">=</span> <span class="n">hashed_password</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;UTF-8&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">hashed_password</span>
+
+    <span class="k">def</span> <span class="nf">_get_password</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the password hashed&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span>
+
+    <span class="n">password</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">synonym</span><span class="p">(</span><span class="s">&#39;_password&#39;</span><span class="p">,</span> <span class="n">descriptor</span><span class="o">=</span><span class="nb">property</span><span class="p">(</span><span class="n">_get_password</span><span class="p">,</span>
+                                                            <span class="n">_set_password</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">validate_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the password against existing credentials.</span>
+
+<span class="sd">        :param password: the password that was provided by the user to</span>
+<span class="sd">            try and authenticate. This is the clear text version that we will</span>
+<span class="sd">            need to match against the hashed one in the database.</span>
+<span class="sd">        :type password: unicode object.</span>
+<span class="sd">        :return: Whether the password is valid.</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hashed_pass</span> <span class="o">=</span> <span class="n">sha1</span><span class="p">()</span>
+        <span class="n">hashed_pass</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">password</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">[:</span><span class="mi">40</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">[</span><span class="mi">40</span><span class="p">:]</span> <span class="o">==</span> <span class="n">hashed_pass</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Permission</span><span class="p">(</span><span class="n">DeclarativeBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A relationship that determines what each Group can do&quot;&quot;&quot;</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;permission&#39;</span>
+
+    <span class="n">permission_id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">permission_name</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">relation</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="n">secondary</span><span class="o">=</span><span class="n">group_permission_table</span><span class="p">,</span>
+                          <span class="n">backref</span><span class="o">=</span><span class="s">&#39;permissions&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can now try to create the SQLite database using:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ paster setup-app development.ini
+</pre></div>
+</div>
+<p>It should generate a fair amount of output, with the ten last lines looking
+like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>CREATE TABLE group_permission (
+    group_id INTEGER,
+    permission_id INTEGER,
+     FOREIGN KEY(group_id) REFERENCES &quot;group&quot; (group_id) ON DELETE CASCADE ON UPDATE CASCADE,
+     FOREIGN KEY(permission_id) REFERENCES permission (permission_id) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+
+22:24:41,456 INFO  [sqlalchemy.engine.base.Engine.0x...1fac] ()
+22:24:41,459 INFO  [sqlalchemy.engine.base.Engine.0x...1fac] COMMIT
+</pre></div>
+</div>
+<p>You should also now have a <code class="docutils literal"><span class="pre">development.db</span></code> file (the SQLite database) at the
+root of the application (in the <code class="docutils literal"><span class="pre">SecureTileCache</span></code> directory).</p>
+</div>
+<div class="section" id="populate-the-database">
+<h2>Populate the Database<a class="headerlink" href="#populate-the-database" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s now add users, groups and permissions to the <code class="docutils literal"><span class="pre">development.db</span></code> database.
+For that edit <code class="docutils literal"><span class="pre">securetilecache/websetup.py</span></code> and add the following code at the
+end of the <code class="docutils literal"><span class="pre">setup_app</span></code> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">securetilecache</span> <span class="kn">import</span> <span class="n">model</span>
+
+<span class="c"># Create two users, user1 and user2</span>
+<span class="n">u1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">User</span><span class="p">()</span>
+<span class="n">u1</span><span class="o">.</span><span class="n">user_name</span> <span class="o">=</span> <span class="s">u&#39;user1&#39;</span>
+<span class="n">u1</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s">u&#39;password&#39;</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
+
+<span class="n">u2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">User</span><span class="p">()</span>
+<span class="n">u2</span><span class="o">.</span><span class="n">user_name</span> <span class="o">=</span> <span class="s">u&#39;user2&#39;</span>
+<span class="n">u2</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s">u&#39;password&#39;</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u2</span><span class="p">)</span>
+
+<span class="c"># Create two groups, g1 and g2, add u1 to g1</span>
+<span class="c"># and u2 to g2</span>
+<span class="n">g1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Group</span><span class="p">()</span>
+<span class="n">g1</span><span class="o">.</span><span class="n">group_name</span> <span class="o">=</span> <span class="s">u&#39;g1&#39;</span>
+<span class="n">g1</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span>
+
+<span class="n">g2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Group</span><span class="p">()</span>
+<span class="n">g2</span><span class="o">.</span><span class="n">group_name</span> <span class="o">=</span> <span class="s">u&#39;g2&#39;</span>
+<span class="n">g2</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u2</span><span class="p">)</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">g2</span><span class="p">)</span>
+
+<span class="c"># Create two permissions, basic and coastline, give</span>
+<span class="c"># g1 the permission basic, and g1 the permission</span>
+<span class="c"># coastline</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Permission</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">permission_name</span> <span class="o">=</span> <span class="s">u&#39;basic&#39;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Permission</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">permission_name</span> <span class="o">=</span> <span class="s">u&#39;coastline&#39;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g2</span><span class="p">)</span>
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(Read the comments in the code to understand what the code does.)</p>
+<p>You can now delete the database and create it again:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ rm development.db
+$ paster setup-app development.ini
+</pre></div>
+</div>
+<p>The output of the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">setup-app</span></code> command should end with something like that:</p>
+<div class="highlight-python"><div class="highlight"><pre>22:49:01,682 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO &quot;group&quot; (group_name) VALUES (?)
+22:49:01,682 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u&#39;g1&#39;]
+22:49:01,683 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO &quot;group&quot; (group_name) VALUES (?)
+22:49:01,683 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u&#39;g2&#39;]
+22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO permission (permission_name) VALUES (?)
+22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u&#39;basic&#39;]
+22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO permission (permission_name) VALUES (?)
+22:49:01,684 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u&#39;coastline&#39;]
+22:49:01,685 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO group_permission (group_id, permission_id) VALUES (?, ?)
+22:49:01,685 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [[2, 2], [1, 1]]
+22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO user (user_name, password) VALUES (?, ?)
+22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u&#39;user1&#39;, u&#39;8732c61585087c4fe98f3bf95c3594795b5ceb5618fa719e547c39f0a22562d9779202f6e743dc32&#39;]
+22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO user (user_name, password) VALUES (?, ?)
+22:49:01,686 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [u&#39;user2&#39;, u&#39;1103295bd139c11ccf5a79afcd83550f14fbaa36ebf871f7c9e05555e388ff379f6daee379561162&#39;]
+22:49:01,687 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] INSERT INTO user_group (user_id, group_id) VALUES (?, ?)
+22:49:01,687 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] [[1, 1], [2, 2]]
+22:49:01,688 INFO  [sqlalchemy.engine.base.Engine.0x...8fec] COMMIT
+</pre></div>
+</div>
+<p>Okay, the SQLite is created and populated with users, groups and permissions.</p>
+</div>
+<div class="section" id="configure-authentication-and-authorization">
+<h2>Configure Authentication and Authorization<a class="headerlink" href="#configure-authentication-and-authorization" title="Permalink to this headline">¶</a></h2>
+<p>Here you&#8217;re going to configure authentication and authorization with
+repoze.what within the <code class="docutils literal"><span class="pre">SecureTileCache</span></code> application. For this edit the
+<code class="docutils literal"><span class="pre">securetilecache/config/middleware.py</span></code> file, look up the <code class="docutils literal"><span class="pre">#</span> <span class="pre">CUSTOM</span>
+<span class="pre">MIDDLEWARE</span> <span class="pre">HERE</span></code> line, and add the following after this line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)</span>
+<span class="kn">from</span> <span class="nn">repoze.what.plugins.quickstart</span> <span class="kn">import</span> <span class="n">setup_sql_auth</span>
+<span class="kn">from</span> <span class="nn">securetilecache</span> <span class="kn">import</span> <span class="n">model</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">setup_sql_auth</span><span class="p">(</span><span class="n">app</span><span class="p">,</span>
+                     <span class="n">model</span><span class="o">.</span><span class="n">User</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">Group</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">Permission</span><span class="p">,</span>
+                     <span class="n">model</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span>
+                     <span class="n">cookie_secret</span><span class="o">=</span><span class="s">&quot;cookie_secret&quot;</span><span class="p">,</span>
+                     <span class="n">login_url</span><span class="o">=</span><span class="s">&quot;/signin&quot;</span><span class="p">,</span>
+                     <span class="n">login_handler</span><span class="o">=</span><span class="s">&quot;/login&quot;</span><span class="p">,</span>
+                     <span class="n">logout_handler</span><span class="o">=</span><span class="s">&quot;/logout&quot;</span><span class="p">,</span>
+                     <span class="n">post_logout_url</span><span class="o">=</span><span class="s">&quot;/signin&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+<p>This provides repoze.what with the model classes representing the user, group
+and permission database tables, and with &#8220;login&#8221;, &#8220;logout&#8221;, and &#8220;post_logout&#8221;
+URLs (see the <a class="reference external" href="http://code.gustavonarea.net/repoze.what-quickstart/index.html#module-repoze.what.plugins.quickstart">repoze.what-quickstart doc</a>
+for further detail).</p>
+<p>Let&#8217;s now create the HTML page containing the form for signing in and the link
+for signing out. This page is created as a Mako template, as the page will
+render differently based on whether the user is signed or not when the page is
+requested. In the <code class="docutils literal"><span class="pre">securetilecache/templates</span></code> directory create a file named
+<code class="docutils literal"><span class="pre">signin.html</span></code> with this content:</p>
+<div class="highlight-python"><div class="highlight"><pre>## -*- coding: utf-8 -*-
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;SecureTileCache&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+% if c.user:
+        &lt;a href=&quot;${h.url_for(controller=&#39;main&#39;, action=&#39;signout&#39;)}&quot; style=&quot;float:right&quot;&gt;${_(&quot;Sign out %s&quot;) %c.user}&lt;/a&gt;
+% endif
+    &lt;/div&gt;
+% if c.user:
+    &lt;p&gt;${_(&#39;You are currently logged in as &quot;%s&quot;.&#39; %c.user)}&lt;/p&gt;
+    &lt;p&gt;${_(&#39;Please sign out before sign in again.&#39;)}&lt;/p&gt;
+% else:
+    &lt;div id=&quot;signin&quot;&gt;
+        &lt;form action=&quot;${h.url_for(&#39;/login&#39;)}&quot; method=&quot;post&quot;&gt;
+            &lt;ul&gt;
+                &lt;li&gt;
+                    &lt;label for=&quot;login&quot;&gt;${_(&#39;Login:&#39;)}&lt;/label&gt;&lt;br /&gt;
+                    &lt;input id=&quot;login&quot; type=&quot;text&quot; name=&quot;login&quot;/&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                    &lt;label for=&quot;password&quot;&gt;${_(&#39;Password:&#39;)}&lt;/label&gt;&lt;br /&gt;
+                    &lt;input id=&quot;password&quot; type=&quot;password&quot; name=&quot;password&quot; /&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                    &lt;input type=&quot;submit&quot; name=&quot;Login&quot; value=&quot;Login&quot; /&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+% endif
+% if session.has_key(&#39;flash&#39;):
+    &lt;div id=&quot;flash&quot;&gt;&lt;p&gt;${session.get(&#39;flash&#39;)}&lt;/p&gt;&lt;/div&gt;
+    &lt;%
+        del session[&#39;flash&#39;]
+        session.save()
+    %&gt;
+% endif
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+</div>
+<p>For this template to find the <code class="docutils literal"><span class="pre">url_for</span></code> function edit the
+<code class="docutils literal"><span class="pre">securetilecache/lib/helpers.py</span></code> file and add the following line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">routes</span> <span class="kn">import</span> <span class="n">url_for</span>
+</pre></div>
+</div>
+<p>Now create a controller file <code class="docutils literal"><span class="pre">securetilecache/controllers/main.py</span></code> with
+a <code class="docutils literal"><span class="pre">MainController</span></code> class including <code class="docutils literal"><span class="pre">signin</span></code> and <code class="docutils literal"><span class="pre">signout</span></code> actions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect_to</span>
+
+<span class="kn">from</span> <span class="nn">repoze.what.plugins.pylonshq</span> <span class="kn">import</span> <span class="n">ActionProtector</span><span class="p">,</span> <span class="n">is_met</span>
+<span class="kn">from</span> <span class="nn">repoze.what.predicates</span> <span class="kn">import</span> <span class="n">Not</span><span class="p">,</span> <span class="n">NotAuthorizedError</span><span class="p">,</span> <span class="n">not_anonymous</span><span class="p">,</span> <span class="n">has_all_permissions</span>
+
+<span class="kn">from</span> <span class="nn">securetilecache.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">securetilecache.model</span> <span class="kn">import</span> <span class="n">Group</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="n">meta</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MainController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">signin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_met</span><span class="p">(</span><span class="n">not_anonymous</span><span class="p">()):</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;repoze.what.credentials&#39;</span><span class="p">)[</span><span class="s">&#39;repoze.what.userid&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="s">&quot;/signin.html&quot;</span><span class="p">)</span>
+
+    <span class="nd">@ActionProtector</span><span class="p">(</span><span class="n">not_anonymous</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">signout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">session</span><span class="p">[</span><span class="s">&#39;flash&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;You have just logged out. Please log in again.&#39;</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">redirect_to</span><span class="p">(</span><span class="s">&#39;/logout&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And add a route to this controller in the
+<code class="docutils literal"><span class="pre">securetilecache/config/routing.py</span></code> file (right after the route to the
+TileCache controller):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/signin&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s">&#39;main&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;signin&#39;</span><span class="p">)</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/signout&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s">&#39;main&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;signout&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now point your browser to <a class="reference external" href="http://localhost:5000/signin">http://localhost:5000/signin</a>, you should be able to
+sign in as <cite>user1</cite> or <cite>user2</cite> (password is <cite>password</cite> for both users).</p>
+</div>
+<div class="section" id="secure-tilecache">
+<h2>Secure TileCache<a class="headerlink" href="#secure-tilecache" title="Permalink to this headline">¶</a></h2>
+<p>Everything is now set up so we can secure TileCache. Edit the
+<code class="docutils literal"><span class="pre">securetilecache/controllers/tilecache.py</span></code> and change its content with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pylons</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">tmpl_context</span> <span class="k">as</span> <span class="n">c</span>
+<span class="kn">from</span> <span class="nn">pylons.controllers.util</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">redirect_to</span>
+<span class="kn">from</span> <span class="nn">repoze.what.predicates</span> <span class="kn">import</span> <span class="n">has_permission</span>
+<span class="kn">from</span> <span class="nn">repoze.what.plugins.pylonshq</span> <span class="kn">import</span> <span class="n">ActionProtector</span>
+
+<span class="kn">from</span> <span class="nn">securetilecache.lib.base</span> <span class="kn">import</span> <span class="n">BaseController</span><span class="p">,</span> <span class="n">render</span>
+
+<span class="kn">from</span> <span class="nn">TileCache.Service</span> <span class="kn">import</span> <span class="n">wsgiApp</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TilecacheController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+
+    <span class="nd">@ActionProtector</span><span class="p">(</span><span class="n">has_permission</span><span class="p">(</span><span class="s">&#39;basic&#39;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">basic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wsgiApp</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+
+    <span class="nd">@ActionProtector</span><span class="p">(</span><span class="n">has_permission</span><span class="p">(</span><span class="s">&#39;coastline&#39;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">coastline_01</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wsgiApp</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+
+    <span class="nd">@ActionProtector</span><span class="p">(</span><span class="n">has_permission</span><span class="p">(</span><span class="s">&#39;coastline&#39;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">coastline_02</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wsgiApp</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">basic</span></code> action is decorated so it is executed only if the user has the
+<code class="docutils literal"><span class="pre">basic</span></code> permission. In the same way the <code class="docutils literal"><span class="pre">coastline_01</span></code> and <code class="docutils literal"><span class="pre">coastline_02</span></code>
+actions are decorated so they&#8217;re executed only if the user has the
+<code class="docutils literal"><span class="pre">coastline</span></code> permission.</p>
+<p>In practise, this means that only <cite>user1</cite> will be able to access to the <cite>basic</cite>
+layer, and only <cite>user2</cite> will be able to access to the <cite>coastline_01</cite> and
+<cite>coastline_02</cite> layers.</p>
+<p>TileCache is secured!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sqlalchemy.html" title="SQLAlchemy tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pylons.html" title="Pylons tutorial"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

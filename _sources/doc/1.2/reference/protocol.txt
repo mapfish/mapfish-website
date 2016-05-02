@@ -1,0 +1,19 @@
+.. _`mapfish.refdoc.1_2.reference.protocol`:
+
+mapfish.lib.protocol
+====================
+
+.. module:: mapfish.lib.protocol
+
+Protocol implementation
+-----------------------
+
+.. autoclass:: Protocol
+   :members:
+
+Creating protocol filter
+------------------------
+
+.. autofunction:: create_default_filter
+.. autofunction:: create_attr_filter
+.. autofunction:: create_geom_filter

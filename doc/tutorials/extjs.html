@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ExtJS tutorial &mdash; MapFish</title>
+    
+    <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapFish" href="../../index.html" />
+    <link rel="up" title="Tutorials" href="index.html" />
+    <link rel="next" title="OGRS 2009 - State of the art of the creation of GIS rich internet application" href="ogrs2009_lab.html" />
+    <link rel="prev" title="8 hours introduction to MapFish Framework 1.2" href="introduction/introduction.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ogrs2009_lab.html" title="OGRS 2009 - State of the art of the creation of GIS rich internet application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction/introduction.html" title="8 hours introduction to MapFish Framework 1.2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ExtJS tutorial</a><ul>
+<li><a class="reference internal" href="#get-prepared-with-extjs">Get Prepared with ExtJS</a><ul>
+<li><a class="reference internal" href="#download-extjs">Download ExtJS</a></li>
+<li><a class="reference internal" href="#empty-html">Empty HTML</a></li>
+<li><a class="reference internal" href="#head-section">Head Section</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#element-the-heart-of-ext">Element: The Heart of Ext</a></li>
+<li><a class="reference internal" href="#domquery-selecting-dom-nodes">DomQuery: Selecting DOM Nodes</a></li>
+<li><a class="reference internal" href="#domhelper-manipulating-the-dom">DomHelper: Manipulating the DOM</a><ul>
+<li><a class="reference internal" href="#simple-example">Simple example</a></li>
+<li><a class="reference internal" href="#using-templates">Using templates</a></li>
+<li><a class="reference internal" href="#compiling-templates">Compiling templates</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#events">Events</a><ul>
+<li><a class="reference internal" href="#definition">Definition</a></li>
+<li><a class="reference internal" href="#events-in-ext">Events in Ext</a></li>
+<li><a class="reference internal" href="#dom-events">DOM Events</a></li>
+<li><a class="reference internal" href="#javascript-events">JavaScript Events</a></li>
+<li><a class="reference internal" href="#how-do-i-listen-to-events">How do I listen to events?</a></li>
+<li><a class="reference internal" href="#attaching-multiple-handlers">Attaching multiple handlers</a></li>
+<li><a class="reference internal" href="#how-do-i-create-event-source">How do I create event source?</a></li>
+<li><a class="reference internal" href="#custom-events">Custom Events</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#components">Components</a><ul>
+<li><a class="reference internal" href="#messagebox">MessageBox</a></li>
+<li><a class="reference internal" href="#gridpanel">GridPanel</a></li>
+<li><a class="reference internal" href="#and-many-more">And Many More...</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#layouts">Layouts</a><ul>
+<li><a class="reference internal" href="#tabs">Tabs</a></li>
+<li><a class="reference internal" href="#viewport-and-border-layout">ViewPort and Border Layout</a></li>
+<li><a class="reference internal" href="#accordion-layout">Accordion Layout</a></li>
+<li><a class="reference internal" href="#id1">And Many More...</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction/introduction.html"
+                        title="previous chapter">8 hours introduction to MapFish Framework 1.2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ogrs2009_lab.html"
+                        title="next chapter">OGRS 2009 - State of the art of the creation of GIS rich internet application</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/doc/tutorials/extjs.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extjs-tutorial">
+<span id="mapfish-tutorials-extjs"></span><h1>ExtJS tutorial<a class="headerlink" href="#extjs-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial provides a tour of ExtJS. Here, you will learn the basis of this
+javascript framework and how to deal with core concepts as well as with
+UI components.</p>
+<div class="section" id="get-prepared-with-extjs">
+<span id="get-prepared-extjs"></span><h2>Get Prepared with ExtJS<a class="headerlink" href="#get-prepared-with-extjs" title="Permalink to this headline">¶</a></h2>
+<p>Before you can start playing with ExtJS you must now how to install it.
+This part is based on <a class="reference external" href="http://extjs.com/learn/Tutorial:Introduction_to_Ext_2.0">Introduction to Ext 2.0</a></p>
+<div class="section" id="download-extjs">
+<h3>Download ExtJS<a class="headerlink" href="#download-extjs" title="Permalink to this headline">¶</a></h3>
+<p>If you haven&#8217;t done so already, you&#8217;ll first want to download the most current
+Ext release which can always be found here: <a class="reference external" href="http://extjs.com/products/extjs/download.php">http://extjs.com/products/extjs/download.php</a>.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can unzip these files in a web published webserver folder.</p>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="empty-html">
+<h3>Empty HTML<a class="headerlink" href="#empty-html" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s just create an fairly basic html page. We will build it up in stages and discuss it as we go along.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=iso-8859-1&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title</span> <span class="na">id=</span><span class="s">&#39;title&#39;</span><span class="nt">&gt;</span>HTML Page setup Tutorial<span class="nt">&lt;/title&gt;</span>
+
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="head-section">
+<h3>Head Section<a class="headerlink" href="#head-section" title="Permalink to this headline">¶</a></h3>
+<p>Ok let&#8217;s set up a rough template for the css and javascript resources that will be used.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=iso-8859-1&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title</span> <span class="na">id=</span><span class="s">&#39;title&#39;</span><span class="nt">&gt;</span>HTML Page setup Tutorial<span class="nt">&lt;/title&gt;</span>
+
+        <span class="c">&lt;!-- ** CSS ** --&gt;</span>
+        <span class="c">&lt;!-- base library --&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;../../resources/css/ext-all.css&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="c">&lt;!-- overrides to base library --&gt;</span>
+
+
+        <span class="c">&lt;!-- ** Javascript ** --&gt;</span>
+        <span class="c">&lt;!-- base library --&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;../../adapter/ext/ext-base.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;../../ext-all-debug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+        <span class="c">&lt;!-- page specific --&gt;</span>
+
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+        <span class="nx">Ext</span><span class="p">.</span><span class="nx">BLANK_IMAGE_URL</span> <span class="o">=</span> <span class="s1">&#39;../../resources/images/default/s.gif&#39;</span><span class="p">;</span>
+
+        <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+
+            <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Congratulations!  You have Ext configured correctly!&quot;</span><span class="p">);</span>
+
+        <span class="p">});</span> <span class="c1">//end onReady</span>
+        <span class="nt">&lt;/script&gt;</span>
+
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>We&#8217;ve basically just set up placeholders for our various resources.
+What we&#8217;ve done now is:</p>
+<blockquote>
+<div><ul class="simple">
+<li>include <code class="docutils literal"><span class="pre">ext-all.css</span></code>. The file for css styles.</li>
+<li>include <code class="docutils literal"><span class="pre">ext-base.js</span></code>. The base file for ExtJs.</li>
+<li>include <code class="docutils literal"><span class="pre">ext-all-debug.js</span></code>. The kitchen sink for all ExtJs splendor.</li>
+<li>specified a link to a local <code class="docutils literal"><span class="pre">s.gif</span></code> file so the Ext library isn&#8217;t looking back at <a class="reference external" href="http://www.extjs.com">http://www.extjs.com</a></li>
+<li>threw in a <code class="docutils literal"><span class="pre">alert</span></code> statement into an onReady block. This is just a test to see if we have our page set up correctly.</li>
+</ul>
+</div></blockquote>
+<p>You can put this code in an html file (<code class="docutils literal"><span class="pre">index.html</span></code> for example) and you can test it in your favorite browser. Firefox with firebug is prefered.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Firebug is a Firefox extension, that need to be installed, which provides debugging capabilities.</p>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="element-the-heart-of-ext">
+<h2>Element: The Heart of Ext<a class="headerlink" href="#element-the-heart-of-ext" title="Permalink to this headline">¶</a></h2>
+<p>Now that you know how to install / load ExtJS, let&#8217;s clean our code.
+Move the javascript code (blank image, and onReady block), in a specific file called <code class="docutils literal"><span class="pre">ExtStart.js</span></code>. Add the newly
+required link to the javascript file in your html header section (order matters!).</p>
+<p>Finally, add the following code in your body section</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;myDiv&quot;</span><span class="nt">&gt;</span>This is a test div.<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;myButton&quot;</span> <span class="na">value=</span><span class="s">&quot;My Button&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>If you&#8217;ve already written javascript, here&#8217;s what you&#8217;re used to do</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">myDiv</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This is not really convenient and everything you do with this has to be cross-browser. It&#8217;s really painful and unproductive.
+ExtJS is really helpful on this point. With the <strong>Ext.Element object</strong>, it offers a very convenient way to access to Elements
+and perform actions on them in an easier way.</p>
+<p>If you&#8217;ve already added <code class="docutils literal"><span class="pre">div#myDiv</span></code> element in your html code, you can change some code in <code class="docutils literal"><span class="pre">ExtStart.js</span></code> so it looks like
+the following</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">myDiv</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>With this you now can manipulate your elements and perform the most common actions you&#8217;d perform on DOM nodes.
+Go ahead and try adding some of these to <code class="docutils literal"><span class="pre">ExtStart.js</span></code> after the the previous line we got the <code class="docutils literal"><span class="pre">myDiv</span></code> Element</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">myDiv</span><span class="p">.</span><span class="nx">highlight</span><span class="p">();</span>      <span class="c1">// The element&#39;s background will highlight to yellow then fade back</span>
+<span class="nx">myDiv</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>  <span class="c1">// Add a custom CSS class (defined in ExtStart.css)</span>
+<span class="nx">myDiv</span><span class="p">.</span><span class="nx">center</span><span class="p">();</span>         <span class="c1">// Center the element in the viewport</span>
+<span class="nx">myDiv</span><span class="p">.</span><span class="nx">setOpacity</span><span class="p">(.</span><span class="mi">25</span><span class="p">);</span>  <span class="c1">// Make the element partially-transparent</span>
+</pre></div>
+</div>
+<p>Need more options ?  See the <a class="reference external" href="http://extjs.com/deploy/dev/docs/?class=Ext.Element">Element API documentation</a> for the complete list of everything that you can do.</p>
+</div>
+<div class="section" id="domquery-selecting-dom-nodes">
+<h2>DomQuery: Selecting DOM Nodes<a class="headerlink" href="#domquery-selecting-dom-nodes" title="Permalink to this headline">¶</a></h2>
+<p>If you want to select nodes based on something other than ID, ExtJS provides <strong>DomQuery</strong> a powerful DOM selector which helps
+you select nodes using an attribute or a CSS classname.</p>
+<p>To illustrate this, we&#8217;ll first add paragraphs to our document.
+Put the following code into the body section</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span>first paragraph<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;myClass&quot;</span><span class="nt">&gt;</span>second paragraph<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>third one<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>This done, we can select all elements using the following code</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>This returns a <a class="reference external" href="http://extjs.com/deploy/dev/docs/?class=Ext.CompositeElement">CompositeElement</a>, which provides access to every underlying Element via the Element interface.
+This allows you to easily act on every Element instance returned by Element.select without looping and touching each one individually.
+Try out that (directly in the firebug console for example)</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">).</span><span class="nx">highlight</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><strong>DomQuery</strong> supports a wide array of selection options, including most of the W3C CSS3 DOM selectors</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">&#39;p.myClass&#39;</span><span class="p">).</span><span class="nx">highlight</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>This should select only one element, doesn&#8217;t it ?</p>
+<p>More info on DomQuery ? Please see the <a class="reference external" href="http://extjs.com/deploy/dev/docs/?class=Ext.DomQuery">DomQuery API documentation</a> for complete details on this powerful library.</p>
+</div>
+<div class="section" id="domhelper-manipulating-the-dom">
+<h2>DomHelper: Manipulating the DOM<a class="headerlink" href="#domhelper-manipulating-the-dom" title="Permalink to this headline">¶</a></h2>
+<p>If you are doing JavaScript development, then at some point or another you have probably had to use DOM to create elements. Like everything else with DOM, creating elements can be extremely verbose, leading to bloated code and spending too much time doing something that should be simple.
+You&#8217;ve probably faced cross-browser problems and performance issues.</p>
+<p>The <strong>DomHelper</strong> class provides a layer of abstraction from DOM and transparently supports creating elements via DOM or using HTML fragments. It also has the ability to create HTML fragment templates from your DOM building code.</p>
+<div class="section" id="simple-example">
+<h3>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s test this with a simple example</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">,</span> <span class="p">{</span>
+     <span class="nx">tag</span><span class="o">:</span> <span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="nx">cls</span><span class="o">:</span> <span class="s1">&#39;my-list&#39;</span><span class="p">,</span> <span class="nx">children</span><span class="o">:</span> <span class="p">[</span>
+          <span class="p">{</span><span class="nx">tag</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;item0&#39;</span><span class="p">,</span> <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;List Item 0&#39;</span><span class="p">},</span>
+          <span class="p">{</span><span class="nx">tag</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;item1&#39;</span><span class="p">,</span> <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;List Item 1&#39;</span><span class="p">},</span>
+          <span class="p">{</span><span class="nx">tag</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;item2&#39;</span><span class="p">,</span> <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;List Item 2&#39;</span><span class="p">},</span>
+          <span class="p">{</span><span class="nx">tag</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;item3&#39;</span><span class="p">,</span> <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;List Item 3&#39;</span><span class="p">},</span>
+          <span class="p">{</span><span class="nx">tag</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;item4&#39;</span><span class="p">,</span> <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;List Item 4&#39;</span><span class="p">}</span>
+      <span class="p">]</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-templates">
+<h3>Using templates<a class="headerlink" href="#using-templates" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s1">&#39;&lt;a id=&quot;{id}&quot; href=&quot;{url}&quot; class=&quot;nav&quot;&gt;{text}&lt;/a&gt;&#39;</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">tpl</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">createTemplate</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+<span class="nx">tpl</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;link1&#39;</span><span class="p">,</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;http://www.jackslocum.com/&#39;</span><span class="p">,</span>
+    <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;Jack&#39;s Site&quot;</span>
+
+<span class="p">});</span>
+<span class="nx">tpl</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;link2&#39;</span><span class="p">,</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;http://www.dustindiaz.com/&#39;</span><span class="p">,</span>
+    <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;Dustin&#39;s Site&quot;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compiling-templates">
+<h3>Compiling templates<a class="headerlink" href="#compiling-templates" title="Permalink to this headline">¶</a></h3>
+<p>The performance is great, but if you are adding a bunch of DOM elements using the same template, you can increase performance even further by &#8220;compiling&#8221; the template.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s1">&#39;&lt;a id=&quot;{id}&quot; href=&quot;{url}&quot; class=&quot;nav&quot;&gt;{text}&lt;/a&gt;&#39;</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">tpl</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">createTemplate</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+<span class="nx">tpl</span><span class="p">.</span><span class="nx">compile</span><span class="p">();</span>
+
+<span class="c1">//... use template like normal</span>
+</pre></div>
+</div>
+<p>If you need more info on how to deal with <strong>DomHelper</strong> and templates see the great <a class="reference external" href="http://extjs.com/learn/Tutorial:DomHelper_Blog#Benchmarks">DomHelper Blog</a> tutorial.</p>
+</div>
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="definition">
+<h3>Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h3>
+<p>Event is a message, a function call, generated by one (part of) program, the event source, that notifies another (part of) program, the event listener, that something happened. Events are generated as responses to user actions or to state changes of the event source.</p>
+<p>The event source is independent of event listeners and it generates events also if nobody listens or even if there is no listener defined. The viewpoint of our infinite loop would be: &#8220;I&#8217;m informing everybody that user moved the mouse to position [x,y] and I do not care who listens, if anybody.&#8221;</p>
+<p>The viewpoint of the listener would be: &#8220;Let me know when user moves the mouse, I need to do something with it.&#8221;</p>
+</div>
+<div class="section" id="events-in-ext">
+<h3>Events in Ext<a class="headerlink" href="#events-in-ext" title="Permalink to this headline">¶</a></h3>
+<p>There are two main &#8220;sorts&#8221; of events in <em>Ext: DOM</em> events and <em>JavaScript</em>, or software, events.</p>
+</div>
+<div class="section" id="dom-events">
+<h3>DOM Events<a class="headerlink" href="#dom-events" title="Permalink to this headline">¶</a></h3>
+<p>Browsers that display (X)HTML pages already have our &#8220;infinite loop&#8221; that watches user actions and fires events if these actions are occurring on DOM elements. Before Ext we were used to install event listeners on DOM elements this way</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;myDiv&quot;</span> <span class="na">onclick=</span><span class="s">&quot;alert(&#39;You clicked me&#39;)&quot;</span><span class="nt">&gt;</span>Click me!<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">Ext.Element</span></code> wraps DOM elements together with their events so now we install the same event handlers this way</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;myDiv&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;You clicked me&#39;</span><span class="p">);});</span>
+</pre></div>
+</div>
+<p>It can be said that DOM events are &#8220;passed-through&#8221; from DOM through <em>Ext.Element</em> to listeners.</p>
+<p>If you followed the previous steps, you should be able to test the following code</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">paragraphClicked</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">Ext</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">highlight</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="nx">paragraphClicked</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>It mixes the <em>Events</em> and <em>DomQuery</em> concepts.</p>
+<p>For the list of available DOM events get a look at <a class="reference external" href="http://en.wikipedia.org/wiki/DOM_Events">Wikipedia DOM Events</a>.</p>
+</div>
+<div class="section" id="javascript-events">
+<h3>JavaScript Events<a class="headerlink" href="#javascript-events" title="Permalink to this headline">¶</a></h3>
+<p>Now, DOM elements are not the only possible event sources; it is quite easy to implement event source logic and event listener installation to any JavaScript object. But, what could it be good for?</p>
+<p>Imagine that you have a complex component such as grid. If you had only DOM events, the handling of user actions such as column move would be extremely difficult. You would need to listen to DOM elements, process mouse clicks, moves, calculate from where to where the column has been moved, etc. It would be much easier if grid component would do all this dirty work for you and, after everything has be done, just informed you: &#8220;User moved column 3 to position 1.&#8221;</p>
+<p>That is exactly what grid does: it fires JavaScript events that inform potential listeners what has happened to it. The same is true for another Ext components. Form validation events, Panel resize events, Tree expand/collapse events can serve as examples, to name a few.</p>
+</div>
+<div class="section" id="how-do-i-listen-to-events">
+<h3>How do I listen to events?<a class="headerlink" href="#how-do-i-listen-to-events" title="Permalink to this headline">¶</a></h3>
+<p>If you have an object of Ext class, for example <em>Panel</em>, and you need to do some action when panel resizes you would install a listener to implement your action</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// create panel</span>
+<span class="kd">var</span> <span class="nx">myPanel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Panel</span><span class="p">({...});</span>
+
+<span class="c1">// install resize event listener</span>
+<span class="nx">myPanel</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">panel</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Panel resized to &#39;</span> <span class="o">+</span> <span class="nx">w</span> <span class="o">+</span> <span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nx">h</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// you can also add an event listener to a component configuration.</span>
+<span class="kd">var</span> <span class="nx">myPanel2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Panel</span><span class="p">({</span>
+    <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">resize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">panel</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Panel resized to &#39;</span> <span class="o">+</span> <span class="nx">w</span> <span class="o">+</span> <span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nx">h</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>From this point on, whenever the panel <code class="docutils literal"><span class="pre">myPanel</span></code> is resized your function is called so you can do your actions.</p>
+</div>
+<div class="section" id="attaching-multiple-handlers">
+<h3>Attaching multiple handlers<a class="headerlink" href="#attaching-multiple-handlers" title="Permalink to this headline">¶</a></h3>
+<p>If you want to attach multiple handlers to one element you can do this in one function call</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">el</span><span class="p">.</span><span class="nx">on</span><span class="p">({</span>
+    <span class="s1">&#39;click&#39;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="cm">/* do something */</span><span class="p">},</span>
+    <span class="s1">&#39;mouseover&#39;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="cm">/* do something */</span><span class="p">},</span>
+    <span class="s1">&#39;mouseout&#39;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="cm">/* do something */</span><span class="p">},</span>
+    <span class="nx">scope</span><span class="o">:</span> <span class="p">{}</span> <span class="cm">/* the context */</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>Or if you are using the <em>listeners</em> property</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">myPanel2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Panel</span><span class="p">({</span>
+    <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">resize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">panel</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Panel resized to &#39;</span> <span class="o">+</span> <span class="nx">w</span> <span class="o">+</span> <span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nx">h</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="cm">/* do something */</span><span class="p">},</span>
+        <span class="nx">scope</span><span class="o">:</span> <span class="p">{}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-do-i-create-event-source">
+<h3>How do I create event source?<a class="headerlink" href="#how-do-i-create-event-source" title="Permalink to this headline">¶</a></h3>
+<p>Events related functionality is implemented in <strong>Ext.util.Observable</strong> class so if you want your extension to be an event source just extend Observable. Also, if you extend a class that is already descendant of Observable (Panel, Grid, Form, Tree, etc), your extension is automatically the event source.</p>
+<p>Events fired by your extension are events fired by parent class(es).</p>
+</div>
+<div class="section" id="custom-events">
+<h3>Custom Events<a class="headerlink" href="#custom-events" title="Permalink to this headline">¶</a></h3>
+<p>It happens very often that you need add new events, for example you create <em>Employee</em> class and <em>Organization Chart</em> class and you implement drag&amp;drop assignment/dismissal of employee to/from a position. It would come handy to fire event <em>assigned</em> and <em>dismissed</em>, wouldn’t it?</p>
+<p>We could listen to these events and the listeners could send e-mails to the employee informing him that he has been assigned to a position or dismissed from it.</p>
+<p>We do it this way</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">OrgChart</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">Panel</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">initComponent</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// call parent init component</span>
+        <span class="nx">OrgChart</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">initComponent</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+
+        <span class="c1">// add custom events</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">addEvents</span><span class="p">(</span><span class="s1">&#39;assigned&#39;</span><span class="p">,</span> <span class="s1">&#39;dismissed&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="p">,</span><span class="nx">assign</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">employee</span><span class="p">,</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// do whatever is necessary to assign the employee to position</span>
+
+        <span class="c1">// fire assigned event</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s1">&#39;assigned&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">employee</span><span class="p">,</span> <span class="nx">position</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="p">,</span><span class="nx">dismiss</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">empoyee</span><span class="p">,</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// do whatever is necessary to dismiss employee from position</span>
+
+        <span class="c1">// fire dismissed event</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s1">&#39;dismissed&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">employee</span><span class="p">,</span> <span class="nx">position</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>In the <code class="docutils literal"><span class="pre">initComponent</span></code> function we inform <em>Observable</em> class that we are going to fire our new events so it can do all necessary setup.</p>
+<p>Note: We do not extend Observable directly here but <em>Panel</em>, what we extend, does. <em>Panel</em> ’s inheritance chain is: <em>Observable</em> -&gt; <em>Component</em> -&gt; <em>BoxComponent</em> -&gt; <em>Container</em> -&gt; <em>Panel</em>.</p>
+<p>And in <code class="docutils literal"><span class="pre">assign</span></code> and <code class="docutils literal"><span class="pre">dismiss</span></code> functions we fire our events after all assign/dismiss job has been done with signature (arguments) of our choice.</p>
+<p>When we <code class="docutils literal"><span class="pre">fireEvent</span></code>, <em>Observable</em> looks if there are some listeners to this event and calls all listeners with arguments we supplied in <code class="docutils literal"><span class="pre">fireEvent</span></code> call. If there is no listener it just does nothing.</p>
+</div>
+<div class="section" id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>event is a message sent (fired) by an event source to inform listeners that something happened</li>
+<li>event source is an object that can fire events</li>
+<li>event listener is a function that is called when event source fires an event</li>
+<li>to listen to events we use <strong>on</strong> function to install an event listener</li>
+<li>to create an event source we extend <strong>Observable</strong> class, <strong>addEvents</strong> and <strong>fireEvent</strong></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="components">
+<h2>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h2>
+<p>This chapter is based on the <a class="reference external" href="http://extjs.com/learn/Tutorial:Introduction_to_Ext">Introduction to Ext Tutorial</a> <em>Using Widgets</em> section.</p>
+<p>In addition to the core javascript library that we&#8217;ve been discussing, Ext also includes one of the richest sets of Javascript UI widgets available today. There are far too many to cover in this introduction, but let&#8217;s take a look at a couple of the widgets that people use most commonly and how easy they are to work with.</p>
+<div class="section" id="messagebox">
+<h3>MessageBox<a class="headerlink" href="#messagebox" title="Permalink to this headline">¶</a></h3>
+<p>We already have code that we wrote in the previous section that highlights each paragraph when you click on it. Let&#8217;s modify that code to also show the text of the paragraph that was clicked in a message box. In the paragraphClicked function above, replace the line</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">highlight</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>...with this code</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">paragraph</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+<span class="nx">paragraph</span><span class="p">.</span><span class="nx">highlight</span><span class="p">();</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">MessageBox</span><span class="p">.</span><span class="nx">show</span><span class="p">({</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Paragraph Clicked&#39;</span><span class="p">,</span>
+    <span class="nx">msg</span><span class="o">:</span> <span class="nx">paragraph</span><span class="p">.</span><span class="nx">dom</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span><span class="mi">400</span><span class="p">,</span>
+    <span class="nx">buttons</span><span class="o">:</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">MessageBox</span><span class="p">.</span><span class="nx">OK</span><span class="p">,</span>
+    <span class="nx">animEl</span><span class="o">:</span> <span class="nx">paragraph</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>What is actually being passed to MessageBox.show() in this case is only one parameter: an object literal that contains a set of properties and values.</p>
+</div>
+<div class="section" id="gridpanel">
+<h3>GridPanel<a class="headerlink" href="#gridpanel" title="Permalink to this headline">¶</a></h3>
+<p>The grid is one of the most popular widgets in Ext, and usually the first one that people want to see, so let&#8217;s take a look at how easy it is to get a basic grid up and running. Replace any existing code you have in <code class="docutils literal"><span class="pre">ExtStart.js</span></code> so that it looks like this</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">myData</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39;Apple&#39;</span><span class="p">,</span><span class="mf">29.89</span><span class="p">,</span><span class="mf">0.24</span><span class="p">,</span><span class="mf">0.81</span><span class="p">,</span><span class="s1">&#39;9/1 12:00am&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;Ext&#39;</span><span class="p">,</span><span class="mf">83.81</span><span class="p">,</span><span class="mf">0.28</span><span class="p">,</span><span class="mf">0.34</span><span class="p">,</span><span class="s1">&#39;9/12 12:00am&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;Google&#39;</span><span class="p">,</span><span class="mf">71.72</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.03</span><span class="p">,</span><span class="s1">&#39;10/1 12:00am&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;Microsoft&#39;</span><span class="p">,</span><span class="mf">52.55</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span><span class="s1">&#39;7/4 12:00am&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;Yahoo!&#39;</span><span class="p">,</span><span class="mf">29.01</span><span class="p">,</span><span class="mf">0.42</span><span class="p">,</span><span class="mf">1.47</span><span class="p">,</span><span class="s1">&#39;5/22 12:00am&#39;</span><span class="p">]</span>
+    <span class="p">];</span>
+
+    <span class="kd">var</span> <span class="nx">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">SimpleStore</span><span class="p">({</span>
+        <span class="nx">fields</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;company&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;float&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;float&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;pctChange&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;float&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;lastChange&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="nx">dateFormat</span><span class="o">:</span> <span class="s1">&#39;n/j h:ia&#39;</span><span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">});</span>
+    <span class="nx">ds</span><span class="p">.</span><span class="nx">loadData</span><span class="p">(</span><span class="nx">myData</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">colModel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">grid</span><span class="p">.</span><span class="nx">ColumnModel</span><span class="p">([</span>
+        <span class="p">{</span><span class="nx">header</span><span class="o">:</span> <span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">120</span><span class="p">,</span> <span class="nx">sortable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">dataIndex</span><span class="o">:</span> <span class="s1">&#39;company&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nx">header</span><span class="o">:</span> <span class="s2">&quot;Price&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">90</span><span class="p">,</span> <span class="nx">sortable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">dataIndex</span><span class="o">:</span> <span class="s1">&#39;price&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nx">header</span><span class="o">:</span> <span class="s2">&quot;Change&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">90</span><span class="p">,</span> <span class="nx">sortable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">dataIndex</span><span class="o">:</span> <span class="s1">&#39;change&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nx">header</span><span class="o">:</span> <span class="s2">&quot;% Change&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">90</span><span class="p">,</span> <span class="nx">sortable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">dataIndex</span><span class="o">:</span> <span class="s1">&#39;pctChange&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="nx">header</span><span class="o">:</span> <span class="s2">&quot;Last Updated&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">120</span><span class="p">,</span> <span class="nx">sortable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">renderer</span><span class="o">:</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Format</span><span class="p">.</span><span class="nx">dateRenderer</span><span class="p">(</span><span class="s1">&#39;m/d/Y&#39;</span><span class="p">),</span>
+                        <span class="nx">dataIndex</span><span class="o">:</span> <span class="s1">&#39;lastChange&#39;</span><span class="p">}</span>
+    <span class="p">]);</span>
+
+    <span class="kd">var</span> <span class="nx">grid</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">grid</span><span class="p">.</span><span class="nx">GridPanel</span><span class="p">({</span> <span class="nx">height</span><span class="o">:</span><span class="mi">200</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span><span class="mi">600</span><span class="p">,</span> <span class="nx">ds</span><span class="o">:</span> <span class="nx">ds</span><span class="p">,</span> <span class="nx">cm</span><span class="o">:</span> <span class="nx">colModel</span><span class="p">});</span>
+    <span class="nx">grid</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+    <span class="nx">grid</span><span class="p">.</span><span class="nx">getSelectionModel</span><span class="p">().</span><span class="nx">selectFirstRow</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>While this looks like a lot, it is really only seven lines of code in total!</p>
+<blockquote>
+<div><ul class="simple">
+<li>The first line of code creates an array of data to be displayed in the grid. In real projects, you would likely load this data from some dynamic source like a database or web service.</li>
+<li>Next, we create and load a data store, which will tell the underlying Ext library how to read and format the data.</li>
+<li>Next, we define our column model which simply allows us to set up configuration options for each column of the grid.</li>
+<li>Lastly, we create the grid widget, passing in the data store and column model, render it and select the first row.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="and-many-more">
+<h3>And Many More...<a class="headerlink" href="#and-many-more" title="Permalink to this headline">¶</a></h3>
+<p>We&#8217;ve only seen the top of the iceberg here. There are literally dozens of UI widgets to choose from in Ext, including automatic page layouts, tabs, menus, toolbars, dialogs, a tree view and many more. Please explore the examples section of the API documentation for a glimpse of everything that&#8217;s available.</p>
+</div>
+</div>
+<div class="section" id="layouts">
+<h2>Layouts<a class="headerlink" href="#layouts" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://extjs.com/learn/Tutorial:Ext2_Layouts">Ext2 Layouts</a></p>
+<div class="section" id="tabs">
+<h3>Tabs<a class="headerlink" href="#tabs" title="Permalink to this headline">¶</a></h3>
+<p>Then the following in the onReady method</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">panel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">TabPanel</span><span class="p">({</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nx">activeItem</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// index or id</span>
+    <span class="nx">items</span><span class="o">:</span><span class="p">[{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Tab 1&#39;</span><span class="p">,</span>
+        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;This is tab 1 content.&#39;</span>
+    <span class="p">},{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Tab 2&#39;</span><span class="p">,</span>
+        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;This is tab 2 content.&#39;</span>
+    <span class="p">},{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Tab 3&#39;</span><span class="p">,</span>
+        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;This is tab 3 content.&#39;</span>
+    <span class="p">}]</span>
+<span class="p">});</span>
+<span class="nx">panel</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="viewport-and-border-layout">
+<h3>ViewPort and Border Layout<a class="headerlink" href="#viewport-and-border-layout" title="Permalink to this headline">¶</a></h3>
+<p>Because the ViewPort container is a bit specific as it represents the viewable application area (ie. the browser viewport), we&#8217;ll start with a cleaned code.
+Let&#8217;s save a copy of our <code class="docutils literal"><span class="pre">ExtStart.js</span></code>, and remove everything in the <code class="docutils literal"><span class="pre">onReady</span></code> method.</p>
+<p>The Viewport renders itself to the document body, and automatically sizes itself to the size of the browser viewport and manages window resizing.</p>
+<p>Though it&#8217;s not required, people usually uses the <strong>BorderLayout</strong> as the layout of the ViewPort.</p>
+<p>Copy and paste the following code in your onReady method</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">({</span>
+    <span class="nx">layout</span><span class="o">:</span> <span class="s1">&#39;border&#39;</span><span class="p">,</span>
+    <span class="nx">items</span><span class="o">:</span> <span class="p">[{</span>
+        <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;north&#39;</span><span class="p">,</span>
+        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;&lt;h1 class=&quot;x-panel-header&quot;&gt;Page Title&lt;/h1&gt;&#39;</span><span class="p">,</span>
+        <span class="nx">autoHeight</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">border</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nx">margins</span><span class="o">:</span> <span class="s1">&#39;0 0 5 0&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;west&#39;</span><span class="p">,</span>
+        <span class="nx">collapsible</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Navigation&#39;</span><span class="p">,</span>
+        <span class="nx">width</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="nx">autoScroll</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">split</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;this is the west region&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;this is center region&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;south&#39;</span><span class="p">,</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Information&#39;</span><span class="p">,</span>
+        <span class="nx">collapsible</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;Information goes here&#39;</span><span class="p">,</span>
+        <span class="nx">split</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">height</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="nx">minHeight</span><span class="o">:</span> <span class="mi">100</span>
+    <span class="p">}]</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>Please don&#8217;t forget that every border layout <strong>must</strong> at least have a center region. All other regions are optional.</p>
+</div>
+<div class="section" id="accordion-layout">
+<h3>Accordion Layout<a class="headerlink" href="#accordion-layout" title="Permalink to this headline">¶</a></h3>
+<p>Now that you have a better view on how layouts work, take a look at the documentation for <em>Accordions</em> layout and give it a try.</p>
+<p>You may also want to add a tabpanel in the center region.</p>
+</div>
+<div class="section" id="id1">
+<h3>And Many More...<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>There are many more layouts available. If you&#8217;re lost or if you need more examples, check out the <a class="reference external" href="http://extjs.com/deploy/dev/examples/layout-browser/layout-browser.html">Layout Browser</a></p>
+<p>The <a class="reference external" href="http://tof2k.com/ext/formbuilder/">GUI Builder</a>  and the <a class="reference external" href="http://www.projectspace.nl/">GUI Designer</a> can help to create nice UI.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ogrs2009_lab.html" title="OGRS 2009 - State of the art of the creation of GIS rich internet application"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction/introduction.html" title="8 hours introduction to MapFish Framework 1.2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

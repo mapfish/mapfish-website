@@ -1,0 +1,955 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial: Application development with MapFish Framework 1.2 &mdash; MapFish</title>
+    
+    <link rel="stylesheet" href="../../../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="MapFish" href="../../../index.html" />
+    <link rel="up" title="Tutorials" href="../index.html" />
+    <link rel="next" title="8 hours introduction to MapFish Framework 1.2" href="../introduction/introduction.html" />
+    <link rel="prev" title="Tutorials" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../introduction/introduction.html" title="8 hours introduction to MapFish Framework 1.2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Tutorials"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial: Application development with MapFish Framework 1.2</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#data">Data</a></li>
+<li><a class="reference internal" href="#install-mapfish">Install MapFish</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-preparation">Data preparation</a><ul>
+<li><a class="reference internal" href="#load-vector-data-in-postgis">Load vector data in PostGIS</a></li>
+<li><a class="reference internal" href="#prepare-a-wms-with-mapserver">Prepare a WMS with MapServer</a></li>
+<li><a class="reference internal" href="#generate-tiles-with-tilecache">Generate tiles with TileCache</a><ul>
+<li><a class="reference internal" href="#get-prepared-with-tilecache">Get Prepared with Tilecache</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#development-guidelines">Development guidelines</a><ul>
+<li><a class="reference internal" href="#templates">Templates</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-base-mapfish-application">Create Base MapFish Application</a><ul>
+<li><a class="reference internal" href="#create-mapfish-protocol-base-mapfish-application">Create MapFish Protocol Base MapFish Application</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#developp-base-mapfish-application">Developp Base MapFish Application</a></li>
+<li><a class="reference internal" href="#templatize-base-mapfish-application">Templatize Base MapFish Application</a></li>
+<li><a class="reference internal" href="#create-a-custom-application-from-the-mapfish-application-template">Create a custom application from the MapFish Application Template</a></li>
+<li><a class="reference internal" href="#and-customize-your-derived-application">... and customize your derived application</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Tutorials</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../introduction/introduction.html"
+                        title="next chapter">8 hours introduction to MapFish Framework 1.2</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/doc/tutorials/howto_app_development/howto_app_development.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial-application-development-with-mapfish-framework-1-2">
+<span id="mapfish-tutorials-howto-app-development"></span><h1>Tutorial: Application development with MapFish Framework 1.2<a class="headerlink" href="#tutorial-application-development-with-mapfish-framework-1-2" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This document includes outdated information.</p>
+</div>
+<p>One goal of this tutorial is to provide a step-by-step process for the creation of a MapFish application. This requires an undertstanding of JavaScript and Python development.</p>
+<p>Another goal is to present the usage of Pylons templates for the development of MapFish applications.</p>
+<p>This training is made for the Python version of MapFish server.</p>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>This HOWTO is done for computer with an Debian/Ubuntu distribution.</p>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://postgis.refractions.net/documentation/manual-1.3/ch02.html">PostGis database need to be installed</a></li>
+<li><a class="reference external" href="http://www.mapserver.org/installation/index.html#installation">MapServer needs to be installed</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="data">
+<h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Two files are provided:</p>
+<ul class="simple">
+<li>A GeoTiff raster file, containing a satelite picture of the earth. Coordinate system: EPSG:4326. <a class="reference download internal" href="../../../_downloads/bluemarble.tiff"><code class="xref download docutils literal"><span class="pre">bluemarble.tiff</span></code></a>.</li>
+<li>A shapefile containing country boundaries and some statistical information. Coordinate system: EPSG:4326. <a class="reference download internal" href="../../../_downloads/countries.zip"><code class="xref download docutils literal"><span class="pre">countries.zip</span></code></a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="install-mapfish">
+<h3>Install MapFish<a class="headerlink" href="#install-mapfish" title="Permalink to this headline">¶</a></h3>
+<p>Install first the MapFish Framework <a class="reference internal" href="../../1.2/installation.html#mapfish-refdoc-1-2-installation"><span>Installation</span></a>.</p>
+</div>
+</div>
+<div class="section" id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="load-vector-data-in-postgis">
+<h3>Load vector data in PostGIS<a class="headerlink" href="#load-vector-data-in-postgis" title="Permalink to this headline">¶</a></h3>
+<p>In order to load the countries file (<a class="reference download internal" href="../../../_downloads/countries.zip"><code class="xref download docutils literal"><span class="pre">countries.zip</span></code></a>) in a PostGres 8.3 and PostGIS 1.3 database, the following procedure can be follow:</p>
+<p>Create a new database &#8220;howto&#8221; (sometimes, it can be useful to restart the database &#8221; sudo /etc/init.d/postgresql-8.3 restart&#8221;). This procedure first create a PostGres database and then add the PostGIS support, in order to manage geometries:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo su postgres
+createdb -E UNICODE howto
+createlang plpgsql howto
+psql -d howto -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+psql -d howto -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql
+psql -d howto -c &quot;SELECT postgis_full_version()&quot;
+exit
+</pre></div>
+</div>
+<p>The last query will inform you about the version of the installed PostGIS version.</p>
+<p>Import the data in the &#8220;howto&#8221; database:</p>
+<div class="highlight-python"><div class="highlight"><pre>unzip countries.zip
+sudo su postgres
+shp2pgsql -W utf8 -s 4326 countries.shp  countries | psql -d howto
+exit
+</pre></div>
+</div>
+<p>Create a www-data user, if it doesn&#8217;t exist (answer &#8220;no&#8221; to every question):</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo su postgres
+createuser -U postgres -P &quot;www-data&quot;
+exit
+</pre></div>
+</div>
+<p>And to check that everything is ok. Additionaly we need to grant the access to this table to user www-data in order to allow an access from MapFish server in a web environment:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo su postgres
+psql howto
+\d
+select count(1) from countries;
+GRANT ALL ON countries TO &quot;www-data&quot; ;
+GRANT SELECT ON geometry_columns TO &quot;www-data&quot;;
+GRANT SELECT ON spatial_ref_sys TO &quot;www-data&quot;;
+\q
+exit
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-a-wms-with-mapserver">
+<h3>Prepare a WMS with MapServer<a class="headerlink" href="#prepare-a-wms-with-mapserver" title="Permalink to this headline">¶</a></h3>
+<p>If MapServer is installed, you should be able to access it through <a class="reference external" href="http://localhost/cgi-bin/mapserv">http://localhost/cgi-bin/mapserv</a></p>
+<p>In some cases, it is needed to create a symbolic link:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd /var/www/localhost/cgi-bin/
+ln -s /usr/lib/cgi-bin/mapserv .
+</pre></div>
+</div>
+<p>In directory mapfish_framework, you can create a directory mapserver for storing the mapfile and the data ((<a class="reference download internal" href="../../../_downloads/countries.zip"><code class="xref download docutils literal"><span class="pre">countries.zip</span></code></a> (don&#8217;t forget to unzip it)  and <a class="reference download internal" href="../../../_downloads/bluemarble.tiff"><code class="xref download docutils literal"><span class="pre">bluemarble.tiff</span></code></a>):</p>
+<div class="highlight-python"><div class="highlight"><pre>cd mapfish_framework
+mkdir mapserver
+cd mapserver
+</pre></div>
+</div>
+<p>In this directory, create a mapfile. This mapfile contains two layers: bluemarble and countries. Adapt the path to the correct location in your environment, IMAGEPATH for example:</p>
+<div class="highlight-python"><div class="highlight"><pre>MAP
+ NAME &quot;howto&quot;
+ EXTENT -180 -90 180 90
+ IMAGECOLOR 255 255 255
+ IMAGETYPE png
+ SIZE 400 300
+ STATUS ON
+ UNITS METERS
+ MAXSIZE 4000
+ PROJECTION
+  &quot;init=epsg:4326&quot;
+ END
+
+ WEB
+   IMAGEPATH &quot;/home/cmoullet/mapfish_framework/mapserver/&quot;
+   IMAGEURL &quot;/mapfish_framework/&quot;
+   METADATA
+     &quot;wms_title&quot;           &quot;WMS HowTo&quot;
+     &quot;wms_onlineresource&quot;  &quot;http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map&amp;&quot;
+     &quot;wms_srs&quot;             &quot;EPSG:4326&quot;
+   END
+ END
+
+ LAYER
+   DATA &quot;/home/cmoullet/mapfish_framework/mapserver/bluemarble.tiff&quot;
+   NAME &quot;bluemarble&quot;
+   PROJECTION
+     &quot;init=epsg:4326&quot;
+   END
+   METADATA
+     &quot;wms_title&quot;           &quot;bluemarble&quot;
+     &quot;wms_srs&quot;             &quot;EPSG:4326&quot;
+   END
+   STATUS ON
+   TYPE RASTER
+   UNITS METERS
+ END
+
+ LAYER
+   CONNECTION &quot;host=localhost dbname=howto user=www-data password=www-data&quot;
+   CONNECTIONTYPE POSTGIS
+   DATA &quot;the_geom from countries using unique gid&quot;
+   NAME &quot;countries&quot;
+   PROJECTION
+     &quot;init=epsg:4326&quot;
+   END
+   METADATA
+     &quot;wms_title&quot;           &quot;countries&quot;
+     &quot;wms_srs&quot;             &quot;EPSG:4326&quot;
+   END
+   STATUS ON
+   TYPE POLYGON
+   UNITS METERS
+   CLASS
+     NAME &quot;country&quot;
+     STYLE
+       ANGLE 360
+       COLOR 252 199 101
+       OPACITY 80
+       SYMBOL 0
+     END
+     STYLE
+       ANGLE 360
+       OPACITY 100
+       OUTLINECOLOR 118 73 1
+       SYMBOL 0
+     END
+   END
+ END
+
+END
+</pre></div>
+</div>
+<p>To test that everything is ok, you can checkt with the GetCapabilities function (you have to replace the path to you mapfile in you environment (map parameter)):</p>
+<p><a class="reference external" href="http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities">http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetCapabilities</a></p>
+<p>Then, two GetMap can be tested to validate the mapfile:</p>
+<p><a class="reference external" href="http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=bluemarble&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png">http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=bluemarble&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png</a></p>
+<p><a class="reference external" href="http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=countries&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png">http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;LAYERS=countries&amp;STYLES=&amp;SRS=EPSG:4326&amp;BBOX=-10,30,20,60&amp;WIDTH=400&amp;HEIGHT=300&amp;FORMAT=image/png</a></p>
+</div>
+<div class="section" id="generate-tiles-with-tilecache">
+<h3>Generate tiles with TileCache<a class="headerlink" href="#generate-tiles-with-tilecache" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="get-prepared-with-tilecache">
+<h4>Get Prepared with Tilecache<a class="headerlink" href="#get-prepared-with-tilecache" title="Permalink to this headline">¶</a></h4>
+<p>Several installation ways are possible for Tilecache. Have a look at <a class="reference external" href="http://tilecache.org/docs/README">TileCache documentation</a>.</p>
+<p>We will use the Apache mod_python way</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo apt-get install tilecache
+</pre></div>
+</div>
+<p>It is then needed to configure Apache, for example by creating a conf file /var/www/localhost/conf/tilecache.conf (or modifiy the file /etc/apache2/apache2.conf after sudo apt-get install libapache2-mod-python):</p>
+<div class="highlight-python"><div class="highlight"><pre>&lt;Location /tilecache&gt;
+   SetHandler python-program
+   PythonHandler TileCache.Service
+   PythonOption TileCacheConfig /etc/tilecache.cfg
+&lt;/Location&gt;
+</pre></div>
+</div>
+<p>You can check the Apache conf syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo apache2ctl -t
+</pre></div>
+</div>
+<p>and restart Apache gracefully, if it&#8217;s ok:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo apache2ctl graceful
+</pre></div>
+</div>
+<p>Then, edit the TileCache configuration (<a class="reference external" href="http://tilecache.org/docs/README#configuration">TileCache configuration documentation</a>) file under /etc/tilecache.cfg, for example with:</p>
+<div class="highlight-python"><div class="highlight"><pre>[bluemarble]
+layers=bluemarble
+type=WMSLayer
+url=http://localhost/cgi-bin/mapserv?map=/home/cmoullet/mapfish_framework/mapserver/mapfile.map
+bbox=-180,-90,180,90
+srs=EPSG:4326
+extension=png
+maxResolution=1.40625
+levels=16
+</pre></div>
+</div>
+<p>Or for a swiss layer:</p>
+<div class="highlight-python"><div class="highlight"><pre>[wne_unesco]
+layers=wne_unesco
+type=WMSLayer
+url=http://www.ecogis.admin.ch/de/wms
+bbox=420000,30000,900000,350000
+srs=EPSG:21781
+extension=png
+resolutions=650,500,250,100,50,20,10,5,2.5
+</pre></div>
+</div>
+<p>Everytime you edit the tilecache config file, don&#8217;t forget the:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo apache2ctl graceful
+</pre></div>
+</div>
+<p>And, most important, you can generate the tile. In this case, we will use the bluemarble layer configured in tilecache.cfg. The just create WMS server is used. We need to define the user www-data in order to let Apache serve the tiles &#8220;to the world&#8221;.</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo rm -fr /tmp/tilecache/
+cd /etc/
+sudo -u www-data /usr/sbin/tilecache_seed bluemarble 0 3
+</pre></div>
+</div>
+<p>If everything is going fine, you can have a look at a tile here:</p>
+<blockquote>
+<div><a class="reference external" href="http://localhost/tilecache/1.0.0/bluemarble/0/0/0.png">http://localhost/tilecache/1.0.0/bluemarble/0/0/0.png</a></div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is possible to know the available layers in a WMS server with a GetCapabilities query: <a class="reference external" href="http://labs.metacarta.com/wms/vmap0?REQUEST=GetCapabilities&amp;SERVICE=WMS">http://labs.metacarta.com/wms/vmap0?REQUEST=GetCapabilities&amp;SERVICE=WMS</a> or  <a class="reference external" href="http://www.ecogis.admin.ch/fr/wms?REQUEST=GetCapabilities&amp;SERVICE=WMS">http://www.ecogis.admin.ch/fr/wms?REQUEST=GetCapabilities&amp;SERVICE=WMS</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="development-guidelines">
+<h2>Development guidelines<a class="headerlink" href="#development-guidelines" title="Permalink to this headline">¶</a></h2>
+<p>MapFish provides two Pylons template, named &#8220;mapfish&#8221; and &#8220;mapfish_client&#8221; which defines the general organization of a MapFish project.</p>
+<p>This tutorial will present the creation of a custom application in two steps.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Step 1: create a base MapFish application which contain common elements to several applications. This can be seen as a MapFish Application Template.</li>
+<li>Step 2: instantiate a base MapFish application for creating a custom application.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="templates">
+<h3>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h3>
+<p>The term templates can have several meaning, that is why we will use the the term &#8220;MapFish Base Application&#8221; for what can be seen as a template of MapFish application. This MapFish Base Application can be instantiated to create a custom MapFish application.
+Then, it is possible to modify this instance and define custom behaviors.</p>
+<blockquote>
+<div><img alt="../../../_images/mapfish_base_template.png" src="../../../_images/mapfish_base_template.png" />
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The &#8220;MapFish Base Application&#8221; is a MapFish application, so if you don&#8217;t need to create a template of MapFish application, you can directly write your code in this application.</p>
+</div>
+</div>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<p>If you want to provide an API (see <a class="reference internal" href="../introduction/introduction.html#mapfish-api"><span>MapFish API</span></a>), you need to take this aspect in account for the architecture of the application. We will present in this tutorial the way to create an API for the created applications.</p>
+</div>
+</div>
+<div class="section" id="create-base-mapfish-application">
+<h2>Create Base MapFish Application<a class="headerlink" href="#create-base-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>Be sure that the virtual environment installed during the installation procedure is activated, then you can type:</p>
+<div class="highlight-python"><div class="highlight"><pre>mkdir mapfish_framework
+source venv/bin/activate
+</pre></div>
+</div>
+<p>Create a base MapFish Application from the general mapfish template:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster create --overwrite --no-interactive -t mapfish MapFishAppBase  sqlalchemy=true
+paster create --overwrite --no-interactive -t mapfish_client MapFishAppBase
+</pre></div>
+</div>
+<p>Then, you need to make sure that the application can access the database:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd MapFishAppBase
+</pre></div>
+</div>
+<p>And edit development.ini by setting:</p>
+<div class="highlight-python"><div class="highlight"><pre>sqlalchemy.url = postgres://www-data:www-data@localhost/howto
+</pre></div>
+</div>
+<p>You can test it by starting the server:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster serve --reload development.ini
+</pre></div>
+</div>
+<p><a class="reference external" href="http://localhost:5000">http://localhost:5000</a></p>
+<p>Edit development.ini again, comment the [composite:main] section entirely:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#[composite:main]</span>
+<span class="c">#use = egg:Paste#urlmap</span>
+<span class="c">#/ = pylons_app</span>
+<span class="c">#/mfbase = mfbase</span>
+<span class="c">#/examples = examples</span>
+</pre></div>
+</div>
+<p>and change [app:pylons_app] to [app:main]</p>
+<p>After restarting the server:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster serve --reload development.ini
+</pre></div>
+</div>
+<p>... you should be able to access to the MapFish javascript library at this URL:</p>
+<p><a class="reference external" href="http://localhost:5000/mfbase/mapfish/MapFish.js">http://localhost:5000/mfbase/mapfish/MapFish.js</a></p>
+<div class="section" id="create-mapfish-protocol-base-mapfish-application">
+<h3>Create MapFish Protocol Base MapFish Application<a class="headerlink" href="#create-mapfish-protocol-base-mapfish-application" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../introduction/introduction.html#configure-mapfish-protocol"><span>Configure protocol</span></a></p>
+<p>And you can test it with:`</p>
+<p><a class="reference external" href="http://localhost:5000/countries?limit=1&amp;attrs=continent,pays&amp;no_geom=true">http://localhost:5000/countries?limit=1&amp;attrs=continent,pays&amp;no_geom=true</a></p>
+</div>
+</div>
+<div class="section" id="developp-base-mapfish-application">
+<h2>Developp Base MapFish Application<a class="headerlink" href="#developp-base-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s start developing the Base MapFish Application:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd MapFishAppBase
+mkdir -p mapfishappbase/public/app/base/js
+</pre></div>
+</div>
+<p>In this directory, we will store several files. The first one will initilized the application. <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/mapfishappbase/public/app/base/js/MAPFISHAPP_init.js">MAPFISHAPP_init.js</a>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">* @include MAPFISHAPP_map.js</span>
+<span class="cm">* @include MAPFISHAPP_layout.js</span>
+<span class="cm">*/</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;MAPFISHAPP&quot;</span><span class="p">);</span>
+
+<span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="c1">// run MAPFISHAPP.layout.init() when the page</span>
+   <span class="c1">// is ready</span>
+   <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+       <span class="kd">var</span> <span class="nx">layerStore</span> <span class="o">=</span> <span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">create</span><span class="p">();</span>
+       <span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">layout</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">layerStore</span><span class="p">);</span>
+   <span class="p">});</span>
+<span class="p">})();</span>
+</pre></div>
+</div>
+<p>Create the layout of the application with EXT. <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/mapfishappbase/public/app/base/js/MAPFISHAPP_layout.js">MAPFISHAPP_layout.js</a>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">* @include MAPFISHAPP_mappanel.js</span>
+<span class="cm">*/</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;MAPFISHAPP&quot;</span><span class="p">);</span>
+
+<span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">layout</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="cm">/*</span>
+<span class="cm">    * Private</span>
+<span class="cm">    */</span>
+
+   <span class="cm">/*</span>
+<span class="cm">    * Public</span>
+<span class="cm">    */</span>
+   <span class="k">return</span> <span class="p">{</span>
+
+       <span class="cm">/**</span>
+<span class="cm">        * APIMethod: init</span>
+<span class="cm">        * Initialize the page layout.</span>
+<span class="cm">        *</span>
+<span class="cm">        * Parameters:</span>
+<span class="cm">        * layerStore - {GeoExt.data.LayerStore} The application&#39;s global layer</span>
+<span class="cm">        *  store, includes a reference to the map instance.</span>
+<span class="cm">        */</span>
+       <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">layerStore</span><span class="p">)</span> <span class="p">{</span>
+           <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">({</span>
+               <span class="nx">layout</span><span class="o">:</span> <span class="s2">&quot;border&quot;</span><span class="p">,</span>
+               <span class="nx">items</span><span class="o">:</span> <span class="p">[{</span>
+                   <span class="nx">region</span><span class="o">:</span> <span class="s2">&quot;west&quot;</span><span class="p">,</span>
+                   <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;west&quot;</span><span class="p">,</span>
+                   <span class="nx">width</span><span class="o">:</span> <span class="mi">200</span>
+               <span class="p">},</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">apply</span><span class="p">({</span>
+                   <span class="nx">region</span><span class="o">:</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                   <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;map&quot;</span>
+               <span class="p">},</span> <span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">mappanel</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">layerStore</span><span class="p">))</span>
+               <span class="p">]</span>
+           <span class="p">});</span>
+       <span class="p">}</span>
+   <span class="p">};</span>
+<span class="p">})();</span>
+</pre></div>
+</div>
+<p>Define the map. <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/mapfishappbase/public/app/base/js/MAPFISHAPP_map.js">MAPFISHAPP_map.js</a> Don&#8217;t forget to modifiy the MAPFILE path, according to your environment:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">* @include OpenLayers/Map.js</span>
+<span class="cm">* @include OpenLayers/Layer/WMS.js</span>
+<span class="cm">* @include OpenLayers/Control/Navigation.js</span>
+<span class="cm">*/</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;MAPFISHAPP&quot;</span><span class="p">);</span>
+
+<span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">map</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+   <span class="cm">/*</span>
+<span class="cm">    * Private</span>
+<span class="cm">    */</span>
+
+   <span class="cm">/**</span>
+<span class="cm">    * Constant: MAPFILE</span>
+<span class="cm">    * Filesystem path to mapfile.</span>
+<span class="cm">    */</span>
+   <span class="kd">var</span> <span class="nx">MAPFILE</span> <span class="o">=</span> <span class="s2">&quot;/home/elemoine/work/formation_cantons/mapserver/mapfile.map&quot;</span><span class="p">;</span>
+
+   <span class="cm">/**</span>
+<span class="cm">    * Method: getDerivedMapNS</span>
+<span class="cm">    * Returns the namespace of the derived application&#39;s map module, returns</span>
+<span class="cm">    * undefined if there&#39;s no derived application or if the derived</span>
+<span class="cm">    * application has no map module.</span>
+<span class="cm">    */</span>
+   <span class="kd">var</span> <span class="nx">getDerivedMapNS</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+       <span class="kd">var</span> <span class="nx">retVal</span><span class="p">;</span>
+       <span class="kd">var</span> <span class="nx">ns</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">MAPFISHAPPDERIVED</span><span class="p">;</span>
+       <span class="k">if</span><span class="p">(</span><span class="nx">ns</span> <span class="o">&amp;&amp;</span> <span class="nx">ns</span><span class="p">.</span><span class="nx">map</span><span class="p">)</span> <span class="p">{</span>
+           <span class="nx">retVal</span> <span class="o">=</span> <span class="nx">ns</span><span class="p">.</span><span class="nx">map</span><span class="p">;</span>
+       <span class="p">}</span>
+       <span class="k">return</span> <span class="nx">retVal</span><span class="p">;</span>
+   <span class="p">};</span>
+
+   <span class="cm">/**</span>
+<span class="cm">    * Method: createBaseLayers</span>
+<span class="cm">    * Return the application&#39;s base layers.</span>
+<span class="cm">    *</span>
+<span class="cm">    * Returns:</span>
+<span class="cm">    * {Array({OpenLayers.Layer})} Array of base layers.</span>
+<span class="cm">    */</span>
+   <span class="kd">var</span> <span class="nx">createBaseLayers</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="p">[</span>
+           <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span>
+               <span class="s2">&quot;bluemarble&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;http://localhost/cgi-bin/mapserv?&quot;</span><span class="p">,</span>
+               <span class="p">{</span>
+                   <span class="nx">map</span><span class="o">:</span> <span class="nx">MAPFILE</span><span class="p">,</span>
+                   <span class="nx">layers</span><span class="o">:</span> <span class="s2">&quot;bluemarble&quot;</span>
+               <span class="p">}</span>
+           <span class="p">)</span>
+      <span class="p">];</span>
+   <span class="p">};</span>
+
+   <span class="cm">/**</span>
+<span class="cm">    * Method: createLayers</span>
+<span class="cm">    * Return the application&#39;s layers.</span>
+<span class="cm">    *</span>
+<span class="cm">    * Returns:</span>
+<span class="cm">    * {Array({OpenLayers.Layer})} Array of layers.</span>
+<span class="cm">    */</span>
+   <span class="kd">var</span> <span class="nx">createLayers</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+       <span class="kd">var</span> <span class="nx">layers</span> <span class="o">=</span> <span class="nx">createBaseLayers</span><span class="p">();</span>
+       <span class="kd">var</span> <span class="nx">derivedMap</span> <span class="o">=</span> <span class="nx">getDerivedMapNS</span><span class="p">();</span>
+       <span class="k">if</span><span class="p">(</span><span class="nx">derivedMap</span><span class="p">)</span> <span class="p">{</span>
+           <span class="nx">layers</span> <span class="o">=</span> <span class="nx">layers</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span>
+               <span class="nx">derivedMap</span><span class="p">.</span><span class="nx">createLayers</span><span class="p">()</span>
+           <span class="p">);</span>
+       <span class="p">}</span>
+       <span class="k">return</span> <span class="nx">layers</span><span class="p">;</span>
+   <span class="p">};</span>
+
+   <span class="cm">/**</span>
+<span class="cm">    * Method: createMap</span>
+<span class="cm">    * Return the application&#39;s map instance.</span>
+<span class="cm">    *</span>
+<span class="cm">    * Parameters:</span>
+<span class="cm">    * div - {String} The id of the div the created map must</span>
+<span class="cm">    * be placed into, if undefined a non-rendered map is</span>
+<span class="cm">    * returned.</span>
+<span class="cm">    *</span>
+<span class="cm">    * Returns:</span>
+<span class="cm">    * {OpenLayers.Map} The map instance.</span>
+<span class="cm">    */</span>
+   <span class="kd">var</span> <span class="nx">createMap</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">div</span><span class="p">)</span> <span class="p">{</span>
+       <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">({</span>
+           <span class="nx">div</span><span class="o">:</span> <span class="nx">div</span><span class="p">,</span>
+           <span class="nx">controls</span><span class="o">:</span> <span class="p">[</span>
+               <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">Navigation</span><span class="p">()</span>
+           <span class="p">]</span>
+       <span class="p">});</span>
+
+       <span class="c1">// a map searcher is added to the map</span>
+       <span class="kd">var</span> <span class="nx">searcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">mapfish</span><span class="p">.</span><span class="nx">Searcher</span><span class="p">.</span><span class="nx">Map</span><span class="p">({</span>
+           <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+           <span class="nx">protocol</span><span class="o">:</span> <span class="nx">mapfish</span><span class="p">.</span><span class="nx">Protocol</span><span class="p">.</span><span class="nx">MapFish</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+               <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;countries&quot;</span><span class="p">,</span>
+               <span class="nx">params</span><span class="o">:</span> <span class="p">{</span>
+                   <span class="nx">no_geom</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                   <span class="nx">attrs</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;continent&quot;</span><span class="p">,</span> <span class="s2">&quot;pays&quot;</span><span class="p">],</span>
+                   <span class="nx">limit</span><span class="o">:</span> <span class="mi">10</span>
+               <span class="p">}</span>
+           <span class="p">}),</span>
+           <span class="nx">searchTolerance</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+           <span class="nx">displayDefaultPopup</span><span class="o">:</span> <span class="kc">true</span>
+       <span class="p">});</span>
+       <span class="nx">map</span><span class="p">.</span><span class="nx">addControl</span><span class="p">(</span><span class="nx">searcher</span><span class="p">);</span>
+       <span class="nx">searcher</span><span class="p">.</span><span class="nx">activate</span><span class="p">();</span>
+
+       <span class="k">return</span> <span class="nx">map</span><span class="p">;</span>
+   <span class="p">};</span>
+
+   <span class="cm">/**</span>
+<span class="cm">    * Method: createLayerStore</span>
+<span class="cm">    * Return the application&#39;s global layer store.</span>
+<span class="cm">    *</span>
+<span class="cm">    * Returns:</span>
+<span class="cm">    * {GeoExt.data.LayerStore} The global layer store.</span>
+<span class="cm">    */</span>
+   <span class="kd">var</span> <span class="nx">createLayerStore</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">LayerStore</span><span class="p">({</span>
+           <span class="nx">map</span><span class="o">:</span> <span class="nx">createMap</span><span class="p">(),</span>
+           <span class="nx">layers</span><span class="o">:</span> <span class="nx">createLayers</span><span class="p">()</span>
+       <span class="p">});</span>
+   <span class="p">};</span>
+
+   <span class="cm">/*</span>
+<span class="cm">    * Public</span>
+<span class="cm">    */</span>
+
+   <span class="k">return</span> <span class="p">{</span>
+
+       <span class="cm">/**</span>
+<span class="cm">        * APIMethod: create</span>
+<span class="cm">        * Create the application&#39;s global layer store.</span>
+<span class="cm">        *</span>
+<span class="cm">        * Returns:</span>
+<span class="cm">        * {GeoExt.data.LayerStore} The application&#39;s global layer store.</span>
+<span class="cm">        */</span>
+       <span class="nx">create</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+           <span class="k">return</span> <span class="nx">createLayerStore</span><span class="p">();</span>
+       <span class="p">},</span>
+
+       <span class="cm">/**</span>
+<span class="cm">        * APIMethod: _createMap</span>
+<span class="cm">        * Method used from within the API module to create a map.</span>
+<span class="cm">        *</span>
+<span class="cm">        * Parameters:</span>
+<span class="cm">        * div - {String} The id of the div the created map must</span>
+<span class="cm">        * be placed into, if undefined a non-rendered map is</span>
+<span class="cm">        * returned.</span>
+<span class="cm">        *</span>
+<span class="cm">        * Returns:</span>
+<span class="cm">        * {OpenLayers.Map} The map instance.</span>
+<span class="cm">        */</span>
+       <span class="nx">_createMap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">div</span><span class="p">)</span> <span class="p">{</span>
+           <span class="k">return</span> <span class="nx">createMap</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
+       <span class="p">},</span>
+
+       <span class="cm">/**</span>
+<span class="cm">        * APIMethod: _createLayers</span>
+<span class="cm">        * Method used from within the API module to create the layers.</span>
+<span class="cm">        *</span>
+<span class="cm">        * Returns:</span>
+<span class="cm">        * {Array({OpenLayers.Layer})} Array of layers.</span>
+<span class="cm">        */</span>
+       <span class="nx">_createLayers</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+           <span class="k">return</span> <span class="nx">createLayers</span><span class="p">();</span>
+       <span class="p">}</span>
+   <span class="p">};</span>
+<span class="p">})();</span>
+</pre></div>
+</div>
+<p>And the map panel. <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/mapfishappbase/public/app/base/js/MAPFISHAPP_mappanel.js">MAPFISHAPP_mappanel.js</a>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">* @include GeoExt/widgets/MapPanel.js</span>
+<span class="cm">*/</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;MAPFISHAPP&quot;</span><span class="p">);</span>
+
+<span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">mappanel</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="cm">/*</span>
+<span class="cm">    * Private</span>
+<span class="cm">    */</span>
+
+   <span class="cm">/*</span>
+<span class="cm">    * Public</span>
+<span class="cm">    */</span>
+   <span class="k">return</span> <span class="p">{</span>
+
+       <span class="cm">/**</span>
+<span class="cm">        * APIMethod: create</span>
+<span class="cm">        * Return the map panel config.</span>
+<span class="cm">        *</span>
+<span class="cm">        * Parameters:</span>
+<span class="cm">        * layerStore - {GeoExt.data.LayerStore} The application layer store.</span>
+<span class="cm">        */</span>
+       <span class="nx">create</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">layerStore</span><span class="p">)</span> <span class="p">{</span>
+           <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">layerStore</span><span class="p">.</span><span class="nx">map</span><span class="p">;</span>
+           <span class="k">return</span> <span class="p">{</span>
+               <span class="nx">xtype</span><span class="o">:</span> <span class="s2">&quot;gx_mappanel&quot;</span><span class="p">,</span>
+               <span class="nx">id</span><span class="o">:</span> <span class="s2">&quot;mappanel&quot;</span><span class="p">,</span>
+               <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+               <span class="nx">layers</span><span class="o">:</span> <span class="nx">layerStore</span>
+               <span class="c1">//tbar: new Ext.Toolbar(MAPFISHAPP.controltoolbar.create(map))</span>
+           <span class="p">};</span>
+       <span class="p">}</span>
+   <span class="p">};</span>
+<span class="p">})();</span>
+</pre></div>
+</div>
+<p>There is also some code for the API, which will allow the creation of a map. <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/mapfishappbase/public/app/base/js/MAPFISHAPP_api.js">MAPFISHAPP_api.js</a></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">* @include MAPFISHAPP_map.js</span>
+<span class="cm">*/</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;MAPFISHAPP&quot;</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm">* APIMethod: constructor</span>
+<span class="cm">* The API constructor.</span>
+<span class="cm">*/</span>
+<span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">api</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="p">};</span>
+
+<span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="cm">/**</span>
+<span class="cm">    * APIMethod: createMap</span>
+<span class="cm">    * Create a map and include it in a given div.</span>
+<span class="cm">    *</span>
+<span class="cm">    * Parameters:</span>
+<span class="cm">    * config - {Object} Config object, include a property</span>
+<span class="cm">    * named &quot;div&quot; whose value is the id of the div into</span>
+<span class="cm">    * which the map is to be rendered.</span>
+<span class="cm">    */</span>
+   <span class="nx">createMap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+       <span class="c1">// create map</span>
+       <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">_createMap</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">div</span><span class="p">);</span>
+
+       <span class="c1">// add layers</span>
+       <span class="nx">layers</span> <span class="o">=</span> <span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">_createLayers</span><span class="p">();</span>
+       <span class="nx">map</span><span class="p">.</span><span class="nx">addLayers</span><span class="p">(</span><span class="nx">layers</span><span class="p">);</span>
+
+       <span class="c1">// zoom to the maximum extent</span>
+       <span class="nx">map</span><span class="p">.</span><span class="nx">zoomToMaxExtent</span><span class="p">();</span>
+   <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>We are almost done. Let&#8217;s store an <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/mapfishappbase/public/index.html">index.html</a> file in the public directory</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/ext-all.css&quot;</span> <span class="nt">/&gt;</span>
+   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/xtheme-gray.css&quot;</span> <span class="nt">/&gt;</span>
+   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/mapfish/mapfish.css&quot;</span> <span class="nt">/&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/adapter/ext/ext-base.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/ext-all-debug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/Firebug/firebug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/OpenLayers/Lang/fr.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/mapfish/MapFish.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/base/js/MAPFISHAPP_mappanel.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/base/js/MAPFISHAPP_layout.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/base/js/MAPFISHAPP_map.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/base/js/MAPFISHAPP_init.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+   <span class="c">&lt;!--</span>
+<span class="c">   &lt;script type=&quot;text/javascript&quot; src=&quot;app/derived/js/MAPFISHAPPDERIVED_map.js&quot;&gt;&lt;/script&gt;</span>
+<span class="c">   --&gt;</span>
+
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>You can test it by starting the server:</p>
+<div class="highlight-python"><div class="highlight"><pre>source venv/bin/activate
+paster serve --reload development.ini
+</pre></div>
+</div>
+<p><a class="reference external" href="http://localhost:5000">http://localhost:5000</a></p>
+<p>Don&#8217;t forget to click on the map to see the tooltip ;-)</p>
+<p>And now, &#8220;cerise sur le gâteau&#8221;, this is possible to create an HTML page that will use the base application. <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/mapfishappbase/public/example_use_api.html">example_use_api.html</a></p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/ext-all.css&quot;</span> <span class="nt">/&gt;</span>
+   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/xtheme-gray.css&quot;</span> <span class="nt">/&gt;</span>
+   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/mapfish/mapfish.css&quot;</span> <span class="nt">/&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/adapter/ext/ext-base.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/ext-all-debug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/Firebug/firebug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/OpenLayers/Lang/fr.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/mapfish/MapFish.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/base/js/MAPFISHAPP_map.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/base/js/MAPFISHAPP_api.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+   <span class="c">&lt;!--</span>
+<span class="c">   &lt;script type=&quot;text/javascript&quot; src=&quot;app/derived/js/MAPFISHAPPDERIVED_map.js&quot;&gt;&lt;/script&gt;</span>
+<span class="c">   --&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+       <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+           <span class="kd">var</span> <span class="nx">api</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MAPFISHAPP</span><span class="p">.</span><span class="nx">api</span><span class="p">();</span>
+           <span class="nx">api</span><span class="p">.</span><span class="nx">createMap</span><span class="p">({</span><span class="nx">div</span><span class="o">:</span> <span class="s2">&quot;map&quot;</span><span class="p">});</span>
+       <span class="p">}</span>
+   <span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;init()&quot;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;p&gt;</span>API Usage example<span class="nt">&lt;/p&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;map&quot;</span> <span class="na">style=</span><span class="s">&quot;width:600px;height:400px;border:solid thin&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>If you place it in public directory, you can test it here:</p>
+<p><a class="reference external" href="http://localhost:5000/example_use_api.html">http://localhost:5000/example_use_api.html</a></p>
+</div>
+<div class="section" id="templatize-base-mapfish-application">
+<h2>Templatize Base MapFish Application<a class="headerlink" href="#templatize-base-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>In order to create a MapFish Application Template, a small bash script can be used: <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppBase/templatize.sh?format=rawpgsl">templatize.sh</a></p>
+<p>Copy this script in directory MapFishAppBase</p>
+<p>Then start it:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd mapfish_framework
+bash ./MapFishAppBase/templatize.sh MapFishAppBaseTmpl mapfishappbasetmpl
+</pre></div>
+</div>
+<p>This will create a template MapFishAppBaseTmpl</p>
+</div>
+<div class="section" id="create-a-custom-application-from-the-mapfish-application-template">
+<h2>Create a custom application from the MapFish Application Template<a class="headerlink" href="#create-a-custom-application-from-the-mapfish-application-template" title="Permalink to this headline">¶</a></h2>
+<p>The installation (in order to use it) of the MapFish Application Template is done this way:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd MapFishAppBaseTmpl
+python setup.py develop
+</pre></div>
+</div>
+<p>You can check that ths template is available by starting the following command. You will find the new &#8220;mapfishappbase&#8221; in the list:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster create --list-templates
+</pre></div>
+</div>
+<p>And from the template, it is possible to create a mapFish application:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd mapfish_framework
+paster create -t mapfishappbase MapFishAppDerived1
+</pre></div>
+</div>
+<p>And then, you can test your new application:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd MapFishAppDerived1
+paster serve --reload development.ini
+</pre></div>
+</div>
+<p><a class="reference external" href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></p>
+</div>
+<div class="section" id="and-customize-your-derived-application">
+<h2>... and customize your derived application<a class="headerlink" href="#and-customize-your-derived-application" title="Permalink to this headline">¶</a></h2>
+<p>You can add custom code in MapFishAppDerived1/mapfishappderived1/public/app/derived/js. for example some code that will add layers in the custom application (<a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/sandbox/elemoine/MapFishAppDerived/mapfishappderived/public/app/derived/js/MAPFISHAPPDERIVED_map.js">MAPFISHAPPDERIVED_map.js</a>). Don&#8217;t forget to modify MAPFILE according to your environment.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;MAPFISHAPPDERIVED&quot;</span><span class="p">);</span>
+
+<span class="nx">MAPFISHAPPDERIVED</span><span class="p">.</span><span class="nx">map</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+   <span class="cm">/**</span>
+<span class="cm">    * Constant: MAPFILE</span>
+<span class="cm">    * Filesystem path to mapfile.</span>
+<span class="cm">    */</span>
+   <span class="kd">var</span> <span class="nx">MAPFILE</span> <span class="o">=</span> <span class="s2">&quot;/home/cmoullet/mapfish_framework/mapserver/mapfile.map&quot;</span><span class="p">;</span>
+
+   <span class="k">return</span> <span class="p">{</span>
+       <span class="cm">/**</span>
+<span class="cm">        * Method: createLayers</span>
+<span class="cm">        * Return the derived application&#39;s layers.</span>
+<span class="cm">        *</span>
+<span class="cm">        * Returns:</span>
+<span class="cm">        * {Array({OpenLayers.Layer})} Array of layers.</span>
+<span class="cm">        */</span>
+       <span class="nx">createLayers</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+           <span class="k">return</span> <span class="p">[</span>
+               <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span>
+                   <span class="s2">&quot;countries&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;http://localhost/cgi-bin/mapserv?&quot;</span><span class="p">,</span>
+                   <span class="p">{</span>
+                       <span class="nx">map</span><span class="o">:</span> <span class="nx">MAPFILE</span><span class="p">,</span>
+                       <span class="nx">layers</span><span class="o">:</span> <span class="s2">&quot;countries&quot;</span><span class="p">,</span>
+                       <span class="nx">transparent</span><span class="o">:</span> <span class="kc">true</span>
+                   <span class="p">},</span>
+                           <span class="p">{</span>
+                       <span class="nx">singleTile</span><span class="o">:</span> <span class="kc">true</span>
+                   <span class="p">}</span>
+               <span class="p">)</span>
+           <span class="p">];</span>
+       <span class="p">}</span>
+   <span class="p">};</span>
+<span class="p">})();</span>
+</pre></div>
+</div>
+<p>In the index.html, you need to add this new javascript (uncomment the app/derived/js/MAPFISHAPPDERIVED_map.js part)</p>
+<p>And then, you can test your custom application:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd MapFishAppDerived1
+paster serve --reload development.ini
+</pre></div>
+</div>
+<p><a class="reference external" href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></p>
+<p>Great, isn&#8217;t it ?</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../introduction/introduction.html" title="8 hours introduction to MapFish Framework 1.2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Tutorials"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

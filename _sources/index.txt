@@ -1,0 +1,108 @@
+.. mapfish documentation master file, created by sphinx-quickstart on Wed Feb 18 15:59:57 2009.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+MapFish
+*******
+
+MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development. 
+
+MapFish is based on the `Pylons <http://pylonshq.com>`_ Python web framework.
+MapFish extends Pylons with geospatial-specific functionality. For example
+MapFish provides specific tools for creating web services that allows querying
+and editing geographic objects.
+
+MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the `ExtJS <http://extjs.com>`_, `OpenLayers
+<http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
+toolkits.
+
+MapFish is compliant with the `Open Geospatial Consortium
+<http://www.opengeospatial.org/>`_ standards.  This is achieved through
+OpenLayers or GeoExt supporting several OGC norms, like WMS, WFS, WMC, KML, GML
+etc..
+
+MapFish is open source, and distributed under the `BSD
+<http://www.opensource.org/licenses/bsd-license.php>`_ license.
+
+Current release
+---------------
+
+MapFish 2.2 is the current release. Check out the `reference documentation 
+<doc/2.2/index.html>`_.
+
+Interoperability
+----------------
+
+The MapFish framework is built around an open HTTP-based protocol, allowing
+various interoperable implementations. In addition to the reference
+implementation provided by the Python/Pylons-based framework, two other 
+`implementations <doc/implementations/index.html>`_ are currently available:
+
+* a Ruby/Rails plugin (GPLv3)
+* a PHP/Symfony plugin (BSD)
+
+See the documentation for more information.
+
+MapFish Print
+-------------
+
+The MapFish project hosts *MapFish Print*, a Java library to print maps.
+MapFish Print is independent from the MapFish framework, but works well with
+it.
+
+MapFish Print is released under the GPLv3 license.
+
+See the `MapFish Print Documentation
+<http://www.mapfish.org/doc/print/index.html>`_ for more information.
+
+Affiliation
+-----------
+
+.. image:: _static/img/OSGeo_project.png
+
+MapFish is a project of the Open Source Geospatial Foundation (OSGeo
+Foundation). `OSGeo <http://www.osgeo.org/>`_'s mission is to support and build
+the highest-quality open source geospatial software.
+
+Community
+---------
+
+The MapFish project is governed by a `Project Steering Committee
+<http://trac.mapfish.org/trac/mapfish/wiki/Community/PSC>`_, composed of people
+from various organizations.
+
+Discussions regarding the project are public. They occur on the project
+`mailing lists <http://lists.mapfish.org/cgi-bin/mailman/listinfo>`_ and on IRC
+(irc://irc.freenode.net/#mapfish).
+
+The project welcome new contributions; bugs and new features can be reported
+and requested on the `bug tracker <http://trac.mapfish.org/>`_.  Visit also the
+`wiki page
+<http://trac.mapfish.org/trac/mapfish/wiki/Community/HowToContribute>`_
+describing how to contribute to the project.
+
+More information related to the community and development is available in the
+`Wiki/Trac <http://trac.mapfish.org/>`_.
+
+News and Events
+---------------
+
+FOSS4G is the global conference focused on Free and Open Source Software for Geospatial, organized by OSGeo. In 2011, FOSS4G will be held in Denver. See http://2011.foss4g.org/.
+
+.. cssclass:: navigation_links
+
+ `Quickstart <doc/2.2/quickstart.html>`_ |
+ `Installation <doc/2.2/installation.html>`_ |
+ `Documentation <doc/index.html>`_ |
+ `Demo <http://demo.mapfish.org/mapfishsample/2.2/>`_ |
+ `Wiki/Trac <http://trac.mapfish.org/>`_
+
+.. toctree::
+   :hidden:
+
+   doc/1.2/quickstart
+   doc/1.2/installation
+   doc/index

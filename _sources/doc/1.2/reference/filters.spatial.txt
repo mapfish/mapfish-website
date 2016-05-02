@@ -1,0 +1,7 @@
+.. _`mapfish.refdoc.1_2.reference.filtersspatial`:
+
+mapfish.lib.filters.spatial
+===========================
+
+.. automodule:: mapfish.lib.filters.spatial
+   :members:

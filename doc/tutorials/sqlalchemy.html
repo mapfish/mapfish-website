@@ -1,0 +1,587 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SQLAlchemy tutorial &mdash; MapFish</title>
+    
+    <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapFish" href="../../index.html" />
+    <link rel="up" title="Tutorials" href="index.html" />
+    <link rel="next" title="Tiling" href="tiling.html" />
+    <link rel="prev" title="Secure TileCache Tutorial" href="secure_tilecache.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tiling.html" title="Tiling"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="secure_tilecache.html" title="Secure TileCache Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SQLAlchemy tutorial</a><ul>
+<li><a class="reference internal" href="#installing">Installing</a></li>
+<li><a class="reference internal" href="#engine-api">Engine API</a></li>
+<li><a class="reference internal" href="#metadata-and-type-apis">Metadata and Type APIs</a></li>
+<li><a class="reference internal" href="#sql-expression-api">SQL Expression API</a><ul>
+<li><a class="reference internal" href="#inserting">Inserting</a></li>
+<li><a class="reference internal" href="#selecting">Selecting</a></li>
+<li><a class="reference internal" href="#updating">Updating</a></li>
+<li><a class="reference internal" href="#deleting">Deleting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#object-relational-api">Object-Relational API</a><ul>
+<li><a class="reference internal" href="#mapping">Mapping</a></li>
+<li><a class="reference internal" href="#create-the-session">Create the Session</a></li>
+<li><a class="reference internal" href="#use-the-session">Use the Session</a><ul>
+<li><a class="reference internal" href="#insert">Insert</a></li>
+<li><a class="reference internal" href="#delete">Delete</a></li>
+<li><a class="reference internal" href="#query">Query</a></li>
+<li><a class="reference internal" href="#working-with-objects">Working with Objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="secure_tilecache.html"
+                        title="previous chapter">Secure TileCache Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tiling.html"
+                        title="next chapter">Tiling</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/doc/tutorials/sqlalchemy.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sqlalchemy-tutorial">
+<span id="mapfish-tutorials-sqlalchemy"></span><h1>SQLAlchemy tutorial<a class="headerlink" href="#sqlalchemy-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial provides a quick tour of SQLAlchemy. It is based on Chapter 7
+of the Pylons Book <a class="reference external" href="http://pylonsbook.com/">http://pylonsbook.com/</a>.</p>
+<div class="section" id="installing">
+<span id="mapfish-tutorials-sqlalchemy-installing"></span><h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>Before installing SQLAlchemy you are going to create a virtual Python environment.</p>
+<p>Download the <strong>virtualenv</strong> package first:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ wget http://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.3.2.tar.gz
+$ tar xvzf virtualenv-1.3.2.tar.gz
+</pre></div>
+</div>
+<p>Then, create and activate the virtual Python environment with:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python virtualenv-1.3.2/virtualenv.py --no-site-packages env
+$ source env/bin/activate
+</pre></div>
+</div>
+<p>Now that the virtual Python environment is set up, install SQLAlchemy with:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ easy_install &quot;SQLAlchemy==0.5.2&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="engine-api">
+<h2>Engine API<a class="headerlink" href="#engine-api" title="Permalink to this headline">¶</a></h2>
+<p>The lowest-level API you are going to use is the Engine API. This API allows
+you to create connections to the database, send SQL statements and retrieve
+results. Let&#8217;s test an example with SQLite. Create a file named
+<strong>engine_test.py</strong> with the following content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy.engine</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">&#39;sqlite:///:memory:&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CREATE TABLE users (</span>
+<span class="sd">        username VARCHAR PRIMARY KEY,</span>
+<span class="sd">        password VARCHAR NOT NULL</span>
+<span class="sd">    );</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    INSERT INTO users (username, password) VALUES (?, ?);</span>
+<span class="sd">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="s">&quot;bar&quot;</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT username FROM users&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;username:&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A SQLAlchemy engine is created by calling the <code class="docutils literal"><span class="pre">create_engine</span></code> function,
+passing it a Data Source Name (DSN). Note that <code class="docutils literal"><span class="pre">echo=True</span></code> is also passed
+here, this tells the <code class="docutils literal"><span class="pre">engine</span></code> object to log all the SQL it executed to
+<code class="docutils literal"><span class="pre">sys.stdout</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">connection</span></code> is a SQLAlchemy <code class="docutils literal"><span class="pre">Connection</span></code> object. <code class="docutils literal"><span class="pre">result</span></code> is a
+SQLAlchemy <code class="docutils literal"><span class="pre">ResultProxy</span></code> object that allows you to iterate over the results
+of the statement you executed.</p>
+<p>A SQLAlchemy engine works with a pool of connection. When your application
+calls <code class="docutils literal"><span class="pre">engine.connect()</span></code> to obtain a connection, SQLAlchemy can return one of
+the connections from the pool rather than creating a new one.</p>
+</div>
+<div class="section" id="metadata-and-type-apis">
+<h2>Metadata and Type APIs<a class="headerlink" href="#metadata-and-type-apis" title="Permalink to this headline">¶</a></h2>
+<p>Together the metadata and type systems describe the database schema
+in an RDBMS-independent manner.</p>
+<p>Create a new file called <strong>metadata_test.py</strong> with the following content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">schema</span><span class="p">,</span> <span class="n">types</span>
+
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">MetaData</span><span class="p">()</span>
+
+<span class="n">page_table</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="s">u&#39;&#39;</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="s">u&#39;Untitled Page&#39;</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;content&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Text</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="s">u&#39;&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">sorted_tables</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Table name: &quot;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">print</span> <span class="s">&quot;t is page_table: &quot;</span><span class="p">,</span> <span class="n">t</span> <span class="ow">is</span> <span class="n">page_table</span>
+
+<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">page_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Column Table name: &quot;</span><span class="p">,</span> <span class="n">column</span><span class="o">.</span><span class="n">type</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy.engine</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">&#39;sqlite:///:memory:&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">bind</span> <span class="o">=</span> <span class="n">engine</span>
+
+<span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">checkfirst</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">metadata</span></code> object holds all the information about the tables,
+columns, types, foreigh keys, indexes, and sequences that make up the database
+structure.</p>
+<p>The <code class="docutils literal"><span class="pre">metadata</span></code> object can be used to create the tables in the database.  For
+this bind the <code class="docutils literal"><span class="pre">metadata</span></code> to an engine, and call its <code class="docutils literal"><span class="pre">create_all</span></code> method.</p>
+</div>
+<div class="section" id="sql-expression-api">
+<h2>SQL Expression API<a class="headerlink" href="#sql-expression-api" title="Permalink to this headline">¶</a></h2>
+<p>The SQL Expression API allows you to build SQL queries using Python objects and
+operators.</p>
+<div class="section" id="inserting">
+<h3>Inserting<a class="headerlink" href="#inserting" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s create a new file called <strong>sqlexpression_test.py</strong> and add the following
+to it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">metadata_test</span> <span class="kn">import</span> <span class="n">engine</span><span class="p">,</span> <span class="n">page_table</span>
+
+<span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Inserting</span><span class="se">\n</span><span class="s">&quot;</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">ins</span> <span class="o">=</span> <span class="n">page_table</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+    <span class="n">values</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">u&#39;test&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">u&#39;Test Page&#39;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s">u&#39;Some content!&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">print</span> <span class="n">ins</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">ins</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">result</span>
+
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">ins</span></code> object automatically generates the correct SQL to insert the values
+specified. It is to be noted that SQLAlchemy handles any type conversion of the
+values specified to <code class="docutils literal"><span class="pre">insert()</span></code> using its type system, thus removing any
+chance of <em>SQL injection attacks</em>.</p>
+<p>This simple example shows how to insert and select data through the SQL
+Expression API.</p>
+</div>
+<div class="section" id="selecting">
+<h3>Selecting<a class="headerlink" href="#selecting" title="Permalink to this headline">¶</a></h3>
+<p>Edit <strong>sqlexpression_test.py</strong> and add the following before the
+<code class="docutils literal"><span class="pre">connection.close()</span></code> statement:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Selecting</span><span class="se">\n</span><span class="s">&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">select</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">select</span><span class="p">([</span><span class="n">page_table</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">row</span>
+</pre></div>
+</div>
+<p>The above code should be self-explained.</p>
+<p>To add WHERE clauses, you will pass a SQLAlchemy expression as the second
+argument to the <code class="docutils literal"><span class="pre">select</span></code> call. To examplify this, edit
+<strong>sqlexpression_test.py</strong> and replace the above code with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Selecting</span><span class="se">\n</span><span class="s">&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">select</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">and_</span><span class="p">,</span> <span class="n">or_</span><span class="p">,</span> <span class="n">not_</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">select</span><span class="p">([</span><span class="n">page_table</span><span class="p">],</span> <span class="n">and_</span><span class="p">(</span><span class="n">page_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">,</span> <span class="n">page_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">like</span><span class="p">(</span><span class="s">u&#39;t%&#39;</span><span class="p">)))</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">page_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">desc</span><span class="p">(),</span> <span class="n">page_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">result</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Examine the output to understand the SQLAlchemy expression used here.</p>
+</div>
+<div class="section" id="updating">
+<h3>Updating<a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h3>
+<p>Update statements look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Updating Results</span><span class="se">\n</span><span class="s">&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">update</span>
+
+<span class="n">u</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">page_table</span><span class="p">,</span> <span class="n">page_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">title</span><span class="o">==</span><span class="s">u&#39;New Title&#39;</span><span class="p">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">u&quot;Updated Title&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can add the above to <strong>sqlexpression_test.py</strong>.</p>
+</div>
+<div class="section" id="deleting">
+<h3>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h3>
+<p>Delete statements look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Deleting Row</span><span class="se">\n</span><span class="s">&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">delete</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">delete</span><span class="p">(</span><span class="n">page_table</span><span class="p">,</span> <span class="n">page_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Again, you can add the above code block to the <strong>sqlexpression_test.py</strong> file.</p>
+</div>
+</div>
+<div class="section" id="object-relational-api">
+<span id="sqlalchemy-object-relational"></span><h2>Object-Relational API<a class="headerlink" href="#object-relational-api" title="Permalink to this headline">¶</a></h2>
+<p>The highest-level API SQLAlchemy provides is the Object-Relational API, which
+is the one you will spend the majority of your time in your Pylons
+applications. The API allows to work directly with Python objects without
+needing to think too much about the SQL that would normally be required to work
+with them.</p>
+<p>Before delving into the Object-Relational API itself, let&#8217;s describe the
+database schema you are going to rely on in this section. Create a <strong>model.py</strong>
+file with this content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">orm</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">schema</span><span class="p">,</span> <span class="n">types</span>
+
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">MetaData</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">now</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+<span class="n">page_table</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">Sequence</span><span class="p">(</span><span class="s">&#39;page_seq_id&#39;</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;content&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Text</span><span class="p">(),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;posted&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">DateTime</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="n">now</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="s">u&#39;Untitled Page&#39;</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;heading&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">255</span><span class="p">)),</span>
+<span class="p">)</span>
+<span class="n">comment_table</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;comment&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">Sequence</span><span class="p">(</span><span class="s">&#39;comment_seq_id&#39;</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;pageid&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;page.id&#39;</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;content&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Text</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="s">u&#39;&#39;</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">255</span><span class="p">)),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;created&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="n">now</span><span class="p">()),</span>
+<span class="p">)</span>
+<span class="n">pagetag_table</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;pagetag&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">Sequence</span><span class="p">(</span><span class="s">&#39;pagetag_seq_id&#39;</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;pageid&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">schema</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;page.id&#39;</span><span class="p">)),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;tagid&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">schema</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;tag.id&#39;</span><span class="p">)),</span>
+<span class="p">)</span>
+<span class="n">tag_table</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;tag&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">Sequence</span><span class="p">(</span><span class="s">&#39;tag_seq_id&#39;</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">schema</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">Unicode</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>There are new things to note in this description:</p>
+<ul class="simple">
+<li>the use of <code class="docutils literal"><span class="pre">primary_key</span></code> to tell SQLAlchemy about the primary keys</li>
+<li>the use of <code class="docutils literal"><span class="pre">ForeignKey</span></code> to tell SQLAlchemy about how tables are relared</li>
+<li>the use of <code class="docutils literal"><span class="pre">Sequence</span></code></li>
+<li>the use of <code class="docutils literal"><span class="pre">unique=True</span></code> to enforce UNIQUE constraints</li>
+</ul>
+<div class="section" id="mapping">
+<h3>Mapping<a class="headerlink" href="#mapping" title="Permalink to this headline">¶</a></h3>
+<p>Now that you have defined the table structures, you need to define classes and
+mappers to work with the Object-Relational API. Add the following to the
+<strong>model.py</strong> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Comment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Tag</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">orm</span><span class="o">.</span><span class="n">mapper</span><span class="p">(</span><span class="n">Page</span><span class="p">,</span> <span class="n">page_table</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">{</span>
+    <span class="s">&#39;comments&#39;</span><span class="p">:</span><span class="n">orm</span><span class="o">.</span><span class="n">relation</span><span class="p">(</span><span class="n">Comment</span><span class="p">,</span> <span class="n">backref</span><span class="o">=</span><span class="s">&#39;page&#39;</span><span class="p">),</span>
+    <span class="s">&#39;tags&#39;</span><span class="p">:</span><span class="n">orm</span><span class="o">.</span><span class="n">relation</span><span class="p">(</span><span class="n">Tag</span><span class="p">,</span> <span class="n">secondary</span><span class="o">=</span><span class="n">pagetag_table</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="n">orm</span><span class="o">.</span><span class="n">mapper</span><span class="p">(</span><span class="n">Comment</span><span class="p">,</span> <span class="n">comment_table</span><span class="p">)</span>
+<span class="n">orm</span><span class="o">.</span><span class="n">mapper</span><span class="p">(</span><span class="n">Tag</span><span class="p">,</span> <span class="n">tag_table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With the above, the <code class="docutils literal"><span class="pre">Page</span></code> class is mapped to the <code class="docutils literal"><span class="pre">page_table</span></code> object.
+Likewise, the Comment and Tag classes are mapped to the <code class="docutils literal"><span class="pre">comment_table</span></code> and
+<code class="docutils literal"><span class="pre">tag_table</span></code> objects, respectively.</p>
+<p>The first mapper statement also tell SQLAlchemy that a <code class="docutils literal"><span class="pre">Page</span></code> object should
+have extra properties called <code class="docutils literal"><span class="pre">comments</span></code> and <code class="docutils literal"><span class="pre">tags</span></code>, which should return all
+the <code class="docutils literal"><span class="pre">Comment</span></code> and <code class="docutils literal"><span class="pre">Tag</span></code> objects related to that page. The mapper for
+<code class="docutils literal"><span class="pre">Comment</span></code> doesn&#8217;t need the <code class="docutils literal"><span class="pre">page</span></code> property specified because the mapper for
+<code class="docutils literal"><span class="pre">Page</span></code> has already specified it via <code class="docutils literal"><span class="pre">backref</span></code>. The mapper for <code class="docutils literal"><span class="pre">Tag</span></code>
+doesn&#8217;t need to have the relation to <code class="docutils literal"><span class="pre">Page</span></code> specified because SQLAlchemy can
+already work it out via the <code class="docutils literal"><span class="pre">secondary</span></code> argument.</p>
+<p>SQLAlchemy&#8217;s Object-Relational API includes lots of features. Look at the
+SQLAlchemy documentation to know about them.</p>
+</div>
+<div class="section" id="create-the-session">
+<h3>Create the Session<a class="headerlink" href="#create-the-session" title="Permalink to this headline">¶</a></h3>
+<p>SQLAlchemy manages the mapped objects in a so-called <em>session</em>.</p>
+<p>Create a file called <strong>object_test.py</strong> and add the following content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">model</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">orm</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="c"># Create an engine and create all the tables we need</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">&#39;sqlite:///:memory:&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">bind</span> <span class="o">=</span> <span class="n">engine</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+
+<span class="c"># Set up the session</span>
+<span class="n">sm</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autocommit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">expire_on_commit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">orm</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">sessionmaker</span></code> function returns an object for building the particular
+session you want. To understand the options passed to <code class="docutils literal"><span class="pre">sessionmaker</span></code> you need
+to know some terminology:</p>
+<ul class="simple">
+<li><em>flushing</em> is the process of updating the database with the objects you have
+been working with,</li>
+<li><em>committing</em> is the process of sending a COMMIT statement to the database to
+make those flushes permanent.</li>
+</ul>
+<p>Let&#8217;s now look at the arguments being passed to <code class="docutils literal"><span class="pre">sessionmaker</span></code>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">bind=engine</span></code>: this binds the session to the engine, the session will
+automatically create the connections it needs.</li>
+<li><code class="docutils literal"><span class="pre">autoflush=True</span></code>: if you commit your changes to the database before they
+have been flushed, this option tells SQLAlchemy to flush them before the
+commit is gone.</li>
+<li><code class="docutils literal"><span class="pre">autocommit=False</span></code>: this tells SQLAlchemy to wrap all changes between
+commits in a transaction. If <code class="docutils literal"><span class="pre">autocommit=True</span></code> is specified, SQLAlchemy
+automatically commits any changes after each flush; this is undesired in most
+cases.</li>
+<li><code class="docutils literal"><span class="pre">expire_on_commit=True</span></code>: this means that all instances attached to the
+session will be fully expired after each commit so that all attribute/object
+access subsequent to a completed transaction will load from the most recent
+database state.</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">scoped_session()</span></code> object ensures that a different session is used for
+each thread so that every request can have its own access to the database.</p>
+</div>
+<div class="section" id="use-the-session">
+<h3>Use the Session<a class="headerlink" href="#use-the-session" title="Permalink to this headline">¶</a></h3>
+<p>In this section you are going to insert, delete, update and query database
+objects using the session created in the previous section.</p>
+<div class="section" id="insert">
+<h4>Insert<a class="headerlink" href="#insert" title="Permalink to this headline">¶</a></h4>
+<p>Start a Python prompt in the same directory where you&#8217;ve been writing
+<strong>model.py</strong> and <strong>object_test.py</strong>.</p>
+<p>Import the <code class="docutils literal"><span class="pre">session</span></code> object from the <code class="docutils literal"><span class="pre">object_test</span></code> module:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">object_test</span> <span class="kn">import</span> <span class="n">session</span>
+</pre></div>
+</div>
+<p>Now import the <code class="docutils literal"><span class="pre">model</span></code> module and create a new page:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">model</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_page</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Page</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_page</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">u&#39;Test Page&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_page</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s">u&#39;Test content&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_page</span><span class="o">.</span><span class="n">title</span>
+<span class="go">u&#39;Test Page&#39;</span>
+</pre></div>
+</div>
+<p>Add the object to the session:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">test_page</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">test_page</span><span class="o">.</span><span class="n">id</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+<p>At this point the <code class="docutils literal"><span class="pre">test_page</span></code> object is known to SQLAlchemy, but not to the
+database. To send it to the database, a flush operation can be forced:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">test_page</span><span class="o">.</span><span class="n">id</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Now let&#8217;s commit the changes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>SQLAlchemy sends the <code class="docutils literal"><span class="pre">COMMIT</span></code> statement that permanently commits the flushed
+changes and ends the transaction.</p>
+</div>
+<div class="section" id="delete">
+<h4>Delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h4>
+<p>To delete the <code class="docutils literal"><span class="pre">test_page</span></code> object from the database you would use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">test_page</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>At this point you can either commit the transaction or do a rollback. Let&#8217;s do
+a rollback this time:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>SQLAlchemy sends a <code class="docutils literal"><span class="pre">ROLLBACK</span></code> statement to the database.</p>
+</div>
+<div class="section" id="query">
+<h4>Query<a class="headerlink" href="#query" title="Permalink to this headline">¶</a></h4>
+<p>Queries are performed with query objects that are created from the session. The
+simplest way to create and use a query object is like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">page_q</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Page</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">page_q</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span>
+<span class="go">Test Page</span>
+</pre></div>
+</div>
+<p>Try the following statements and observe the SQL queries sent to the database
+by SQLAlchemy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">page_q</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">page</span> <span class="o">=</span> <span class="n">page_q</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">page</span><span class="o">.</span><span class="n">title</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">page_q</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">page_q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="working-with-objects">
+<h4>Working with Objects<a class="headerlink" href="#working-with-objects" title="Permalink to this headline">¶</a></h4>
+<p>Now let&#8217;s think about how you could add a comment to a page. One approach would
+be to insert a new row in the <code class="docutils literal"><span class="pre">comment</span></code> table using the SQL Expression API,
+ensuring that the <code class="docutils literal"><span class="pre">pageid</span></code> field contained the value <code class="docutils literal"><span class="pre">1</span></code> so that the
+comment was associated with the correct page via a foreign key. The
+Object-Relational API provides a much better approach:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">comment1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Comment</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">comment1</span><span class="o">.</span><span class="n">name</span><span class="o">=</span> <span class="s">u&#39;James&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">comment1</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s">u&#39;james@example.com&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">comment1</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s">u&#39;This page needs a bit more detail ;-)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">comment2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Comment</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">comment2</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&#39;Mike&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">comment2</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s">u&#39;mike@example.com&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">page</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comment1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">page</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comment2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The interesting thing to note is that rather than having manually set each
+comment&#8217;s <code class="docutils literal"><span class="pre">.pageid</span></code> attribute, you simply appended the comments to
+the page&#8217;s <code class="docutils literal"><span class="pre">.comments</span></code> attribute. Note also that there was no need
+to explicitely add the comments to the session, SQLAlchemy was
+smart enough to realize that they have been appended to an object
+that was already in the session.</p>
+<p>There&#8217;s a lot more to learn about SQLAlchemy. Please refer to
+the official SQLAlchemy documentation.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tiling.html" title="Tiling"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="secure_tilecache.html" title="Secure TileCache Tutorial"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

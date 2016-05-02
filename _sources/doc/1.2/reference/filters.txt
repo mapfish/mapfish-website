@@ -1,0 +1,8 @@
+.. _`mapfish.refdoc.1_2.reference.filters`:
+
+mapfish.lib.filters
+===================
+
+.. automodule:: mapfish.lib.filters
+.. autoclass:: mapfish.lib.filters.Filter
+    :members:

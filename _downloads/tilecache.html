@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+   <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
+
+   <script type="text/javascript">
+     var map;
+     function init() {
+       // Create an OpenLayers map
+       map = new OpenLayers.Map('map');
+
+       // Add a WMS layer distributed by Tilecache server
+       map.addLayer(new OpenLayers.Layer.WMS('basic', 'http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/tilecache/', {
+           layers: 'basic'
+       }));
+       // Add a pure Tilecache layer
+       // map.addLayer(new OpenLayers.Layer.TileCache('basic','http://ec2-79-125-52-245.eu-west-1.compute.amazonaws.com/cache/', 'basic'));
+
+       // Add mouse position and layer
+       map.addControl(new OpenLayers.Control.MousePosition());
+
+       // Zoom to max extent
+       map.zoomToMaxExtent();
+     }
+   </script>
+
+ </head>
+
+ <body onload="init()">
+   <div style="width: 800px; height: 600px; border: 1px solid #ddd" id="map"></div>
+ </body>
+
+</html>

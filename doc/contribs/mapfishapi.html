@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MapFishAPI &mdash; MapFish</title>
+    
+    <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapFish" href="../../index.html" />
+    <link rel="up" title="Documentation" href="../index.html" />
+    <link rel="next" title="Tiling" href="../tutorials/tiling.html" />
+    <link rel="prev" title="Developer Guide - Ruby on Rails Server" href="../implementations/rails.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../tutorials/tiling.html" title="Tiling"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../implementations/rails.html" title="Developer Guide - Ruby on Rails Server"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MapFishAPI</a><ul>
+<li><a class="reference internal" href="#install-mapfish">Install MapFish</a></li>
+<li><a class="reference internal" href="#use-mapfishapi">Use MapFishAPI</a><ul>
+<li><a class="reference internal" href="#create-a-project-api">Create a project API</a></li>
+<li><a class="reference internal" href="#use-a-project-api">Use a project API</a></li>
+<li><a class="reference internal" href="#integrate-a-project-api-inside-a-html-page">Integrate a project API inside a HTML page</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../implementations/rails.html"
+                        title="previous chapter">Developer Guide - Ruby on Rails Server</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../tutorials/tiling.html"
+                        title="next chapter">Tiling</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/doc/contribs/mapfishapi.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mapfishapi">
+<span id="mapfish-contrib-api"></span><h1>MapFishAPI<a class="headerlink" href="#mapfishapi" title="Permalink to this headline">¶</a></h1>
+<p>The MapFishAPI provides a way to create MapFish applications that can be integrated in a CMS or another web application or can be configured through permalinks.</p>
+<p>The MapFishAPI can be seen as a development layer on the top of a MapFish application that exposes function to be used in the context of another web application.</p>
+<p>The MapFishAPI provides also general functions that will simplify the creation of MapFish applications.</p>
+<p><a class="reference external" href="http://www.mapfish.org/mapfishapidoc/files/mapfish_api-js.html">Class documentation of the MapFish API</a></p>
+<div class="section" id="install-mapfish">
+<h2>Install MapFish<a class="headerlink" href="#install-mapfish" title="Permalink to this headline">¶</a></h2>
+<p>Proceed first to the  <a class="reference internal" href="../1.2/installation.html#mapfish-refdoc-1-2-installation"><span>Installation</span></a> of MapFish Framework and create a MapFish application as
+described in the <a class="reference internal" href="../1.2/quickstart.html#mapfish-refdoc-1-2-quickstart"><span>Quickstart</span></a> (the creation of a web service is not necessary for this tutorial).</p>
+<p>You can now add the API in your project (in MapFishApp directory):</p>
+<div class="highlight-python"><div class="highlight"><pre>cd mapfishapp/public/
+svn checkout http://www.mapfish.org/svn/mapfish/contribs/mapfish-api/trunk/MapFishApi/
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-mapfishapi">
+<h2>Use MapFishAPI<a class="headerlink" href="#use-mapfishapi" title="Permalink to this headline">¶</a></h2>
+<p>The directory MapFishApi/js contains generic API function, like createMap which is used to create an OpenLayers Map.</p>
+<div class="section" id="create-a-project-api">
+<h3>Create a project API<a class="headerlink" href="#create-a-project-api" title="Permalink to this headline">¶</a></h3>
+<p>In order to use this API, it is needed to create a project api which will herite from the MapFish.API and will specialize or override some functions.</p>
+<p>Let&#8217;s create a file <a class="reference download internal" href="../../_downloads/mymapfishApi.js"><code class="xref download docutils literal"><span class="pre">mymapfishApi.js</span></code></a> in a newly created directory mymapfishApi/js/</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;mymapfish&quot;</span><span class="p">);</span>
+
+<span class="nx">mymapfish</span><span class="p">.</span><span class="nx">API</span> <span class="o">=</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Class</span><span class="p">(</span><span class="nx">MapFish</span><span class="p">.</span><span class="nx">API</span><span class="p">,</span> <span class="p">{</span>
+
+  <span class="nx">getLayers</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">[</span>
+          <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">OSM</span><span class="p">(</span><span class="s2">&quot;OSM&quot;</span><span class="p">)</span>
+      <span class="p">];</span>
+  <span class="p">},</span>
+
+  <span class="nx">getMapOptions</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span>
+          <span class="nx">projection</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Projection</span><span class="p">(</span><span class="s2">&quot;EPSG:900913&quot;</span><span class="p">),</span>
+          <span class="nx">displayProjection</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Projection</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">),</span>
+          <span class="nx">units</span><span class="o">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+          <span class="nx">numZoomLevels</span><span class="o">:</span> <span class="mi">18</span><span class="p">,</span>
+          <span class="nx">maxResolution</span><span class="o">:</span> <span class="mf">156543.0339</span><span class="p">,</span>
+          <span class="nx">maxExtent</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Bounds</span><span class="p">(</span><span class="o">-</span><span class="mi">20037508</span><span class="p">,</span> <span class="o">-</span><span class="mi">20037508</span><span class="p">,</span>
+                  <span class="mi">20037508</span><span class="p">,</span> <span class="mf">20037508.34</span><span class="p">),</span>
+          <span class="nx">allOverlays</span><span class="o">:</span> <span class="kc">false</span>
+      <span class="p">};</span>
+  <span class="p">}</span>
+
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>In this case, the getLayers function defines the layers and getMapOptions define some map options used to create a map by the MapFish.API.</p>
+</div>
+<div class="section" id="use-a-project-api">
+<h3>Use a project API<a class="headerlink" href="#use-a-project-api" title="Permalink to this headline">¶</a></h3>
+<p>It is now possible to create an application with the project API (mymapfishApi.js). Let&#8217;s create a file <a class="reference download internal" href="../../_downloads/layout.js"><code class="xref download docutils literal"><span class="pre">layout.js</span></code></a> in the directory app/js/</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;mymapfish&quot;</span><span class="p">);</span>
+
+<span class="nx">mymapfish</span><span class="p">.</span><span class="nx">layout</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="cm">/*</span>
+<span class="cm">   * Private</span>
+<span class="cm">   */</span>
+  <span class="kd">var</span> <span class="nx">getMapPanel</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">api</span><span class="p">.</span><span class="nx">createMapPanel</span><span class="p">(),</span> <span class="p">{</span>
+          <span class="nx">margins</span><span class="o">:</span> <span class="s1">&#39;0 0 0 0&#39;</span><span class="p">,</span>
+          <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;mappanel&#39;</span>
+      <span class="p">});</span>
+  <span class="p">};</span>
+
+  <span class="cm">/*</span>
+<span class="cm">   * Public</span>
+<span class="cm">   */</span>
+  <span class="k">return</span> <span class="p">{</span>
+      <span class="cm">/**</span>
+<span class="cm">       * APIMethod: init</span>
+<span class="cm">       * Initialize the page layout.</span>
+<span class="cm">       */</span>
+      <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+          <span class="nx">api</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">mymapfish</span><span class="p">.</span><span class="nx">API</span><span class="p">({</span><span class="nx">isMainApp</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+          <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">({</span>
+              <span class="nx">layout</span><span class="o">:</span> <span class="s2">&quot;border&quot;</span><span class="p">,</span>
+              <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;mainpanel&#39;</span><span class="p">,</span>
+              <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+                  <span class="nx">Ext</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">getMapPanel</span><span class="p">(),</span> <span class="p">{</span><span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;center&#39;</span><span class="p">})</span>
+              <span class="p">]</span>
+          <span class="p">});</span>
+          <span class="nx">api</span><span class="p">.</span><span class="nx">map</span><span class="p">.</span><span class="nx">zoomToMaxExtent</span><span class="p">();</span>
+      <span class="p">}</span>
+  <span class="p">};</span>
+
+<span class="p">})();</span>
+</pre></div>
+</div>
+<p>In order to use it, it is needed to initialize this api. Create a <a class="reference download internal" href="../../_downloads/init.js"><code class="xref download docutils literal"><span class="pre">init.js</span></code></a> file in directory app/js/</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">namespace</span><span class="p">(</span><span class="s2">&quot;mymapfish&quot;</span><span class="p">);</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="nx">mymapfish</span><span class="p">.</span><span class="nx">layout</span><span class="p">.</span><span class="nx">init</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You ar now ready to test this code by creating an <a class="reference download internal" href="../../_downloads/index_api.html"><code class="xref download docutils literal"><span class="pre">index_api.html</span></code></a> (in public directory) file</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+      <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf8&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;content-language&quot;</span> <span class="na">content=</span><span class="s">&quot;en&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;title&gt;</span>Application<span class="nt">&lt;/title&gt;</span>
+
+      <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/xtheme-gray.css&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/mapfish/mapfish.css&quot;</span><span class="nt">/&gt;</span>
+
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/adapter/ext/ext-base.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;MapFishApi/js/firefoxfix.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+      <span class="c">&lt;!-- debug mode (begin) --&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/ext-all-debug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/mapfish/MapFish.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;MapFishApi/js/mapfish_api.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mymapfishApi/js/mymapfishApi.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/js/layout.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;app/js/init.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="c">&lt;!-- debug mode (end) --&gt;</span>
+
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>The new scripts have been added.</p>
+<p>You can test it at:</p>
+<div class="highlight-python"><div class="highlight"><pre>http://localhost:5000/index_api.html
+</pre></div>
+</div>
+</div>
+<div class="section" id="integrate-a-project-api-inside-a-html-page">
+<h3>Integrate a project API inside a HTML page<a class="headerlink" href="#integrate-a-project-api-inside-a-html-page" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference download internal" href="../../_downloads/test_api.html"><code class="xref download docutils literal"><span class="pre">test_api.html</span></code></a> (in public directory) uses the project api to present a map.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+      <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf8&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;content-language&quot;</span> <span class="na">content=</span><span class="s">&quot;en&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;title&gt;</span>Application<span class="nt">&lt;/title&gt;</span>
+
+      <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/ext/resources/css/xtheme-gray.css&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;mfbase/mapfish/mapfish.css&quot;</span><span class="nt">/&gt;</span>
+
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/adapter/ext/ext-base.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;MapFishApi/js/firefoxfix.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+      <span class="c">&lt;!-- debug mode (begin) --&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/ext/ext-all-debug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/openlayers/lib/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mfbase/mapfish/MapFish.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;MapFishApi/js/mapfish_api.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;mymapfishApi/js/mymapfishApi.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="c">&lt;!-- debug mode (end) --&gt;</span>
+
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+          <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+              <span class="nx">geo1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">mymapfish</span><span class="p">.</span><span class="nx">API</span><span class="p">();</span>
+              <span class="nx">geo1</span><span class="p">.</span><span class="nx">createMap</span><span class="p">({</span>
+                  <span class="nx">div</span><span class="o">:</span> <span class="s1">&#39;mymap1&#39;</span>
+              <span class="p">});</span>
+          <span class="p">});</span>
+      <span class="nt">&lt;/script&gt;</span>
+
+
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;mymap1&quot;</span> <span class="na">style=</span><span class="s">&quot;width:800px;height:600px;border:1px solid black;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>You can test it at:</p>
+<div class="highlight-python"><div class="highlight"><pre>http://localhost:5000/test_api.html
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../tutorials/tiling.html" title="Tiling"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../implementations/rails.html" title="Developer Guide - Ruby on Rails Server"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

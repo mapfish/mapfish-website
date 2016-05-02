@@ -1,0 +1,7 @@
+.. _`mapfish.refdoc.1_2.protocol`:
+
+MapFish Protocol
+****************
+
+The MapFish Protocol is described in a wiki `page
+<http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol>`_.

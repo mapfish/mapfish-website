@@ -1,0 +1,7 @@
+.. _`mapfish.refdoc.1_2.reference.filterslogical`:
+
+mapfish.lib.filters.logical
+===========================
+
+.. automodule:: mapfish.lib.filters.logical
+   :members:

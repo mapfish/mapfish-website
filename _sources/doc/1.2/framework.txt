@@ -1,0 +1,452 @@
+.. _`mapfish.refdoc.1_2.framework`:
+
+Framework
+*********
+
+.. warning::
+    MapFish 1.2 is not the latest MapFish version, refer to `Documentation 2.0
+    <../../2.0/index.html>`_ for the documentation of the latest version.
+
+MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development. 
+
+MapFish is based on the `Pylons <http://pylonshq.com>`_ Python web framework.
+MapFish extends Pylons with geospatial-specific functionality. For example
+MapFish provides specific tools for creating web services that allows querying
+and editing geographic objects.
+
+MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the `Ext <http://extjs.com>`_, `OpenLayers
+<http://www.openlayers.org>`_ , `GeoExt <http://www.geoext.org>`_ JavaScript
+toolkits, and specific components for interacting with MapFish web services.
+
+Forewords
+---------
+
+In the following sections we assume that the MapFish framework is installed in
+a virtual Python environment named ``venv`` and that this virtual environment
+is activated.  See the `installation page <installation.html>`_ to know how to
+install MapFish and activate the virtual environment.
+
+This documentation provides links to chapters of the `The Definitive Guide To
+Pylons <http://pylonsbook.com/en/1.0/index.html>`_ book. Reading this book is
+highly recommended to anyone considering doing serious development with
+MapFish.
+
+Creating a MapFish application
+------------------------------
+
+The MapFish framework provides a command for automatically generating MapFish
+applications. To create a MapFish application named ``HelloWorld`` use::
+    
+    (venv) $ paster create -t mapfish HelloWorld
+
+Most people would use `Mako <http://www.makotemplates.org/>`_  as the template
+engine, and `SQLAlchemy <http://www.sqlalchemy.org/>`_ as the Object Relational
+Mapper in their MapFish applications. So answer ``mako`` (the default) to the first
+question and ``True`` to the second question. To run the command in a
+non-interactive way you will use::
+
+    (venv) $ paster create --no-interactive -t mapfish HelloWorld sqlalchemy=True 
+
+.. note:: 
+
+    Pure Pylons applications are created with the ``paster create -t pylons``
+    command. When using ``paster create -t mapfish`` we tell ``paster`` to use
+    ``mapfish`` as opposed to ``pylons`` as the application template. In practise
+    the MapFish framework applies the ``pylons`` template before applying the
+    ``mapfish`` template. This is why any MapFish application is also a Pylons
+    application.
+
+The main directories and files in the ``HelloWorld`` directory are:
+
+``development.ini`` and ``test.ini``
+    The application's main configuration files.
+
+``layers.ini``
+    The configuration file where MapFish layers (web services) are configured.
+    The usage of the file will be detailed in a further section of this
+    documentation.
+
+``helloworld``
+    The main application directory, its name depends on the application name
+    you gave as the argument of the ``paster create`` command.
+
+Now let's look at the main application directory (``helloworld``):
+
+``controllers``
+    This directory is where controllers are written. Controllers typically
+    handle HTTP requests, load or save the data from the model, and send 
+    back HTTP responses (to the browser).
+
+``model``
+    This directory is where the model is defined. More specifically this is
+    where the database objects are defined, using SQLAlchemy.
+
+``public``
+    This directory includes the application's static files, i.e. HTML, images,
+    CSS, JavaScript, etc.
+
+``templates``
+    This directory is where (Mako) templates are stored.
+
+``tests``
+    This directory is where you can put automated tests for the application.
+
+``lib``
+    This directory is where you can put code shared by mutiple controllers,
+    third-party code, etc.
+
+.. hint::
+    Recommended reading: `The Definitive Guide to Pylons - Chapter 3
+    <http://pylonsbook.com/en/1.0/exploring-pylons.html>`_.
+
+Serving a MapFish application
+-----------------------------
+
+You can use the Paste HTTP server to execute a MapFish application. For
+example, use the following to make the Paste HTTP server serve the
+``HelloWorld`` application::
+
+    (venv) $ cd HelloWorld
+    (venv) $ paster serve --reload development.ini
+
+The ``--reload`` option make the Paste server monitor all Python modules used
+by the ``HelloWorld`` application and reload itself automatically if any of them is
+modified. This is useful during development.
+
+By default MapFish (and Pylons) applications are served on port 5000. You can
+change by editing the ``development.ini`` configuration file.
+
+If you visit http://localhost:5000 in your web browser you should see the
+`Welcome to Pylons` page.
+
+To stop the Paste server, use Ctrl+C on Unix and Ctrl+D on Windows.
+
+.. hint::
+    Recommended reading: `The Definitive Guide to Pylons - Chapter 3
+    <http://pylonsbook.com/en/1.0/exploring-pylons.html>`_.
+
+Installing the JavaScript toolbox
+---------------------------------
+
+MapFish provides another application template for installing the MapFish JavaScript
+toolbox in the application, this template is named ``mapfish_client``.
+
+.. note::
+    You can use ``paster create --list-templates`` to get a list of all
+    available application templates.
+
+To install the JavaScript toolbox in the ``HelloWorld`` application execute the
+following command in the directory including the ``HelloWorld`` directory::
+
+    (venv) $ paster create -t mapfish_client HelloWorld
+
+You can safely answer ``y`` when you asked whether the ``favicon.ico`` and
+``index.html`` files can be overwritten. It means those two files will be
+replaced by those in the ``mapfish_client`` template, which is what we want.
+
+You can now visit http://localhost:5000 again. You should get an example page,
+with an `OpenStreetMap <http://www.openstreetmap.org/>`_ map.
+
+Let's now look at what the ``paster create -t mapfish_client`` command does.
+In addition to replacing the ``favicon.ico`` and ``index.html`` file the
+command creates three new directories in the application's ``public`` directory.
+
+``mfbase``
+    This directory contains the JavaScript toolbox. It includes sub-directories
+    for the `Ext <http://extjs.com>`_, `OpenLayers
+    <http://www.openlayers.org>`_, `GeoExt <http://www.geoext.org>`_, and
+    MapFish Client toolkits.
+
+``app``
+    This directory contains static files specific to the application. It includes a
+    ``js`` directory, into which you can put the JavaScript code specific to
+    the application. The ``mapfish_client`` template installs a default JavaScript
+    application, which is implemented in the ``helloworld_init.js`` and
+    ``helloworld_layout.js`` files. You can add other directories like ``css``
+    and ``img`` in this ``app`` directory.
+
+``tests``
+    This directory includes the `Test.AnotherWay
+    <http://www.openjsan.org/doc/a/ar/artemkhodush/>`_ JavaScript testing
+    framework, with a test example in ``app/TheObvious.html``. MapFish
+    encourages JavaScript developpers to write tests.
+
+To learn how to use the JavaScript libraries composing the toolbox consult the
+following documentations:
+
+* `OpenLayers docs <http://docs.openlayers.org/>`_
+* `GeoExt docs <http://www.geoext.org/docs.html>`_
+
+Look also at the `various API docs <api.html#client>`_.
+
+Creating MapFish Web Services
+-----------------------------
+
+The framework provides a command for automatically generating web services for
+creating, reading, updating and deleting geographic objects (features). Web
+services generated with the framework implement specific HTTP interfaces.
+These interfaces are described in `Protocol page <protocol.html>`_.
+
+.. note::
+    MapFish web services are also called `layers`, both terms will be used
+    interchangeably in the rest of this documentation.
+
+A MapFish web service generated by the framework operates on the data of a
+geographic database table. Note that, as of today, only PostgreSQL/PostGIS
+tables are supported.
+
+It is important to note that the code of generated web services belongs to the
+application. You, as the application developer, can therefore customize the generated
+web services at will. You are completely free to not rely on code generation,
+and manually create your web services.
+
+Before you can have working MapFish web services you need to configure a
+database connection in the application's configuration file (``development.ini``).
+A database connection is set through the ``sqlalchemy.url`` property. This
+specifies the data source name (DSN) for the database, it looks like
+this::
+
+    sqlalchemy.url = postgres://username:password@host:port/database
+
+
+Creating a MapFish web service is done in two steps. The first step involves
+describing the database table in the ``layers.ini`` configuration file. The
+second step involves invoking the ``paster mf-layer`` command.
+
+``layers.ini``
+    The ``layers.ini`` file is the layer configuration file. Its syntax is as
+    defined in the `documentation
+    <http://docs.python.org/library/configparser.html>`_  of the Python
+    Standard Library's Configuration file parser module.
+
+    As an example, here is what would the description of a table named
+    ``users`` look like in the ``layers.ini`` file::
+
+        [users]
+        singular=user
+        plural=users
+        table=users
+        epsg=4326
+        geomcolumn=the_geom
+        schema=people
+
+    The name given in the square brackets, ``users`` in the above example, is
+    the identifier of the layer. It will be used in the command when generating
+    the web service.
+
+    We describe below each layer property:
+
+    ``singular``
+        The ``singular`` property provides a singular name for the layer. This
+        is used by the framework for naming variables and classes in the
+        generated code.
+
+    ``plural``
+        The ``plural`` property provides a plural name for the layer. Likewise
+        ``singular`` this is used by the framework for naming variables and
+        classes in the generated code.
+
+    ``table``
+        The ``table`` property provides the name of database table.
+
+    ``epsg``
+        The ``epsg`` property provides the EPSG code of the applicationion
+        system of the table data.
+
+    ``geomcolumn``
+        The ``geomcolumn`` property provides the name of the table's
+        geometry column.
+
+    ``schema``
+        The ``schema`` property provides the name of the table's
+        schema.
+
+``paster mf-layer``
+    The second step involves entering the ``paster mf-layer`` command with the
+    layer identifier as the argument to the command. This command must be
+    entered from within the application's main directory (``HelloWorld`` in our
+    example).  The command used to generate the ``users`` web service is::
+
+        (venv) $ paster mf-layer users
+
+    The output of the command looks like this::
+
+        Creating /home/elem/HelloWorld/helloworld/controllers/users.py
+        Creating /home/elem/HelloWorld/helloworld/tests/functional/test_users.py
+
+        To create the appropriate RESTful mapping, add a map statement to your
+        config/routing.py file in the CUSTOM ROUTES section like this:
+
+        map.resource("user", "users")
+
+        Creating /home/elem/HelloWorld/helloworld/model/users.py
+
+    As indicated in the output the ``mf-layer`` command generates three files: a
+    controller file, a model file and a test file. The output also indicates to
+    edit the ``helloworld/config/routing.py`` file and add a route to the ``users``
+    controller in this file. The CUSTOM ROUTES section should look like this::
+
+        # CUSTOM ROUTES HERE
+        map.resource("user", "users")
+        map.connect('/{controller}/{action}')
+        map.connect('/{controller}/{action}/{id}')
+
+You can now visit, for example, http://localhost:5000/users?limit=3 in your
+browser. You should get a `GeoJSON <http://geojson.org>`_ representation of the
+first three users of the ``users`` table. Look at the `Protocol page
+<protocol.html>`_ to know more about parameters that can be passed to MapFish
+web services.
+
+.. hint::
+   Recommended reading:
+
+   * `Pylons Book Chapter 9: URLs, Routing and Dispatch <http://pylonsbook.com/en/1.0/urls-routing-and-dispatch.html>`_ 
+   * `Routes docs <http://routes.groovie.org/>`_
+
+Customizing Web Services
+------------------------
+
+Code generated by the framework is part of the application, so, you, as the
+application developer, can customize it at will.
+
+Adding filters
+~~~~~~~~~~~~~~
+
+Web services generated with the ``paster mf-layer`` command implement the HTTP
+interfaces described in the `Protocol page <protocol.html>`_. You may need to
+augment these interfaces and add your own, custom filtering parameters. The
+MapFish framework provides `APIs <reference/index.html/filters.html>`_ for
+that.
+
+The generated controller class for the ``users`` layer looks like this::
+
+    class UsersController(BaseController):
+        readonly = True # if set to True, only GET is supported
+
+        def __init__(self):
+            self.protocol = Protocol(Session, User, self.readonly)
+
+        def index(self, format='json'):
+            return self.protocol.index(request, response, format=format)
+
+(The comments and the other actions have been intentionally omited.)
+
+Note that no filter is passed to the protocol (the ``filter`` positional
+argument to the ``index`` method is not set). When the protocol isn't passed a
+filter it creates a default one, the *MapFish default filter*, which
+corresponds to what's defined in the MapFish Protocol.
+
+We're now going to see how you can change the behavior of the ``users`` web
+service.
+
+**Scenario #1**
+    Let's assume you want that only *employees* are returned by the ``users``
+    web service. For this you will create a comparison filter and combine it
+    with the MapFish default filter::
+
+        class UsersController(BaseController):
+            readonly = True # if set to True, only GET is supported
+
+            def __init__(self):
+                self.protocol = Protocol(Session, User, self.readonly)
+
+            def index(self, format='json'):
+                compare_filter = comparison.Comparison(
+                    comparison.Comparison.EQUAL_TO,
+                    User.type,
+                    value="employee"
+                )
+                default_filter = create_default_filter(request, User)
+                filter = logical.Logical(
+                    logical.Logical.AND,
+                    filters=[compare_filter, default_filter]
+                )
+                return self.protocol.index(request, response, format=format, filter=filter)
+
+    The new comparison filter is combined with the default filter in a logical
+    and filter. See the documentations of the `mapfish.lib.filters.comparison
+    <reference/filters.comparison.html>`_ and `mapfish.lib.filters.logical
+    <reference/filters.logical.html>`_ modules and of the
+    `create_default_filter()
+    <reference/protocol.html#creating-protocol-filter>`_ function.
+
+**Scenario #2**
+    Let's now assume that you want the web service to return either *managers*
+    or *developers* or both based on the *type* parameter in the query string.
+    Let's also assume that you still want your web service to support all the
+    geographic filtering capability of the MapFish protocol::
+
+        class UsersController(BaseController):
+            readonly = True # if set to True, only GET is supported
+
+            def __init__(self):
+                self.protocol = Protocol(Session, User, self.readonly)
+
+            def index(self, format='json'):
+                filter = create_geom_filter(request, User)
+                compare_filter = None
+                if "type" in request.params:
+                    compare_filter = comparison.Comparison(
+                        comparison.Comparison.EQUAL_TO,
+                        User.type,
+                        value=request.params["type"]
+                    )
+                if compare_filter is not None:
+                    filter = logical.Logical(
+                        logical.Logical.AND,
+                        filters=[filter, compare_filter]
+                    )
+                return self.protocol.index(request, response, format=format, filter=filter)
+
+    The ``create_geom_filter()`` function is called to get the default
+    geographic filter. And, if the query string includes the ``type``
+    parameter, the geographic filter is combined with a comparison filter whose
+    value is the value of the ``type`` parameter in the query string. See the
+    documentation of the `create_geom_filter()
+    <reference/protocol.html#creating-protocol-filter>`_ function.
+
+**Scenario #3**
+    We assume in this scenario that you want to support the *type* parameter in
+    the query string (as in Scenario #2) and that you only want to support
+    *bbox* for the geographic filtering::
+
+        class UsersController(BaseController):
+            readonly = True # if set to True, only GET is supported
+
+            def __init__(self):
+                self.protocol = Protocol(Session, User, self.readonly)
+
+            def index(self, format='json'):
+                filters = []
+                if "type" in request.params:
+                    filters.append(
+                        comparison.Comparison(
+                            comparison.Comparison.EQUAL_TO,
+                            User.type,
+                            value=request.params["type"]
+                        )
+                    )
+                if "bbox" in request.params:
+                    filters.append(
+                        spatial.Spatial(
+                            spatial.Spatial.BOX,
+                            User.geometry_column(),
+                            box=request.params["bbox"].split(",")
+                        )
+                    )
+                filter = logical.Logical(
+                    logical.Logical.AND,
+                    filters=filters
+                )
+                return self.protocol.index(request, response, format=format, filter=filter)
+
+    In this scenario the web service doesn't rely on the default filters of the
+    MapFish Protocol. See the documentation of the `mapfish.lib.filters.spatial
+    <reference/filters.spatial.html>`_ module.
+
+-----------
+
+`API References <reference/index.html#server>`_

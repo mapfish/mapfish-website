@@ -1,0 +1,7 @@
+.. _`mapfish.refdoc.1_2.reference.filterscomparison`:
+
+mapfish.lib.filters.comparison
+==============================
+
+.. automodule:: mapfish.lib.filters.comparison
+   :members:

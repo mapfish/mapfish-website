@@ -1,0 +1,1426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8 hours introduction to MapFish Framework 1.2 &mdash; MapFish</title>
+    
+    <link rel="stylesheet" href="../../../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="MapFish" href="../../../index.html" />
+    <link rel="up" title="Tutorials" href="../index.html" />
+    <link rel="next" title="ExtJS tutorial" href="../extjs.html" />
+    <link rel="prev" title="Tutorial: Application development with MapFish Framework 1.2" href="../howto_app_development/howto_app_development.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../extjs.html" title="ExtJS tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../howto_app_development/howto_app_development.html" title="Tutorial: Application development with MapFish Framework 1.2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" accesskey="U">Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8 hours introduction to MapFish Framework 1.2</a><ul>
+<li><a class="reference internal" href="#mapfish-framework">MapFish Framework</a><ul>
+<li><a class="reference internal" href="#what-is-a-framework">What is a framework ?</a><ul>
+<li><a class="reference internal" href="#components-of-mapfish-framework">Components of MapFish framework</a></li>
+<li><a class="reference internal" href="#architecture-of-mapfish-applications">Architecture of MapFish applications</a></li>
+<li><a class="reference internal" href="#development-of-mapfish-applications">Development of MapFish applications</a><ul>
+<li><a class="reference internal" href="#application-from-scratch">Application from scratch</a></li>
+<li><a class="reference internal" href="#application-from-template">Application from template</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ogc-compliance">OGC compliance</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mapfish-technologies">MapFish Technologies</a><ul>
+<li><a class="reference internal" href="#mapfish-javascript-toolbox">MapFish JavaScript Toolbox</a><ul>
+<li><a class="reference internal" href="#mapfish-client-extjs">ExtJS</a><ul>
+<li><a class="reference internal" href="#ext-hello-world">Ext &#8220;Hello World&#8221;</a></li>
+<li><a class="reference internal" href="#ext-viewport">Ext.Viewport</a></li>
+<li><a class="reference internal" href="#ext-grid-gridpanel">Ext.grid.GridPanel</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mapfish-client-openlayers">OpenLayers</a><ul>
+<li><a class="reference internal" href="#map">Map</a></li>
+<li><a class="reference internal" href="#editing-toolbar">Editing Toolbar</a></li>
+<li><a class="reference internal" href="#popup">Popup</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mapfish-client-geoext">GeoExt</a><ul>
+<li><a class="reference internal" href="#geoext-mappanel">GeoExt.MapPanel</a></li>
+<li><a class="reference internal" href="#geoext-action">GeoExt.Action</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mapfish-javacript">MapFish Javacript</a><ul>
+<li><a class="reference internal" href="#id5">Print</a></li>
+<li><a class="reference internal" href="#recenter">Recenter</a></li>
+<li><a class="reference internal" href="#mapfish-api">MapFish API</a></li>
+<li><a class="reference internal" href="#mapfish-permalink">MapFish Permalink</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mapfish-server">MapFish Server</a><ul>
+<li><a class="reference internal" href="#data-storage">Data Storage</a><ul>
+<li><a class="reference internal" href="#load-vector-data-in-postgis">Load vector data in PostGIS</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-stylization">Data Stylization</a></li>
+<li><a class="reference internal" href="#data-access-mapfish-rest-protocol">Data Access: MapFish REST Protocol</a><ul>
+<li><a class="reference internal" href="#generation-of-mapfish-rest-protocol">Generation of MapFish REST Protocol</a></li>
+<li><a class="reference internal" href="#mapfish-template">MapFish Template</a></li>
+<li><a class="reference internal" href="#additional-libraries-for-mapfish">Additional Libraries for MapFish</a></li>
+<li><a class="reference internal" href="#example-recenter-tool-with-autocompletion">Example: recenter tool with autocompletion</a></li>
+<li><a class="reference internal" href="#example-mapfish-edition-and-authentication">Example: MapFish edition and authentication</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mapfish-server-in-java-ruby-or-php">MapFish Server in Java, Ruby or PHP</a><ul>
+<li><a class="reference internal" href="#java">Java</a></li>
+<li><a class="reference internal" href="#ruby">Ruby</a></li>
+<li><a class="reference internal" href="#php">PHP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#studio-beta-mapfish-application-generator">Studio (BETA): MapFish Application generator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../howto_app_development/howto_app_development.html"
+                        title="previous chapter">Tutorial: Application development with MapFish Framework 1.2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../extjs.html"
+                        title="next chapter">ExtJS tutorial</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/doc/tutorials/introduction/introduction.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="hours-introduction-to-mapfish-framework-1-2">
+<span id="mapfish-tutorials-introduction"></span><h1>8 hours introduction to MapFish Framework 1.2<a class="headerlink" href="#hours-introduction-to-mapfish-framework-1-2" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This document includes outdated information..</p>
+</div>
+<p>Welcome in the MapFish world ! First the architecture and components of the <a class="reference internal" href="#mapfish-tutorials-introduction-framework"><span>MapFish Framework</span></a> are introduced.</p>
+<p>Then, <a class="reference internal" href="#mapfish-client"><span>MapFish JavaScript Toolbox</span></a>, <a class="reference internal" href="#mapfish-server"><span>MapFish Server</span></a> and <a class="reference internal" href="../tiling.html#mapfish-tutorials-tiling"><span>Tiling</span></a> are presented with practical examples.</p>
+<div class="section" id="mapfish-framework">
+<span id="mapfish-tutorials-introduction-framework"></span><h2>MapFish Framework<a class="headerlink" href="#mapfish-framework" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-a-framework">
+<h3>What is a framework ?<a class="headerlink" href="#what-is-a-framework" title="Permalink to this headline">¶</a></h3>
+<p>MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development.
+But, what is a framework ? From <a class="reference external" href="http://en.wikipedia.org/wiki/Framework">wikipedia</a> :
+&#8220;A framework is a basic conceptual structure used to solve or address complex issues.&#8221;.
+The framework aims to alleviate the overhead associated with common activities performed in Web mapping development.</p>
+<p>In that sense, MapFish Framework provides the technology for building web mapping applications.
+With <a class="reference internal" href="#mapfish-client"><span>MapFish JavaScript Toolbox</span></a> technologies, the developer can create user interfaces and with <a class="reference internal" href="#mapfish-server"><span>MapFish Server</span></a> technologies, it is possible to develop the necessary web services.</p>
+<p>On the client side, JavaScript libraries are mainly used, on the server side, several languages can be used.
+Originally, Python components were used, but with the time, Java, Ruby and PHP components have also been developped.
+This shows the flexibility and openness of the framework.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">MapFish is cartographic server agnostic. It can be used with <a class="reference external" href="http://www.mapserver.org">MapServer</a>, <a class="reference external" href="http://www.geoserver.org">GeoServer</a>, <a class="reference external" href="http://www.mapguide.org">MapGuide</a>
+or whatever cartographic server that is able to communicate with open protocols like WMS or WFS.</p>
+</div>
+<script language=javascript type='text/javascript'>
+
+function hidediv(div, showDiv, hideDiv) {
+   document.getElementById(div).style.visibility = 'hidden';
+   document.getElementById(div).style.display = 'none';
+   document.getElementById(hideDiv).style.visibility = 'hidden';
+   document.getElementById(hideDiv).style.display = 'none';
+   document.getElementById(showDiv).style.visibility = 'visible';
+   document.getElementById(showDiv).style.display = 'block';
+}
+
+function showdiv(div, showDiv, hideDiv) {
+   document.getElementById(div).style.visibility = 'visible';
+   document.getElementById(div).style.display = 'block';
+   document.getElementById(showDiv).style.visibility = 'hidden';
+   document.getElementById(showDiv).style.display = 'none';
+   document.getElementById(hideDiv).style.visibility = 'visible';
+   document.getElementById(hideDiv).style.display = 'block';
+}
+</script><div class="section" id="components-of-mapfish-framework">
+<h4>Components of MapFish framework<a class="headerlink" href="#components-of-mapfish-framework" title="Permalink to this headline">¶</a></h4>
+<p>Several Open Source technologies are used in MapFish Framework:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://www.geoext.org">GeoExt</a>: GeoExt is a JavaScript library providing the groundwork for creating web-mapping applications based on OpenLayers and ExtJS.</li>
+<li><a class="reference external" href="http://www.openlayers.org">OpenLayers</a>: OpenLayers makes it easy to put a dynamic map in any web page. It can display map tiles and markers loaded from any source.</li>
+<li><a class="reference external" href="http://extjs.com/">ExtJS</a>: Ext JS is a cross-browser JavaScript library for building rich internet applications.</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/Shapely">Shapely</a>: Shapely is a Python package for manipulation and analysis of 2D geospatial geometries.</li>
+<li><a class="reference external" href="http://www.sqlalchemy.org/">SqlAlchemy</a>: SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.</li>
+<li><a class="reference external" href="http://geojson.org/">GeoJSON</a>: GeoJSON is a format for encoding a variety of geographic data structures.</li>
+<li><a class="reference external" href="http://pylonshq.com/">Pylons</a>: Pylons is a lightweight web framework emphasizing flexibility and rapid development.</li>
+</ul>
+</div></blockquote>
+<p>Additionaly, the creation of MapFish applications will use the following Open Source Technologies:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://tilecache.org/">TileCache</a>: TileCache provides a Python-based WMS-C/TMS server, with pluggable caching mechanisms and rendering backends.</li>
+<li><a class="reference external" href="http://postgis.refractions.net/">PostGIS</a>: PostGIS adds support for geographic objects to the PostgreSQL object-relational database. In effect, PostGIS &#8220;spatially enables&#8221; the PostgreSQL server, allowing it to be used as a backend spatial database for geographic information systems (GIS).</li>
+<li><a class="reference external" href="http://www.gdal.org/ogr/index.html">OGR</a>: The OGR Simple Features Library is a C++ open source library providing read and sometimes write access to a variety of vector file formats.</li>
+<li><a class="reference external" href="http://www.gdal.org/">GDAL</a>: is a translator library for raster geospatial data formats.</li>
+</ul>
+</div></blockquote>
+<p>MapFish aggregates these components and ensure that they can work together.</p>
+</div>
+<div class="section" id="architecture-of-mapfish-applications">
+<h4>Architecture of MapFish applications<a class="headerlink" href="#architecture-of-mapfish-applications" title="Permalink to this headline">¶</a></h4>
+<p>The main goal of the MapFish Framework is to simplfiy the developer&#8217;s life when building MapFish applications.
+The following schema describes the general architecture of MapFish applications:</p>
+<blockquote>
+<div><img alt="../../../_images/mapfish_architecture_en.png" src="../../../_images/mapfish_architecture_en.png" />
+</div></blockquote>
+<p>On the <strong>server side</strong>, the data can be managed inside a <strong>database</strong> or as <strong>files</strong>. From these data, in order to improve the application performance, a <strong>tile generator</strong> can be used to cache the geographic content. The tile generation process is based on a cartographic server that is able to serve the tiles or on files (images, for example). The <strong>MapFish application server</strong> provides services like search, print or edit. Complex and custom data analysis can be developed with the technology provided by the MapFish framework.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol">MapFish Protocol</a> is a RESTFull protocol for creating/reading/querying/updating/deleting features. The MapFish protocol defines a communication language between client and server part.</p>
+</div>
+<p>On the <strong>client side</strong>, four JavaScript libraries are used to allow the creation of advanced user interfaces. Some demos here:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://dev.geoext.org/trunk/geoext/examples/mappanel-div.html">MapPanel</a></li>
+<li><a class="reference external" href="http://dev.geoext.org/trunk/geoext/examples/mappanel-div.html">LayerTree</a></li>
+<li><a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/search/c2corg.html">Search</a></li>
+<li><a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/geostat/">GeoStat</a></li>
+<li><a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/map/toolbar.html">Toolbar</a></li>
+<li><a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/print/simple.html">Print</a></li>
+<li><a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/editing/">Edit</a></li>
+<li><a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/demos/routing/epfl.html">Routing</a></li>
+<li>... and all the <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/Users">live applications</a> ;-)</li>
+</ul>
+</div></blockquote>
+<p>Through <strong>internet</strong> the data are transferred as JSON/GeoJSON or XML/GML data flow. OGC or other web services can of course be used by the client applications.</p>
+</div>
+<div class="section" id="development-of-mapfish-applications">
+<h4>Development of MapFish applications<a class="headerlink" href="#development-of-mapfish-applications" title="Permalink to this headline">¶</a></h4>
+<p>The MapFish Framework provides the bricks to create web mapping applications.
+From these bricks, there are two main ways to create custom MapFish applications.</p>
+<div class="section" id="application-from-scratch">
+<h5>Application from scratch<a class="headerlink" href="#application-from-scratch" title="Permalink to this headline">¶</a></h5>
+<p>In this case, the bricks of the framework are used to create a custom application.</p>
+<blockquote>
+<div><img alt="../../../_images/mapfish_custom.png" src="../../../_images/mapfish_custom.png" />
+</div></blockquote>
+</div>
+<div class="section" id="application-from-template">
+<h5>Application from template<a class="headerlink" href="#application-from-template" title="Permalink to this headline">¶</a></h5>
+<p>In this case, the bricks of the framework are used to create a template.
+The template can contain for example the general layout of the application or some base layers.
+This template can be used several times to create custom applications.
+And, of course, custom code can be done for the specific applications.</p>
+<blockquote>
+<div><img alt="../../../_images/mapfish_template.png" src="../../../_images/mapfish_template.png" />
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="ogc-compliance">
+<h4>OGC compliance<a class="headerlink" href="#ogc-compliance" title="Permalink to this headline">¶</a></h4>
+<p>MapFish is compliant with the <a class="reference external" href="http://www.opengeospatial.org/">Open Geospatial Consortium</a> standards. This is achieved through OpenLayers or GeoExt which support several OGC norms, like WMS, WFS, WMC, KML, GML etc..</p>
+</div>
+</div>
+</div>
+<div class="section" id="mapfish-technologies">
+<h2>MapFish Technologies<a class="headerlink" href="#mapfish-technologies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mapfish-javascript-toolbox">
+<span id="mapfish-client"></span><h3>MapFish JavaScript Toolbox<a class="headerlink" href="#mapfish-javascript-toolbox" title="Permalink to this headline">¶</a></h3>
+<p>MapFish JavaScript Toolbox is composed of four JavaScript libraries: ExtJS, OpenLayers, GeoExt and MapFish. The functionality of all these libraries will be highlighted with some example code.</p>
+<div class="section" id="mapfish-client-extjs">
+<span id="id1"></span><h4>ExtJS<a class="headerlink" href="#mapfish-client-extjs" title="Permalink to this headline">¶</a></h4>
+<p>Ext JS is a cross-browser JavaScript library for building rich internet applications. It provides a <a class="reference external" href="http://www.extjs.com/deploy/dev/examples/samples.html">very large list of UI components</a>.</p>
+<p>Some editors can help to create ExtJS UI: <a class="reference external" href="http://tof2k.com/ext/formbuilder/">GUI Builder</a>  or <a class="reference external" href="http://www.projectspace.nl/">GUI Designer</a>. To know more about this technology, you can follow the <a class="reference internal" href="../extjs.html#mapfish-tutorials-extjs"><span>ExtJS tutorial</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In order to play with ExtJS, it is needed to reference the ExtJS library and the associated css (more information here: <a class="reference internal" href="../extjs.html#get-prepared-extjs"><span>Get Prepared with ExtJS</span></a>). For simplicity, we have prepared an accessible build with <a class="reference external" href="http://extjs.com/products/extjs/build/index.php">CacheFly</a>.</p>
+<p>Then, simply add the following code in the html page:</p>
+<p>&lt;script type=&#8221;text/javascript&#8221; src=&#8221;<a class="reference external" href="http://extjs.cachefly.net/builds/ext-cdn-771.js">http://extjs.cachefly.net/builds/ext-cdn-771.js</a>&#8220;&gt;&lt;/script&gt;</p>
+<p class="last">&lt;link rel=&#8221;stylesheet&#8221; type=&#8221;text/css&#8221; href=&#8221;<a class="reference external" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css">http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css</a>&#8221; /&gt;</p>
+</div>
+<div class="section" id="ext-hello-world">
+<h5>Ext &#8220;Hello World&#8221;<a class="headerlink" href="#ext-hello-world" title="Permalink to this headline">¶</a></h5>
+<p>Create your own html page with the following code <a class="reference download internal" href="../../../_downloads/extjs_hello_world.html"><code class="xref download docutils literal"><span class="pre">extjs_hello_world.html</span></code></a>.
+If you open it in a browser, you should get a message &#8220;Hello World!  You have ExtJS configured correctly!&#8221;</p>
+<a id="showRef2" href="javascript:showdiv('codeBlock2','showRef2','hideRef2')">Show code</a>
+<a id="hideRef2" href="javascript:hidediv('codeBlock2','showRef2','hideRef2')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock2" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+   <span class="nt">&lt;head&gt;</span>
+      <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=iso-8859-1&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;title</span> <span class="na">id=</span><span class="s">&#39;title&#39;</span><span class="nt">&gt;</span>ExtJS Hello World<span class="nt">&lt;/title&gt;</span>
+
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://extjs.cachefly.net/builds/ext-cdn-771.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+      <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css&quot;</span> <span class="nt">/&gt;</span>
+
+      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+      <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Hello World!  You have ExtJS configured correctly!&quot;</span><span class="p">);</span>
+      <span class="p">});</span> <span class="c1">//end onReady</span>
+      <span class="nt">&lt;/script&gt;</span>
+
+   <span class="nt">&lt;/head&gt;</span>
+   <span class="nt">&lt;body&gt;</span>
+   <span class="nt">&lt;/body&gt;</span>
+ <span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="ext-viewport">
+<h5>Ext.Viewport<a class="headerlink" href="#ext-viewport" title="Permalink to this headline">¶</a></h5>
+<p>The Viewport renders itself to the document body, and automatically sizes itself to the size of the browser viewport and manages window resizing. There may only be one Viewport created in a page. Let&#8217;s have a look at the configuration of a <a class="reference external" href="http://www.extjs.com/deploy/dev/docs/?class=Ext.Viewport">viewport</a>:</p>
+<p>To test: <a class="reference download internal" href="../../../_downloads/extjs_viewport.html"><code class="xref download docutils literal"><span class="pre">extjs_viewport.html</span></code></a></p>
+<a id="showRef3" href="javascript:showdiv('codeBlock3','showRef3','hideRef3')">Show code</a>
+<a id="hideRef3" href="javascript:hidediv('codeBlock3','showRef3','hideRef3')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock3" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=iso-8859-1&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;title</span> <span class="na">id=</span><span class="s">&#39;title&#39;</span><span class="nt">&gt;</span>ExtJS Viewport<span class="nt">&lt;/title&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://extjs.cachefly.net/builds/ext-cdn-771.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+      <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+          <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">({</span>
+              <span class="nx">layout</span><span class="o">:</span> <span class="s1">&#39;border&#39;</span><span class="p">,</span>
+              <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+                  <span class="p">{</span>
+                      <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;north&#39;</span><span class="p">,</span>
+                      <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;&lt;h1 class=&quot;x-panel-header&quot;&gt;Page Title&lt;/h1&gt;&#39;</span><span class="p">,</span>
+                      <span class="nx">autoHeight</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">border</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+                      <span class="nx">margins</span><span class="o">:</span> <span class="s1">&#39;0 0 5 0&#39;</span>
+                  <span class="p">},</span>
+                  <span class="p">{</span>
+                      <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;west&#39;</span><span class="p">,</span>
+                      <span class="nx">collapsible</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Navigation&#39;</span><span class="p">,</span>
+                      <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;treepanel&#39;</span><span class="p">,</span>
+                      <span class="nx">width</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+                      <span class="nx">autoScroll</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">split</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">loader</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">tree</span><span class="p">.</span><span class="nx">TreeLoader</span><span class="p">(),</span>
+                      <span class="nx">root</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">tree</span><span class="p">.</span><span class="nx">AsyncTreeNode</span><span class="p">({</span>
+                          <span class="nx">expanded</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                          <span class="nx">children</span><span class="o">:</span> <span class="p">[</span>
+                              <span class="p">{</span>
+                                  <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Menu Option 1&#39;</span><span class="p">,</span>
+                                  <span class="nx">leaf</span><span class="o">:</span> <span class="kc">true</span>
+                              <span class="p">},</span>
+                              <span class="p">{</span>
+                                  <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Menu Option 2&#39;</span><span class="p">,</span>
+                                  <span class="nx">leaf</span><span class="o">:</span> <span class="kc">true</span>
+                              <span class="p">},</span>
+                              <span class="p">{</span>
+                                  <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Menu Option 3&#39;</span><span class="p">,</span>
+                                  <span class="nx">leaf</span><span class="o">:</span> <span class="kc">true</span>
+                              <span class="p">}</span>
+                          <span class="p">]</span>
+                      <span class="p">}),</span>
+                      <span class="nx">rootVisible</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+                      <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+                          <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+                              <span class="nx">Ext</span><span class="p">.</span><span class="nx">Msg</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Navigation Tree Click&#39;</span><span class="p">,</span> <span class="s1">&#39;You clicked: &quot;&#39;</span> <span class="o">+</span> <span class="nx">n</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">text</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+                          <span class="p">}</span>
+                      <span class="p">}</span>
+                  <span class="p">},</span>
+                  <span class="p">{</span>
+                      <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                      <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;tabpanel&#39;</span><span class="p">,</span>
+                      <span class="nx">items</span><span class="o">:</span> <span class="p">{</span>
+                          <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Default Tab&#39;</span><span class="p">,</span>
+                          <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;The first tab\&#39;s content. Others may be added dynamically&#39;</span>
+                      <span class="p">}</span>
+                  <span class="p">},</span>
+                  <span class="p">{</span>
+                      <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;south&#39;</span><span class="p">,</span>
+                      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Information&#39;</span><span class="p">,</span>
+                      <span class="nx">collapsible</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;Information goes here&#39;</span><span class="p">,</span>
+                      <span class="nx">split</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">height</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
+                      <span class="nx">minHeight</span><span class="o">:</span> <span class="mi">100</span>
+                  <span class="p">}</span>
+              <span class="p">]</span>
+          <span class="p">});</span>
+      <span class="p">});</span> <span class="c1">//end onReady</span>
+  <span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="ext-grid-gridpanel">
+<h5>Ext.grid.GridPanel<a class="headerlink" href="#ext-grid-gridpanel" title="Permalink to this headline">¶</a></h5>
+<p><a class="reference external" href="http://map.globe.admin.ch">Globe application</a> uses a <a class="reference external" href="http://extjs.com/deploy/dev/docs/?class=Ext.grid.GridPanel">grid panel</a>:</p>
+<blockquote>
+<div><img alt="../../../_images/mapfish_globe.png" src="../../../_images/mapfish_globe.png" />
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="mapfish-client-openlayers">
+<span id="id2"></span><h4>OpenLayers<a class="headerlink" href="#mapfish-client-openlayers" title="Permalink to this headline">¶</a></h4>
+<p>OpenLayers makes it easy to put a dynamic map in any web page. It can display map tiles and markers loaded from any source.</p>
+<p>Have a look at the <a class="reference external" href="http://openlayers.org/dev/examples/">OpenLayers examples</a> to see the power of this library.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In order to play with OpenLayers, it is needed to reference the OpenLayers library.</p>
+<p>Simply add the following code in the html page:</p>
+<p class="last">&lt;script src=&#8221;<a class="reference external" href="http://www.openlayers.org/api/OpenLayers.js">http://www.openlayers.org/api/OpenLayers.js</a>&#8220;&gt;&lt;/script&gt;</p>
+</div>
+<div class="section" id="map">
+<h5>Map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h5>
+<p>Instances of <a class="reference external" href="http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/files/OpenLayers/Map-js.html">OpenLayers.Map</a> are interactive maps embedded in a web page.</p>
+<p>To test: <a class="reference download internal" href="../../../_downloads/openlayers_map.html"><code class="xref download docutils literal"><span class="pre">openlayers_map.html</span></code></a></p>
+<a id="showRef4" href="javascript:showdiv('codeBlock4','showRef4','hideRef4')">Show code</a>
+<a id="hideRef4" href="javascript:hidediv('codeBlock4','showRef4','hideRef4')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock4" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+   <span class="nt">&lt;title&gt;</span>OpenLayers Map<span class="nt">&lt;/title&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://www.openlayers.org/api/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+      <span class="kd">var</span> <span class="nx">map</span><span class="p">,</span> <span class="nx">layer</span><span class="p">;</span>
+      <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+         <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">(</span><span class="s1">&#39;map&#39;</span><span class="p">);</span>
+         <span class="nx">layer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span><span class="s2">&quot;OpenLayers WMS&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;http://labs.metacarta.com/wms/vmap0&quot;</span><span class="p">,</span>
+                 <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s1">&#39;basic&#39;</span><span class="p">}</span>
+                 <span class="p">);</span>
+         <span class="nx">map</span><span class="p">.</span><span class="nx">addLayer</span><span class="p">(</span><span class="nx">layer</span><span class="p">);</span>
+         <span class="nx">map</span><span class="p">.</span><span class="nx">zoomToMaxExtent</span><span class="p">();</span>
+      <span class="p">}</span>
+   <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;init()&quot;</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="editing-toolbar">
+<h5>Editing Toolbar<a class="headerlink" href="#editing-toolbar" title="Permalink to this headline">¶</a></h5>
+<p><a class="reference external" href="http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/_staticOpenLayers/Control/EditingToolbar-js.html">Editing Toolbar</a></p>
+<p>To test: <a class="reference download internal" href="../../../_downloads/openlayers_editing_toolbar.html"><code class="xref download docutils literal"><span class="pre">openlayers_editing_toolbar.html</span></code></a></p>
+<a id="showRef5" href="javascript:showdiv('codeBlock5','showRef5','hideRef5')">Show code</a>
+<a id="hideRef5" href="javascript:hidediv('codeBlock5','showRef5','hideRef5')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock5" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+ <span class="nt">&lt;title&gt;</span>OpenLayers Editing Toolbar <span class="nt">&lt;/title&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://www.openlayers.org/api/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+     <span class="kd">var</span> <span class="nx">lon</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+     <span class="kd">var</span> <span class="nx">lat</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>
+     <span class="kd">var</span> <span class="nx">zoom</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+     <span class="kd">var</span> <span class="nx">map</span><span class="p">,</span> <span class="nx">layer</span><span class="p">;</span>
+
+     <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+         <span class="nx">layer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span><span class="s2">&quot;OpenLayers WMS&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;http://labs.metacarta.com/wms/vmap0&quot;</span><span class="p">,</span>
+                 <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s1">&#39;basic&#39;</span><span class="p">}</span>
+                 <span class="p">);</span>
+
+         <span class="nx">vlayer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">Vector</span><span class="p">(</span><span class="s2">&quot;Editable&quot;</span><span class="p">);</span>
+         <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">(</span><span class="s1">&#39;map&#39;</span><span class="p">,</span> <span class="p">{</span>
+             <span class="nx">controls</span><span class="o">:</span> <span class="p">[</span>
+                 <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">PanZoom</span><span class="p">(),</span>
+                 <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">EditingToolbar</span><span class="p">(</span><span class="nx">vlayer</span><span class="p">)</span>
+             <span class="p">]</span>
+         <span class="p">});</span>
+         <span class="nx">map</span><span class="p">.</span><span class="nx">addLayers</span><span class="p">([</span><span class="nx">layer</span><span class="p">,</span> <span class="nx">vlayer</span><span class="p">]);</span>
+
+         <span class="nx">map</span><span class="p">.</span><span class="nx">setCenter</span><span class="p">(</span><span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">LonLat</span><span class="p">(</span><span class="nx">lon</span><span class="p">,</span> <span class="nx">lat</span><span class="p">),</span> <span class="nx">zoom</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;init()&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="popup">
+<h5>Popup<a class="headerlink" href="#popup" title="Permalink to this headline">¶</a></h5>
+<p><a class="reference external" href="http://www.swissrivers.ch">Swissrivers.ch application</a> uses <a class="reference external" href="http://dev.openlayers.org/releases/OpenLayers-2.7/doc/apidocs/files/OpenLayers/Popup-js.html">OpenLayers popups</a> to present hydrogramms.</p>
+<blockquote>
+<div><img alt="../../../_images/mapfish_swissrivers.png" src="../../../_images/mapfish_swissrivers.png" />
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="mapfish-client-geoext">
+<span id="id4"></span><h4>GeoExt<a class="headerlink" href="#mapfish-client-geoext" title="Permalink to this headline">¶</a></h4>
+<p>GeoExt is a JavaScript library providing the groundwork for creating web-mapping applications based on OpenLayers and ExtJS.</p>
+<p>Have a look at the <a class="reference external" href="http://dev.geoext.org/trunk/geoext/examples/">GeoExt examples</a> to see the power of this library.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In order to play with GeoExt, it is needed to reference the OpenLayers, ExtJS and GeoExt library.</p>
+<p>For GeoExt, simply add the following code in the html page:</p>
+<p>&lt;script src=&#8221;<a class="reference external" href="http://dev.geoext.org/trunk/geoext/lib/GeoExt.js">http://dev.geoext.org/trunk/geoext/lib/GeoExt.js</a>&#8220;&gt;&lt;/script&gt;</p>
+<p class="last">GeoExt relies on features from OpenLayers 2.8. Until OpenLayers 2.8 is released, you can use the latest release candidate (link directly to <a class="reference external" href="http://openlayers.org/api/2.8-rc2/OpenLayers.js">http://openlayers.org/api/2.8-rc2/OpenLayers.js</a>)</p>
+</div>
+<div class="section" id="geoext-mappanel">
+<h5>GeoExt.MapPanel<a class="headerlink" href="#geoext-mappanel" title="Permalink to this headline">¶</a></h5>
+<p>A GeoExt MapPanel is an OpenLayers map integrated into an ExtJS Panel.</p>
+<p>To test: <a class="reference download internal" href="../../../_downloads/geoext_mappanel.html"><code class="xref download docutils literal"><span class="pre">geoext_mappanel.html</span></code></a></p>
+<a id="showRef6" href="javascript:showdiv('codeBlock6','showRef6','hideRef6')">Show code</a>
+<a id="hideRef6" href="javascript:hidediv('codeBlock6','showRef6','hideRef6')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock6" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+
+ <span class="nt">&lt;title&gt;</span>GeoExt Map Panel<span class="nt">&lt;/title&gt;</span>
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://extjs.cachefly.net/builds/ext-cdn-771.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+ <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://openlayers.org/api/2.8-rc2/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://dev.geoext.org/trunk/geoext/lib/GeoExt.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+     <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">();</span>
+         <span class="kd">var</span> <span class="nx">layer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span>
+                 <span class="s2">&quot;Blue Marble&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;http://sigma.openplans.org/geoserver/wms?&quot;</span><span class="p">,</span>
+         <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s2">&quot;bluemarble&quot;</span><span class="p">}</span>
+                 <span class="p">);</span>
+         <span class="nx">map</span><span class="p">.</span><span class="nx">addLayer</span><span class="p">(</span><span class="nx">layer</span><span class="p">);</span>
+
+         <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">MapPanel</span><span class="p">({</span>
+             <span class="nx">renderTo</span><span class="o">:</span> <span class="s1">&#39;gxmap&#39;</span><span class="p">,</span>
+             <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+             <span class="nx">width</span><span class="o">:</span> <span class="mi">600</span><span class="p">,</span>
+             <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+             <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;GeoExt Map Panel&#39;</span>
+         <span class="p">});</span>
+     <span class="p">});</span>
+ <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;gxmap&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="geoext-action">
+<h5>GeoExt.Action<a class="headerlink" href="#geoext-action" title="Permalink to this headline">¶</a></h5>
+<p>GeoExt provides the GeoExt.Action class for adaptating a control to an object that can be inserted in a toolbar or in a menu.</p>
+<p>To test: <a class="reference download internal" href="../../../_downloads/geoext_action.html"><code class="xref download docutils literal"><span class="pre">geoext_action.html</span></code></a></p>
+<a id="showRef7" href="javascript:showdiv('codeBlock7','showRef7','hideRef7')">Show code</a>
+<a id="hideRef7" href="javascript:hidediv('codeBlock7','showRef7','hideRef7')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock7" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+ <span class="nt">&lt;title&gt;</span>GeoExt Action<span class="nt">&lt;/title&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://extjs.cachefly.net/builds/ext-cdn-771.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+ <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://openlayers.org/api/2.8-rc2/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://dev.geoext.org/trunk/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+     <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">();</span>
+         <span class="kd">var</span> <span class="nx">wms</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span>
+                 <span class="s2">&quot;bluemarble&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;http://sigma.openplans.org/geoserver/wms?&quot;</span><span class="p">,</span>
+         <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s1">&#39;bluemarble&#39;</span><span class="p">}</span>
+                 <span class="p">);</span>
+         <span class="kd">var</span> <span class="nx">vector</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">Vector</span><span class="p">(</span><span class="s2">&quot;vector&quot;</span><span class="p">);</span>
+         <span class="nx">map</span><span class="p">.</span><span class="nx">addLayers</span><span class="p">([</span><span class="nx">wms</span><span class="p">,</span> <span class="nx">vector</span><span class="p">]);</span>
+
+         <span class="kd">var</span> <span class="nx">ctrl</span><span class="p">,</span> <span class="nx">toolbarItems</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">action</span><span class="p">,</span> <span class="nx">actions</span> <span class="o">=</span> <span class="p">{};</span>
+
+         <span class="c1">// ZoomToMaxExtent control, a &quot;button&quot; control</span>
+         <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+             <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">ZoomToMaxExtent</span><span class="p">(),</span>
+             <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;max extent&quot;</span>
+         <span class="p">});</span>
+         <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;max_extent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">);</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">);</span>
+
+         <span class="c1">// Navigation control and DrawFeature controls</span>
+         <span class="c1">// in the same toggle group</span>
+         <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;nav&quot;</span><span class="p">,</span>
+             <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">Navigation</span><span class="p">(),</span>
+             <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+             <span class="c1">// button options</span>
+             <span class="nx">toggleGroup</span><span class="o">:</span> <span class="s2">&quot;draw&quot;</span><span class="p">,</span>
+             <span class="nx">allowDepress</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="nx">pressed</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+             <span class="c1">// check item options</span>
+             <span class="nx">group</span><span class="o">:</span> <span class="s2">&quot;draw&quot;</span><span class="p">,</span>
+             <span class="nx">checked</span><span class="o">:</span> <span class="kc">true</span>
+         <span class="p">});</span>
+         <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;nav&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">);</span>
+
+         <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;draw poly&quot;</span><span class="p">,</span>
+             <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">DrawFeature</span><span class="p">(</span>
+                     <span class="nx">vector</span><span class="p">,</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Handler</span><span class="p">.</span><span class="nx">Polygon</span>
+                     <span class="p">),</span>
+             <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+             <span class="c1">// button options</span>
+             <span class="nx">toggleGroup</span><span class="o">:</span> <span class="s2">&quot;draw&quot;</span><span class="p">,</span>
+             <span class="nx">allowDepress</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="c1">// check item options</span>
+             <span class="nx">group</span><span class="o">:</span> <span class="s2">&quot;draw&quot;</span>
+         <span class="p">});</span>
+         <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;draw_poly&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">);</span>
+
+         <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;draw line&quot;</span><span class="p">,</span>
+             <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">DrawFeature</span><span class="p">(</span>
+                     <span class="nx">vector</span><span class="p">,</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Handler</span><span class="p">.</span><span class="nx">Path</span>
+                     <span class="p">),</span>
+             <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+             <span class="c1">// button options</span>
+             <span class="nx">toggleGroup</span><span class="o">:</span> <span class="s2">&quot;draw&quot;</span><span class="p">,</span>
+             <span class="nx">allowDepress</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+             <span class="c1">// check item options</span>
+             <span class="nx">group</span><span class="o">:</span> <span class="s2">&quot;draw&quot;</span>
+         <span class="p">});</span>
+         <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;draw_line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">);</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">);</span>
+
+         <span class="c1">// SelectFeature control, a &quot;toggle&quot; control</span>
+         <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;select&quot;</span><span class="p">,</span>
+             <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">SelectFeature</span><span class="p">(</span><span class="nx">vector</span><span class="p">,</span> <span class="p">{</span>
+                 <span class="nx">type</span><span class="o">:</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">TYPE_TOGGLE</span><span class="p">,</span>
+                 <span class="nx">hover</span><span class="o">:</span> <span class="kc">true</span>
+             <span class="p">}),</span>
+             <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+             <span class="c1">// button options</span>
+             <span class="nx">enableToggle</span><span class="o">:</span> <span class="kc">true</span>
+         <span class="p">});</span>
+         <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">);</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">);</span>
+
+         <span class="c1">// Navigation history - two &quot;button&quot; controls</span>
+         <span class="nx">ctrl</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">NavigationHistory</span><span class="p">();</span>
+         <span class="nx">map</span><span class="p">.</span><span class="nx">addControl</span><span class="p">(</span><span class="nx">ctrl</span><span class="p">);</span>
+
+         <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;previous&quot;</span><span class="p">,</span>
+             <span class="nx">control</span><span class="o">:</span> <span class="nx">ctrl</span><span class="p">.</span><span class="nx">previous</span><span class="p">,</span>
+             <span class="nx">disabled</span><span class="o">:</span> <span class="kc">true</span>
+         <span class="p">});</span>
+         <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;previous&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">);</span>
+
+         <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;next&quot;</span><span class="p">,</span>
+             <span class="nx">control</span><span class="o">:</span> <span class="nx">ctrl</span><span class="p">.</span><span class="nx">next</span><span class="p">,</span>
+             <span class="nx">disabled</span><span class="o">:</span> <span class="kc">true</span>
+         <span class="p">});</span>
+         <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;next&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">action</span><span class="p">;</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">);</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s2">&quot;-&gt;&quot;</span><span class="p">);</span>
+
+         <span class="c1">// Reuse the GeoExt.Action objects created above</span>
+         <span class="c1">// as menu items</span>
+         <span class="nx">toolbarItems</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+             <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;menu&quot;</span><span class="p">,</span>
+             <span class="nx">menu</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">menu</span><span class="p">.</span><span class="nx">Menu</span><span class="p">({</span>
+                 <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+                     <span class="c1">// ZoomToMaxExtent</span>
+                     <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;max_extent&quot;</span><span class="p">],</span>
+                     <span class="c1">// Nav</span>
+                     <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">menu</span><span class="p">.</span><span class="nx">CheckItem</span><span class="p">(</span><span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;nav&quot;</span><span class="p">]),</span>
+                     <span class="c1">// Draw poly</span>
+                     <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">menu</span><span class="p">.</span><span class="nx">CheckItem</span><span class="p">(</span><span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;draw_poly&quot;</span><span class="p">]),</span>
+                     <span class="c1">// Draw line</span>
+                     <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">menu</span><span class="p">.</span><span class="nx">CheckItem</span><span class="p">(</span><span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;draw_line&quot;</span><span class="p">]),</span>
+                     <span class="c1">// Select control</span>
+                     <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">menu</span><span class="p">.</span><span class="nx">CheckItem</span><span class="p">(</span><span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">]),</span>
+                     <span class="c1">// Navigation history control</span>
+                     <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;previous&quot;</span><span class="p">],</span>
+                     <span class="nx">actions</span><span class="p">[</span><span class="s2">&quot;next&quot;</span><span class="p">]</span>
+                 <span class="p">]</span>
+             <span class="p">})</span>
+         <span class="p">});</span>
+
+         <span class="kd">var</span> <span class="nx">mapPanel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">MapPanel</span><span class="p">({</span>
+             <span class="nx">renderTo</span><span class="o">:</span> <span class="s2">&quot;mappanel&quot;</span><span class="p">,</span>
+             <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+             <span class="nx">width</span><span class="o">:</span> <span class="mi">600</span><span class="p">,</span>
+             <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+             <span class="nx">center</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">LonLat</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span>
+             <span class="nx">zoom</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+             <span class="nx">tbar</span><span class="o">:</span> <span class="nx">toolbarItems</span>
+         <span class="p">});</span>
+     <span class="p">});</span>
+ <span class="nt">&lt;/script&gt;</span>
+
+ <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+         <span class="c">/* work around an Ext bug that makes the rendering</span>
+<span class="c">            of menu items not as one would expect */</span>
+     <span class="nc">.ext-ie</span> <span class="nc">.x-menu-item-icon</span> <span class="p">{</span>
+         <span class="k">left</span><span class="o">:</span> <span class="m">-24px</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="nc">.ext-strict</span> <span class="nc">.x-menu-item-icon</span> <span class="p">{</span>
+         <span class="k">left</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="nc">.ext-ie6</span> <span class="nc">.x-menu-item-icon</span> <span class="p">{</span>
+         <span class="k">left</span><span class="o">:</span> <span class="m">-24px</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="nc">.ext-ie7</span> <span class="nc">.x-menu-item-icon</span> <span class="p">{</span>
+         <span class="k">left</span><span class="o">:</span> <span class="m">-24px</span><span class="p">;</span>
+     <span class="p">}</span>
+ <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;mappanel&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+</div>
+<div class="section" id="mapfish-javacript">
+<span id="mapfish-client-mapfishjs"></span><h4>MapFish Javacript<a class="headerlink" href="#mapfish-javacript" title="Permalink to this headline">¶</a></h4>
+<p>MapFish JavaScript contains specific MapFish UI components that are not part of the other libraries.</p>
+<div class="section" id="id5">
+<h5>Print<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h5>
+<p>To test: <a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/print/basic.html">basic_print.html</a></p>
+<a id="showRef8" href="javascript:showdiv('codeBlock8','showRef8','hideRef8')">Show code</a>
+<a id="hideRef8" href="javascript:hidediv('codeBlock8','showRef8','hideRef8')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock8" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Map printing with a simple form<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;META</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span>
+    <span class="na">href=</span><span class="s">&quot;http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span>
+    <span class="na">href=</span><span class="s">&quot;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/mapfish.css&quot;</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+      <span class="na">src=</span><span class="s">&quot;http://openlayers.org/api/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+      <span class="na">src=</span><span class="s">&quot;http://extjs.cachefly.net/builds/ext-cdn-771.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://dev.geoext.org/trunk/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// Because of a bug in Firefox 2 we need to specify the MapFish base path.</span>
+<span class="c1">// See https://bugzilla.mozilla.org/show_bug.cgi?id=351282</span>
+<span class="kd">var</span> <span class="nx">gMfLocation</span> <span class="o">=</span> <span class="s2">&quot;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/&quot;</span><span class="p">;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/MapFish.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+<span class="nt">html</span><span class="o">,</span> <span class="nt">body</span> <span class="p">{</span>
+  <span class="k">font</span><span class="o">:</span> <span class="k">normal</span> <span class="m">12px</span> <span class="n">verdana</span><span class="p">;</span>
+  <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+  <span class="k">padding</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">:</span> <span class="m">0</span> <span class="k">none</span><span class="p">;</span>
+  <span class="k">overflow</span><span class="o">:</span> <span class="k">hidden</span><span class="p">;</span>
+  <span class="k">height</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// reference local blank image</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">BLANK_IMAGE_URL</span> <span class="o">=</span> <span class="s1">&#39;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/ext/resources/images/default/s.gif&#39;</span><span class="p">;</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">();</span>
+
+  <span class="kd">var</span> <span class="nx">wms</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span><span class="s2">&quot;OpenLayers WMS&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;http://labs.metacarta.com/wms/vmap0&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s1">&#39;basic&#39;</span><span class="p">},</span> <span class="p">{</span><span class="nx">buffer</span><span class="o">:</span> <span class="mi">0</span><span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">layerOverrides</span><span class="o">=</span><span class="p">{</span>
+      <span class="s2">&quot;OpenLayers WMS&quot;</span><span class="o">:</span> <span class="p">{</span><span class="nx">overview</span><span class="o">:</span> <span class="kc">true</span><span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="kd">var</span> <span class="nx">printConfigUrl</span> <span class="o">=</span> <span class="nx">mapfish</span><span class="p">.</span><span class="nx">SERVER_BASE_URL</span> <span class="o">+</span> <span class="s1">&#39;print/info.json&#39;</span><span class="p">;</span>
+
+  <span class="kd">var</span> <span class="nx">toolbar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">mapfish</span><span class="p">.</span><span class="nx">widgets</span><span class="p">.</span><span class="nx">toolbar</span><span class="p">.</span><span class="nx">Toolbar</span><span class="p">({</span>
+      <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+      <span class="nx">configurable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">items</span><span class="o">:</span> <span class="p">[</span><span class="k">new</span> <span class="nx">mapfish</span><span class="p">.</span><span class="nx">widgets</span><span class="p">.</span><span class="nx">print</span><span class="p">.</span><span class="nx">PrintAction</span><span class="p">({</span>
+          <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+          <span class="nx">configUrl</span><span class="o">:</span> <span class="nx">printConfigUrl</span><span class="p">,</span>
+          <span class="nx">overrides</span><span class="o">:</span> <span class="nx">layerOverrides</span>
+      <span class="p">})]</span>
+  <span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">viewport</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">({</span>
+    <span class="nx">layout</span><span class="o">:</span><span class="s1">&#39;border&#39;</span><span class="p">,</span>
+    <span class="nx">items</span><span class="o">:</span><span class="p">[</span>
+      <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">BoxComponent</span><span class="p">({</span> <span class="c1">// raw</span>
+        <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;north&#39;</span><span class="p">,</span>
+        <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;north&#39;</span><span class="p">,</span>
+        <span class="nx">height</span><span class="o">:</span> <span class="mi">32</span><span class="p">,</span>
+        <span class="nx">margins</span><span class="o">:</span> <span class="p">{</span><span class="nx">left</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span><span class="nx">top</span><span class="o">:</span> <span class="mi">5</span><span class="p">}</span>
+      <span class="p">}),</span>
+      <span class="p">{</span>
+        <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;west&#39;</span><span class="p">,</span>
+        <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;west-panel&#39;</span><span class="p">,</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;West&#39;</span><span class="p">,</span>
+        <span class="nx">split</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">width</span><span class="o">:</span> <span class="mi">280</span><span class="p">,</span>
+        <span class="nx">minSize</span><span class="o">:</span> <span class="mi">175</span><span class="p">,</span>
+        <span class="nx">maxSize</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="nx">collapsible</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">margins</span><span class="o">:</span> <span class="s1">&#39;0 0 0 5&#39;</span><span class="p">,</span>
+        <span class="nx">layout</span><span class="o">:</span> <span class="s1">&#39;accordion&#39;</span><span class="p">,</span>
+        <span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">collapsed</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nx">layoutConfig</span><span class="o">:</span><span class="p">{</span>
+          <span class="nx">animate</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="nx">activeOnTop</span><span class="o">:</span> <span class="kc">false</span>
+        <span class="p">},</span>
+        <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;print-simple&#39;</span><span class="p">,</span>
+            <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Print single page&#39;</span><span class="p">,</span>
+            <span class="nx">bodyStyle</span><span class="o">:</span> <span class="s1">&#39;padding: 7px;&#39;</span><span class="p">,</span>
+            <span class="nx">collapsed</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">formConfig</span><span class="o">:</span> <span class="p">{</span>
+              <span class="nx">labelWidth</span><span class="o">:</span> <span class="mi">65</span><span class="p">,</span>
+              <span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">width</span><span class="o">:</span> <span class="mi">140</span><span class="p">,</span>
+                <span class="nx">listWidth</span><span class="o">:</span> <span class="mi">140</span>
+              <span class="p">},</span>
+              <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                  <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;textfield&#39;</span><span class="p">,</span>
+                  <span class="nx">fieldLabel</span><span class="o">:</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Lang</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="s1">&#39;mf.print.mapTitle&#39;</span><span class="p">),</span>
+                  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;mapTitle&#39;</span><span class="p">,</span>
+                  <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;Map title&#39;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                  <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;textarea&#39;</span><span class="p">,</span>
+                  <span class="nx">fieldLabel</span><span class="o">:</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Lang</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="s1">&#39;mf.print.comment&#39;</span><span class="p">),</span>
+                  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;comment&#39;</span><span class="p">,</span>
+                  <span class="nx">height</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
+                  <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;Some comments&#39;</span>
+                <span class="p">}</span>
+              <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="nx">border</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+            <span class="nx">configUrl</span><span class="o">:</span> <span class="nx">printConfigUrl</span><span class="p">,</span>
+            <span class="nx">overrides</span><span class="o">:</span> <span class="nx">layerOverrides</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">},{</span>
+          <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+          <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Map&#39;</span><span class="p">,</span>
+          <span class="nx">layout</span><span class="o">:</span> <span class="s1">&#39;fit&#39;</span><span class="p">,</span>
+          <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;gx_mappanel&#39;</span><span class="p">,</span>
+          <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+          <span class="nx">layers</span><span class="o">:</span> <span class="p">[</span><span class="nx">wms</span><span class="p">],</span>
+          <span class="nx">tbar</span><span class="o">:</span> <span class="nx">toolbar</span><span class="p">,</span>
+          <span class="nx">zoom</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+          <span class="nx">center</span><span class="o">:</span><span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">LonLat</span><span class="p">(</span><span class="mf">8.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="p">}]</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;west&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+ <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;north&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">&quot;font-size:16pt;color:#15428B;font-weight:bold&quot;</span><span class="nt">&gt;</span>MapFish example: print<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;center&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="recenter">
+<h5>Recenter<a class="headerlink" href="#recenter" title="Permalink to this headline">¶</a></h5>
+<p>To test: <a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/recenter/datafield.html">datafield.html</a></p>
+<a id="showRef9" href="javascript:showdiv('codeBlock9','showRef9','hideRef9')">Show code</a>
+<a id="hideRef9" href="javascript:hidediv('codeBlock9','showRef9','hideRef9')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock9" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Recenter DataField<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span>
+      <span class="na">href=</span><span class="s">&quot;http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span>
+      <span class="na">href=</span><span class="s">&quot;http://demo.mapfish.org/mapfishsample/trunk/mfbase/mapfish/mapfish.css&quot;</span><span class="nt">/&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+        <span class="na">src=</span><span class="s">&quot;http://demo.mapfish.org/mapfishsample/trunk/mfbase/openlayers/lib/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+        <span class="na">src=</span><span class="s">&quot;http://demo.mapfish.org/mapfishsample/trunk/mfbase/ext/adapter/ext/ext-base.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+        <span class="na">src=</span><span class="s">&quot;http://demo.mapfish.org/mapfishsample/trunk/mfbase/ext/ext-all-debug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+        <span class="na">src=</span><span class="s">&quot;http://demo.mapfish.org/mapfishsample/trunk/mfbase/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+    <span class="c1">// Because of a bug in Firefox 2 we need to specify the MapFish base path.</span>
+    <span class="c1">// See https://bugzilla.mozilla.org/show_bug.cgi?id=351282</span>
+    <span class="kd">var</span> <span class="nx">gMfLocation</span> <span class="o">=</span> <span class="s2">&quot;http://demo.mapfish.org/mapfishsample/trunk/mfbase/mapfish/&quot;</span><span class="p">;</span>
+  <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+        <span class="na">src=</span><span class="s">&quot;http://demo.mapfish.org/mapfishsample/trunk/mfbase/mapfish/MapFish.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+        <span class="na">src=</span><span class="s">&quot;http://demo.mapfish.org/mapfishsample/trunk/examples/examples.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+      <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">();</span>
+          <span class="kd">var</span> <span class="nx">layer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span>
+              <span class="s2">&quot;bluemarble&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;http://sigma.openplans.org/geoserver/wms?&quot;</span><span class="p">,</span>
+              <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s1">&#39;bluemarble&#39;</span><span class="p">}</span>
+          <span class="p">);</span>
+          <span class="nx">map</span><span class="p">.</span><span class="nx">addLayer</span><span class="p">(</span><span class="nx">layer</span><span class="p">);</span>
+
+          <span class="kd">var</span> <span class="nx">mapPanel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">MapPanel</span><span class="p">({</span>
+              <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;MapPanel&quot;</span><span class="p">,</span>
+              <span class="nx">renderTo</span><span class="o">:</span> <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+              <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+              <span class="nx">width</span><span class="o">:</span> <span class="mi">600</span><span class="p">,</span>
+              <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+              <span class="nx">center</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">LonLat</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span>
+              <span class="nx">zoom</span><span class="o">:</span> <span class="mi">4</span>
+          <span class="p">});</span>
+
+          <span class="kd">var</span> <span class="nx">recenter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">mapfish</span><span class="p">.</span><span class="nx">widgets</span><span class="p">.</span><span class="nx">recenter</span><span class="p">.</span><span class="nx">DataField</span><span class="p">({</span>
+              <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;Recenter&quot;</span><span class="p">,</span>
+              <span class="nx">url</span><span class="o">:</span> <span class="nx">mapfish</span><span class="p">.</span><span class="nx">SERVER_BASE_URL</span> <span class="o">+</span> <span class="s2">&quot;countries&quot;</span><span class="p">,</span>
+              <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+              <span class="nx">fieldLabel</span><span class="o">:</span> <span class="s2">&quot;Africa country&quot;</span><span class="p">,</span>
+              <span class="nx">displayField</span><span class="o">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span>
+              <span class="nx">renderTo</span><span class="o">:</span> <span class="s2">&quot;recenter&quot;</span><span class="p">,</span>
+              <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+              <span class="nx">width</span><span class="o">:</span> <span class="mi">250</span>
+          <span class="p">});</span>
+      <span class="p">});</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;map&quot;</span> <span class="na">style=</span><span class="s">&quot;float:left;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;recenter&quot;</span> <span class="na">style=</span><span class="s">&quot;float:left;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="mapfish-api">
+<span id="id6"></span><h5>MapFish API<a class="headerlink" href="#mapfish-api" title="Permalink to this headline">¶</a></h5>
+<p>The goal of the MapFish API is to allow the integration of a MapFish application inside a web page or a CMS.</p>
+<p>The <a class="reference external" href="http://map.veloland.ch/?lang=en">SwitzerlandMobility project</a> has an API:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+ <span class="nt">&lt;title&gt;</span>Veloland API<span class="nt">&lt;/title&gt;</span>
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://map.schweizmobil.ch/api/api_merged.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+ <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+     <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+
+         <span class="c1">// centering example map</span>
+         <span class="k">new</span> <span class="nx">SchweizmobilApi</span><span class="p">({</span>
+             <span class="nx">land</span><span class="o">:</span> <span class="s1">&#39;wander&#39;</span><span class="p">,</span>
+             <span class="nx">mapContainerId</span><span class="o">:</span> <span class="s1">&#39;mymap1&#39;</span><span class="p">,</span>
+             <span class="nx">center</span><span class="o">:</span> <span class="p">{</span>
+                 <span class="nx">easting</span><span class="o">:</span> <span class="mi">600000</span><span class="p">,</span>
+                 <span class="nx">northing</span><span class="o">:</span> <span class="mi">200000</span><span class="p">,</span>
+                 <span class="nx">zoom</span><span class="o">:</span> <span class="mi">20</span>
+             <span class="p">}</span>
+         <span class="p">});</span>
+     <span class="p">}</span>
+ <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;init()&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;mymap1&quot;</span> <span class="na">style=</span><span class="s">&quot;width:800px;height:600px;border:1px solid grey;float:left;margin:10px !important;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>Live example of this API (<a class="reference external" href="http://www.wanderland.ch/en/copyright_datenschutz.cfm">copyright and privacy policy</a>):</p>
+<script type="text/javascript" src="http://map.schweizmobil.ch/api/api_merged.js"></script>
+ <script type="text/javascript">
+     function init() {
+
+         // centering example map
+         new SchweizmobilApi({
+             land: 'wander',
+             mapContainerId: 'mymap1',
+             center: {
+                 easting: 600000,
+                 northing: 200000,
+                 zoom: 20
+             }
+         });
+     }
+ </script>
+</head>
+<body onload="init()">
+  <div id="mymap1" style="width:600px;height:400px;border:1px solid grey;padding: 0 0 0 0;margin:10px !important;"></div>
+</body></div>
+<div class="section" id="mapfish-permalink">
+<h5>MapFish Permalink<a class="headerlink" href="#mapfish-permalink" title="Permalink to this headline">¶</a></h5>
+<p>A MapFish permalink is an hyperlink that will return the user to the current MapFish view and configuration. The URL parameters store the application state.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Permalink with centering on a city: <a class="reference external" href="http://map.veloland.ch?lang=en&amp;p&amp;gemeinde=249372">http://map.veloland.ch?lang=en&amp;p&amp;gemeinde=249372</a></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="mapfish-server">
+<span id="id7"></span><h3>MapFish Server<a class="headerlink" href="#mapfish-server" title="Permalink to this headline">¶</a></h3>
+<p>MapFish Server is responsible for server side treatments and is composed of several modules which can be implemented in several languages such as Python, Java, Ruby, PHP or others.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This chapter will be focused on the Python trunk. Python 2.5 has to be used. Other languages like Java, Ruby or PHP will be discussed here: <a class="reference internal" href="#mapfish-server-other-languages"><span>MapFish Server in Java, Ruby or PHP</span></a>.
+This introduction is done for computer with an Ubuntu distribution.</p>
+</div>
+<div class="section" id="data-storage">
+<h4>Data Storage<a class="headerlink" href="#data-storage" title="Permalink to this headline">¶</a></h4>
+<p>In MapFish server, the data are usually stored in a geospatial database (PostGIS, Oracle Spatial, SpatialLite for example) or as flat files (Shapefile, GeoTIFF, Mif/Mid etc..). In Python, OGR/GDAL functions can be used through a <a class="reference external" href="http://trac.osgeo.org/gdal/wiki/GdalOgrInPython">Python binding</a>.</p>
+<div class="section" id="load-vector-data-in-postgis">
+<h5>Load vector data in PostGIS<a class="headerlink" href="#load-vector-data-in-postgis" title="Permalink to this headline">¶</a></h5>
+<p>In order to load the countries file (<a class="reference download internal" href="../../../_downloads/countries1.zip"><code class="xref download docutils literal"><span class="pre">countries.zip</span></code></a>) in a PostGIS database (we assume <a class="reference external" href="http://postgis.refractions.net/documentation/manual-1.3/ch02.html">PostGis database is installed</a>), the following procedure can be follow:</p>
+<p>Create a new database &#8220;intro&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo su postgres
+createdb -E UNICODE intro
+createlang plpgsql intro
+psql -d intro -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+psql -d intro -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql
+psql -d intro -c &quot;SELECT postgis_full_version()&quot;
+exit
+</pre></div>
+</div>
+<p>The last query will inform you about the version of the installed PostGIS version.</p>
+<p>Import the data in the &#8220;intro&#8221; database:</p>
+<div class="highlight-python"><div class="highlight"><pre>unzip countries.zip
+sudo su postgres
+shp2pgsql -W utf8 -s 4326 countries.shp  countries | psql -d intro
+exit
+</pre></div>
+</div>
+<p>And to check that everything is ok. Additionaly we need to grant the access to this table to user www-data in order to allow an access from MapFish server in a web environment:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo su postgres
+psql intro
+\d
+select count(1) from countries;
+GRANT ALL ON countries TO &quot;www-data&quot; ;
+GRANT SELECT ON geometry_columns TO &quot;www-data&quot;;
+GRANT SELECT ON spatial_ref_sys TO &quot;www-data&quot;;
+\q
+exit
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="data-stylization">
+<h4>Data Stylization<a class="headerlink" href="#data-stylization" title="Permalink to this headline">¶</a></h4>
+<p>MapFish Server is not a cartographic server. For customer projects, a cartographic server is usually set up together with MapFish Server in order to diffuse the geographic data. With <a class="reference external" href="http://www.mapserver.org">MapServer</a>, the stylization and creation of WMS/WFS services is done through the configuration of the <a class="reference external" href="http://www.mapserver.org/mapfile/index.html#mapfile">MapFile</a>.</p>
+</div>
+<div class="section" id="data-access-mapfish-rest-protocol">
+<h4>Data Access: MapFish REST Protocol<a class="headerlink" href="#data-access-mapfish-rest-protocol" title="Permalink to this headline">¶</a></h4>
+<p>In order to access data, a REST architecture is used within MapFish Server. A protocol characterized this architecture and defines a common language for creating/reading/querying/updating/deleting features.</p>
+<p>To read features, here are example URL&#8217;s. The answer is provided as GeoJSON flow:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Request: GET <a class="reference external" href="http://www.example.fr/features?lon=5&amp;lat=50">http://www.example.fr/features?lon=5&amp;lat=50</a></li>
+<li>Response: the features that contain point (5,50)</li>
+<li>Request: GET <a class="reference external" href="http://www.example.fr/features?box=5,50,7,60">http://www.example.fr/features?box=5,50,7,60</a></li>
+<li>Response: the features within the bounding box (5,50,7,60)</li>
+<li>Request: GET <a class="reference external" href="http://www.example.fr/features?maxfeatures=3">http://www.example.fr/features?maxfeatures=3</a></li>
+<li>Response: a maximum of 3 features</li>
+</ul>
+</div></blockquote>
+<p>A complete description of the protocol can be found <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/MapFishProtocol">here</a>.</p>
+<div class="section" id="generation-of-mapfish-rest-protocol">
+<h5>Generation of MapFish REST Protocol<a class="headerlink" href="#generation-of-mapfish-rest-protocol" title="Permalink to this headline">¶</a></h5>
+<p>It&#8217;s clear that, programmatically, the MapFish REST protocol is dependent of the user data. But, in order to simplify the development of web mapping applications, MapFish provides functions that can generate, based on a configuration file, the code for you.</p>
+<p>More information on this <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/wiki/Releases/1.2/HowToUseMapFishServer#Setuplayers">in the MapFish Wiki</a>.</p>
+<p>More details about the generated code can be found in <a class="reference internal" href="../sqlalchemy.html#mapfish-tutorials-sqlalchemy"><span>SQLAlchemy tutorial</span></a>.</p>
+<p>Install first the MapFish Framework: <a class="reference internal" href="../../1.2/installation.html#mapfish-refdoc-1-2-installation"><span>Installation</span></a>.</p>
+<p>Then, in order to create a MapFish protocol, follow theses steps:</p>
+<div class="highlight-python"><div class="highlight"><pre>source venv/bin/activate
+paster create --template=mapfish intro sqlalchemy=true
+</pre></div>
+</div>
+<p>Configure the connection to the PostGis database by editing development.ini:</p>
+<div class="highlight-python"><div class="highlight"><pre>sqlalchemy.url = postgres://www-data:www-data@localhost:5432/intro
+</pre></div>
+</div>
+<p>You can test that the server is ready by starting:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster serve development.ini --reload
+</pre></div>
+</div>
+<p>And testing the URL <a class="reference external" href="http://localhost:5000">http://localhost:5000</a></p>
+<p id="configure-mapfish-protocol">Configure the information about the countries layer in file layers.ini:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">countries</span><span class="p">]</span>
+<span class="n">singular</span><span class="o">=</span><span class="n">country</span>
+<span class="n">plural</span><span class="o">=</span><span class="n">countries</span>
+<span class="n">table</span><span class="o">=</span><span class="n">countries</span>
+<span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span>
+<span class="n">geomcolumn</span><span class="o">=</span><span class="n">the_geom</span>
+</pre></div>
+</div>
+<p>And let MapFish generates the code for you !:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster mf-layer countries
+</pre></div>
+</div>
+<p>Last thing: don&#8217;t forget to add the correct route in intro/config/routing.py (<strong>before</strong> map.connect(&#8216;/{controller}/{action}&#8217;)), if root directory is where layers.ini and development.ini are.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s">&quot;country&quot;</span><span class="p">,</span> <span class="s">&quot;countries&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It&#8217;s now ok. You can start the server:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster serve development.ini --reload
+</pre></div>
+</div>
+<p>And use the MapFish Protocol:</p>
+<div class="highlight-python"><div class="highlight"><pre>http://localhost:5000/countries/1
+
+view-source:http://localhost:5000/countries/1
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">view-source is for for Firefox users</p>
+</div>
+<p>Get all the countries that contain point (5,50):</p>
+<div class="highlight-python"><div class="highlight"><pre>view-source:http://localhost:5000/countries?lon=5&amp;lat=50
+</pre></div>
+</div>
+<p>Get all the countries within the bounding box (5,50,7,60):</p>
+<div class="highlight-python"><div class="highlight"><pre>view-source:http://localhost:5000/countries?box=5,50,7,60
+</pre></div>
+</div>
+<p>Get a maximum of 3 countries:</p>
+<div class="highlight-python"><div class="highlight"><pre>view-source:http://localhost:5000/countries?maxfeatures=3
+</pre></div>
+</div>
+<p>Get the list of all countries.pays attribute, without geometries:</p>
+<div class="highlight-python"><div class="highlight"><pre>view-source:http://localhost:5000/countries?attrs=pays&amp;no_geom=true
+</pre></div>
+</div>
+</div>
+<div class="section" id="mapfish-template">
+<h5>MapFish Template<a class="headerlink" href="#mapfish-template" title="Permalink to this headline">¶</a></h5>
+<p>MapFish uses the power of paster to let you easily create new MapFish applications. With paster, you can generate the code for your application based on a MapFish template:</p>
+<div class="highlight-python"><div class="highlight"><pre>paster create --template=mapfish intro sqlalchemy=true
+</pre></div>
+</div>
+<p>In addition, you can create a template from your application in order to reuse it.</p>
+</div>
+<div class="section" id="additional-libraries-for-mapfish">
+<h5>Additional Libraries for MapFish<a class="headerlink" href="#additional-libraries-for-mapfish" title="Permalink to this headline">¶</a></h5>
+<p>The <a class="reference external" href="http://pypi.python.org/pypi">Python Package Index</a> is a repository of software for the Python programming language. An huge amount of libraries (6000+ !) are referenced over there. MapFish can work together with the majority of them. Here is a listing of often uses libraries:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://pypi.python.org/pypi/AuthKit">AuthKIT</a>: An authentication and authorization toolkit for WSGI applications and frameworks</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/repoze.who">repoze.who</a>: An identification and authentication framework for WSGI.</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/FormAlchemy/">FormAlchemy</a>: FormAlchemy greatly speeds development with SQLAlchemy mapped classes (models) in a HTML forms environment.</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/GDAL">GDAL Python Binding</a>: This Python package and extensions are a number of tools for programming and manipulating the GDAL Geospatial Data Abstraction Library for manipulating raster data and OGR for manipulating geospatial vector data.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="example-recenter-tool-with-autocompletion">
+<h5>Example: recenter tool with autocompletion<a class="headerlink" href="#example-recenter-tool-with-autocompletion" title="Permalink to this headline">¶</a></h5>
+<p>The creation of a recentering tool providing autocompletion capabilities implies two developments. On client side, a recentering widget is needed to manage the user input. This widget will communicate with a server side service: the MapFish protocol.</p>
+<p>(To test: <a class="reference download internal" href="../../../_downloads/local_recenter.html"><code class="xref download docutils literal"><span class="pre">local_recenter.html</span></code></a> and store it in intro/public and start it with <a class="reference external" href="http://127.0.0.1:5000/local_recenter.html">http://127.0.0.1:5000/local_recenter.html</a>):</p>
+<a id="showRef1" href="javascript:showdiv('codeBlock1','showRef1','hideRef1')">Show code</a>
+<a id="hideRef1" href="javascript:hidediv('codeBlock1','showRef1','hideRef1')" style="display: none; visibility: hidden">Hide code</a>
+<div id="codeBlock1" style="display: none; visibility: hidden"><div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Map recenter with autocompletion<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;META</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span>
+        <span class="na">href=</span><span class="s">&quot;http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span>
+        <span class="na">href=</span><span class="s">&quot;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/mapfish.css&quot;</span><span class="nt">/&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+          <span class="na">src=</span><span class="s">&quot;http://openlayers.org/api/OpenLayers.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+          <span class="na">src=</span><span class="s">&quot;http://extjs.cachefly.net/builds/ext-cdn-771.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+          <span class="na">src=</span><span class="s">&quot;http://dev.geoext.org/trunk/geoext/lib/GeoExt.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+      <span class="c1">// Because of a bug in Firefox 2 we need to specify the MapFish base path.</span>
+      <span class="c1">// See https://bugzilla.mozilla.org/show_bug.cgi?id=351282</span>
+      <span class="kd">var</span> <span class="nx">gMfLocation</span> <span class="o">=</span> <span class="s2">&quot;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/&quot;</span><span class="p">;</span>
+  <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span>
+          <span class="na">src=</span><span class="s">&quot;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/mapfish/MapFish.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">html</span><span class="o">,</span> <span class="nt">body</span> <span class="p">{</span>
+          <span class="k">font</span><span class="o">:</span> <span class="k">normal</span> <span class="m">12px</span> <span class="n">verdana</span><span class="p">;</span>
+          <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+          <span class="k">padding</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+          <span class="k">border</span><span class="o">:</span> <span class="m">0</span> <span class="k">none</span><span class="p">;</span>
+          <span class="k">overflow</span><span class="o">:</span> <span class="k">hidden</span><span class="p">;</span>
+          <span class="k">height</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+      <span class="p">}</span>
+  <span class="nt">&lt;/style&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+      <span class="c1">// reference local blank image</span>
+      <span class="nx">Ext</span><span class="p">.</span><span class="nx">BLANK_IMAGE_URL</span> <span class="o">=</span> <span class="s1">&#39;http://www.mapfish.org/svn/mapfish/trunk/MapFish/client/mfbase/ext/resources/images/default/s.gif&#39;</span><span class="p">;</span>
+      <span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+          <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Map</span><span class="p">();</span>
+
+          <span class="kd">var</span> <span class="nx">wms</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Layer</span><span class="p">.</span><span class="nx">WMS</span><span class="p">(</span><span class="s2">&quot;OpenLayers WMS&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;http://labs.metacarta.com/wms/vmap0&quot;</span><span class="p">,</span>
+          <span class="p">{</span><span class="nx">layers</span><span class="o">:</span> <span class="s1">&#39;basic&#39;</span><span class="p">},</span>
+          <span class="p">{</span><span class="nx">buffer</span><span class="o">:</span> <span class="mi">0</span><span class="p">}</span>
+                  <span class="p">);</span>
+
+          <span class="kd">var</span> <span class="nx">viewport</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">({</span>
+              <span class="nx">layout</span><span class="o">:</span><span class="s1">&#39;border&#39;</span><span class="p">,</span>
+              <span class="nx">items</span><span class="o">:</span><span class="p">[</span>
+                  <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">BoxComponent</span><span class="p">({</span> <span class="c1">// raw</span>
+                      <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;north&#39;</span><span class="p">,</span>
+                      <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;north&#39;</span><span class="p">,</span>
+                      <span class="nx">height</span><span class="o">:</span> <span class="mi">32</span>
+                  <span class="p">}),</span>
+                  <span class="p">{</span>
+                      <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;west&#39;</span><span class="p">,</span>
+                      <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;west-panel&#39;</span><span class="p">,</span>
+                      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;West&#39;</span><span class="p">,</span>
+                      <span class="nx">split</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">width</span><span class="o">:</span> <span class="mi">320</span><span class="p">,</span>
+                      <span class="nx">minSize</span><span class="o">:</span> <span class="mi">175</span><span class="p">,</span>
+                      <span class="nx">maxSize</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+                      <span class="nx">collapsible</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                      <span class="nx">margins</span><span class="o">:</span> <span class="s1">&#39;0 0 0 5&#39;</span><span class="p">,</span>
+                      <span class="nx">layout</span><span class="o">:</span> <span class="s1">&#39;accordion&#39;</span><span class="p">,</span>
+                      <span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
+                          <span class="nx">collapsed</span><span class="o">:</span> <span class="kc">true</span>
+                      <span class="p">},</span>
+                      <span class="nx">layoutConfig</span><span class="o">:</span><span class="p">{</span>
+                          <span class="nx">animate</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                          <span class="nx">activeOnTop</span><span class="o">:</span> <span class="kc">false</span>
+                      <span class="p">},</span>
+                      <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+                          <span class="p">{</span>
+                              <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;datafieldrecenter&#39;</span><span class="p">,</span>
+                              <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Recenter&#39;</span><span class="p">,</span>
+                              <span class="nx">bodyStyle</span><span class="o">:</span> <span class="s1">&#39;padding: 7px;&#39;</span><span class="p">,</span>
+                              <span class="nx">collapsed</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+                              <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;/countries&quot;</span><span class="p">,</span>
+                              <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+                              <span class="nx">fieldLabel</span><span class="o">:</span> <span class="s2">&quot;Country name&quot;</span><span class="p">,</span>
+                              <span class="nx">displayField</span><span class="o">:</span> <span class="s2">&quot;pays&quot;</span>
+                          <span class="p">}</span>
+                      <span class="p">]</span>
+                  <span class="p">},{</span>
+                      <span class="nx">region</span><span class="o">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Map&#39;</span><span class="p">,</span>
+                      <span class="nx">layout</span><span class="o">:</span> <span class="s1">&#39;fit&#39;</span><span class="p">,</span>
+                      <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;gx_mappanel&#39;</span><span class="p">,</span>
+                      <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+                      <span class="nx">layers</span><span class="o">:</span> <span class="p">[</span><span class="nx">wms</span><span class="p">],</span>
+                      <span class="nx">center</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">LonLat</span><span class="p">(</span><span class="mf">8.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                      <span class="nx">zoom</span><span class="o">:</span> <span class="mi">3</span>
+
+                  <span class="p">}]</span>
+          <span class="p">});</span>
+      <span class="p">});</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;west&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;north&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">&quot;font-size:16pt;color:#15428B;font-weight:bold&quot;</span><span class="nt">&gt;</span>MapFish recenter<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="example-mapfish-edition-and-authentication">
+<h5>Example: MapFish edition and authentication<a class="headerlink" href="#example-mapfish-edition-and-authentication" title="Permalink to this headline">¶</a></h5>
+<p><a class="reference external" href="http://map.globe.admin.ch">Globe application</a> uses the MapFish protocol to allow edition and have authentication capabilities.</p>
+<blockquote>
+<div><img alt="../../../_images/mapfish_globe.png" src="../../../_images/mapfish_globe.png" />
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="mapfish-server-in-java-ruby-or-php">
+<span id="mapfish-server-other-languages"></span><h4>MapFish Server in Java, Ruby or PHP<a class="headerlink" href="#mapfish-server-in-java-ruby-or-php" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="java">
+<h5>Java<a class="headerlink" href="#java" title="Permalink to this headline">¶</a></h5>
+<p>MapFish contains two main Java components :</p>
+<blockquote>
+<div><ul class="simple">
+<li>The print module: <a class="reference external" href="http://www.mapfish.org/trac/mapfish/wiki/PrintModuleDoc">print documentation</a> / <a class="reference external" href="http://demo.mapfish.org/mapfishsample/trunk/examples/print/simple.html">print sample</a></li>
+<li>A library for the management of geometries and the parsing/writing <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/contribs/java-geojson/trunk/">of GeoJSON</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="ruby">
+<h5>Ruby<a class="headerlink" href="#ruby" title="Permalink to this headline">¶</a></h5>
+<p>The Mapfish REST protocol for Ruby is implemented as a plugin for the <a class="reference external" href="http://www.rubyonrails.org/">Ruby on Rails</a> framework. <a class="reference external" href="http://trac.mapfish.org/trac/mapfish/browser/implementations/rails-plugin/mapfish/trunk/README">MapFish Ruby documentation</a>.</p>
+</div>
+<div class="section" id="php">
+<h5>PHP<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h5>
+<p>A <a class="reference external" href="http://www.symfony-project.org/plugins/sfMapFishPlugin">Symfony MapFish Plug-in</a> has been developped to easily develop MapFish application with PHP. This plug-in contains a GeoJSON parser and writer and a bridge to the MapFish print server. It uses Doctrine as ORM. The main goal of this plug-in is to create a MapFish protocol in a PHP environment.</p>
+</div>
+</div>
+</div>
+<div class="section" id="studio-beta-mapfish-application-generator">
+<h3>Studio (BETA): MapFish Application generator<a class="headerlink" href="#studio-beta-mapfish-application-generator" title="Permalink to this headline">¶</a></h3>
+<p>Studio is a web software used to administrate web mapping applications created from <a class="reference external" href="http://www.mapfish.org">MapFish</a> framework.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Studio&#8217;s motto are &#8220;no development&#8221; and &#8220;no file edition&#8221;</p>
+</div>
+</div></blockquote>
+<p>Studio UI is divided in three functional parts:</p>
+<ul class="simple">
+<li>Data: for the management of data stored as file or in a PostGis database</li>
+<li>MapFile: for the easy creation of MapFile and the definition of WMS / WFS services in MapServer</li>
+<li>MapFish: for the creation and publication of MapFish website. It is possible to configure the following components:<ul>
+<li>Layer (through WMS or mapFile) and Layer tree</li>
+<li>Site Header</li>
+<li>Tooltip</li>
+<li>Search</li>
+<li>Edition</li>
+<li>Print</li>
+</ul>
+</li>
+</ul>
+<img alt="../../../_images/studio_full_view.png" src="../../../_images/studio_full_view.png" />
+<p>More information: <span class="xref std std-ref">mapfish.tutorials.studio_user_guide.work_with_studio</span>.</p>
+<p>Studio uses a Pylon template to create the MapFish applications. This template can be customized.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../extjs.html" title="ExtJS tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../howto_app_development/howto_app_development.html" title="Tutorial: Application development with MapFish Framework 1.2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >Tutorials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Framework &mdash; MapFish</title>
+    
+    <link rel="stylesheet" href="../../_static/mapfish.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapFish" href="../../index.html" />
+    <link rel="up" title="Documentation MapFish 1.2" href="index.html" />
+    <link rel="next" title="MapFish Protocol" href="protocol.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="MapFish Protocol"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Documentation MapFish 1.2</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/mapfish_white.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Framework</a><ul>
+<li><a class="reference internal" href="#forewords">Forewords</a></li>
+<li><a class="reference internal" href="#creating-a-mapfish-application">Creating a MapFish application</a></li>
+<li><a class="reference internal" href="#serving-a-mapfish-application">Serving a MapFish application</a></li>
+<li><a class="reference internal" href="#installing-the-javascript-toolbox">Installing the JavaScript toolbox</a></li>
+<li><a class="reference internal" href="#creating-mapfish-web-services">Creating MapFish Web Services</a></li>
+<li><a class="reference internal" href="#customizing-web-services">Customizing Web Services</a><ul>
+<li><a class="reference internal" href="#adding-filters">Adding filters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="previous chapter">Quickstart</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="protocol.html"
+                        title="next chapter">MapFish Protocol</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/doc/1.2/framework.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="framework">
+<span id="mapfish-refdoc-1-2-framework"></span><h1>Framework<a class="headerlink" href="#framework" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">MapFish 1.2 is not the latest MapFish version, refer to <a class="reference external" href="../../2.0/index.html">Documentation 2.0</a> for the documentation of the latest version.</p>
+</div>
+<p>MapFish is a flexible and complete framework for building rich web-mapping
+applications. It emphasizes high productivity, and high-quality development.</p>
+<p>MapFish is based on the <a class="reference external" href="http://pylonshq.com">Pylons</a> Python web framework.
+MapFish extends Pylons with geospatial-specific functionality. For example
+MapFish provides specific tools for creating web services that allows querying
+and editing geographic objects.</p>
+<p>MapFish also provides a complete RIA-oriented JavaScript toolbox, a JavaScript
+testing environment, and tools for compressing JavaScript code. The JavaScript
+toolbox is composed of the <a class="reference external" href="http://extjs.com">Ext</a>, <a class="reference external" href="http://www.openlayers.org">OpenLayers</a> , <a class="reference external" href="http://www.geoext.org">GeoExt</a> JavaScript
+toolkits, and specific components for interacting with MapFish web services.</p>
+<div class="section" id="forewords">
+<h2>Forewords<a class="headerlink" href="#forewords" title="Permalink to this headline">¶</a></h2>
+<p>In the following sections we assume that the MapFish framework is installed in
+a virtual Python environment named <code class="docutils literal"><span class="pre">venv</span></code> and that this virtual environment
+is activated.  See the <a class="reference external" href="installation.html">installation page</a> to know how to
+install MapFish and activate the virtual environment.</p>
+<p>This documentation provides links to chapters of the <a class="reference external" href="http://pylonsbook.com/en/1.0/index.html">The Definitive Guide To
+Pylons</a> book. Reading this book is
+highly recommended to anyone considering doing serious development with
+MapFish.</p>
+</div>
+<div class="section" id="creating-a-mapfish-application">
+<h2>Creating a MapFish application<a class="headerlink" href="#creating-a-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>The MapFish framework provides a command for automatically generating MapFish
+applications. To create a MapFish application named <code class="docutils literal"><span class="pre">HelloWorld</span></code> use:</p>
+<div class="highlight-python"><div class="highlight"><pre>(venv) $ paster create -t mapfish HelloWorld
+</pre></div>
+</div>
+<p>Most people would use <a class="reference external" href="http://www.makotemplates.org/">Mako</a>  as the template
+engine, and <a class="reference external" href="http://www.sqlalchemy.org/">SQLAlchemy</a> as the Object Relational
+Mapper in their MapFish applications. So answer <code class="docutils literal"><span class="pre">mako</span></code> (the default) to the first
+question and <code class="docutils literal"><span class="pre">True</span></code> to the second question. To run the command in a
+non-interactive way you will use:</p>
+<div class="highlight-python"><div class="highlight"><pre>(venv) $ paster create --no-interactive -t mapfish HelloWorld sqlalchemy=True
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pure Pylons applications are created with the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">-t</span> <span class="pre">pylons</span></code>
+command. When using <code class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">-t</span> <span class="pre">mapfish</span></code> we tell <code class="docutils literal"><span class="pre">paster</span></code> to use
+<code class="docutils literal"><span class="pre">mapfish</span></code> as opposed to <code class="docutils literal"><span class="pre">pylons</span></code> as the application template. In practise
+the MapFish framework applies the <code class="docutils literal"><span class="pre">pylons</span></code> template before applying the
+<code class="docutils literal"><span class="pre">mapfish</span></code> template. This is why any MapFish application is also a Pylons
+application.</p>
+</div>
+<p>The main directories and files in the <code class="docutils literal"><span class="pre">HelloWorld</span></code> directory are:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">development.ini</span></code> and <code class="docutils literal"><span class="pre">test.ini</span></code></dt>
+<dd>The application&#8217;s main configuration files.</dd>
+<dt><code class="docutils literal"><span class="pre">layers.ini</span></code></dt>
+<dd>The configuration file where MapFish layers (web services) are configured.
+The usage of the file will be detailed in a further section of this
+documentation.</dd>
+<dt><code class="docutils literal"><span class="pre">helloworld</span></code></dt>
+<dd>The main application directory, its name depends on the application name
+you gave as the argument of the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span></code> command.</dd>
+</dl>
+<p>Now let&#8217;s look at the main application directory (<code class="docutils literal"><span class="pre">helloworld</span></code>):</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">controllers</span></code></dt>
+<dd>This directory is where controllers are written. Controllers typically
+handle HTTP requests, load or save the data from the model, and send
+back HTTP responses (to the browser).</dd>
+<dt><code class="docutils literal"><span class="pre">model</span></code></dt>
+<dd>This directory is where the model is defined. More specifically this is
+where the database objects are defined, using SQLAlchemy.</dd>
+<dt><code class="docutils literal"><span class="pre">public</span></code></dt>
+<dd>This directory includes the application&#8217;s static files, i.e. HTML, images,
+CSS, JavaScript, etc.</dd>
+<dt><code class="docutils literal"><span class="pre">templates</span></code></dt>
+<dd>This directory is where (Mako) templates are stored.</dd>
+<dt><code class="docutils literal"><span class="pre">tests</span></code></dt>
+<dd>This directory is where you can put automated tests for the application.</dd>
+<dt><code class="docutils literal"><span class="pre">lib</span></code></dt>
+<dd>This directory is where you can put code shared by mutiple controllers,
+third-party code, etc.</dd>
+</dl>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Recommended reading: <a class="reference external" href="http://pylonsbook.com/en/1.0/exploring-pylons.html">The Definitive Guide to Pylons - Chapter 3</a>.</p>
+</div>
+</div>
+<div class="section" id="serving-a-mapfish-application">
+<h2>Serving a MapFish application<a class="headerlink" href="#serving-a-mapfish-application" title="Permalink to this headline">¶</a></h2>
+<p>You can use the Paste HTTP server to execute a MapFish application. For
+example, use the following to make the Paste HTTP server serve the
+<code class="docutils literal"><span class="pre">HelloWorld</span></code> application:</p>
+<div class="highlight-python"><div class="highlight"><pre>(venv) $ cd HelloWorld
+(venv) $ paster serve --reload development.ini
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">--reload</span></code> option make the Paste server monitor all Python modules used
+by the <code class="docutils literal"><span class="pre">HelloWorld</span></code> application and reload itself automatically if any of them is
+modified. This is useful during development.</p>
+<p>By default MapFish (and Pylons) applications are served on port 5000. You can
+change by editing the <code class="docutils literal"><span class="pre">development.ini</span></code> configuration file.</p>
+<p>If you visit <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> in your web browser you should see the
+<cite>Welcome to Pylons</cite> page.</p>
+<p>To stop the Paste server, use Ctrl+C on Unix and Ctrl+D on Windows.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Recommended reading: <a class="reference external" href="http://pylonsbook.com/en/1.0/exploring-pylons.html">The Definitive Guide to Pylons - Chapter 3</a>.</p>
+</div>
+</div>
+<div class="section" id="installing-the-javascript-toolbox">
+<h2>Installing the JavaScript toolbox<a class="headerlink" href="#installing-the-javascript-toolbox" title="Permalink to this headline">¶</a></h2>
+<p>MapFish provides another application template for installing the MapFish JavaScript
+toolbox in the application, this template is named <code class="docutils literal"><span class="pre">mapfish_client</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can use <code class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">--list-templates</span></code> to get a list of all
+available application templates.</p>
+</div>
+<p>To install the JavaScript toolbox in the <code class="docutils literal"><span class="pre">HelloWorld</span></code> application execute the
+following command in the directory including the <code class="docutils literal"><span class="pre">HelloWorld</span></code> directory:</p>
+<div class="highlight-python"><div class="highlight"><pre>(venv) $ paster create -t mapfish_client HelloWorld
+</pre></div>
+</div>
+<p>You can safely answer <code class="docutils literal"><span class="pre">y</span></code> when you asked whether the <code class="docutils literal"><span class="pre">favicon.ico</span></code> and
+<code class="docutils literal"><span class="pre">index.html</span></code> files can be overwritten. It means those two files will be
+replaced by those in the <code class="docutils literal"><span class="pre">mapfish_client</span></code> template, which is what we want.</p>
+<p>You can now visit <a class="reference external" href="http://localhost:5000">http://localhost:5000</a> again. You should get an example page,
+with an <a class="reference external" href="http://www.openstreetmap.org/">OpenStreetMap</a> map.</p>
+<p>Let&#8217;s now look at what the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">create</span> <span class="pre">-t</span> <span class="pre">mapfish_client</span></code> command does.
+In addition to replacing the <code class="docutils literal"><span class="pre">favicon.ico</span></code> and <code class="docutils literal"><span class="pre">index.html</span></code> file the
+command creates three new directories in the application&#8217;s <code class="docutils literal"><span class="pre">public</span></code> directory.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">mfbase</span></code></dt>
+<dd>This directory contains the JavaScript toolbox. It includes sub-directories
+for the <a class="reference external" href="http://extjs.com">Ext</a>, <a class="reference external" href="http://www.openlayers.org">OpenLayers</a>, <a class="reference external" href="http://www.geoext.org">GeoExt</a>, and
+MapFish Client toolkits.</dd>
+<dt><code class="docutils literal"><span class="pre">app</span></code></dt>
+<dd>This directory contains static files specific to the application. It includes a
+<code class="docutils literal"><span class="pre">js</span></code> directory, into which you can put the JavaScript code specific to
+the application. The <code class="docutils literal"><span class="pre">mapfish_client</span></code> template installs a default JavaScript
+application, which is implemented in the <code class="docutils literal"><span class="pre">helloworld_init.js</span></code> and
+<code class="docutils literal"><span class="pre">helloworld_layout.js</span></code> files. You can add other directories like <code class="docutils literal"><span class="pre">css</span></code>
+and <code class="docutils literal"><span class="pre">img</span></code> in this <code class="docutils literal"><span class="pre">app</span></code> directory.</dd>
+<dt><code class="docutils literal"><span class="pre">tests</span></code></dt>
+<dd>This directory includes the <a class="reference external" href="http://www.openjsan.org/doc/a/ar/artemkhodush/">Test.AnotherWay</a> JavaScript testing
+framework, with a test example in <code class="docutils literal"><span class="pre">app/TheObvious.html</span></code>. MapFish
+encourages JavaScript developpers to write tests.</dd>
+</dl>
+<p>To learn how to use the JavaScript libraries composing the toolbox consult the
+following documentations:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.openlayers.org/">OpenLayers docs</a></li>
+<li><a class="reference external" href="http://www.geoext.org/docs.html">GeoExt docs</a></li>
+</ul>
+<p>Look also at the <a class="reference external" href="api.html#client">various API docs</a>.</p>
+</div>
+<div class="section" id="creating-mapfish-web-services">
+<h2>Creating MapFish Web Services<a class="headerlink" href="#creating-mapfish-web-services" title="Permalink to this headline">¶</a></h2>
+<p>The framework provides a command for automatically generating web services for
+creating, reading, updating and deleting geographic objects (features). Web
+services generated with the framework implement specific HTTP interfaces.
+These interfaces are described in <a class="reference external" href="protocol.html">Protocol page</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">MapFish web services are also called <cite>layers</cite>, both terms will be used
+interchangeably in the rest of this documentation.</p>
+</div>
+<p>A MapFish web service generated by the framework operates on the data of a
+geographic database table. Note that, as of today, only PostgreSQL/PostGIS
+tables are supported.</p>
+<p>It is important to note that the code of generated web services belongs to the
+application. You, as the application developer, can therefore customize the generated
+web services at will. You are completely free to not rely on code generation,
+and manually create your web services.</p>
+<p>Before you can have working MapFish web services you need to configure a
+database connection in the application&#8217;s configuration file (<code class="docutils literal"><span class="pre">development.ini</span></code>).
+A database connection is set through the <code class="docutils literal"><span class="pre">sqlalchemy.url</span></code> property. This
+specifies the data source name (DSN) for the database, it looks like
+this:</p>
+<div class="highlight-python"><div class="highlight"><pre>sqlalchemy.url = postgres://username:password@host:port/database
+</pre></div>
+</div>
+<p>Creating a MapFish web service is done in two steps. The first step involves
+describing the database table in the <code class="docutils literal"><span class="pre">layers.ini</span></code> configuration file. The
+second step involves invoking the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></code> command.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">layers.ini</span></code></dt>
+<dd><p class="first">The <code class="docutils literal"><span class="pre">layers.ini</span></code> file is the layer configuration file. Its syntax is as
+defined in the <a class="reference external" href="http://docs.python.org/library/configparser.html">documentation</a>  of the Python
+Standard Library&#8217;s Configuration file parser module.</p>
+<p>As an example, here is what would the description of a table named
+<code class="docutils literal"><span class="pre">users</span></code> look like in the <code class="docutils literal"><span class="pre">layers.ini</span></code> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">users</span><span class="p">]</span>
+<span class="n">singular</span><span class="o">=</span><span class="n">user</span>
+<span class="n">plural</span><span class="o">=</span><span class="n">users</span>
+<span class="n">table</span><span class="o">=</span><span class="n">users</span>
+<span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span>
+<span class="n">geomcolumn</span><span class="o">=</span><span class="n">the_geom</span>
+<span class="n">schema</span><span class="o">=</span><span class="n">people</span>
+</pre></div>
+</div>
+<p>The name given in the square brackets, <code class="docutils literal"><span class="pre">users</span></code> in the above example, is
+the identifier of the layer. It will be used in the command when generating
+the web service.</p>
+<p>We describe below each layer property:</p>
+<dl class="last docutils">
+<dt><code class="docutils literal"><span class="pre">singular</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">singular</span></code> property provides a singular name for the layer. This
+is used by the framework for naming variables and classes in the
+generated code.</dd>
+<dt><code class="docutils literal"><span class="pre">plural</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">plural</span></code> property provides a plural name for the layer. Likewise
+<code class="docutils literal"><span class="pre">singular</span></code> this is used by the framework for naming variables and
+classes in the generated code.</dd>
+<dt><code class="docutils literal"><span class="pre">table</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">table</span></code> property provides the name of database table.</dd>
+<dt><code class="docutils literal"><span class="pre">epsg</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">epsg</span></code> property provides the EPSG code of the applicationion
+system of the table data.</dd>
+<dt><code class="docutils literal"><span class="pre">geomcolumn</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">geomcolumn</span></code> property provides the name of the table&#8217;s
+geometry column.</dd>
+<dt><code class="docutils literal"><span class="pre">schema</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">schema</span></code> property provides the name of the table&#8217;s
+schema.</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></code></dt>
+<dd><p class="first">The second step involves entering the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></code> command with the
+layer identifier as the argument to the command. This command must be
+entered from within the application&#8217;s main directory (<code class="docutils literal"><span class="pre">HelloWorld</span></code> in our
+example).  The command used to generate the <code class="docutils literal"><span class="pre">users</span></code> web service is:</p>
+<div class="highlight-python"><div class="highlight"><pre>(venv) $ paster mf-layer users
+</pre></div>
+</div>
+<p>The output of the command looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>Creating /home/elem/HelloWorld/helloworld/controllers/users.py
+Creating /home/elem/HelloWorld/helloworld/tests/functional/test_users.py
+
+To create the appropriate RESTful mapping, add a map statement to your
+config/routing.py file in the CUSTOM ROUTES section like this:
+
+map.resource(&quot;user&quot;, &quot;users&quot;)
+
+Creating /home/elem/HelloWorld/helloworld/model/users.py
+</pre></div>
+</div>
+<p>As indicated in the output the <code class="docutils literal"><span class="pre">mf-layer</span></code> command generates three files: a
+controller file, a model file and a test file. The output also indicates to
+edit the <code class="docutils literal"><span class="pre">helloworld/config/routing.py</span></code> file and add a route to the <code class="docutils literal"><span class="pre">users</span></code>
+controller in this file. The CUSTOM ROUTES section should look like this:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="c"># CUSTOM ROUTES HERE</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">,</span> <span class="s">&quot;users&quot;</span><span class="p">)</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/{controller}/{action}&#39;</span><span class="p">)</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;/{controller}/{action}/{id}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>You can now visit, for example, <a class="reference external" href="http://localhost:5000/users?limit=3">http://localhost:5000/users?limit=3</a> in your
+browser. You should get a <a class="reference external" href="http://geojson.org">GeoJSON</a> representation of the
+first three users of the <code class="docutils literal"><span class="pre">users</span></code> table. Look at the <a class="reference external" href="protocol.html">Protocol page</a> to know more about parameters that can be passed to MapFish
+web services.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>Recommended reading:</p>
+<ul class="last simple">
+<li><a class="reference external" href="http://pylonsbook.com/en/1.0/urls-routing-and-dispatch.html">Pylons Book Chapter 9: URLs, Routing and Dispatch</a></li>
+<li><a class="reference external" href="http://routes.groovie.org/">Routes docs</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="customizing-web-services">
+<h2>Customizing Web Services<a class="headerlink" href="#customizing-web-services" title="Permalink to this headline">¶</a></h2>
+<p>Code generated by the framework is part of the application, so, you, as the
+application developer, can customize it at will.</p>
+<div class="section" id="adding-filters">
+<h3>Adding filters<a class="headerlink" href="#adding-filters" title="Permalink to this headline">¶</a></h3>
+<p>Web services generated with the <code class="docutils literal"><span class="pre">paster</span> <span class="pre">mf-layer</span></code> command implement the HTTP
+interfaces described in the <a class="reference external" href="protocol.html">Protocol page</a>. You may need to
+augment these interfaces and add your own, custom filtering parameters. The
+MapFish framework provides <a class="reference external" href="reference/index.html/filters.html">APIs</a> for
+that.</p>
+<p>The generated controller class for the <code class="docutils literal"><span class="pre">users</span></code> layer looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UsersController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(The comments and the other actions have been intentionally omited.)</p>
+<p>Note that no filter is passed to the protocol (the <code class="docutils literal"><span class="pre">filter</span></code> positional
+argument to the <code class="docutils literal"><span class="pre">index</span></code> method is not set). When the protocol isn&#8217;t passed a
+filter it creates a default one, the <em>MapFish default filter</em>, which
+corresponds to what&#8217;s defined in the MapFish Protocol.</p>
+<p>We&#8217;re now going to see how you can change the behavior of the <code class="docutils literal"><span class="pre">users</span></code> web
+service.</p>
+<dl class="docutils">
+<dt><strong>Scenario #1</strong></dt>
+<dd><p class="first">Let&#8217;s assume you want that only <em>employees</em> are returned by the <code class="docutils literal"><span class="pre">users</span></code>
+web service. For this you will create a comparison filter and combine it
+with the MapFish default filter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UsersController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="n">compare_filter</span> <span class="o">=</span> <span class="n">comparison</span><span class="o">.</span><span class="n">Comparison</span><span class="p">(</span>
+            <span class="n">comparison</span><span class="o">.</span><span class="n">Comparison</span><span class="o">.</span><span class="n">EQUAL_TO</span><span class="p">,</span>
+            <span class="n">User</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s">&quot;employee&quot;</span>
+        <span class="p">)</span>
+        <span class="n">default_filter</span> <span class="o">=</span> <span class="n">create_default_filter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">User</span><span class="p">)</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">logical</span><span class="o">.</span><span class="n">Logical</span><span class="p">(</span>
+            <span class="n">logical</span><span class="o">.</span><span class="n">Logical</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span>
+            <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="n">compare_filter</span><span class="p">,</span> <span class="n">default_filter</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">The new comparison filter is combined with the default filter in a logical
+and filter. See the documentations of the <a class="reference external" href="reference/filters.comparison.html">mapfish.lib.filters.comparison</a> and <a class="reference external" href="reference/filters.logical.html">mapfish.lib.filters.logical</a> modules and of the
+<a class="reference external" href="reference/protocol.html#creating-protocol-filter">create_default_filter()</a> function.</p>
+</dd>
+<dt><strong>Scenario #2</strong></dt>
+<dd><p class="first">Let&#8217;s now assume that you want the web service to return either <em>managers</em>
+or <em>developers</em> or both based on the <em>type</em> parameter in the query string.
+Let&#8217;s also assume that you still want your web service to support all the
+geographic filtering capability of the MapFish protocol:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UsersController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">create_geom_filter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">User</span><span class="p">)</span>
+        <span class="n">compare_filter</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="s">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="n">compare_filter</span> <span class="o">=</span> <span class="n">comparison</span><span class="o">.</span><span class="n">Comparison</span><span class="p">(</span>
+                <span class="n">comparison</span><span class="o">.</span><span class="n">Comparison</span><span class="o">.</span><span class="n">EQUAL_TO</span><span class="p">,</span>
+                <span class="n">User</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">compare_filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="nb">filter</span> <span class="o">=</span> <span class="n">logical</span><span class="o">.</span><span class="n">Logical</span><span class="p">(</span>
+                <span class="n">logical</span><span class="o">.</span><span class="n">Logical</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span>
+                <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="nb">filter</span><span class="p">,</span> <span class="n">compare_filter</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">The <code class="docutils literal"><span class="pre">create_geom_filter()</span></code> function is called to get the default
+geographic filter. And, if the query string includes the <code class="docutils literal"><span class="pre">type</span></code>
+parameter, the geographic filter is combined with a comparison filter whose
+value is the value of the <code class="docutils literal"><span class="pre">type</span></code> parameter in the query string. See the
+documentation of the <a class="reference external" href="reference/protocol.html#creating-protocol-filter">create_geom_filter()</a> function.</p>
+</dd>
+<dt><strong>Scenario #3</strong></dt>
+<dd><p class="first">We assume in this scenario that you want to support the <em>type</em> parameter in
+the query string (as in Scenario #2) and that you only want to support
+<em>bbox</em> for the geographic filtering:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UsersController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># if set to True, only GET is supported</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">Session</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">):</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">comparison</span><span class="o">.</span><span class="n">Comparison</span><span class="p">(</span>
+                    <span class="n">comparison</span><span class="o">.</span><span class="n">Comparison</span><span class="o">.</span><span class="n">EQUAL_TO</span><span class="p">,</span>
+                    <span class="n">User</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                    <span class="n">value</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s">&quot;bbox&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">spatial</span><span class="o">.</span><span class="n">Spatial</span><span class="p">(</span>
+                    <span class="n">spatial</span><span class="o">.</span><span class="n">Spatial</span><span class="o">.</span><span class="n">BOX</span><span class="p">,</span>
+                    <span class="n">User</span><span class="o">.</span><span class="n">geometry_column</span><span class="p">(),</span>
+                    <span class="n">box</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;bbox&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">logical</span><span class="o">.</span><span class="n">Logical</span><span class="p">(</span>
+            <span class="n">logical</span><span class="o">.</span><span class="n">Logical</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span>
+            <span class="n">filters</span><span class="o">=</span><span class="n">filters</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">In this scenario the web service doesn&#8217;t rely on the default filters of the
+MapFish Protocol. See the documentation of the <a class="reference external" href="reference/filters.spatial.html">mapfish.lib.filters.spatial</a> module.</p>
+</dd>
+</dl>
+<hr class="docutils" />
+<p><a class="reference external" href="reference/index.html#server">API References</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="MapFish Protocol"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MapFish</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Documentation MapFish 1.2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009, Camptocamp.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
